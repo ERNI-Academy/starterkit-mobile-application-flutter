@@ -1,0 +1,344 @@
+fastlane_require 'dotenv'
+
+dart_defines = ""
+secrets = {}
+app_environment = ""
+build_type = ""
+
+before_all do
+  # `APP_ENVIRONMENT` must be set in your CI server, or export it before running fastlane
+  app_environment = ENV["APP_ENVIRONMENT"]
+
+  if app_environment.nil? || app_environment.empty?
+    UI.user_error! "Please provide an environment using `export APP_ENVIRONMENT=YourEnv`"
+  end
+
+  puts "Loading variables and secrets for `#{app_environment}`"
+
+  Dotenv.load("fastlane_shared.env", "fastlane_#{app_environment}.env")
+
+  build_type = app_environment.capitalize
+  secrets = read_json(json_path: ".secrets/#{app_environment}.secrets")
+  secrets.each { |k, v| dart_defines << "--dart-define \"#{k}=#{v}\" " }
+end
+
+desc "Build release for Google Play Store"
+lane :"build_release_playstore" do |options|
+  version_name = options[:version_name]
+  version_number = options[:version_number]
+
+  file = build_android_release(
+    output: "appbundle",
+    version_name: version_name,
+    version_number: version_number,
+  )
+
+  file
+end
+
+desc "Build release for Apple App Store"
+lane :"build_release_appstore" do |options|
+  version_name = options[:version_name]
+  version_number = options[:version_number]
+
+  file = build_ios_release(
+    version_name: version_name,
+    version_number: version_number,
+  )
+
+  file
+end
+
+desc "Build release and distribute to Microsoft App Center"
+lane :"release_android_appcenter" do |options|
+  version_name = options[:version_name]
+  version_number = options[:version_number]
+  app_name = ENV["appCenterAndroidAppName"]
+  file = options[:file]
+  release_notes = options[:release_notes]
+
+  if file.nil? || file.empty?
+    file, release_notes = build_android_release_appcenter(
+      version_name: options[:version_name], 
+      version_number: options[:version_number], 
+    )
+  elsif release_notes.nil? || release_notes.empty?
+    release_notes = sh("git log -1 --pretty=%B").strip
+  end
+
+  distribute_release_appcenter(
+    release_notes: release_notes,
+    file: file,
+    app_name: app_name
+  )
+end
+
+desc "Build release and distribute to Microsoft App Center"
+lane :"release_ios_appcenter" do |options|
+version_name = options[:version_name]
+  version_number = options[:version_number]
+  app_name = ENV["appCenterIOSAppName"]
+  file = options[:file]
+  release_notes = options[:release_notes]
+
+  if file.nil? || file.empty?
+    file, release_notes = build_ios_release_appcenter(
+      version_name: options[:version_name], 
+      version_number: options[:version_number], 
+    )
+  elsif release_notes.nil? || release_notes.empty?
+    release_notes = sh("git log -1 --pretty=%B").strip
+  end
+
+  distribute_release_appcenter(
+    release_notes: release_notes,
+    file: file,
+    app_name: app_name
+  )
+end
+
+desc "Build iOS release for Microsoft App Center"
+lane :"build_ios_release_appcenter" do |options|
+  version_name = options[:version_name]
+  version_number = options[:version_number]
+
+  if version_name.nil? || version_number.nil? || version_name.empty? || version_number.empty?
+    version_name, version_number, release_notes = prepare_ios_release_appcenter()
+  else
+    release_notes = sh("git log -1 --pretty=%B").strip
+  end
+
+  puts "Build Version Name: #{version_name}"
+  puts "Build Version Number: #{version_number}" 
+  puts "Build Release Notes: #{release_notes}"
+
+  file = build_ios_release(
+    version_name: version_name, 
+    version_number: version_number.to_s,
+  )
+
+  hash_value = {
+    releaseNotes: "#{release_notes}",
+    versionName: "#{version_name}",
+    versionNumber: "#{version_number}".to_i,
+  }
+
+  write_json(
+    file_path: "build_info.json",
+    hash: hash_value
+  )
+
+  [file, release_notes]
+end
+
+desc "Build Android release for Microsoft App Center"
+lane :"build_android_release_appcenter" do |options|
+  version_name = options[:version_name]
+  version_number = options[:version_number]
+
+  if version_name.nil? || version_number.nil? || version_name.empty? || version_number.empty?
+    version_name, version_number, release_notes = prepare_android_release_appcenter()
+  else
+    release_notes = sh("git log -1 --pretty=%B").strip
+  end
+
+  puts "Build Version Name: #{version_name}"
+  puts "Build Version Number: #{version_number}" 
+  puts "Build Release Notes: #{release_notes}"
+
+  file = build_android_release(
+    version_name: version_name, 
+    version_number: version_number.to_s,
+    output: options[:output],
+  )
+
+  hash_value = {
+    releaseNotes: "#{release_notes}",
+    versionName: "#{version_name}",
+    versionNumber: "#{version_number}".to_i,
+  }
+
+  write_json(
+    file_path: "build_info.json",
+    hash: hash_value
+  )
+
+  [file, release_notes]
+end
+
+desc "Prepares the details for the next Android version to release to Microsoft App Center"
+lane :"prepare_android_release_appcenter" do |options|
+    app_name = ENV["appCenterAndroidAppName"]
+
+    next_version_name, next_version_number, release_notes = prepare_release_appcenter(
+        app_name: app_name
+    )
+
+    [next_version_name, next_version_number, release_notes]
+end
+
+desc "Prepares the details for the next iOS version to release to Microsoft App Center"
+lane :"prepare_ios_release_appcenter" do |options|
+    app_name = ENV["appCenterIOSAppName"]
+
+    next_version_name, next_version_number, release_notes = prepare_release_appcenter(
+        app_name: app_name
+    )
+
+    [next_version_name, next_version_number, release_notes]
+end
+
+desc "Prepares the details for the next version to release to Microsoft App Center"
+lane :"prepare_release_appcenter" do |options|
+  app_name = options[:app_name]
+  api_token = ENV["appCenterApiToken"]
+  org_name = ENV["appCenterOrgName"]
+  group_name = ENV["appCenterDistributeDestination"]
+  version_bump_type = ENV["appCenterVersionBumpType"]
+
+  release_notes = sh("git log -1 --pretty=%B").strip
+  appcenter_response_json = "appcenter_releases.json"
+  sh("rm -f #{appcenter_response_json}")
+  sh("curl \"https://api.appcenter.ms/v0.1/apps/#{org_name}/#{app_name}/distribution_groups/#{group_name}/releases\" -H \"accept: application/json\" -H \"X-API-Token: #{api_token}\" --silent --fail >> #{appcenter_response_json}")
+  current_release_count = sh("jq length #{appcenter_response_json}").strip
+  if current_release_count.nil? || current_release_count.empty?
+    UI.user_error!("Automatic versioning failed, couldn`t get current release count for app `#{org_name}/#{app_name}` in group `#{group_name}`")
+  else
+      current_release_count = current_release_count.to_i
+      current_release_version_name_value = sh("jq '.[0].short_version' #{appcenter_response_json}").strip
+      current_release_version_name = current_release_version_name_value != "null" ? current_release_version_name_value : "0.0.0"
+      current_release_version_number_value = sh("jq '.[0].version' #{appcenter_response_json}").strip
+      current_release_version_number = current_release_version_number_value != "null" ? current_release_version_number_value : "0"
+      current_release_version_number = current_release_version_number.gsub /"/, ''
+      current_release_version_number = current_release_version_number.to_i
+      current_release_version_components = current_release_version_name.split(".")
+      current_major_version = current_release_version_components[0].gsub /"/, ''
+      current_major_version = current_major_version.to_i
+      current_minor_version = current_release_version_components[1].to_i
+      current_patch_version = current_release_version_components[2].gsub /"/, ''
+      current_patch_version = current_patch_version.to_i
+  end
+
+  unless options[:override_version_bump_type].nil? || options[:override_version_bump_type].empty?
+    version_bump_type = options[:override_version_bump_type]
+    puts "Version bump type set to #{version_bump_type}"
+  else
+    if release_notes.include? "#major"
+      puts "Version bump type set to `major`"
+      version_bump_type = "major"
+      release_notes = release_notes.gsub /#major/, ''
+    elsif release_notes["#minor"]
+      puts "Version bump type set to `minor`"
+      version_bump_type = "minor"
+      release_notes = release_notes.gsub /#minor/, ''
+    elsif release_notes["#patch"]
+      puts "Version bump type set to `patch`"
+      version_bump_type = "patch"
+      release_notes = release_notes.gsub /#patch/, ''
+    else
+      puts "Version bump type not specified in release notes, using `#{version_bump_type}`"
+    end
+  end
+
+  release_notes = release_notes.strip
+
+  case version_bump_type
+    when "major"
+      next_patch_version = 0
+      next_minor_version = 0
+      next_major_version = current_major_version + 1
+      next_version_name = "#{next_major_version}.#{next_minor_version}.#{next_patch_version}"
+    when "minor"
+      next_patch_version = 0
+      next_minor_version = current_minor_version + 1
+      next_version_name = "#{current_major_version}.#{next_minor_version}.#{next_patch_version}"
+    when "patch"
+      next_patch_version = current_patch_version + 1
+      next_version_name = "#{current_major_version}.#{current_minor_version}.#{next_patch_version}"
+    else
+      UI.user_error!("`version_bump_type` #{version_bump_type} not supported")
+  end
+  next_version_number = current_release_version_number + 1
+
+  puts "#{current_release_version_name} (#{current_release_version_number}) --> \"#{next_version_name}\" (#{next_version_number})"
+
+  [next_version_name, next_version_number, release_notes]
+end
+
+desc "Build release"
+lane :"build_android_release" do |options|
+  output = options[:output]
+  task = ""
+
+  case output
+    when "appbundle"
+      task = "appbundle"
+    else
+      task = "apk"
+  end
+
+  if is_number?(options[:version_number]) && !options[:version_name].nil?
+    version_number = options[:version_number]
+    version_name = options[:version_name]
+
+    puts "Building #{version_name} (#{version_number})"
+
+    sh "flutter build #{task} --target-platform android-arm64 --build-number #{version_number} --build-name #{version_name} #{dart_defines}"
+  else
+    sh "flutter build #{task} --target-platform android-arm64 #{dart_defines}"
+  end
+
+  if task == "appbundle"
+    "build/app/outputs/bundle/release/app-release.aab"
+  else
+    "build/app/outputs/apk/release/app-release.apk"
+  end
+end
+
+desc "Build release"
+lane :"build_ios_release" do |options|
+  sh "cd ..; pod --version; sh ../scripts/gen_export_options_plist.sh #{app_environment}"
+
+  if is_number?(options[:version_number]) && !options[:version_name].nil?
+    version_number = options[:version_number]
+    version_name = options[:version_name]
+
+    puts "Building #{version_name} (#{version_number})"
+
+    sh "cd ..; flutter build ipa --export-options-plist \"ios/Runner/ExportOptions.plist\" --build-number #{version_number} --build-name #{version_name} #{dart_defines}"
+  else
+    sh "cd ..; flutter build ipa --export-options-plist \"ios/Runner/ExportOptions.plist\" #{dart_defines}"
+  end
+
+  "build/ios/ipa/#{secrets[:appName]}.ipa"
+end
+
+desc "Distribute release to Microsoft App Center"
+lane :"distribute_release_appcenter" do |options|
+  if options[:release_notes].nil? || options[:release_notes].empty?
+    UI.user_error!("No `release_notes` provided")
+  else
+    release_notes = options[:release_notes]
+  end
+
+  if options[:file].nil? || options[:file].empty?
+    UI.user_error!("No `file` provided")
+  end
+
+  puts release_notes
+
+  appcenter_upload(
+    api_token: ENV["appCenterApiToken"],
+    owner_name: ENV["appCenterOrgName"],
+    owner_type: ENV["appCenterOwnerType"],
+    app_name: options[:app_name],
+    destinations: ENV["appCenterDistributeDestination"],
+    file: options[:file],
+    release_notes: release_notes,
+    notify_testers: true
+  )
+end
+
+def is_number? string
+  true if Float(string) rescue false
+end

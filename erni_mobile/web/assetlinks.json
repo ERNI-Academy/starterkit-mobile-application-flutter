@@ -1,0 +1,14 @@
+[
+    {
+        "relation": [
+            "delegate_permission/common.handle_all_urls"
+        ],
+        "target": {
+            "namespace": "android_app",
+            "package_name": "ch.erni.mobile.dev",
+            "sha256_cert_fingerprints": [
+                "CE:2A:7D:72:D7:FD:ED:C0:A4:9C:A9:B1:9F:B2:D6:79:98:59:CD:B1:94:87:79:51:20:63:D6:4C:90:D4:9C:FD"
+            ]
+        }
+    }
+]

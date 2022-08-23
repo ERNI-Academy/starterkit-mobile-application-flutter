@@ -1,0 +1,93 @@
+# Miscellaneous
+*.class
+*.log
+*.pyc
+*.swp
+.DS_Store
+.atom/
+.buildlog/
+.history
+.svn/
+*.dll
+!sqlite3.dll
+
+# IntelliJ related
+*.iml
+*.ipr
+*.iws
+.idea/
+
+# The .vscode folder contains launch configuration and tasks you configure in
+# VS Code which you may wish to be included in version control, so this line
+# is commented out by default.
+!.vscode/
+
+# Flutter/Dart/Pub related
+**/doc/api/
+**/ios/Flutter/.last_build_id
+**/ios/build/
+.dart_tool/
+.flutter-plugins
+.flutter-plugins-dependencies
+.packages
+.pub-cache/
+.pub/
+/build/
+**/*.g.dart
+**/*.config.dart
+**/*.gen.dart
+**/*.mocks.dart
+**/generated/**
+metrics
+
+# Web related
+lib/generated_plugin_registrant.dart
+
+# Symbolication related
+app.*.symbols
+
+# Obfuscation related
+app.*.map.json
+
+# Exceptions to above rules.
+!/packages/flutter_tools/test/data/dart_dependencies_test/**/.packages
+
+# Test related
+coverage
+coverage.xml
+lcov.info
+**/failures/**
+screenshots
+report
+
+# fastlane
+fastlane/report.xml
+fastlane/Preview.html
+fastlane/screenshots
+fastlane/test_output
+fastlane/readme.md
+appcenter_releases.json
+build_info.json
+appcenter_release_notes.md
+# Comment this out after setting the correct env file
+fastlane/*.env
+
+# Android Studio will place build artifacts here
+/android/app/debug
+/android/app/profile
+/android/app/release
+
+# Signing Keys and Profiles
+*.jks
+*.jks.properties
+*.keystore
+*.keystore.properties
+*.mobileprovision
+*.p12
+*.p8
+*.pfx
+google-services.json
+GoogleService-Info.plist
+
+# Comment this out after setting the correct secrets file
+.secrets/**

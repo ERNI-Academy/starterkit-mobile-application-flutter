@@ -1,0 +1,11 @@
+{
+   "applinks": {
+     "apps": [],
+     "details": [
+       {
+         "appID": "2A26KBG984.ch.erni.mobile.dev",
+         "paths": [ "*" ]
+       }
+     ]
+   }
+}
