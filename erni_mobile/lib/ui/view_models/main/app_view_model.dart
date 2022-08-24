@@ -7,8 +7,8 @@ import 'package:erni_mobile/domain/services/logging/app_logger.dart';
 import 'package:erni_mobile/domain/services/platform/deep_link_service.dart';
 import 'package:erni_mobile/domain/services/ui/initial_ui_configurator.dart';
 import 'package:erni_mobile/ui/view_models/settings/app_settings_view_model.dart';
-import 'package:erni_mobile_blueprint_core/navigation.dart';
-import 'package:erni_mobile_blueprint_core/utils.dart';
+import 'package:erni_mobile_core/navigation.dart';
+import 'package:erni_mobile_core/utils.dart';
 import 'package:injectable/injectable.dart';
 
 @injectable

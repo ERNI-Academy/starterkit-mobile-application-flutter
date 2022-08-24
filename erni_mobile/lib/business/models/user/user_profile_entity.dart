@@ -1,5 +1,5 @@
 import 'package:erni_mobile/domain/models/entities/codable_entity.dart';
-import 'package:erni_mobile_blueprint_core/json.dart';
+import 'package:erni_mobile_core/json.dart';
 
 part 'user_profile_entity.g.dart';
 

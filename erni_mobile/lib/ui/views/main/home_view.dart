@@ -8,7 +8,7 @@ import 'package:erni_mobile/ui/views/main/about_view.dart';
 import 'package:erni_mobile/ui/views/main/side_menu_view.dart';
 import 'package:erni_mobile/ui/views/settings/settings_view.dart';
 import 'package:erni_mobile/ui/widgets/widgets.dart';
-import 'package:erni_mobile_blueprint_core/mvvm.dart';
+import 'package:erni_mobile_core/mvvm.dart';
 import 'package:injectable/injectable.dart';
 
 @Named(RouteNames.home)

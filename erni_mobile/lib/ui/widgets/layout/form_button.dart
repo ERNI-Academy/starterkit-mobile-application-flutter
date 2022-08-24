@@ -1,7 +1,7 @@
 // coverage:ignore-file
 
 import 'package:erni_mobile/ui/view_models/form_view_model.dart';
-import 'package:erni_mobile_blueprint_core/mvvm.dart';
+import 'package:erni_mobile_core/mvvm.dart';
 import 'package:flutter/material.dart';
 
 class FormButton<T extends FormViewModel> extends StatelessWidget with ChildViewMixin<T> {

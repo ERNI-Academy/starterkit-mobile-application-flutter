@@ -1,7 +1,7 @@
 // coverage:ignore-file
 
 import 'package:dio/dio.dart';
-import 'package:erni_mobile_blueprint_core/json.dart';
+import 'package:erni_mobile_core/json.dart';
 
 class ApiException extends DioError implements JsonEncodable {
   ApiException({required DioError error, this.errorCode})

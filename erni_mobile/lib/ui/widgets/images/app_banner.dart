@@ -2,7 +2,7 @@
 
 import 'package:erni_mobile/common/localization/localization.dart';
 import 'package:erni_mobile/ui/resources/assets.gen.dart';
-import 'package:erni_mobile_blueprint_core/widgets.dart';
+import 'package:erni_mobile_core/widgets.dart';
 import 'package:flutter/material.dart';
 
 class AppBanner extends StatelessWidget {

@@ -11,7 +11,7 @@ import 'package:erni_mobile/domain/services/settings/settings_service.dart';
 import 'package:erni_mobile/domain/services/ui/dialog_service.dart';
 import 'package:erni_mobile/ui/validations/required_rule.dart';
 import 'package:erni_mobile/ui/view_models/authentication/set_password_view_model.dart';
-import 'package:erni_mobile_blueprint_core/navigation.dart';
+import 'package:erni_mobile_core/navigation.dart';
 import 'package:injectable/injectable.dart';
 import 'package:meta/meta.dart';
 import 'package:validation_notifier/validation_notifier.dart';

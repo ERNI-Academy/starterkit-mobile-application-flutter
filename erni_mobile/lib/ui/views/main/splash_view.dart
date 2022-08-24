@@ -4,7 +4,7 @@ import 'package:erni_mobile/common/constants/route_names.dart';
 import 'package:erni_mobile/ui/resources/assets.gen.dart';
 import 'package:erni_mobile/ui/view_models/main/splash_view_model.dart';
 import 'package:erni_mobile/ui/widgets/widgets.dart';
-import 'package:erni_mobile_blueprint_core/mvvm.dart';
+import 'package:erni_mobile_core/mvvm.dart';
 import 'package:injectable/injectable.dart';
 
 @Named(RouteNames.splash)

@@ -5,8 +5,8 @@ import 'dart:async';
 import 'package:erni_mobile/business/models/ui/confirm_dialog_response.dart';
 import 'package:erni_mobile/common/localization/localization.dart';
 import 'package:erni_mobile/domain/services/ui/dialog_service.dart';
-import 'package:erni_mobile_blueprint_core/navigation.dart';
-import 'package:erni_mobile_blueprint_core/widgets.dart';
+import 'package:erni_mobile_core/navigation.dart';
+import 'package:erni_mobile_core/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart';
 

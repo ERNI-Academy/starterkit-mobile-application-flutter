@@ -1,4 +1,4 @@
-export 'package:erni_mobile_blueprint_core/widgets.dart';
+export 'package:erni_mobile_core/widgets.dart';
 export 'package:flutter/material.dart';
 
 export 'buttons/loading_button.dart';

@@ -1,0 +1,15 @@
+// Workspace-specific code snippets
+{
+    "Creates an injectable dependency": {
+        "prefix": "dep",
+        "body": [
+            "import 'package:injectable/injectable.dart';",
+            "",
+            "abstract class ${name} {}",
+            "",
+            "@LazySingleton(as: ${name})",
+            "class ${name}Impl implements ${name} {}"
+        ],
+        "description": "Creates an injectable dependency"
+    }
+}

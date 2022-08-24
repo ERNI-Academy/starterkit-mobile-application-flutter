@@ -2,7 +2,7 @@ import 'package:erni_mobile/business/models/logging/log_level.dart';
 import 'package:erni_mobile/business/models/ui/drawer_menu_model.dart';
 import 'package:erni_mobile/domain/services/logging/app_logger.dart';
 import 'package:erni_mobile/domain/services/ui/menu_provider.dart';
-import 'package:erni_mobile_blueprint_core/mvvm.dart';
+import 'package:erni_mobile_core/mvvm.dart';
 import 'package:flutter/foundation.dart';
 import 'package:injectable/injectable.dart';
 

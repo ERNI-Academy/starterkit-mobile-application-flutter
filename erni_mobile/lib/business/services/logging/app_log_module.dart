@@ -5,7 +5,7 @@ import 'package:erni_mobile/domain/services/logging/app_log_file_writer.dart';
 import 'package:erni_mobile/domain/services/logging/app_log_sentry_exception_writer.dart';
 import 'package:erni_mobile/domain/services/logging/app_log_writer.dart';
 import 'package:erni_mobile/domain/services/platform/environment_config.dart';
-import 'package:erni_mobile_blueprint_core/dependency_injection.dart';
+import 'package:erni_mobile_core/dependency_injection.dart';
 import 'package:injectable/injectable.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 

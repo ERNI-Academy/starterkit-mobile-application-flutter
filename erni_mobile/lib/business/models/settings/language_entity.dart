@@ -3,7 +3,7 @@ import 'dart:ui';
 import 'package:erni_mobile/business/models/settings/language_code.dart';
 import 'package:erni_mobile/common/utils/converters/json/json_language_code_to_string_converter.dart';
 import 'package:erni_mobile/domain/models/entities/codable_entity.dart';
-import 'package:erni_mobile_blueprint_core/json.dart';
+import 'package:erni_mobile_core/json.dart';
 
 part 'language_entity.g.dart';
 

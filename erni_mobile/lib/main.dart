@@ -5,7 +5,7 @@ import 'package:erni_mobile/common/localization/generated/l10n.dart';
 import 'package:erni_mobile/dependency_injection.dart';
 import 'package:erni_mobile/domain/services/logging/app_logger.dart';
 import 'package:erni_mobile/ui/views/main/app.dart';
-import 'package:erni_mobile_blueprint_core/dependency_injection.dart';
+import 'package:erni_mobile_core/dependency_injection.dart';
 import 'package:flutter/widgets.dart';
 
 Future<void> main() async {

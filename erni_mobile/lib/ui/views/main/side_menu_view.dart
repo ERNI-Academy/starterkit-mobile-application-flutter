@@ -4,7 +4,7 @@ import 'package:erni_mobile/business/models/ui/drawer_menu_model.dart';
 import 'package:erni_mobile/business/models/user/user_profile_entity.dart';
 import 'package:erni_mobile/ui/view_models/main/side_menu_view_model.dart';
 import 'package:erni_mobile/ui/widgets/widgets.dart';
-import 'package:erni_mobile_blueprint_core/mvvm.dart';
+import 'package:erni_mobile_core/mvvm.dart';
 
 class SideMenuView extends StatelessWidget with ViewMixin<SideMenuViewModel> {
   SideMenuView({required this.navigatableMenuSelected, Key? key}) : super(key: key);

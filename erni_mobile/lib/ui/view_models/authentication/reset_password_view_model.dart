@@ -8,7 +8,7 @@ import 'package:erni_mobile/domain/services/authentication/password/reset_passwo
 import 'package:erni_mobile/domain/services/platform/connectivity_service.dart';
 import 'package:erni_mobile/domain/services/ui/dialog_service.dart';
 import 'package:erni_mobile/ui/view_models/authentication/set_password_view_model.dart';
-import 'package:erni_mobile_blueprint_core/navigation.dart';
+import 'package:erni_mobile_core/navigation.dart';
 import 'package:injectable/injectable.dart';
 import 'package:meta/meta.dart';
 

@@ -6,8 +6,8 @@ import 'package:erni_mobile/business/models/settings/language_entity.dart';
 import 'package:erni_mobile/business/models/settings/settings_changed_model.dart';
 import 'package:erni_mobile/common/constants/settings_keys.dart';
 import 'package:erni_mobile/domain/services/settings/settings_service.dart';
-import 'package:erni_mobile_blueprint_core/mvvm.dart';
-import 'package:erni_mobile_blueprint_core/navigation.dart';
+import 'package:erni_mobile_core/mvvm.dart';
+import 'package:erni_mobile_core/navigation.dart';
 import 'package:flutter/material.dart';
 
 abstract class AppSettingsViewModel<T extends Object> extends ViewModel<T> {

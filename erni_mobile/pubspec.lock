@@ -337,23 +337,19 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.7.1"
-  erni_mobile_blueprint_core:
+  erni_mobile_core:
     dependency: "direct main"
     description:
-      path: erni_mobile_blueprint_core
-      ref: HEAD
-      resolved-ref: "90dcc0d74e634e5cc6e50ccfe4d515eb91a712c7"
-      url: "https://chbjwnsfu5h6f424yapc6m3luxqz6vmugtbkeaxmjuazd7mghc7q@dev.azure.com/erniegh/ERNI-EPH-Mobile-FlutterStack/_git/ERNI-Mobile-Blueprint-Core"
-    source: git
-    version: "0.0.1"
-  erni_mobile_blueprint_lints:
+      path: "../erni_mobile_core"
+      relative: true
+    source: path
+    version: "0.0.0"
+  erni_mobile_lints:
     dependency: "direct dev"
     description:
-      path: "."
-      ref: HEAD
-      resolved-ref: "2ef7cefc8341e60e9f8c4b28a057e329c3bde0c9"
-      url: "https://chbjwnsfu5h6f424yapc6m3luxqz6vmugtbkeaxmjuazd7mghc7q@dev.azure.com/erniegh/ERNI-EPH-Mobile-FlutterStack/_git/ERNI-Mobile-Blueprint-Lints"
-    source: git
+      path: "../erni_mobile_lints"
+      relative: true
+    source: path
     version: "0.0.1"
   fake_async:
     dependency: transitive
@@ -410,7 +406,7 @@ packages:
     source: hosted
     version: "0.10.0"
   flutter_lints:
-    dependency: transitive
+    dependency: "direct dev"
     description:
       name: flutter_lints
       url: "https://pub.dartlang.org"

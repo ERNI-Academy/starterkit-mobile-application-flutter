@@ -1,7 +1,7 @@
 import 'package:erni_mobile/business/models/platform/deep_link_entity.dart';
 import 'package:erni_mobile/common/utils/converters/deep_link_path_to_route_converter.dart';
 import 'package:erni_mobile/domain/services/platform/deep_link_service.dart';
-import 'package:erni_mobile_blueprint_core/utils.dart';
+import 'package:erni_mobile_core/utils.dart';
 import 'package:injectable/injectable.dart';
 
 @LazySingleton(as: DeepLinkService)

@@ -11,7 +11,7 @@ import 'package:erni_mobile/domain/services/logging/app_logger.dart';
 import 'package:erni_mobile/ui/validations/password_strength_rule.dart';
 import 'package:erni_mobile/ui/validations/required_rule.dart';
 import 'package:erni_mobile/ui/view_models/form_view_model.dart';
-import 'package:erni_mobile_blueprint_core/navigation.dart';
+import 'package:erni_mobile_core/navigation.dart';
 import 'package:flutter/foundation.dart';
 import 'package:validation_notifier/validation_notifier.dart';
 

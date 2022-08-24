@@ -1,7 +1,7 @@
 import 'package:erni_mobile/common/localization/localization.dart';
 import 'package:erni_mobile/domain/services/platform/connectivity_service.dart';
 import 'package:erni_mobile/domain/services/ui/dialog_service.dart';
-import 'package:erni_mobile_blueprint_core/utils.dart';
+import 'package:erni_mobile_core/utils.dart';
 import 'package:injectable/injectable.dart';
 
 @LazySingleton(as: ConnectivityService)

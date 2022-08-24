@@ -4,7 +4,7 @@ import 'package:erni_mobile/common/constants/route_names.dart';
 import 'package:erni_mobile/common/localization/localization.dart';
 import 'package:erni_mobile/ui/view_models/authentication/forgot_password_view_model.dart';
 import 'package:erni_mobile/ui/widgets/widgets.dart';
-import 'package:erni_mobile_blueprint_core/mvvm.dart';
+import 'package:erni_mobile_core/mvvm.dart';
 import 'package:injectable/injectable.dart';
 import 'package:validation_notifier/validation_notifier.dart';
 

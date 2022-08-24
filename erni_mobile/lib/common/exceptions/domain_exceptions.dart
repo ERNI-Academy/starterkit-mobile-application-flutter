@@ -2,7 +2,7 @@
 
 import 'package:erni_mobile/common/exceptions/base_exception.dart';
 
-export 'package:erni_mobile_blueprint_core/utils.dart' show NoInternetException;
+export 'package:erni_mobile_core/utils.dart' show NoInternetException;
 
 class DomainException extends BaseException {
   const DomainException([this.message]);

@@ -12,8 +12,8 @@ import 'package:erni_mobile/domain/services/user/verification/user_verification_
 import 'package:erni_mobile/ui/validations/email_format_rule.dart';
 import 'package:erni_mobile/ui/validations/required_rule.dart';
 import 'package:erni_mobile/ui/view_models/form_view_model.dart';
-import 'package:erni_mobile_blueprint_core/mvvm.dart';
-import 'package:erni_mobile_blueprint_core/navigation.dart';
+import 'package:erni_mobile_core/mvvm.dart';
+import 'package:erni_mobile_core/navigation.dart';
 import 'package:injectable/injectable.dart';
 import 'package:meta/meta.dart';
 import 'package:validation_notifier/validation_notifier.dart';

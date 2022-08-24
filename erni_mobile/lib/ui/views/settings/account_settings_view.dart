@@ -3,7 +3,7 @@
 import 'package:erni_mobile/common/localization/localization.dart';
 import 'package:erni_mobile/ui/view_models/settings/account_settings_view_model.dart';
 import 'package:erni_mobile/ui/widgets/widgets.dart';
-import 'package:erni_mobile_blueprint_core/mvvm.dart';
+import 'package:erni_mobile_core/mvvm.dart';
 
 class AccountSettingsView extends StatelessWidget with ViewMixin<AccountSettingsViewModel> {
   AccountSettingsView({Key? key}) : super(key: key);

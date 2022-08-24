@@ -1,7 +1,7 @@
 import 'package:drift/drift.dart';
 import 'package:erni_mobile/data/web/apis/api.dart';
 import 'package:erni_mobile/dependency_injection.config.dart';
-import 'package:erni_mobile_blueprint_core/dependency_injection.dart';
+import 'package:erni_mobile_core/dependency_injection.dart';
 
 @InjectableInit(
   initializerName: r'$register',

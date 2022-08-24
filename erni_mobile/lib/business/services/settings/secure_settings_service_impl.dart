@@ -1,5 +1,5 @@
 import 'package:erni_mobile/domain/services/settings/secure_settings_service.dart';
-import 'package:erni_mobile_blueprint_core/utils.dart';
+import 'package:erni_mobile_core/utils.dart';
 import 'package:injectable/injectable.dart';
 
 @LazySingleton(as: SecureSettingsService)

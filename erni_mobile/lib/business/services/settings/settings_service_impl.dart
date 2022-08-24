@@ -2,8 +2,8 @@ import 'dart:async';
 
 import 'package:erni_mobile/business/models/settings/settings_changed_model.dart';
 import 'package:erni_mobile/domain/services/settings/settings_service.dart';
-import 'package:erni_mobile_blueprint_core/json.dart';
-import 'package:erni_mobile_blueprint_core/utils.dart';
+import 'package:erni_mobile_core/json.dart';
+import 'package:erni_mobile_core/utils.dart';
 import 'package:injectable/injectable.dart';
 
 @LazySingleton(as: SettingsService)

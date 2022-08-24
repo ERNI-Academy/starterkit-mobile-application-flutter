@@ -5,7 +5,7 @@ import 'package:erni_mobile/ui/view_models/form_view_model.dart';
 import 'package:erni_mobile/ui/widgets/layout/form_body.dart';
 import 'package:erni_mobile/ui/widgets/layout/form_button.dart';
 import 'package:erni_mobile/ui/widgets/widgets.dart';
-import 'package:erni_mobile_blueprint_core/mvvm.dart';
+import 'package:erni_mobile_core/mvvm.dart';
 
 class BanneredFormScaffold<T extends FormViewModel> extends StatelessWidget with ChildViewMixin<T> {
   BanneredFormScaffold({

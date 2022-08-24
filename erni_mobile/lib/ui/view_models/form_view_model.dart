@@ -1,4 +1,4 @@
-import 'package:erni_mobile_blueprint_core/mvvm.dart';
+import 'package:erni_mobile_core/mvvm.dart';
 import 'package:flutter/foundation.dart';
 
 abstract class FormViewModel<T extends Object> extends ViewModel<T> {

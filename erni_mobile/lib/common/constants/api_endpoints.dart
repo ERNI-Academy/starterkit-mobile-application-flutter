@@ -1,5 +1,5 @@
 import 'package:erni_mobile/domain/services/platform/environment_config.dart';
-import 'package:erni_mobile_blueprint_core/dependency_injection.dart';
+import 'package:erni_mobile_core/dependency_injection.dart';
 
 abstract class ApiEndpoints {
   static const String users = '/users';

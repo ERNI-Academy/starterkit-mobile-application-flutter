@@ -12,7 +12,7 @@
     "Creates a ViewModel class": {
         "prefix": "vm",
         "body": [
-            "import 'package:erni_mobile_blueprint_core/mvvm.dart';",
+            "import 'package:erni_mobile_core/mvvm.dart';",
             "",
             "@injectable",
             "class ${name}ViewModel extends ViewModel {",
@@ -67,7 +67,7 @@
             "// coverage:ignore-file",
             "",
             "import 'package:erni_mobile/common/constants/route_names.dart';",
-            "import 'package:erni_mobile_blueprint_core/mvvm.dart';",
+            "import 'package:erni_mobile_core/mvvm.dart';",
             "import 'package:erni_mobile/ui/widgets/widgets.dart';",
             "import 'package:injectable/injectable.dart';",
             "",
@@ -94,7 +94,7 @@
             "// coverage:ignore-file",
             "",
             "import 'package:erni_mobile/common/constants/route_names.dart';",
-            "import 'package:erni_mobile_blueprint_core/mvvm.dart';",
+            "import 'package:erni_mobile_core/mvvm.dart';",
             "import 'package:erni_mobile/ui/widgets/widgets.dart';",
             "import 'package:injectable/injectable.dart';",
             "",
@@ -177,7 +177,7 @@
         "prefix": "jsonC",
         "body": [
             "",
-            "import 'package:erni_mobile_blueprint_core/json.dart';",
+            "import 'package:erni_mobile_core/json.dart';",
             "import 'package:meta/meta.dart';",
             "",
             "part '${TM_FILENAME_BASE}.g.dart';",
@@ -354,7 +354,7 @@
         "prefix": "repo",
         "body": [
             "import 'package:drift/drift.dart';",
-            "import 'package:erni_mobile_blueprint_core/data.dart';",
+            "import 'package:erni_mobile_core/data.dart';",
             "import 'package:injectable/injectable.dart';",
             "",
             "abstract class ${2}Repository implements Repository<${2}s, ${2}Object> {}",
@@ -370,7 +370,7 @@
         "prefix": "dtbl",
         "body": [
             "import 'package:drift/drift.dart';",
-            "import 'package:erni_mobile_blueprint_core/data.dart';",
+            "import 'package:erni_mobile_core/data.dart';",
             "",
             "@DataClassName('${1}Object')",
             "class ${1}s extends DataTable {}"

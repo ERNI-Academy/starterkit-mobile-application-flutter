@@ -2,7 +2,7 @@ import 'package:erni_mobile/business/models/platform/deep_link_entity.dart';
 import 'package:erni_mobile/business/services/platform/deep_link_service_impl.dart';
 import 'package:erni_mobile/common/constants/deep_link_paths.dart';
 import 'package:erni_mobile/common/utils/converters/deep_link_path_to_route_converter.dart';
-import 'package:erni_mobile_blueprint_core/utils.dart';
+import 'package:erni_mobile_core/utils.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';

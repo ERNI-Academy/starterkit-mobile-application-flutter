@@ -4,7 +4,7 @@ import 'package:erni_mobile/business/models/authentication/password/password_cri
 import 'package:erni_mobile/common/localization/localization.dart';
 import 'package:erni_mobile/ui/view_models/authentication/set_password_view_model.dart';
 import 'package:erni_mobile/ui/widgets/widgets.dart';
-import 'package:erni_mobile_blueprint_core/mvvm.dart';
+import 'package:erni_mobile_core/mvvm.dart';
 import 'package:validation_notifier/validation_notifier.dart';
 
 class SetPasswordView<T extends SetPasswordViewModel> extends StatelessWidget with ChildViewMixin<T> {

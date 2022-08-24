@@ -8,9 +8,9 @@ import 'package:erni_mobile/domain/services/authentication/logout/logout_service
 import 'package:erni_mobile/domain/services/logging/app_logger.dart';
 import 'package:erni_mobile/domain/services/platform/connectivity_service.dart';
 import 'package:erni_mobile/domain/services/ui/dialog_service.dart';
-import 'package:erni_mobile_blueprint_core/mvvm.dart';
-import 'package:erni_mobile_blueprint_core/navigation.dart';
-import 'package:erni_mobile_blueprint_core/utils.dart';
+import 'package:erni_mobile_core/mvvm.dart';
+import 'package:erni_mobile_core/navigation.dart';
+import 'package:erni_mobile_core/utils.dart';
 import 'package:injectable/injectable.dart';
 
 @injectable

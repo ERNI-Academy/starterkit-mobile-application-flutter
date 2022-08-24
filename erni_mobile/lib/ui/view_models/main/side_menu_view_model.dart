@@ -13,9 +13,9 @@ import 'package:erni_mobile/domain/services/settings/settings_service.dart';
 import 'package:erni_mobile/domain/services/ui/dialog_service.dart';
 import 'package:erni_mobile/domain/services/ui/menu_provider.dart';
 import 'package:erni_mobile/domain/services/user/profile/user_profile_service.dart';
-import 'package:erni_mobile_blueprint_core/mvvm.dart';
-import 'package:erni_mobile_blueprint_core/navigation.dart';
-import 'package:erni_mobile_blueprint_core/utils.dart';
+import 'package:erni_mobile_core/mvvm.dart';
+import 'package:erni_mobile_core/navigation.dart';
+import 'package:erni_mobile_core/utils.dart';
 import 'package:flutter/foundation.dart';
 import 'package:injectable/injectable.dart';
 
