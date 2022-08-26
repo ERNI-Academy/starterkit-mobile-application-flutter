@@ -85,15 +85,47 @@ jobs:
 
       - name: Run tests
         run: |
-          # Run Tests
           mkdir coverage
           touch coverage/results.json
           flutter test --coverage --machine >> coverage/results.json
-
-          # Generate Test Results
-          flutter pub global run junitreport:tojunit -i coverage/results.json -o coverage/results.xml
-
-          # Generate Test Coverage
-          cd coverage
-          python ../../scripts/cobertura.py lcov.info
         working-directory: ${{ env.PROJECT_WORKING_DIRECTORY }}
+      
+      - name: Check for golden test failures
+        run: |
+          # Check golden test failures
+          $fileExists = Test-Path -Path "test/widget_tests/**/failures/**"
+          echo "IS_GOLDEN_TEST_FAILED=$fileExists" | Out-File -FilePath $Env:GITHUB_ENV -Encoding utf8 -Append
+        working-directory: ${{ env.PROJECT_WORKING_DIRECTORY }}
+      
+      - name: Publish golden test failures
+        uses: actions/upload-artifact@v3
+        with:
+          name: golden_test_failures
+          path: ${{ env.PROJECT_WORKING_DIRECTORY }}/test/widget_tests/views/failures
+        if: ${{ env.IS_GOLDEN_TEST_FAILED == 'true' }}
+      
+      - name: Report code coverage
+        uses: zgosalvez/github-actions-report-lcov@v1
+        with:
+          coverage-files: coverage/lcov.info
+          minimum-coverage: 40
+          artifact-name: code-coverage-report
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          working-directory: ${{ env.PROJECT_WORKING_DIRECTORY }}
+
+      - name: Report test results
+        uses: dorny/test-reporter@v1
+        with:
+          artifact: test-results
+          name: ${{ env.PROJECT_WORKING_DIRECTORY }} Tests
+          path: coverage/results.json
+          reporter: flutter-json
+          working-directory: ${{ env.PROJECT_WORKING_DIRECTORY }}
+        if: success() || failure()
+
+      - name: Publish JSCPD report
+        uses: actions/upload-artifact@v3
+        with:
+          name: jscpd_report
+          path: ${{ env.PROJECT_WORKING_DIRECTORY }}/report
+        if: ${{ env.IS_GOLDEN_TEST_FAILED == 'true' }}
