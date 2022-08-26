@@ -21,7 +21,7 @@ env:
 
 jobs:
   tests:
-    runs-on: macos-latest
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
 
@@ -69,18 +69,18 @@ jobs:
           # Add `--fatal-unused` if you want to fail this step if there are unused code
           flutter pub run dart_code_metrics:metrics check-unused-code lib
 
-          echo "Running checks for unused localizations"
+          # echo "Running checks for unused localizations"
           # Add `--fatal-unused` if you want to fail this step if there are unused localizations
-          flutter pub run dart_code_metrics:metrics check-unused-l10n -p Il8n lib
+          # flutter pub run dart_code_metrics:metrics check-unused-l10n -p Il8n lib
         working-directory: ${{ env.PROJECT_WORKING_DIRECTORY }}
 
       - name: Add ignore-coverage to generated files
         run: |
-          find . -type f -name "*.gen.dart" -exec sh -c 'sed -i "" -e "1s/^/\/\/\ coverage:ignore-file\r\n/" "$1"' -- {} \;
-          find . -type f -name "*.config.dart" -exec sh -c 'sed -i "" -e "1s/^/\/\/\ coverage:ignore-file\r\n/" "$1"' -- {} \;
-          find . -type f -name "*.g.dart" -exec sh -c 'sed -i "" -e "1s/^/\/\/\ coverage:ignore-file\r\n/" "$1"' -- {} \;
-          find . -type f -name "messages_*.dart" -exec sh -c 'sed -i "" -e "1s/^/\/\/\ coverage:ignore-file\r\n/" "$1"' -- {} \;
-          find . -type f -name "l10n.dart" -exec sh -c 'sed -i "" -e "1s/^/\/\/\ coverage:ignore-file\r\n/" "$1"' -- {} \;
+          find . -type f -name "*.gen.dart" -exec sh -c 'sed -i "1s/^/\/\/\ coverage:ignore-file\r\n/" "$1"' -- {} \;
+          find . -type f -name "*.config.dart" -exec sh -c 'sed -i "1s/^/\/\/\ coverage:ignore-file\r\n/" "$1"' -- {} \;
+          find . -type f -name "*.g.dart" -exec sh -c 'sed -i "1s/^/\/\/\ coverage:ignore-file\r\n/" "$1"' -- {} \;
+          find . -type f -name "messages_*.dart" -exec sh -c 'sed -i "1s/^/\/\/\ coverage:ignore-file\r\n/" "$1"' -- {} \;
+          find . -type f -name "l10n.dart" -exec sh -c 'sed -i "1s/^/\/\/\ coverage:ignore-file\r\n/" "$1"' -- {} \;
         working-directory: ${{ env.PROJECT_WORKING_DIRECTORY }}
 
       - name: Run tests
@@ -122,7 +122,6 @@ jobs:
           path: coverage/results.json
           reporter: flutter-json
           working-directory: ${{ env.PROJECT_WORKING_DIRECTORY }}
-        if: success() || failure()
 
       - name: Publish JSCPD report
         uses: actions/upload-artifact@v3
