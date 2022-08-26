@@ -1,8 +1,12 @@
 name: Install Flutter
+description: Installs the latest Flutter SDK
 
-steps:
-  - uses: subosito/flutter-action@v2.6.2
-    with:
-      channel: 'stable'
+runs:
+  using: 'composite'
+  steps:
+    - uses: subosito/flutter-action@v2.6.2
+      with:
+        channel: 'stable'
 
-  - run: flutter --version
+    - run: flutter --version
+      shell: bash
