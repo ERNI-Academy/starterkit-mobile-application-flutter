@@ -21,7 +21,7 @@ env:
 
 jobs:
   tests:
-    runs-on: ubuntu-latest
+    runs-on: macos-latest
     steps:
       - uses: actions/checkout@v3
 
@@ -76,19 +76,18 @@ jobs:
 
       - name: Add ignore-coverage to generated files
         run: |
-          find . -type f -name "*.gen.dart" -exec sh -c 'sed -i "1s/^/\/\/\ coverage:ignore-file\r\n/" "$1"' -- {} \;
-          find . -type f -name "*.config.dart" -exec sh -c 'sed -i "1s/^/\/\/\ coverage:ignore-file\r\n/" "$1"' -- {} \;
-          find . -type f -name "*.g.dart" -exec sh -c 'sed -i "1s/^/\/\/\ coverage:ignore-file\r\n/" "$1"' -- {} \;
-          find . -type f -name "messages_*.dart" -exec sh -c 'sed -i "1s/^/\/\/\ coverage:ignore-file\r\n/" "$1"' -- {} \;
-          find . -type f -name "l10n.dart" -exec sh -c 'sed -i "1s/^/\/\/\ coverage:ignore-file\r\n/" "$1"' -- {} \;
+          find . -type f -name "*.gen.dart" -exec sh -c 'sed -i "" -e "1s/^/\/\/\ coverage:ignore-file\r\n/" "$1"' -- {} \;
+          find . -type f -name "*.config.dart" -exec sh -c 'sed -i "" -e "1s/^/\/\/\ coverage:ignore-file\r\n/" "$1"' -- {} \;
+          find . -type f -name "*.g.dart" -exec sh -c 'sed -i "" -e "1s/^/\/\/\ coverage:ignore-file\r\n/" "$1"' -- {} \;
+          find . -type f -name "messages_*.dart" -exec sh -c 'sed -i "" -e "1s/^/\/\/\ coverage:ignore-file\r\n/" "$1"' -- {} \;
+          find . -type f -name "l10n.dart" -exec sh -c 'sed -i "" -e "1s/^/\/\/\ coverage:ignore-file\r\n/" "$1"' -- {} \;
         working-directory: ${{ env.PROJECT_WORKING_DIRECTORY }}
 
       - name: Run tests
         run: |
           mkdir coverage
           touch coverage/results.json
-          ls
-          flutter test --coverage --machine > coverage/results.json
+          flutter test --coverage --machine >> coverage/results.json
         working-directory: ${{ env.PROJECT_WORKING_DIRECTORY }}
       
       - name: Check for golden test failures
