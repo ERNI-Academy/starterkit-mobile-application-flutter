@@ -21,4 +21,4 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - uses: ./.github/workflows/templates/steps/install-flutter
+      - uses: ./.github/workflows/templates/steps/install-flutter.yml
