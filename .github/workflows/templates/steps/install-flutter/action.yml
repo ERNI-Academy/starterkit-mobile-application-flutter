@@ -2,7 +2,7 @@ name: Install Flutter
 description: Installs the latest Flutter SDK
 
 runs:
-  using: 'composite'
+  using: composite
   steps:
     - uses: subosito/flutter-action@v2.6.2
       with:
