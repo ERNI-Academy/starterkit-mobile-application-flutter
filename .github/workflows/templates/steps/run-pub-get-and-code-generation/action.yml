@@ -1,0 +1,32 @@
+name: Run pub get and code generation
+description: Gets pub packages and runs build_runner for code generation
+
+inputs:
+  run_intl_generation:
+    description: 'Whether to run generation of localization files'
+    required: true
+    default: 'false'
+  working_directory:
+    description: 'The working directory'
+    required: true
+    default: 'false'
+
+runs:
+  using: composite
+  steps:
+    - run: flutter pub get
+      shell: bash
+      working-directory: ${{ inputs.working_directory }}
+
+    - run: flutter pub global activate intl_utils
+      shell: bash
+      if: ${{ inputs.run_intl_generation == 'false' }}
+
+    - run: flutter pub global run intl_utils:generate
+      shell: bash
+      working-directory: ${{ inputs.working_directory }}
+      if: ${{ inputs.run_intl_generation == 'false' }}
+
+    - run: flutter pub run build_runner build
+      shell: bash
+      working-directory: ${{ inputs.working_directory }}

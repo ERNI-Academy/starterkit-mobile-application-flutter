@@ -40,4 +40,17 @@ jobs:
       - name: Check for duplicate lines of code
         run: npx jscpd lib --reporters html --threshold 5
         working-directory: ${{ env.PROJECT_WORKING_DIRECTORY }}
+
+      - name: Run code generation in core project
+        uses: ./.github/workflows/templates/steps/run-pub-get-and-code-generation
+        with:
+          run_intl_generation: 'false'
+          working_directory: ${{ env.CORE_PROJECT_WORKING_DIRECTORY }}
+
+      - name: Run code generation in main project
+        uses: ./.github/workflows/templates/steps/run-pub-get-and-code-generation
+        with:
+          run_intl_generation: 'false'
+          working_directory: ${{ env.PROJECT_WORKING_DIRECTORY }}
+          
       
