@@ -20,12 +20,12 @@ runs:
 
     - run: flutter pub global activate intl_utils
       shell: bash
-      if: ${{ inputs.run_intl_generation == 'false' }}
+      if: ${{ inputs.run_intl_generation == 'true' }}
 
     - run: flutter pub global run intl_utils:generate
       shell: bash
       working-directory: ${{ inputs.working_directory }}
-      if: ${{ inputs.run_intl_generation == 'false' }}
+      if: ${{ inputs.run_intl_generation == 'true' }}
 
     - run: flutter pub run build_runner build
       shell: bash
