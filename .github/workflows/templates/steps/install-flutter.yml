@@ -1,7 +1,7 @@
 name: Install Flutter
 
 steps:
-  - uses: subosito/flutter-action@v2
+  - uses: subosito/flutter-action@v2.6.2
     with:
       channel: 'stable'
 
