@@ -12,3 +12,7 @@ PRODUCT_BUNDLE_IDENTIFIER = ch.erni.mobile
 
 // The copyright displayed in application information
 PRODUCT_COPYRIGHT = Copyright © 2022 ch.erni. All rights reserved.
+
+#include? "Pods/Target Support Files/Pods-Runner/Pods-Runner.debug.xcconfig"
+#include? "Pods/Target Support Files/Pods-Runner/Pods-Runner.profile.xcconfig"
+#include? "Pods/Target Support Files/Pods-Runner/Pods-Runner.release.xcconfig"
