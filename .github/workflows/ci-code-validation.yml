@@ -53,26 +53,26 @@ jobs:
           run_intl_generation: "true"
           working_directory: ${{ env.PROJECT_WORKING_DIRECTORY }}
 
-      - name: Run code analysis
-        run: |
-          echo "Running static code analysis"
-          flutter analyze .
+      # - name: Run code analysis
+      #   run: |
+      #     echo "Running static code analysis"
+      #     flutter analyze .
 
-          echo "Running checks for code metrics"
-          flutter pub run dart_code_metrics:metrics analyze lib --fatal-style --fatal-warnings --fatal-performance
+      #     echo "Running checks for code metrics"
+      #     flutter pub run dart_code_metrics:metrics analyze lib --fatal-style --fatal-warnings --fatal-performance
 
-          echo "Running checks for unused files"
-          # Add `--fatal-unused` if you want to fail this step if there are unused files
-          flutter pub run dart_code_metrics:metrics check-unused-files lib 
+      #     echo "Running checks for unused files"
+      #     # Add `--fatal-unused` if you want to fail this step if there are unused files
+      #     flutter pub run dart_code_metrics:metrics check-unused-files lib 
 
-          echo "Running checks for unused code"
-          # Add `--fatal-unused` if you want to fail this step if there are unused code
-          flutter pub run dart_code_metrics:metrics check-unused-code lib
+      #     echo "Running checks for unused code"
+      #     # Add `--fatal-unused` if you want to fail this step if there are unused code
+      #     flutter pub run dart_code_metrics:metrics check-unused-code lib
 
-          # echo "Running checks for unused localizations"
-          # Add `--fatal-unused` if you want to fail this step if there are unused localizations
-          # flutter pub run dart_code_metrics:metrics check-unused-l10n -p Il8n lib
-        working-directory: ${{ env.PROJECT_WORKING_DIRECTORY }}
+      #     echo "Running checks for unused localizations"
+      #     # Add `--fatal-unused` if you want to fail this step if there are unused localizations
+      #     flutter pub run dart_code_metrics:metrics check-unused-l10n -p Il8n lib
+      #   working-directory: ${{ env.PROJECT_WORKING_DIRECTORY }}
 
       - name: Add ignore-coverage to generated files
         run: |
@@ -87,7 +87,8 @@ jobs:
         run: |
           mkdir coverage
           touch coverage/results.json
-          flutter test --coverage --machine >> coverage/results.json
+          ls
+          flutter test --coverage --machine > coverage/results.json
         working-directory: ${{ env.PROJECT_WORKING_DIRECTORY }}
       
       - name: Check for golden test failures
