@@ -6,7 +6,7 @@ on:
       target_environment:
         type: string
         required: false
-        default: 'dev'
+        default: "dev"
 
   push:
     branches:
@@ -16,8 +16,8 @@ on:
     types: [opened, synchronize, reopened]
 
 env:
-  PROJECT_WORKING_DIRECTORY: 'erni_mobile'
-  CORE_PROJECT_WORKING_DIRECTORY: 'erni_mobile_core'
+  PROJECT_WORKING_DIRECTORY: "erni_mobile"
+  CORE_PROJECT_WORKING_DIRECTORY: "erni_mobile_core"
 
 jobs:
   tests:
@@ -44,13 +44,56 @@ jobs:
       - name: Run code generation in core project
         uses: ./.github/workflows/templates/steps/run-pub-get-and-code-generation
         with:
-          run_intl_generation: 'false'
+          run_intl_generation: "false"
           working_directory: ${{ env.CORE_PROJECT_WORKING_DIRECTORY }}
 
       - name: Run code generation in main project
         uses: ./.github/workflows/templates/steps/run-pub-get-and-code-generation
         with:
-          run_intl_generation: 'false'
+          run_intl_generation: "true"
           working_directory: ${{ env.PROJECT_WORKING_DIRECTORY }}
-          
-      
+
+      - name: Run code analysis
+        run: |
+          echo "Running static code analysis"
+          flutter analyze .
+
+          echo "Running checks for code metrics"
+          flutter pub run dart_code_metrics:metrics analyze lib --fatal-style --fatal-warnings --fatal-performance
+
+          echo "Running checks for unused files"
+          # Add `--fatal-unused` if you want to fail this step if there are unused files
+          flutter pub run dart_code_metrics:metrics check-unused-files lib 
+
+          echo "Running checks for unused code"
+          # Add `--fatal-unused` if you want to fail this step if there are unused code
+          flutter pub run dart_code_metrics:metrics check-unused-code lib
+
+          echo "Running checks for unused localizations"
+          # Add `--fatal-unused` if you want to fail this step if there are unused localizations
+          flutter pub run dart_code_metrics:metrics check-unused-l10n -p Il8n lib
+        working-directory: ${{ env.PROJECT_WORKING_DIRECTORY }}
+
+      - name: Add ignore-coverage to generated files
+        run: |
+          find . -type f -name "*.gen.dart" -exec sh -c 'sed -i "" -e "1s/^/\/\/\ coverage:ignore-file\r\n/" "$1"' -- {} \;
+          find . -type f -name "*.config.dart" -exec sh -c 'sed -i "" -e "1s/^/\/\/\ coverage:ignore-file\r\n/" "$1"' -- {} \;
+          find . -type f -name "*.g.dart" -exec sh -c 'sed -i "" -e "1s/^/\/\/\ coverage:ignore-file\r\n/" "$1"' -- {} \;
+          find . -type f -name "messages_*.dart" -exec sh -c 'sed -i "" -e "1s/^/\/\/\ coverage:ignore-file\r\n/" "$1"' -- {} \;
+          find . -type f -name "l10n.dart" -exec sh -c 'sed -i "" -e "1s/^/\/\/\ coverage:ignore-file\r\n/" "$1"' -- {} \;
+        working-directory: ${{ env.PROJECT_WORKING_DIRECTORY }}
+
+      - name: Run tests
+        run: |
+          # Run Tests
+          mkdir coverage
+          touch coverage/results.json
+          flutter test --coverage --machine >> coverage/results.json
+
+          # Generate Test Results
+          flutter pub global run junitreport:tojunit -i coverage/results.json -o coverage/results.xml
+
+          # Generate Test Coverage
+          cd coverage
+          python ../../scripts/cobertura.py lcov.info
+        working-directory: ${{ env.PROJECT_WORKING_DIRECTORY }}
