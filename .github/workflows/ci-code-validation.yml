@@ -95,6 +95,7 @@ jobs:
           # Check golden test failures
           $fileExists = Test-Path -Path "test/widget_tests/**/failures/**"
           echo "IS_GOLDEN_TEST_FAILED=$fileExists" | Out-File -FilePath $Env:GITHUB_ENV -Encoding utf8 -Append
+        shell: powershell
         working-directory: ${{ env.PROJECT_WORKING_DIRECTORY }}
       
       - name: Publish golden test failures
