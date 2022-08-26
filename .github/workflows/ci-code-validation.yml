@@ -106,13 +106,9 @@ jobs:
         if: ${{ env.IS_GOLDEN_TEST_FAILED == 'true' }}
       
       - name: Report code coverage
-        uses: zgosalvez/github-actions-report-lcov@v1
+        uses: romeovs/lcov-reporter-action@v0.2.16
         with:
-          coverage-files: coverage/lcov.info
-          minimum-coverage: 40
-          artifact-name: code-coverage-report
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          working-directory: ${{ env.PROJECT_WORKING_DIRECTORY }}
+          lcov-file: ./${{ env.PROJECT_WORKING_DIRECTORY }}/coverage/lcov.info
 
       - name: Report test results
         uses: dorny/test-reporter@v1
