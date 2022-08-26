@@ -114,7 +114,6 @@ jobs:
       - name: Report test results
         uses: dorny/test-reporter@v1
         with:
-          artifact: test-results
           name: ${{ env.PROJECT_WORKING_DIRECTORY }} Tests
           path: coverage/results.json
           reporter: flutter-json
