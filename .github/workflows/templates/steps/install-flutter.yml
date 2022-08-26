@@ -1,0 +1,8 @@
+name: Install Flutter
+
+steps:
+  - uses: subosito/flutter-action@v2
+    with:
+      channel: 'stable'
+
+  - run: flutter --version
