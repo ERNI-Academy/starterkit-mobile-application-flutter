@@ -35,9 +35,9 @@ jobs:
 
       - name: Check formatting
         run: flutter format --line-length=120 --dry-run --set-exit-if-changed .
-        working-directory: $PROJECT_WORKING_DIRECTORY
+        working-directory: ${{ env.PROJECT_WORKING_DIRECTORY }}
 
       - name: Check for duplicate lines of code
         run: npx jscpd lib --reporters html --threshold 5
-        working-directory: $PROJECT_WORKING_DIRECTORY
+        working-directory: ${{ env.PROJECT_WORKING_DIRECTORY }}
       
