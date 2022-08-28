@@ -20,56 +20,79 @@ env:
   CORE_PROJECT_WORKING_DIRECTORY: "erni_mobile_core"
 
 jobs:
+  code-analysis:
+      name: Code analysis and metrics
+      runs-on: macos-latest
+      steps:
+        - uses: actions/checkout@v3
+
+        - name: Install Flutter SDK
+          uses: ./.github/workflows/templates/steps/install-flutter
+
+        - name: Check formatting
+          run: flutter format --line-length=120 --dry-run --set-exit-if-changed .
+          working-directory: ${{ env.PROJECT_WORKING_DIRECTORY }}
+
+        - name: Check for duplicate lines of code
+          uses: Pposong-Hantaihe/dry-code@v1.0.2
+          with:
+            token: "${{ secrets.GITHUB_TOKEN }}"
+            arguments: ${{ env.PROJECT_WORKING_DIRECTORY }}/lib
+            options: --threshold 5
+
+        - name: Run code generation in core project
+          uses: ./.github/workflows/templates/steps/run-pub-get-and-code-generation
+          with:
+            generate_intl: "false"
+            working_directory: ${{ env.CORE_PROJECT_WORKING_DIRECTORY }}
+
+        - name: Run code generation in main project
+          uses: ./.github/workflows/templates/steps/run-pub-get-and-code-generation
+          with:
+            generate_intl: "true"
+            working_directory: ${{ env.PROJECT_WORKING_DIRECTORY }}
+
+        - name: Run static code analysis and metrics
+          run: |
+            # Running static code analysis
+            flutter analyze .
+
+            # Running checks for code metrics
+            flutter pub run dart_code_metrics:metrics analyze lib --fatal-style --fatal-warnings --fatal-performance
+
+            # Running checks for unused files
+            # Add `--fatal-unused` if you want to fail this step if there are unused files
+            flutter pub run dart_code_metrics:metrics check-unused-files lib 
+
+            # Running checks for unused code
+            # Add `--fatal-unused` if you want to fail this step if there are unused code
+            flutter pub run dart_code_metrics:metrics check-unused-code lib
+
+            # Running checks for unused localizations
+            # Add `--fatal-unused` if you want to fail this step if there are unused localizations
+            flutter pub run dart_code_metrics:metrics check-unused-l10n -p Il8n lib
+          working-directory: ${{ env.PROJECT_WORKING_DIRECTORY }}
+
   tests:
+    name: Tests
     runs-on: macos-latest
     steps:
       - uses: actions/checkout@v3
 
-      - uses: ./.github/workflows/templates/steps/install-flutter
-
-      - name: Check formatting
-        run: flutter format --line-length=120 --dry-run --set-exit-if-changed .
-        working-directory: ${{ env.PROJECT_WORKING_DIRECTORY }}
-
-      - name: Check for duplicate lines of code
-        uses: Pposong-Hantaihe/dry-code@v1.0.2
-        with:
-          token: "${{ secrets.GITHUB_TOKEN }}"
-          arguments: ${{ env.PROJECT_WORKING_DIRECTORY }}/lib
-          options: --threshold 5
+      - name: Install Flutter SDK
+        uses: ./.github/workflows/templates/steps/install-flutter
 
       - name: Run code generation in core project
         uses: ./.github/workflows/templates/steps/run-pub-get-and-code-generation
         with:
-          run_intl_generation: "false"
+          generate_intl: "false"
           working_directory: ${{ env.CORE_PROJECT_WORKING_DIRECTORY }}
 
       - name: Run code generation in main project
         uses: ./.github/workflows/templates/steps/run-pub-get-and-code-generation
         with:
-          run_intl_generation: "true"
+          generate_intl: "true"
           working_directory: ${{ env.PROJECT_WORKING_DIRECTORY }}
-
-      - name: Run code analysis
-        run: |
-          # Running static code analysis
-          flutter analyze .
-
-          # Running checks for code metrics
-          flutter pub run dart_code_metrics:metrics analyze lib --fatal-style --fatal-warnings --fatal-performance
-
-          # Running checks for unused files
-          # Add `--fatal-unused` if you want to fail this step if there are unused files
-          flutter pub run dart_code_metrics:metrics check-unused-files lib 
-
-          # Running checks for unused code
-          # Add `--fatal-unused` if you want to fail this step if there are unused code
-          flutter pub run dart_code_metrics:metrics check-unused-code lib
-
-          # Running checks for unused localizations
-          # Add `--fatal-unused` if you want to fail this step if there are unused localizations
-          flutter pub run dart_code_metrics:metrics check-unused-l10n -p Il8n lib
-        working-directory: ${{ env.PROJECT_WORKING_DIRECTORY }}
 
       - name: Add ignore-coverage to generated files
         run: |
