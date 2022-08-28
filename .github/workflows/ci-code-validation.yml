@@ -27,19 +27,9 @@ jobs:
 
       - uses: ./.github/workflows/templates/steps/install-flutter
 
-      - name: Install JSCPD
-        run: npm install -g jscpd
-
-      # - name: Install junitreport
-      #   run: flutter pub global activate junitreport
-
       - name: Check formatting
         run: flutter format --line-length=120 --dry-run --set-exit-if-changed .
         working-directory: ${{ env.PROJECT_WORKING_DIRECTORY }}
-
-      # - name: Check for duplicate lines of code
-      #   run: npx jscpd lib --reporters html --threshold 5
-      #   working-directory: ${{ env.PROJECT_WORKING_DIRECTORY }}
 
       - name: Check for duplicate lines of code
         uses: Pposong-Hantaihe/dry-code@v1.0.2
@@ -60,26 +50,26 @@ jobs:
           run_intl_generation: "true"
           working_directory: ${{ env.PROJECT_WORKING_DIRECTORY }}
 
-      # - name: Run code analysis
-      #   run: |
-      #     echo "Running static code analysis"
-      #     flutter analyze .
+      - name: Run code analysis
+        run: |
+          # Running static code analysis
+          flutter analyze .
 
-      #     echo "Running checks for code metrics"
-      #     flutter pub run dart_code_metrics:metrics analyze lib --fatal-style --fatal-warnings --fatal-performance
+          # Running checks for code metrics
+          flutter pub run dart_code_metrics:metrics analyze lib --fatal-style --fatal-warnings --fatal-performance
 
-      #     echo "Running checks for unused files"
-      #     # Add `--fatal-unused` if you want to fail this step if there are unused files
-      #     flutter pub run dart_code_metrics:metrics check-unused-files lib 
+          # Running checks for unused files
+          # Add `--fatal-unused` if you want to fail this step if there are unused files
+          flutter pub run dart_code_metrics:metrics check-unused-files lib 
 
-      #     echo "Running checks for unused code"
-      #     # Add `--fatal-unused` if you want to fail this step if there are unused code
-      #     flutter pub run dart_code_metrics:metrics check-unused-code lib
+          # Running checks for unused code
+          # Add `--fatal-unused` if you want to fail this step if there are unused code
+          flutter pub run dart_code_metrics:metrics check-unused-code lib
 
-      #     echo "Running checks for unused localizations"
-      #     # Add `--fatal-unused` if you want to fail this step if there are unused localizations
-      #     flutter pub run dart_code_metrics:metrics check-unused-l10n -p Il8n lib
-      #   working-directory: ${{ env.PROJECT_WORKING_DIRECTORY }}
+          # Running checks for unused localizations
+          # Add `--fatal-unused` if you want to fail this step if there are unused localizations
+          flutter pub run dart_code_metrics:metrics check-unused-l10n -p Il8n lib
+        working-directory: ${{ env.PROJECT_WORKING_DIRECTORY }}
 
       - name: Add ignore-coverage to generated files
         run: |
@@ -99,7 +89,6 @@ jobs:
       
       - name: Check for golden test failures
         run: |
-          # Check golden test failures
           $fileExists = Test-Path -Path "test/widget_tests/**/failures/**"
           echo "IS_GOLDEN_TEST_FAILED=$fileExists" | Out-File -FilePath $Env:GITHUB_ENV -Encoding utf8 -Append
         shell: powershell
@@ -116,7 +105,7 @@ jobs:
         uses: romeovs/lcov-reporter-action@v0.2.16
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
-          lcov-file: ./${{ env.PROJECT_WORKING_DIRECTORY }}/coverage/lcov.info
+          lcov-file: ${{ env.PROJECT_WORKING_DIRECTORY }}/coverage/lcov.info
 
       - name: Report test results
         uses: dorny/test-reporter@v1
@@ -125,10 +114,3 @@ jobs:
           path: coverage/results.json
           reporter: flutter-json
           working-directory: ${{ env.PROJECT_WORKING_DIRECTORY }}
-
-      # - name: Publish JSCPD report
-      #   uses: actions/upload-artifact@v3
-      #   with:
-      #     name: jscpd_report
-      #     path: ${{ env.PROJECT_WORKING_DIRECTORY }}/report
-      #   continue-on-error: true
