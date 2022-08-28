@@ -27,8 +27,8 @@ jobs:
 
       - uses: ./.github/workflows/templates/steps/install-flutter
 
-      # - name: Install JSCPD
-      #   run: npm install -g jscpd
+      - name: Install JSCPD
+        run: npm install -g jscpd
 
       # - name: Install junitreport
       #   run: flutter pub global activate junitreport
