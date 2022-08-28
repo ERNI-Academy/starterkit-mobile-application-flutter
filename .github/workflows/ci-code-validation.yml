@@ -46,7 +46,7 @@ jobs:
         with:
           token: "${{ secrets.GITHUB_TOKEN }}"
           arguments: ${{ env.PROJECT_WORKING_DIRECTORY }}/lib
-          options: --reporters html --threshold 5
+          options: --threshold 5
 
       - name: Run code generation in core project
         uses: ./.github/workflows/templates/steps/run-pub-get-and-code-generation
@@ -126,9 +126,9 @@ jobs:
           reporter: flutter-json
           working-directory: ${{ env.PROJECT_WORKING_DIRECTORY }}
 
-      - name: Publish JSCPD report
-        uses: actions/upload-artifact@v3
-        with:
-          name: jscpd_report
-          path: ${{ env.PROJECT_WORKING_DIRECTORY }}/report
-        continue-on-error: true
+      # - name: Publish JSCPD report
+      #   uses: actions/upload-artifact@v3
+      #   with:
+      #     name: jscpd_report
+      #     path: ${{ env.PROJECT_WORKING_DIRECTORY }}/report
+      #   continue-on-error: true
