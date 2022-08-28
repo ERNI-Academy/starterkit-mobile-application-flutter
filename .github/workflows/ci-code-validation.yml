@@ -27,19 +27,26 @@ jobs:
 
       - uses: ./.github/workflows/templates/steps/install-flutter
 
-      - name: Install JSCPD
-        run: npm install -g jscpd
+      # - name: Install JSCPD
+      #   run: npm install -g jscpd
 
-      - name: Install junitreport
-        run: flutter pub global activate junitreport
+      # - name: Install junitreport
+      #   run: flutter pub global activate junitreport
 
       - name: Check formatting
         run: flutter format --line-length=120 --dry-run --set-exit-if-changed .
         working-directory: ${{ env.PROJECT_WORKING_DIRECTORY }}
 
+      # - name: Check for duplicate lines of code
+      #   run: npx jscpd lib --reporters html --threshold 5
+      #   working-directory: ${{ env.PROJECT_WORKING_DIRECTORY }}
+
       - name: Check for duplicate lines of code
-        run: npx jscpd lib --reporters html --threshold 5
-        working-directory: ${{ env.PROJECT_WORKING_DIRECTORY }}
+        uses: Pposong-Hantaihe/dry-code@v1.0.2
+        with:
+          token: "${{ secrets.GITHUB_TOKEN }}"
+          arguments: ${{ env.PROJECT_WORKING_DIRECTORY }}/lib
+          options: --reporters html --threshold 5
 
       - name: Run code generation in core project
         uses: ./.github/workflows/templates/steps/run-pub-get-and-code-generation
@@ -124,4 +131,4 @@ jobs:
         with:
           name: jscpd_report
           path: ${{ env.PROJECT_WORKING_DIRECTORY }}/report
-        if: ${{ env.IS_GOLDEN_TEST_FAILED == 'true' }}
+        continue-on-error: true
