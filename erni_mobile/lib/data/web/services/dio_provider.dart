@@ -7,8 +7,8 @@ import 'package:dio/dio.dart';
 import 'package:erni_mobile/business/models/logging/log_level.dart';
 import 'package:erni_mobile/common/exceptions/api_exceptions.dart';
 import 'package:erni_mobile/common/utils/extensions/string_extensions.dart';
+import 'package:erni_mobile/dependency_injection.dart';
 import 'package:erni_mobile/domain/services/logging/app_logger.dart';
-import 'package:erni_mobile_core/dependency_injection.dart';
 import 'package:flutter/foundation.dart';
 import 'package:injectable/injectable.dart';
 

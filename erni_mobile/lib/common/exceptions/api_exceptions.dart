@@ -1,7 +1,7 @@
 // coverage:ignore-file
 
 import 'package:dio/dio.dart';
-import 'package:erni_mobile_core/json.dart';
+import 'package:erni_mobile/domain/models/json/json_encodable.dart';
 
 class ApiException extends DioError implements JsonEncodable {
   ApiException({required DioError error, this.errorCode})
@@ -37,13 +37,13 @@ class ApiException extends DioError implements JsonEncodable {
 }
 
 class UnauthorizedException extends ApiException {
-  UnauthorizedException({required DioError error, String? errorCode}) : super(error: error, errorCode: errorCode);
+  UnauthorizedException({required super.error, super.errorCode});
 }
 
 class ServerUnavailableException extends ApiException {
-  ServerUnavailableException({required DioError error, String? errorCode}) : super(error: error, errorCode: errorCode);
+  ServerUnavailableException({required super.error, super.errorCode});
 }
 
 class BadRequestException extends ApiException {
-  BadRequestException({required DioError error, String? errorCode}) : super(error: error, errorCode: errorCode);
+  BadRequestException({required super.error, super.errorCode});
 }

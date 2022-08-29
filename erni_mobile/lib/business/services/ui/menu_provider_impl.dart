@@ -8,7 +8,6 @@ class MenuProviderImpl implements MenuProvider {
     menus = List.unmodifiable(<DrawerMenuModel>[
       DrawerMenuModel(type: MenuTypes.about, actionType: MenuActionTypes.navigatable),
       DrawerMenuModel(type: MenuTypes.settings, actionType: MenuActionTypes.navigatable),
-      DrawerMenuModel(type: MenuTypes.logout, actionType: MenuActionTypes.clickable),
     ]);
     _currentMenu = menus.first;
     _currentMenu.isSelected.value = true;

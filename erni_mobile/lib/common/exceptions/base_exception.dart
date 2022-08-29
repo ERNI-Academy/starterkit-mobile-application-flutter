@@ -1,6 +1,6 @@
 // coverage:ignore-file
 
-import 'package:erni_mobile_core/json.dart';
+import 'package:erni_mobile/domain/models/json/json_encodable.dart';
 import 'package:meta/meta.dart';
 
 @immutable

@@ -5,9 +5,9 @@ import 'dart:async';
 import 'package:erni_mobile/business/models/ui/confirm_dialog_response.dart';
 import 'package:erni_mobile/common/localization/localization.dart';
 import 'package:erni_mobile/domain/services/ui/dialog_service.dart';
-import 'package:erni_mobile_core/navigation.dart';
-import 'package:erni_mobile_core/widgets.dart';
-import 'package:flutter/material.dart';
+import 'package:erni_mobile/domain/services/ui/navigation/navigation_service.dart';
+import 'package:erni_mobile/domain/services/ui/navigation/view_locator.dart';
+import 'package:erni_mobile/ui/widgets/widgets.dart';
 import 'package:injectable/injectable.dart';
 
 @LazySingleton(as: DialogService)
@@ -173,6 +173,14 @@ class DialogServiceImpl implements DialogService {
     _isDialogShown = false;
 
     return result;
+  }
+
+  @override
+  Future<void> showNoInternet() {
+    return alert(
+      Il8n.current.dialogConnectionProblemMessage,
+      title: Il8n.current.dialogConnectionProblemTitle,
+    );
   }
 
   Widget _tryGetRegisteredWidget(String name) {

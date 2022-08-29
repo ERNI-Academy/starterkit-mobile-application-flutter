@@ -1,4 +1,4 @@
-import 'package:erni_mobile_core/mvvm.dart';
+import 'package:erni_mobile/ui/view_models/view_model.dart';
 import 'package:injectable/injectable.dart';
 
 @injectable

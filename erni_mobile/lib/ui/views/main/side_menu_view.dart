@@ -1,10 +1,9 @@
 // coverage:ignore-file
 
 import 'package:erni_mobile/business/models/ui/drawer_menu_model.dart';
-import 'package:erni_mobile/business/models/user/user_profile_entity.dart';
 import 'package:erni_mobile/ui/view_models/main/side_menu_view_model.dart';
+import 'package:erni_mobile/ui/views/view_mixin.dart';
 import 'package:erni_mobile/ui/widgets/widgets.dart';
-import 'package:erni_mobile_core/mvvm.dart';
 
 class SideMenuView extends StatelessWidget with ViewMixin<SideMenuViewModel> {
   SideMenuView({required this.navigatableMenuSelected, Key? key}) : super(key: key);
@@ -18,7 +17,6 @@ class SideMenuView extends StatelessWidget with ViewMixin<SideMenuViewModel> {
       child: Drawer(
         child: Column(
           children: [
-            _AccountHeader(),
             Flexible(
               child: ListView(
                 children: viewModel.menus.map(
@@ -43,26 +41,6 @@ class SideMenuView extends StatelessWidget with ViewMixin<SideMenuViewModel> {
     if (shouldNavigate) {
       navigatableMenuSelected(menu);
     }
-  }
-}
-
-class _AccountHeader extends StatelessWidget with ChildViewMixin<SideMenuViewModel> {
-  @override
-  Widget buildView(BuildContext context) {
-    return DrawerHeader(
-      child: ValueListenableBuilder<UserProfileEntity>(
-        valueListenable: viewModel.userProfile,
-        builder: (context, userProfile, child) {
-          return SpacedRow(
-            spacing: 8,
-            children: [
-              const UserAvatar(),
-              Text(userProfile.fullName),
-            ],
-          );
-        },
-      ),
-    );
   }
 }
 

@@ -6,8 +6,8 @@ import 'package:erni_mobile/business/models/settings/language_code.dart';
 import 'package:erni_mobile/business/models/settings/language_entity.dart';
 import 'package:erni_mobile/common/constants/settings_keys.dart';
 import 'package:erni_mobile/domain/services/logging/app_logger.dart';
+import 'package:erni_mobile/ui/inputs/async_relay_command.dart';
 import 'package:erni_mobile/ui/view_models/settings/app_settings_view_model.dart';
-import 'package:erni_mobile_core/mvvm.dart';
 import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart';
 

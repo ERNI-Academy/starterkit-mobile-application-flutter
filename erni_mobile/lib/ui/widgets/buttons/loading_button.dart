@@ -1,7 +1,7 @@
 // coverage:ignore-file
 
+import 'package:erni_mobile/ui/inputs/async_command.dart';
 import 'package:erni_mobile/ui/widgets/extensions/theme_extensions.dart';
-import 'package:erni_mobile_core/mvvm.dart';
 import 'package:flutter/material.dart';
 
 class LoadingButton extends StatelessWidget {
