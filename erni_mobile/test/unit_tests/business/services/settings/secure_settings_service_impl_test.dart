@@ -22,13 +22,13 @@ void main() {
       final unitToTest = createUnitToTest();
       const key = 'key';
       const expectedValue = 'value';
-      when(mockSecureStorageService.write(key: key, value:  expectedValue)).thenAnswer((_) => Future.value());
+      when(mockSecureStorageService.write(key: key, value: expectedValue)).thenAnswer((_) => Future.value());
 
       // Act
       await unitToTest.addOrUpdateValue(key, expectedValue);
 
       // Assert
-      verify(mockSecureStorageService.write(key: key, value:  expectedValue)).called(1);
+      verify(mockSecureStorageService.write(key: key, value: expectedValue)).called(1);
     });
 
     test('getValue should return value of key from secure storage when called', () async {
