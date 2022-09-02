@@ -36,8 +36,8 @@ jobs:
 
       - name: Set keystore file
         run: |
-          echo -n "${{ secrets.ANDROID_KEYSTORE_FILE }}" | base64 --decode > ${{ env.ANDROID_KEYSTORE_FILE_NAME }}
-          echo -n "${{ secrets.ANDROID_KEYSTORE_PROPERTIES_FILE }}" | base64 --decode > ${{ env.ANDROID_KEYSTORE_PROPERTIES_FILE_NAME }}
+          echo -n "${{ secrets.ANDROID_KEYSTORE_FILE }}" | base64 --decode > "${{ env.ANDROID_KEYSTORE_FILE_NAME }}"
+          echo -n "${{ secrets.ANDROID_KEYSTORE_PROPERTIES_FILE }}" | base64 --decode > "${{ env.ANDROID_KEYSTORE_PROPERTIES_FILE_NAME }}"
         working-directory: ${{ env.PROJECT_WORKING_DIRECTORY }}/android/app
 
       - name: Set java version
