@@ -24,7 +24,8 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - uses: ./.github/workflows/templates/steps/install-flutter
+      - name: Install Flutter
+        uses: ./.github/workflows/templates/steps/install-flutter
 
       - name: Check formatting
         run: flutter format --line-length=120 --dry-run --set-exit-if-changed .
@@ -37,7 +38,7 @@ jobs:
           arguments: ${{ env.PROJECT_WORKING_DIRECTORY }}/lib
           options: --threshold 5
 
-      - name: Run code generation in main project
+      - name: Run code generation
         uses: ./.github/workflows/templates/steps/run-pub-get-and-code-generation
         with:
           generate_intl: "true"

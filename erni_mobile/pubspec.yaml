@@ -46,6 +46,7 @@ dependencies:
   sentry: ^6.8.0
   sentry_flutter: ^6.8.0
   shared_preferences: ^2.0.15
+  simple_command: ^1.0.1
   smartstruct: ^1.2.4+1
   sqlite3: ^1.8.0
   uuid: ^3.0.5

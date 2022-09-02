@@ -1,0 +1,60 @@
+name: Code Validation
+
+on:
+  workflow_call:
+    inputs:
+      target_environment:
+        type: string
+        required: false
+        default: "dev"
+
+  push:
+    branches:
+      - main
+
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+env:
+  PROJECT_WORKING_DIRECTORY: "erni_mobile"
+  ANDROID_KEYSTORE_FILE_NAME: "ERNI Mobile Generic Keystore.keystore"
+  ANDROID_KEYSTORE_PROPERTIES_FILE_NAME: "ERNI Mobile Generic Keystore.keystore.properties"
+  APP_ENVIRONMENT: ${{ parameters.target_environment }}
+
+jobs:
+  build-apk:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Install Flutter
+        uses: ./.github/workflows/templates/steps/install-flutter
+
+      - name: Set keystore file
+        run: |
+          base64 --decode ${{ secrets.ANDROID_KEYSTORE_FILE }} >> ${{ env.ANDROID_KEYSTORE_FILE_NAME }}
+          base64 --decode ${{ secrets.ANDROID_KEYSTORE_PROPERTIES_FILE }} >> ${{ env.ANDROID_KEYSTORE_PROPERTIES_FILE_NAME }}
+        working-directory: ${{ env.PROJECT_WORKING_DIRECTORY }}/android/app
+
+      - name: Set java version
+        uses: actions/setup-java@v2
+        with:
+          java-version: "11"
+
+      # TODO: Set secrets
+
+      - name: Run code generation
+        uses: ./.github/workflows/templates/steps/run-pub-get-and-code-generation
+        with:
+          generate_intl: "true"
+          working_directory: ${{ env.PROJECT_WORKING_DIRECTORY }}
+
+      - name: Build Android APK
+        run: fastlane build_android_release
+        working-directory: ${{ env.PROJECT_WORKING_DIRECTORY }}
+
+      - name: Publish Android APK
+        uses: actions/upload-artifact@v3
+        with:
+          name: android_build
+          path: ${{ env.PROJECT_WORKING_DIRECTORY }}/build/app/outputs/apk/release/app-release.apk
