@@ -43,6 +43,7 @@ jobs:
       - name: Set java version
         uses: actions/setup-java@v2
         with:
+          distribution: 'adopt'
           java-version: "11"
 
       # TODO: Set secrets
