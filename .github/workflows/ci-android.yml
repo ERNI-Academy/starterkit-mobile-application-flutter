@@ -23,7 +23,6 @@ env:
   PROJECT_WORKING_DIRECTORY: "erni_mobile"
   ANDROID_KEYSTORE_FILE_NAME: "ERNI Mobile Generic Keystore.keystore"
   ANDROID_KEYSTORE_PROPERTIES_FILE_NAME: "ERNI Mobile Generic Keystore.keystore.properties"
-  APP_ENVIRONMENT: ${{ inputs.target_environment }}
 
 jobs:
   build-apk:
@@ -55,8 +54,11 @@ jobs:
           working_directory: ${{ env.PROJECT_WORKING_DIRECTORY }}
 
       - name: Build Android APK
-        run: fastlane build_android_release
+        run: | 
+          fastlane build_android_release
         working-directory: ${{ env.PROJECT_WORKING_DIRECTORY }}
+        env:
+          APP_ENVIRONMENT: ${{ inputs.target_environment }}
 
       - name: Publish Android APK
         uses: actions/upload-artifact@v3
