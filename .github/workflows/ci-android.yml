@@ -15,11 +15,15 @@ on:
   pull_request:
     types: [opened, synchronize, reopened]
 
+concurrency: 
+  group: ${{ github.head_ref }}
+  cancel-in-progress: true
+
 env:
   PROJECT_WORKING_DIRECTORY: "erni_mobile"
   ANDROID_KEYSTORE_FILE_NAME: "ERNI Mobile Generic Keystore.keystore"
   ANDROID_KEYSTORE_PROPERTIES_FILE_NAME: "ERNI Mobile Generic Keystore.keystore.properties"
-  APP_ENVIRONMENT: ${{ parameters.target_environment }}
+  APP_ENVIRONMENT: ${{ inputs.target_environment }}
 
 jobs:
   build-apk:

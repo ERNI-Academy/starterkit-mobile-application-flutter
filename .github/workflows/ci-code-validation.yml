@@ -15,6 +15,10 @@ on:
   pull_request:
     types: [opened, synchronize, reopened]
 
+concurrency: 
+  group: ${{ github.head_ref }}
+  cancel-in-progress: true
+
 env:
   PROJECT_WORKING_DIRECTORY: "erni_mobile"
 
