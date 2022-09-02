@@ -54,11 +54,10 @@ jobs:
           working_directory: ${{ env.PROJECT_WORKING_DIRECTORY }}
 
       - name: Build Android APK
-        run: | 
+        run: |
+          export APP_ENVIRONMENT=${{ inputs.target_environment }}
           fastlane build_android_release
         working-directory: ${{ env.PROJECT_WORKING_DIRECTORY }}
-        env:
-          APP_ENVIRONMENT: ${{ inputs.target_environment }}
 
       - name: Publish Android APK
         uses: actions/upload-artifact@v3
