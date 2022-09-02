@@ -55,7 +55,7 @@ jobs:
 
       - name: Build Android APK
         run: |
-          export APP_ENVIRONMENT=${{ inputs.target_environment }}
+          export APP_ENVIRONMENT=dev
           fastlane build_android_release
         working-directory: ${{ env.PROJECT_WORKING_DIRECTORY }}
 
