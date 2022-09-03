@@ -35,7 +35,7 @@ jobs:
         run: |
           APP_ENVIRONMENT_VALUE=${{ github.event.inputs.target_environment }}
           if [[ -z "$APP_ENVIRONMENT_VALUE" ]]; then
-            $APP_ENVIRONMENT_VALUE=dev
+            APP_ENVIRONMENT_VALUE=dev
           fi
           echo "APP_ENVIRONMENT=$APP_ENVIRONMENT_VALUE" >> $GITHUB_ENV
           echo "SECRETS_FILE_KEY=${APP_ENVIRONMENT_VALUE}_secrets" >> $GITHUB_ENV
