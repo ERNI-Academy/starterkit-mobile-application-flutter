@@ -1,12 +1,15 @@
 name: Android Build
 
 on:
-  workflow_call:
+  workflow_dispatch:
     inputs:
-      target_environment:
-        type: string
+      choice:
         required: false
-        default: "dev"
+        type: choice
+        description: Select environment
+        default: dev
+        options:
+        - dev
 
   push:
     branches:
@@ -14,7 +17,7 @@ on:
 
   pull_request:
     types: [opened, synchronize, reopened]
-
+      
 concurrency: 
   group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
   cancel-in-progress: true
@@ -23,13 +26,22 @@ env:
   PROJECT_WORKING_DIRECTORY: "erni_mobile"
   ANDROID_KEYSTORE_FILE_NAME: "ERNI Mobile Generic Keystore.keystore"
   ANDROID_KEYSTORE_PROPERTIES_FILE_NAME: "ERNI Mobile Generic Keystore.keystore.properties"
-  APP_ENVIRONMENT: ${{ github.event.inputs.target_environment }}
-  SECRETS_FILE_KEY: ${{ github.event.inputs.target_environment }}_secrets
 
 jobs:
   build-apk:
     runs-on: macos-latest
     steps:
+      - name: Set secrets
+        run: |
+          APP_ENVIRONMENT_VALUE=${{ github.event.inputs.target_environment }}
+          if [[ -z "$APP_ENVIRONMENT_VALUE" ]]; then
+            $APP_ENVIRONMENT_VALUE=dev
+          fi
+          echo "APP_ENVIRONMENT=$APP_ENVIRONMENT_VALUE" >> $GITHUB_ENV
+          echo "SECRETS_FILE_KEY=${APP_ENVIRONMENT_VALUE}_secrets" >> $GITHUB_ENV
+          echo ${{ env.APP_ENVIRONMENT }}
+          echo ${{ env.SECRETS_FILE_KEY}}
+
       - uses: actions/checkout@v3
 
       - name: Install Flutter
@@ -44,7 +56,7 @@ jobs:
       - name: Set secrets file
         run: |
           mkdir .secrets
-          echo -n "${{ secrets[env.SECRETS_FILE_KEY] }}" | base64 --decode > "${{ env.APP_ENVIRONMENT  }}".secrets
+          echo -n "${{ secrets[env.SECRETS_FILE_KEY] }}" | base64 --decode > ${{ env.APP_ENVIRONMENT  }}.secrets
         working-directory: ${{ env.PROJECT_WORKING_DIRECTORY }}/android/app
 
       - name: Set java version

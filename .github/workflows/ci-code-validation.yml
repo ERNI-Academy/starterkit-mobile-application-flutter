@@ -1,12 +1,15 @@
 name: Code Validation
 
 on:
-  workflow_call:
+  workflow_dispatch:
     inputs:
-      target_environment:
-        type: string
+      choice:
         required: false
-        default: "dev"
+        type: choice
+        description: Select environment
+        default: dev
+        options:
+        - dev
 
   push:
     branches:
