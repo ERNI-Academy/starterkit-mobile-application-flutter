@@ -31,7 +31,9 @@ jobs:
   build-apk:
     runs-on: macos-latest
     steps:
-      - name: Set secrets
+      - uses: actions/checkout@v3
+
+      - name: Set app environment
         run: |
           APP_ENVIRONMENT_VALUE=${{ github.event.inputs.target_environment }}
           if [[ -z "$APP_ENVIRONMENT_VALUE" ]]; then
@@ -39,13 +41,12 @@ jobs:
           fi
           echo "APP_ENVIRONMENT=$APP_ENVIRONMENT_VALUE" >> $GITHUB_ENV
           echo "SECRETS_FILE_KEY=${APP_ENVIRONMENT_VALUE}_secrets" >> $GITHUB_ENV
-          echo ${{ env.APP_ENVIRONMENT }}
-          echo ${{ env.SECRETS_FILE_KEY}}
-
-      - uses: actions/checkout@v3
-
-      - name: Install Flutter
-        uses: ./.github/workflows/templates/steps/install-flutter
+      
+      - name: Set secrets file
+        run: |
+          mkdir .secrets
+          echo -n "${{ secrets[env.SECRETS_FILE_KEY] }}" | base64 --decode > .secrets/${{ env.APP_ENVIRONMENT  }}.secrets
+        working-directory: ${{ env.PROJECT_WORKING_DIRECTORY }}
 
       - name: Set keystore file
         run: |
@@ -53,11 +54,8 @@ jobs:
           echo -n "${{ secrets.ANDROID_KEYSTORE_PROPERTIES_FILE }}" | base64 --decode > "${{ env.ANDROID_KEYSTORE_PROPERTIES_FILE_NAME }}"
         working-directory: ${{ env.PROJECT_WORKING_DIRECTORY }}/android/app
 
-      - name: Set secrets file
-        run: |
-          mkdir .secrets
-          echo -n "${{ secrets[env.SECRETS_FILE_KEY] }}" | base64 --decode > ${{ env.APP_ENVIRONMENT  }}.secrets
-        working-directory: ${{ env.PROJECT_WORKING_DIRECTORY }}/android/app
+      - name: Install Flutter
+        uses: ./.github/workflows/templates/steps/install-flutter
 
       - name: Set java version
         uses: actions/setup-java@v2
