@@ -34,11 +34,16 @@ jobs:
       - uses: actions/checkout@v3
 
       - name: Set app environment
-        uses: ./.github/workflows/templates/steps/set-app-environment-and-secrets
+        uses: ./.github/workflows/templates/steps/set-app-environment
         with:
           target_environment: ${{ github.event.inputs.target_environment }}
-          secrets: ${{ secrets }}
-          working_directory: ${{ env.PROJECT_WORKING_DIRECTORY }}
+      
+      - name: Set secrets file
+        run: |
+          chmod +x ./scripts/set_secrets_file.sh
+          ./scripts/set_secrets_file.sh ${{ secrets[env.SECRETS_FILE_KEY] }} ${{ env.APP_ENVIRONMENT }}
+        shell: bash
+        working-directory: ${{ env.PROJECT_WORKING_DIRECTORY }}
 
       - name: Set keystore file
         run: |
