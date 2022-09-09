@@ -37,6 +37,7 @@ jobs:
         uses: ./.github/workflows/templates/steps/set-app-environment-and-secrets
         with:
           target_environment: ${{ github.event.inputs.target_environment }}
+          secrets: ${{ secrets }}
           working_directory: ${{ env.PROJECT_WORKING_DIRECTORY }}
 
       - name: Set keystore file

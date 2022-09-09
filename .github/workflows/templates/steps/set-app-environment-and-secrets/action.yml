@@ -5,6 +5,9 @@ inputs:
   target_environment:
     description: 'The target environment'
     default: dev
+  secrets:
+    description: 'The secrets'
+    required: true
   working_directory:
     description: 'The working directory'
     required: true
@@ -21,6 +24,6 @@ runs:
     - run: |
         rm -d -R .secrets
         mkdir .secrets
-        echo -n "${{ secrets[env.SECRETS_FILE_KEY] }}" | base64 --decode > .secrets/${{ env.APP_ENVIRONMENT  }}.secrets
+        echo -n "${{ inputs.secrets[env.SECRETS_FILE_KEY] }}" | base64 --decode > .secrets/${{ env.APP_ENVIRONMENT  }}.secrets
       shell: bash
       working-directory: ${{ inputs.working_directory }}
