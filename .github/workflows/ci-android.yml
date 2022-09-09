@@ -34,20 +34,10 @@ jobs:
       - uses: actions/checkout@v3
 
       - name: Set app environment
-        run: |
-          APP_ENVIRONMENT_VALUE=${{ github.event.inputs.target_environment }}
-          if [[ -z "$APP_ENVIRONMENT_VALUE" ]]; then
-            APP_ENVIRONMENT_VALUE=dev
-          fi
-          echo "APP_ENVIRONMENT=$APP_ENVIRONMENT_VALUE" >> $GITHUB_ENV
-          echo "SECRETS_FILE_KEY=${APP_ENVIRONMENT_VALUE}_secrets" >> $GITHUB_ENV
-      
-      - name: Set secrets file
-        run: |
-          rm -d -R .secrets
-          mkdir .secrets
-          echo -n "${{ secrets[env.SECRETS_FILE_KEY] }}" | base64 --decode > .secrets/${{ env.APP_ENVIRONMENT  }}.secrets
-        working-directory: ${{ env.PROJECT_WORKING_DIRECTORY }}
+        uses: ./.github/workflows/templates/steps/set-app-environment-and-secrets
+        with:
+          target_environment: ${{ github.event.inputs.target_environment }}
+          working_directory: ${{ env.PROJECT_WORKING_DIRECTORY }}
 
       - name: Set keystore file
         run: |

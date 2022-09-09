@@ -4,12 +4,10 @@ description: Gets pub packages and runs build_runner for code generation
 inputs:
   generate_intl:
     description: 'Whether to run generation of localization files'
-    required: true
     default: 'false'
   working_directory:
     description: 'The working directory'
     required: true
-    default: 'false'
 
 runs:
   using: composite
