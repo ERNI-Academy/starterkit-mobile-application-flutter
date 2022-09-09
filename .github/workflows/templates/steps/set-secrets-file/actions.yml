@@ -1,0 +1,23 @@
+name: Set secrets file
+description: Sets the secrets file
+
+inputs:
+  secrets_file_value:
+    description: 'The base64 encoded secrets file value'
+    required: true
+  app_environment:
+    description: 'The app environment'
+    required: true
+  working_directory:
+    description: 'The working directory'
+    required: true
+
+runs:
+  using: composite
+  steps:
+    - run: |
+        rm -d -R .secrets
+        mkdir .secrets
+        echo -n "${{ inputs.secrets_file_value }}" | base64 --decode > .secrets/${{ inputs.app_environment }}.secrets
+      shell: bash
+      working-directory: ${{ inputs.working_directory }}

@@ -39,11 +39,11 @@ jobs:
           target_environment: ${{ github.event.inputs.target_environment }}
       
       - name: Set secrets file
-        run: |
-          chmod +x ./../scripts/set_secrets_file.sh
-          ./../scripts/set_secrets_file.sh ${{ secrets[env.SECRETS_FILE_KEY] }} ${{ env.APP_ENVIRONMENT }}
-        shell: bash
-        working-directory: ${{ env.PROJECT_WORKING_DIRECTORY }}
+        uses: ./.github/workflows/templates/steps/set-secrets-file
+        with:
+          secrets_file_value: ${{ secrets[env.SECRETS_FILE_KEY] }}
+          app_environment: ${{ env.APP_ENVIRONMENT }}
+          working_directory: ${{ env.PROJECT_WORKING_DIRECTORY }}
 
       - name: Set keystore file
         run: |
