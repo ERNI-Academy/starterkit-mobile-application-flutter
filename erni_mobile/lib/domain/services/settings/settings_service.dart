@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:erni_mobile/business/models/settings/settings_changed_model.dart';
 import 'package:erni_mobile/domain/models/json/json_encodable.dart';
-import 'package:erni_mobile/domain/services/json/json_service.dart';
+import 'package:erni_mobile/domain/services/json/json_converter.dart';
 
 abstract class SettingsService {
   Stream<SettingsChangedModel> get settingsChanged;

@@ -7,10 +7,10 @@ import 'package:erni_mobile/ui/views/view_mixin.dart';
 import 'package:erni_mobile/ui/widgets/widgets.dart';
 
 class UpdateAppSettingsView extends StatelessWidget with ViewMixin<UpdateAppSettingsViewModel> {
-  UpdateAppSettingsView({Key? key}) : super(key: key);
+  const UpdateAppSettingsView({Key? key}) : super(key: key);
 
   @override
-  Widget buildView(BuildContext context) {
+  Widget buildView(BuildContext context, UpdateAppSettingsViewModel viewModel) {
     return Column(
       children: [
         ListTile(

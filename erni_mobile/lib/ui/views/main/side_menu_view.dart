@@ -11,7 +11,7 @@ class SideMenuView extends StatelessWidget with ViewMixin<SideMenuViewModel> {
   final void Function(DrawerMenuModel) navigatableMenuSelected;
 
   @override
-  Widget buildView(BuildContext context) {
+  Widget buildView(BuildContext context, SideMenuViewModel viewModel) {
     return AdaptiveStatusBar(
       referenceColor: context.materialTheme.colorScheme.surface,
       child: Drawer(
@@ -23,7 +23,7 @@ class SideMenuView extends StatelessWidget with ViewMixin<SideMenuViewModel> {
                   (m) {
                     return _MenuTile(
                       menu: m,
-                      onTap: () => _onMenuTileTap(m),
+                      onTap: () => _onMenuTileTap(m, viewModel.menuTapCommand),
                     );
                   },
                 ).toList(),
@@ -35,8 +35,8 @@ class SideMenuView extends StatelessWidget with ViewMixin<SideMenuViewModel> {
     );
   }
 
-  Future<void> _onMenuTileTap(DrawerMenuModel menu) async {
-    final shouldNavigate = await viewModel.menuTapCommand(menu) ?? false;
+  Future<void> _onMenuTileTap(DrawerMenuModel menu, Future<bool?> Function(DrawerMenuModel) onTap) async {
+    final shouldNavigate = await onTap(menu) ?? false;
 
     if (shouldNavigate) {
       navigatableMenuSelected(menu);

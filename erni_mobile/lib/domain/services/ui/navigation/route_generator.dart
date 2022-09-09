@@ -1,32 +1,21 @@
-import 'package:erni_mobile/domain/services/ui/navigation/navigation_parameter_wrapper.dart';
+import 'package:erni_mobile/business/models/ui/navigation_options.dart';
 import 'package:erni_mobile/domain/services/ui/navigation/view_locator.dart';
 import 'package:erni_mobile/ui/widgets/widgets.dart';
-import 'package:injectable/injectable.dart';
 import 'package:page_transition/page_transition.dart';
 
 abstract class RouteGenerator {
-  Route<Object> onGenerateRoute(RouteSettings settings);
-}
-
-@LazySingleton(as: RouteGenerator)
-class RouteGeneratorImpl implements RouteGenerator {
-  RouteGeneratorImpl(this._viewLocator);
-
-  final ViewLocator _viewLocator;
-
-  @override
-  Route<Object> onGenerateRoute(RouteSettings settings) {
+  static Route<Object> onGenerateRoute(RouteSettings settings) {
     final routeName = settings.name;
 
     if (routeName == null) {
       throw StateError('routeName is null');
     }
 
-    final isRouteRegistered = _viewLocator.isViewRegistered(routeName);
+    final isRouteRegistered = ViewLocator.isViewRegistered(routeName);
 
     if (isRouteRegistered) {
-      final view = _viewLocator.getView(routeName);
-      final navigationParameter = settings.arguments as NavigationParameterWrapper?;
+      final view = ViewLocator.getView(routeName);
+      final navigationParameter = settings.arguments as NavigationOptions?;
       final newSettings = RouteSettings(name: routeName, arguments: navigationParameter?.argument);
 
       if (navigationParameter?.isRoot == true) {

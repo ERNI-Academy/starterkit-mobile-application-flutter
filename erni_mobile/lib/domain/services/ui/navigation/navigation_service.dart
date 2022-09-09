@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:erni_mobile/domain/services/ui/navigation/navigation_parameter_wrapper.dart';
+import 'package:erni_mobile/business/models/ui/navigation_options.dart';
 import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart';
 
@@ -8,6 +8,8 @@ typedef Queries = Map<String, String>;
 
 abstract class NavigationService {
   static final navigatorKey = GlobalKey<NavigatorState>();
+
+  static final RouteObserver<ModalRoute> navigationObserverRegistrar = RouteObserver<ModalRoute>();
 
   String? get currentRoute;
 
@@ -86,7 +88,7 @@ class NavigationServiceImpl implements NavigationService {
     final routeUri = _createRouteUri(routeName, queries);
     final result = await _navigator.pushNamed(
       routeUri.toString(),
-      arguments: NavigationParameterWrapper(parameter, isFullScreenDialog: isFullScreenDialog),
+      arguments: NavigationOptions(parameter, isFullScreenDialog: isFullScreenDialog),
     ) as T?;
 
     return result;
@@ -104,7 +106,7 @@ class NavigationServiceImpl implements NavigationService {
     final result = await _navigator.pushNamedAndRemoveUntil(
       routeUri.toString(),
       ModalRoute.withName(removeUntil),
-      arguments: NavigationParameterWrapper(parameter, isFullScreenDialog: isFullScreenDialog),
+      arguments: NavigationOptions(parameter, isFullScreenDialog: isFullScreenDialog),
     ) as T?;
 
     return result;
@@ -124,7 +126,7 @@ class NavigationServiceImpl implements NavigationService {
       _navigator.pushNamedAndRemoveUntil(
         routeUri.toString(),
         (_) => false,
-        arguments: NavigationParameterWrapper(parameter, isRoot: true, isFullScreenDialog: isFullScreenDialog),
+        arguments: NavigationOptions(parameter, isRoot: true, isFullScreenDialog: isFullScreenDialog),
       ),
     );
   }
@@ -140,7 +142,7 @@ class NavigationServiceImpl implements NavigationService {
     final routeUri = _createRouteUri(routeName, queries);
     final navigationResult = await _navigator.pushReplacementNamed(
       routeUri.toString(),
-      arguments: NavigationParameterWrapper(parameter, isFullScreenDialog: isFullScreenDialog),
+      arguments: NavigationOptions(parameter, isFullScreenDialog: isFullScreenDialog),
       result: result,
     ) as T?;
 

@@ -1,5 +1,5 @@
 import 'package:drift/drift.dart';
-import 'package:erni_mobile/data/database/data_table.dart';
+import 'package:erni_mobile/domain/models/data/data_table.dart';
 import 'package:meta/meta.dart';
 
 abstract class Repository<TTable extends DataTable, TDataObject extends Insertable<TDataObject>> {

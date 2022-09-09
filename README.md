@@ -5,8 +5,7 @@ ERNI Academy mobile boilerplate to start a cross-platform Flutter mobile applica
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
-[![Code Validation](https://github.com/ERNI-Academy/starterkit-mobile-application-flutter/actions/workflows/ci-code-validation.yml/badge.svg?branch=main)](https://github.com/ERNI-Academy/starterkit-mobile-application-flutter/actions/workflows/ci-code-validation.yml)
-
+[![Code Validation](https://github.com/ERNI-Academy/starterkit-mobile-application-flutter/actions/workflows/ci-code-validation.yml/badge.svg?branch=main)](https://github.com/ERNI-Academy/starterkit-mobile-application-flutter/actions/workflows/ci-code-validation.yml) [![Android Build](https://github.com/ERNI-Academy/starterkit-mobile-application-flutter/actions/workflows/ci-android.yml/badge.svg)](https://github.com/ERNI-Academy/starterkit-mobile-application-flutter/actions/workflows/ci-android.yml)
 ## Built With
 
 - [Flutter](https://flutter.dev)
@@ -21,6 +20,9 @@ ERNI Academy mobile boilerplate to start a cross-platform Flutter mobile applica
 
 **Flutter**
 - v3.3.0+ on stable channel
+
+**Dart**
+- v2.17.0+
 
 **Visual Studio Code**
 - [Download VS Code](https://code.visualstudio.com/download)
@@ -42,7 +44,7 @@ ERNI Academy mobile boilerplate to start a cross-platform Flutter mobile applica
 - Note that **Visual Studio** is different from **Visual Studio *Code***
   
 **Web**
-- Any browser capable of debugging, but preferrably chrome-based browsers
+- Any browser capable of debugging, but preferably chrome-based browsers
 
 ## Installation
 
@@ -57,8 +59,9 @@ ERNI Academy mobile boilerplate to start a cross-platform Flutter mobile applica
     ```sh
     flutter pub get
     ```
+3. Set secrets file (TODO)
 
-3. Run code generation
+4. Run code generation
 
     ```sh
     # Run this command one time

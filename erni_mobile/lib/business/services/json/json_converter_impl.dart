@@ -1,10 +1,12 @@
+// coverage:ignore-file
+
 import 'dart:convert';
 
-import 'package:erni_mobile/domain/services/json/json_service.dart';
+import 'package:erni_mobile/domain/services/json/json_converter.dart';
 import 'package:injectable/injectable.dart';
 
-@LazySingleton(as: JsonService)
-class JsonServiceImpl implements JsonService {
+@LazySingleton(as: JsonConverter)
+class JsonConverterImpl implements JsonConverter {
   @override
   T? decodeToObject<T extends Object>(
     String decodable, {

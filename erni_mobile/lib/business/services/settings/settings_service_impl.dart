@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:erni_mobile/business/models/settings/settings_changed_model.dart';
 import 'package:erni_mobile/domain/models/json/json_encodable.dart';
-import 'package:erni_mobile/domain/services/json/json_service.dart';
+import 'package:erni_mobile/domain/services/json/json_converter.dart';
 import 'package:erni_mobile/domain/services/settings/settings_service.dart';
 import 'package:injectable/injectable.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -10,19 +10,19 @@ import 'package:shared_preferences/shared_preferences.dart';
 @LazySingleton(as: SettingsService)
 @preResolve
 class SettingsServiceImpl implements SettingsService {
-  SettingsServiceImpl(this._prefs, this._jsonService) {
+  SettingsServiceImpl(this._prefs, this._jsonConverter) {
     settingsChanged = _streamController.stream;
   }
 
   final StreamController<SettingsChangedModel> _streamController = StreamController.broadcast();
-  final JsonService _jsonService;
+  final JsonConverter _jsonConverter;
   final SharedPreferences _prefs;
 
   @override
   late final Stream<SettingsChangedModel> settingsChanged;
 
   @factoryMethod
-  static Future<SettingsServiceImpl> create(JsonService jsonService) async {
+  static Future<SettingsServiceImpl> create(JsonConverter jsonService) async {
     final prefs = await SharedPreferences.getInstance();
 
     return SettingsServiceImpl(prefs, jsonService);
@@ -40,7 +40,7 @@ class SettingsServiceImpl implements SettingsService {
     final value = _prefs.get(key) as String?;
 
     if (value != null) {
-      return _jsonService.decodeToObject<T>(value, converter: converter);
+      return _jsonConverter.decodeToObject<T>(value, converter: converter);
     }
 
     return defaultValue;
@@ -59,7 +59,7 @@ class SettingsServiceImpl implements SettingsService {
 
   @override
   Future<bool> addOrUpdateObject(String key, JsonEncodable value) async {
-    final encoded = _jsonService.encode(value);
+    final encoded = _jsonConverter.encode(value);
     final didUpdate = await _tryAddOrUpdateValue(key, encoded);
 
     if (didUpdate && !_streamController.isClosed) {

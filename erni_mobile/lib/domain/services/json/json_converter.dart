@@ -1,6 +1,6 @@
 typedef JsonConverterCallback<T> = T? Function(Map<String, dynamic> json);
 
-abstract class JsonService {
+abstract class JsonConverter {
   T? decodeToObject<T extends Object>(
     String decodable, {
     required JsonConverterCallback<T> converter,

@@ -1,13 +1,13 @@
 import 'dart:async';
 
 import 'package:connectivity_plus/connectivity_plus.dart';
-import 'package:erni_mobile/domain/services/platform/connectivity_util.dart';
+import 'package:erni_mobile/domain/services/platform/connectivity_checker.dart';
 import 'package:injectable/injectable.dart';
 
-@Singleton(as: ConnectivityUtil)
+@Singleton(as: ConnectivityChecker)
 @preResolve
-class ConnectivityUtilImpl implements ConnectivityUtil {
-  ConnectivityUtilImpl(this._currentState, this._connectivityStreamCtrl) {
+class ConnectivityCheckerImpl implements ConnectivityChecker {
+  ConnectivityCheckerImpl(this._currentState, this._connectivityStreamCtrl) {
     _connectivitySubscription = _connectivityStreamCtrl.stream.listen((event) {
       _currentState = event;
     });
@@ -18,7 +18,7 @@ class ConnectivityUtilImpl implements ConnectivityUtil {
   ConnectivityResult _currentState;
 
   @factoryMethod
-  static Future<ConnectivityUtilImpl> create() async {
+  static Future<ConnectivityCheckerImpl> create() async {
     final connectivity = Connectivity();
     final completer = Completer<ConnectivityResult>();
     // ignore: close_sinks
@@ -32,7 +32,7 @@ class ConnectivityUtilImpl implements ConnectivityUtil {
     final state =
         await completer.future.timeout(const Duration(milliseconds: 500), onTimeout: connectivity.checkConnectivity);
 
-    return ConnectivityUtilImpl(state, streamCtrl);
+    return ConnectivityCheckerImpl(state, streamCtrl);
   }
 
   @override

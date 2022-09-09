@@ -1,35 +1,28 @@
 // ignore_for_file: avoid-unused-parameters
 
 import 'package:erni_mobile/dependency_injection.dart';
-import 'package:erni_mobile/domain/services/ui/navigation/navigation_observer_registrar.dart';
+import 'package:erni_mobile/domain/services/ui/navigation/navigation_service.dart';
 import 'package:erni_mobile/ui/view_models/app_lifecycle_aware_mixin.dart';
 import 'package:erni_mobile/ui/view_models/route_aware_mixin.dart';
 import 'package:erni_mobile/ui/view_models/view_model.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
 
 /// Configures a [StatelessWidget] or [State] as a view.
 ///
 /// This will locate and initialize the view model [TViewModel], then it can be used to build the layout.
-mixin ViewMixin<TViewModel extends ViewModel> {
-  final _ViewDependencies<TViewModel> _viewDependencies = _ViewDependencies<TViewModel>();
-
-  @protected
-  @nonVirtual
-  TViewModel get viewModel => _viewDependencies.viewModel;
-
+abstract class ViewMixin<TViewModel extends ViewModel> {
   @mustCallSuper
   Widget build(BuildContext context) {
     return ListenableProvider<TViewModel>(
       create: (_) => onCreateViewModel(context),
       dispose: onDisposeViewModel,
       builder: (context, child) {
-        _viewDependencies.viewModel = context.watch<TViewModel>();
+        final viewModel = context.watch<TViewModel>();
 
         return WillPopScope(
           onWillPop: viewModel.onWillPop,
-          child: buildView(context),
+          child: buildView(context, viewModel),
         );
       },
     );
@@ -43,12 +36,12 @@ mixin ViewMixin<TViewModel extends ViewModel> {
   void onDisposeViewModel(BuildContext context, TViewModel viewModel) {
     viewModel.dispose();
 
-    if (_viewDependencies.routeAwareWrapper != null) {
-      NavigationObserverRegistrar.instance.unsubscribe(_viewDependencies.routeAwareWrapper!);
+    if (viewModel is RouteAwareMixin) {
+      NavigationService.navigationObserverRegistrar.unsubscribe(viewModel as RouteAwareMixin);
     }
 
-    if (_viewDependencies.widgetsBindingObserverWrapper != null) {
-      WidgetsBinding.instance.removeObserver(_viewDependencies.widgetsBindingObserverWrapper!);
+    if (viewModel is AppLifeCycleAwareMixin) {
+      WidgetsBinding.instance.removeObserver(viewModel as AppLifeCycleAwareMixin);
     }
   }
 
@@ -64,25 +57,23 @@ mixin ViewMixin<TViewModel extends ViewModel> {
     final route = ModalRoute.of(context);
 
     if (route != null && viewModel is RouteAwareMixin) {
-      _viewDependencies.routeAwareWrapper = RouteAwareWrapper(viewModel as RouteAwareMixin);
-      NavigationObserverRegistrar.instance.subscribe(_viewDependencies.routeAwareWrapper!, route);
+      NavigationService.navigationObserverRegistrar.subscribe(viewModel as RouteAwareMixin, route);
     }
 
     // Add binding observer
     if (viewModel is AppLifeCycleAwareMixin) {
-      _viewDependencies.widgetsBindingObserverWrapper =
-          WidgetsBindingObserverWrapper(viewModel as AppLifeCycleAwareMixin);
-      WidgetsBinding.instance.addObserver(_viewDependencies.widgetsBindingObserverWrapper!);
+      WidgetsBinding.instance.addObserver(viewModel as AppLifeCycleAwareMixin);
     }
 
     _initializeViewModel(viewModel, route?.settings.name, route?.settings.arguments);
+    WidgetsBinding.instance.addPostFrameCallback((_) => viewModel.onFirstRender());
 
-    return _viewDependencies.viewModel = viewModel;
+    return viewModel;
   }
 
   /// Builds the layout of this view.
   @protected
-  Widget buildView(BuildContext context);
+  Widget buildView(BuildContext context, TViewModel viewModel);
 
   static void _initializeViewModel<TViewModel extends ViewModel>(
     TViewModel viewModel,
@@ -103,28 +94,22 @@ mixin ViewMixin<TViewModel extends ViewModel> {
 /// Configures a [StatelessWidget] or [State] as a child view of another.
 ///
 /// Provides the view model [TViewModel] that is located in the parent view.
-mixin ChildViewMixin<TViewModel extends ViewModel> {
-  final _ViewDependencies<TViewModel> _viewDependencies = _ViewDependencies<TViewModel>();
-
-  @protected
-  @nonVirtual
-  TViewModel get viewModel => _viewDependencies.viewModel;
-
+abstract class ChildViewMixin<TViewModel extends ViewModel> {
   @mustCallSuper
   Widget build(BuildContext context) {
     return ListenableProvider(
       create: onCreateViewModel,
       builder: (context, child) {
-        _viewDependencies.viewModel = context.watch<TViewModel>();
+        final viewModel = context.watch<TViewModel>();
 
-        return buildView(context);
+        return buildView(context, viewModel);
       },
     );
   }
 
   /// Called when [ChangeNotifier.dispose] was called by the view model.
   @protected
-  void onDisposeViewModel(TViewModel viewModel) => Future<void>.value();
+  void onDisposeViewModel(BuildContext context, TViewModel viewModel) => Future<void>.value();
 
   /// Uses [Provider.of] for looking up the widget tree for closest view model of the exact type.
   @protected
@@ -135,7 +120,7 @@ mixin ChildViewMixin<TViewModel extends ViewModel> {
     if (!viewModel.isDisposed.value) {
       void onDispose() {
         if (viewModel.isDisposed.value) {
-          onDisposeViewModel(viewModel);
+          onDisposeViewModel(context, viewModel);
           viewModel.isDisposed.removeListener(onDispose);
         }
       }
@@ -143,16 +128,10 @@ mixin ChildViewMixin<TViewModel extends ViewModel> {
       viewModel.isDisposed.addListener(onDispose);
     }
 
-    return _viewDependencies.viewModel = viewModel;
+    return viewModel;
   }
 
   /// Builds the layout of this view.
   @protected
-  Widget buildView(BuildContext context);
-}
-
-class _ViewDependencies<T extends ViewModel> {
-  RouteAwareWrapper? routeAwareWrapper;
-  WidgetsBindingObserverWrapper? widgetsBindingObserverWrapper;
-  late T viewModel;
+  Widget buildView(BuildContext context, TViewModel viewModel);
 }

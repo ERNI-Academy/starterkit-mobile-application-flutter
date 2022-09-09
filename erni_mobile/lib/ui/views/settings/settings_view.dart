@@ -8,17 +8,17 @@ import 'package:erni_mobile/ui/views/view_mixin.dart';
 import 'package:erni_mobile/ui/widgets/widgets.dart';
 
 class SettingsView extends StatelessWidget with ViewMixin<SettingsViewModel> {
-  SettingsView({Key? key}) : super(key: key);
+  const SettingsView({Key? key}) : super(key: key);
 
   @override
-  Widget buildView(BuildContext context) {
+  Widget buildView(BuildContext context, SettingsViewModel viewModel) {
     return Scaffold(
       body: ListView(
         children: [
           ListTile(subtitle: _ListSectionTitle(Il8n.of(context).settingsAppSectionTitle)),
-          UpdateAppSettingsView(),
+          const UpdateAppSettingsView(),
           ListTile(subtitle: _ListSectionTitle(Il8n.of(context).settingsAccountSectionTitle)),
-          AccountSettingsView(),
+          const AccountSettingsView(),
         ],
       ),
     );

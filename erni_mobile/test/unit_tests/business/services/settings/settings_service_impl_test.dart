@@ -4,7 +4,7 @@ import 'package:erni_mobile/business/models/settings/language_code.dart';
 import 'package:erni_mobile/business/models/settings/language_entity.dart';
 import 'package:erni_mobile/business/models/settings/settings_changed_model.dart';
 import 'package:erni_mobile/business/services/settings/settings_service_impl.dart';
-import 'package:erni_mobile/domain/services/json/json_service.dart';
+import 'package:erni_mobile/domain/services/json/json_converter.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
@@ -15,19 +15,19 @@ import 'settings_service_impl_test.mocks.dart';
 
 @GenerateMocks([
   SharedPreferences,
-  JsonService,
+  JsonConverter,
 ])
 void main() {
   group(SettingsServiceImpl, () {
-    late MockJsonService mockJsonService;
+    late MockJsonConverter mockJsonConverter;
     late MockSharedPreferences mockSharedPrefs;
 
     setUp(() {
-      mockJsonService = MockJsonService();
+      mockJsonConverter = MockJsonConverter();
       mockSharedPrefs = MockSharedPreferences();
     });
 
-    SettingsServiceImpl createUnitToTest() => SettingsServiceImpl(mockSharedPrefs, mockJsonService);
+    SettingsServiceImpl createUnitToTest() => SettingsServiceImpl(mockSharedPrefs, mockJsonConverter);
 
     test('getValue should return value of key from shared prefs when called', () {
       // Arrange
@@ -65,7 +65,7 @@ void main() {
       const expectedDecodedValue = LanguageEntity(LanguageCode.en);
       when(mockSharedPrefs.get(expectedKey)).thenReturn(expectedValue);
       when(
-        mockJsonService.decodeToObject<LanguageEntity>(
+        mockJsonConverter.decodeToObject<LanguageEntity>(
           expectedValue,
           converter: anyInstanceOf<JsonConverterCallback<LanguageEntity>>(named: 'converter'),
         ),
@@ -156,14 +156,14 @@ void main() {
       const expectedKey = 'key';
       const expectedValue = LanguageEntity(LanguageCode.en);
       const expectedEncodedValue = 'value';
-      when(mockJsonService.encode(expectedValue)).thenReturn(expectedEncodedValue);
+      when(mockJsonConverter.encode(expectedValue)).thenReturn(expectedEncodedValue);
       when(mockSharedPrefs.setString(expectedKey, expectedEncodedValue)).thenAnswer((_) => Future.value(true));
 
       // Act
       await unitToTest.addOrUpdateObject(expectedKey, expectedValue);
 
       // Assert
-      verify(mockJsonService.encode(expectedValue)).called(1);
+      verify(mockJsonConverter.encode(expectedValue)).called(1);
       verify(mockSharedPrefs.setString(expectedKey, expectedEncodedValue)).called(1);
     });
 
@@ -176,7 +176,7 @@ void main() {
         const expectedKey = 'key';
         const expectedValue = LanguageEntity(LanguageCode.en);
         const expectedEncodedValue = 'value';
-        when(mockJsonService.encode(expectedValue)).thenReturn(expectedEncodedValue);
+        when(mockJsonConverter.encode(expectedValue)).thenReturn(expectedEncodedValue);
         when(mockSharedPrefs.setString(expectedKey, expectedEncodedValue)).thenAnswer((_) => Future.value(true));
 
         // Act
@@ -199,7 +199,7 @@ void main() {
         const expectedKey = 'key';
         const expectedValue = LanguageEntity(LanguageCode.en);
         const expectedEncodedValue = 'value';
-        when(mockJsonService.encode(expectedValue)).thenReturn(expectedEncodedValue);
+        when(mockJsonConverter.encode(expectedValue)).thenReturn(expectedEncodedValue);
         when(mockSharedPrefs.setString(expectedKey, expectedEncodedValue)).thenAnswer((_) => Future.value(false));
 
         // Act

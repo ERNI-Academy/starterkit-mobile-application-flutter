@@ -1,29 +1,15 @@
 import 'package:flutter/widgets.dart';
 
-mixin RouteAwareMixin {
+mixin RouteAwareMixin implements RouteAware {
+  @override
   Future<void> didPop() => Future.value();
 
+  @override
   Future<void> didPush() => Future.value();
 
+  @override
   Future<void> didPushNext() => Future.value();
 
+  @override
   Future<void> didPopNext() => Future.value();
-}
-
-class RouteAwareWrapper implements RouteAware {
-  RouteAwareWrapper(this._routeAwareMixin);
-
-  final RouteAwareMixin _routeAwareMixin;
-
-  @override
-  void didPop() => _routeAwareMixin.didPop();
-
-  @override
-  void didPush() => _routeAwareMixin.didPush();
-
-  @override
-  void didPushNext() => _routeAwareMixin.didPushNext();
-
-  @override
-  void didPopNext() => _routeAwareMixin.didPopNext();
 }

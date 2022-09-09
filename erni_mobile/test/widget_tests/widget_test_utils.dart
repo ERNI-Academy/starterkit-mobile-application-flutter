@@ -37,13 +37,13 @@ extension WidgetTesterExtension on WidgetTester {
   }
 }
 
-extension _DeviceExtension on Device {
-  Device landscape() => Device(size: Size(size.height, size.width), name: name.replaceAll('portrait', 'landscape'));
-}
-
 abstract class Devices {
   // Computed according to https://material.io/blog/device-metrics
   static const pixel6 = Device(size: Size(420.56, 934.58), name: 'pixel6_portrait');
   static const iphone8 = Device(size: Size(368.1, 654.72), name: 'iphone8_portrait');
   static final all = [pixel6, pixel6.landscape(), iphone8, iphone8.landscape()];
+}
+
+extension _DeviceExtension on Device {
+  Device landscape() => Device(size: Size(size.height, size.width), name: name.replaceAll('portrait', 'landscape'));
 }

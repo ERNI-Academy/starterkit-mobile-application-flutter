@@ -6,10 +6,10 @@ import 'package:erni_mobile/ui/views/view_mixin.dart';
 import 'package:erni_mobile/ui/widgets/widgets.dart';
 
 class AccountSettingsView extends StatelessWidget with ViewMixin<AccountSettingsViewModel> {
-  AccountSettingsView({Key? key}) : super(key: key);
+  const AccountSettingsView({Key? key}) : super(key: key);
 
   @override
-  Widget buildView(BuildContext context) {
+  Widget buildView(BuildContext context, AccountSettingsViewModel viewModel) {
     return Column(
       children: [
         ListTile(

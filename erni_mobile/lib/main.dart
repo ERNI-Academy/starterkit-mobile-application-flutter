@@ -12,7 +12,7 @@ Future<void> main() async {
   await registerDependencies();
   await Il8n.load(const Locale('en'));
   runZonedGuarded(
-    () => runApp(App()),
+    () => runApp(const App()),
     (ex, st) => ServiceLocator.instance<AppLogger>().log(LogLevel.error, 'Unhandled error', ex, st),
   );
 }

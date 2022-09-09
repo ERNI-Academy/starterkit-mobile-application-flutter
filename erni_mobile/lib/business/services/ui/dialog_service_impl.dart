@@ -12,9 +12,6 @@ import 'package:injectable/injectable.dart';
 
 @LazySingleton(as: DialogService)
 class DialogServiceImpl implements DialogService {
-  DialogServiceImpl(this._viewLocator);
-
-  final ViewLocator _viewLocator;
   bool _isLoadingShown = false;
   bool _isDialogShown = false;
 
@@ -184,10 +181,10 @@ class DialogServiceImpl implements DialogService {
   }
 
   Widget _tryGetRegisteredWidget(String name) {
-    final isDialogRegistered = _viewLocator.isViewRegistered(name);
+    final isDialogRegistered = ViewLocator.isViewRegistered(name);
     assert(isDialogRegistered, 'Dialog named $name is not registered');
 
-    return _viewLocator.getView(name);
+    return ViewLocator.getView(name);
   }
 }
 

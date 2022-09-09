@@ -18,10 +18,11 @@ class HomeView extends StatelessWidget with ViewMixin<HomeViewModel> {
 
   late final List<Widget> _menuWidgets;
   late final PageController _pageController;
+  late final HomeViewModel viewModel;
 
   @override
   HomeViewModel onCreateViewModel(BuildContext context) {
-    final viewModel = super.onCreateViewModel(context);
+    viewModel = super.onCreateViewModel(context);
     _pageController = PageController(initialPage: viewModel.selectedMenuIndex);
     _setMenuWidgets(viewModel.menus);
 
@@ -29,7 +30,7 @@ class HomeView extends StatelessWidget with ViewMixin<HomeViewModel> {
   }
 
   @override
-  Widget buildView(BuildContext context) {
+  Widget buildView(BuildContext context, HomeViewModel viewModel) {
     return LayoutBuilder(
       builder: (context, constraints) {
         final isLandscape = constraints.minWidth >= constraints.minHeight;
@@ -73,7 +74,7 @@ class HomeView extends StatelessWidget with ViewMixin<HomeViewModel> {
 
       switch (m.type) {
         case MenuTypes.settings:
-          child = SettingsView();
+          child = const SettingsView();
           break;
 
         case MenuTypes.about:

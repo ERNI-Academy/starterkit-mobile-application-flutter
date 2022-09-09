@@ -1,31 +1,26 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
 
-mixin AppLifeCycleAwareMixin {
-  Future<void> onAppPaused() => Future.value();
+mixin AppLifeCycleAwareMixin implements WidgetsBindingObserver {
+  Future<void> onAppPaused() => Future<void>.value();
 
-  Future<void> onAppResumed() => Future.value();
+  Future<void> onAppResumed() => Future<void>.value();
 
-  Future<void> onAppInactive() => Future.value();
-}
+  Future<void> onAppInactive() => Future<void>.value();
 
-class WidgetsBindingObserverWrapper with WidgetsBindingObserver {
-  WidgetsBindingObserverWrapper(this._appLifeCycleAware);
-
-  final AppLifeCycleAwareMixin _appLifeCycleAware;
-
+  @protected
   @override
   @nonVirtual
   void didChangeAppLifecycleState(AppLifecycleState state) {
     switch (state) {
       case AppLifecycleState.paused:
-        _appLifeCycleAware.onAppPaused();
+        onAppPaused();
         break;
       case AppLifecycleState.resumed:
-        _appLifeCycleAware.onAppResumed();
+        onAppResumed();
         break;
       case AppLifecycleState.inactive:
-        _appLifeCycleAware.onAppInactive();
+        onAppInactive();
         break;
       default:
         break;

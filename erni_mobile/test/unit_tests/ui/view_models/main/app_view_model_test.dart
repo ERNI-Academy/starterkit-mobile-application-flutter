@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:erni_mobile/business/models/settings/app_settings_entity.dart';
 import 'package:erni_mobile/business/models/settings/settings_changed_model.dart';
-import 'package:erni_mobile/domain/services/json/json_service.dart';
+import 'package:erni_mobile/domain/services/json/json_converter.dart';
 import 'package:erni_mobile/domain/services/settings/settings_service.dart';
 import 'package:erni_mobile/domain/services/ui/initial_ui_configurator.dart';
 import 'package:erni_mobile/ui/view_models/main/app_view_model.dart';
