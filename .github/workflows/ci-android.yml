@@ -3,7 +3,7 @@ name: Android Build
 on:
   workflow_dispatch:
     inputs:
-      choice:
+      target_environment:
         required: false
         type: choice
         description: Select environment
