@@ -44,6 +44,7 @@ jobs:
       
       - name: Set secrets file
         run: |
+          rm -d -R .secrets
           mkdir .secrets
           echo -n "${{ secrets[env.SECRETS_FILE_KEY] }}" | base64 --decode > .secrets/${{ env.APP_ENVIRONMENT  }}.secrets
         working-directory: ${{ env.PROJECT_WORKING_DIRECTORY }}
