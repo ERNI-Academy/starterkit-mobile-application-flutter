@@ -14,6 +14,7 @@ runs:
         if [[ -z "$APP_ENVIRONMENT_VALUE" ]]; then
             APP_ENVIRONMENT_VALUE=dev
         fi
-        echo -n "APP_ENVIRONMENT=$APP_ENVIRONMENT_VALUE" >> $GITHUB_ENV
-        echo -n "SECRETS_FILE_KEY=${APP_ENVIRONMENT_VALUE}_secrets" >> $GITHUB_ENV
+        APP_ENVIRONMENT_VALUE=$(echo $APP_ENVIRONMENT_VALUE | sed -e 's/\r//g')
+        echo "APP_ENVIRONMENT=$APP_ENVIRONMENT_VALUE" >> $GITHUB_ENV
+        echo "SECRETS_FILE_KEY=${APP_ENVIRONMENT_VALUE}_secrets" >> $GITHUB_ENV
       shell: bash
