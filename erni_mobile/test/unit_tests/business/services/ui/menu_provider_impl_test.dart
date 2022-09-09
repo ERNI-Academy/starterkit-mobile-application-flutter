@@ -13,7 +13,6 @@ void main() {
       expectedMenus = [
         DrawerMenuModel(type: MenuTypes.about, actionType: MenuActionTypes.navigatable),
         DrawerMenuModel(type: MenuTypes.settings, actionType: MenuActionTypes.navigatable),
-        DrawerMenuModel(type: MenuTypes.logout, actionType: MenuActionTypes.clickable),
       ];
     });
 

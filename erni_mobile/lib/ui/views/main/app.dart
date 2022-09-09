@@ -1,31 +1,28 @@
 import 'package:erni_mobile/business/models/settings/language_entity.dart';
 import 'package:erni_mobile/common/localization/generated/l10n.dart';
 import 'package:erni_mobile/common/localization/localization.dart';
+import 'package:erni_mobile/dependency_injection.dart';
 import 'package:erni_mobile/domain/services/logging/navigation_logger.dart';
 import 'package:erni_mobile/domain/services/platform/environment_config.dart';
+import 'package:erni_mobile/domain/services/ui/navigation/navigation_service.dart';
+import 'package:erni_mobile/domain/services/ui/navigation/route_generator.dart';
 import 'package:erni_mobile/ui/resources/theme.dart';
 import 'package:erni_mobile/ui/view_models/main/app_view_model.dart';
 import 'package:erni_mobile/ui/views/main/splash_view.dart';
+import 'package:erni_mobile/ui/views/view_mixin.dart';
 import 'package:erni_mobile/ui/widgets/widgets.dart';
-import 'package:erni_mobile_core/dependency_injection.dart';
-import 'package:erni_mobile_core/mvvm.dart';
-import 'package:erni_mobile_core/navigation.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 import 'package:responsive_framework/utils/responsive_utils.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 
 class App extends StatelessWidget with ViewMixin<AppViewModel> {
-  App({Key? key, this.home}) : super(key: key);
-
-  final NavigationLogger _navigationLogger = ServiceLocator.instance<NavigationLogger>();
-  final RouteGenerator _routeGenerator = ServiceLocator.instance<RouteGenerator>();
-  final EnvironmentConfig _environmentConfig = ServiceLocator.instance<EnvironmentConfig>();
+  const App({Key? key, this.home}) : super(key: key);
 
   final Widget? home;
 
   @override
-  Widget buildView(BuildContext context) {
+  Widget buildView(BuildContext context, AppViewModel viewModel) {
     return ValueListenableBuilder<ThemeMode>(
       valueListenable: viewModel.currentTheme,
       builder: (context, currentTheme, child) {
@@ -49,19 +46,19 @@ class App extends StatelessWidget with ViewMixin<AppViewModel> {
                   ResponsiveTargetPlatform.macOS,
                 ],
               ),
-              onGenerateTitle: (context) => _environmentConfig.appName,
+              onGenerateTitle: (context) => ServiceLocator.instance<EnvironmentConfig>().appName,
               theme: MaterialAppThemes.lightTheme,
               darkTheme: MaterialAppThemes.darkTheme,
               themeMode: currentTheme,
               debugShowCheckedModeBanner: false,
               navigatorKey: NavigationService.navigatorKey,
               navigatorObservers: [
-                _navigationLogger,
-                NavigationObserverRegistrar.instance,
+                ServiceLocator.instance<NavigationLogger>(),
+                NavigationService.navigationObserverRegistrar,
                 SentryNavigatorObserver(),
               ],
-              home: home ?? SplashView(),
-              onGenerateRoute: _routeGenerator.onGenerateRoute,
+              home: home ?? const SplashView(),
+              onGenerateRoute: RouteGenerator.onGenerateRoute,
               localizationsDelegates: const [
                 Il8n.delegate,
                 GlobalMaterialLocalizations.delegate,

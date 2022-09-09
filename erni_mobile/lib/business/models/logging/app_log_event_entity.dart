@@ -1,5 +1,5 @@
 import 'package:erni_mobile/business/models/logging/log_level.dart';
-import 'package:erni_mobile/domain/models/entities/entity.dart';
+import 'package:erni_mobile/domain/models/entity.dart';
 
 class AppLogEventEntity implements Entity {
   AppLogEventEntity({

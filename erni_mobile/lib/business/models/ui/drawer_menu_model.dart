@@ -21,12 +21,10 @@ class DrawerMenuModel {
         return Il8n.current.menuAbout;
       case MenuTypes.settings:
         return Il8n.current.menuSettings;
-      case MenuTypes.logout:
-        return Il8n.current.menuLogout;
     }
   }
 }
 
-enum MenuTypes { about, settings, logout }
+enum MenuTypes { about, settings }
 
 enum MenuActionTypes { navigatable, clickable }

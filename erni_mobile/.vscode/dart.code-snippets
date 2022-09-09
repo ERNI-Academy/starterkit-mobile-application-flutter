@@ -12,7 +12,8 @@
     "Creates a ViewModel class": {
         "prefix": "vm",
         "body": [
-            "import 'package:erni_mobile_core/mvvm.dart';",
+            "import 'package:erni_mobile/ui/view_models/view_model.dart';",
+            "import 'package:injectable/injectable.dart';",
             "",
             "@injectable",
             "class ${name}ViewModel extends ViewModel {",
@@ -57,7 +58,7 @@
             "  builder: (context, value, child) {",
             "    throw UnimplementedError();",
             "  },",
-            ");"
+            ")"
         ],
         "description": "Creates an abstract class and a class to implement it"
     },
@@ -67,17 +68,17 @@
             "// coverage:ignore-file",
             "",
             "import 'package:erni_mobile/common/constants/route_names.dart';",
-            "import 'package:erni_mobile_core/mvvm.dart';",
+            "import 'package:erni_mobile/ui/views/view_mixin.dart';",
             "import 'package:erni_mobile/ui/widgets/widgets.dart';",
             "import 'package:injectable/injectable.dart';",
             "",
             "@Named(RouteNames.${1/(.*)/${1:/downcase}/})",
             "@Injectable(as: Widget)",
             "class ${1}View extends StatelessWidget with ViewMixin<${1}ViewModel> {",
-            "  ${1}View() : super(key: const Key(RouteNames.${1/(.*)/${1:/downcase}/}));",
+            "  const ${1}View() : super(key: const Key(RouteNames.${1/(.*)/${1:/downcase}/}));",
             "",
             "  @override",
-            "  Widget buildView(BuildContext context) {",
+            "  Widget buildView(BuildContext context, ${1}ViewModel viewModel) {",
             "    return Scaffold(",
             "      appBar: AppBar(",
             "        title: const Text('${1}'),",
@@ -94,7 +95,7 @@
             "// coverage:ignore-file",
             "",
             "import 'package:erni_mobile/common/constants/route_names.dart';",
-            "import 'package:erni_mobile_core/mvvm.dart';",
+            "import 'package:erni_mobile/ui/views/view_mixin.dart';",
             "import 'package:erni_mobile/ui/widgets/widgets.dart';",
             "import 'package:injectable/injectable.dart';",
             "",
@@ -109,7 +110,7 @@
             "",
             "class _${1}ViewState extends State<${1}View> with ViewMixin<${1}ViewModel> {",
             "  @override",
-            "  Widget buildView(BuildContext context) {",
+            "  Widget buildView(BuildContext context, ${1}ViewModel viewModel) {",
             "    return Scaffold(",
             "      appBar: AppBar(",
             "        title: const Text('${1}'),",
@@ -177,7 +178,7 @@
         "prefix": "jsonC",
         "body": [
             "",
-            "import 'package:erni_mobile_core/json.dart';",
+            "import 'package:erni_mobile/domain/models/data_contract.dart';",
             "import 'package:meta/meta.dart';",
             "",
             "part '${TM_FILENAME_BASE}.g.dart';",
@@ -345,7 +346,7 @@
             "@RestApi()",
             "abstract class ${ServiceName}ApiImpl{",
             "  @factoryMethod",
-            "  factory ${ServiceName}ApiImpl(DioProvider dioProvider, @apiBaseUrl String baseUrl) => _${ServiceName}ApiImpl(dioProvider.create(serviceName: '${ServiceName}Api'), baseUrl: baseUrl);",
+            "  factory ${ServiceName}ApiImpl(@apiBaseUrl String baseUrl) => _${ServiceName}ApiImpl(DioProvider.create(serviceName: '${ServiceName}Api'), baseUrl: baseUrl);",
             "}"
         ],
         "description": "Creates an retrofit API"
@@ -353,8 +354,8 @@
     "Creates a repository class": {
         "prefix": "repo",
         "body": [
-            "import 'package:drift/drift.dart';",
-            "import 'package:erni_mobile_core/data.dart';",
+            "import 'package:erni_mobile/data/database/repository.dart';",
+            "import 'package:erni_mobile/domain/repositories/repository.dart';",
             "import 'package:injectable/injectable.dart';",
             "",
             "abstract class ${2}Repository implements Repository<${2}s, ${2}Object> {}",
@@ -370,7 +371,7 @@
         "prefix": "dtbl",
         "body": [
             "import 'package:drift/drift.dart';",
-            "import 'package:erni_mobile_core/data.dart';",
+            "import 'package:erni_mobile/domain/models/data/data_table.dart';",
             "",
             "@DataClassName('${1}Object')",
             "class ${1}s extends DataTable {}"

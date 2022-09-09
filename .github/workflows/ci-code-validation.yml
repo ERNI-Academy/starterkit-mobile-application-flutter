@@ -1,12 +1,15 @@
 name: Code Validation
 
 on:
-  workflow_call:
+  workflow_dispatch:
     inputs:
-      target_environment:
-        type: string
+      choice:
         required: false
-        default: "dev"
+        type: choice
+        description: Select environment
+        default: dev
+        options:
+        - dev
 
   push:
     branches:
@@ -15,121 +18,100 @@ on:
   pull_request:
     types: [opened, synchronize, reopened]
 
+concurrency: 
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
 env:
   PROJECT_WORKING_DIRECTORY: "erni_mobile"
-  CORE_PROJECT_WORKING_DIRECTORY: "erni_mobile_core"
 
 jobs:
-  tests:
-    runs-on: ubuntu-latest
+  code-analysis-and-test:
+    runs-on: macos-latest
     steps:
       - uses: actions/checkout@v3
 
-      - uses: ./.github/workflows/templates/steps/install-flutter
-
-      # - name: Install JSCPD
-      #   run: npm install -g jscpd
+      - name: Install Flutter
+        uses: ./.github/workflows/templates/steps/install-flutter
 
       - name: Check formatting
         run: flutter format --line-length=120 --dry-run --set-exit-if-changed .
         working-directory: ${{ env.PROJECT_WORKING_DIRECTORY }}
-
-      # - name: Check for duplicate lines of code
-      #   run: npx jscpd lib --reporters html --threshold 5
-      #   working-directory: ${{ env.PROJECT_WORKING_DIRECTORY }}
 
       - name: Check for duplicate lines of code
         uses: Pposong-Hantaihe/dry-code@v1.0.2
         with:
           token: "${{ secrets.GITHUB_TOKEN }}"
           arguments: ${{ env.PROJECT_WORKING_DIRECTORY }}/lib
-          options: --reporters html --threshold 5
+          options: --threshold 5
 
-      - name: Run code generation in core project
+      - name: Run code generation
         uses: ./.github/workflows/templates/steps/run-pub-get-and-code-generation
         with:
-          run_intl_generation: "false"
-          working_directory: ${{ env.CORE_PROJECT_WORKING_DIRECTORY }}
-
-      - name: Run code generation in main project
-        uses: ./.github/workflows/templates/steps/run-pub-get-and-code-generation
-        with:
-          run_intl_generation: "true"
+          generate_intl: "true"
           working_directory: ${{ env.PROJECT_WORKING_DIRECTORY }}
 
-      # - name: Run code analysis
-      #   run: |
-      #     echo "Running static code analysis"
-      #     flutter analyze .
+      - name: Run code analysis
+        run: |
+          # Running static code analysis
+          flutter analyze .
 
-      #     echo "Running checks for code metrics"
-      #     flutter pub run dart_code_metrics:metrics analyze lib --fatal-style --fatal-warnings --fatal-performance
+          # Running checks for code metrics
+          flutter pub run dart_code_metrics:metrics analyze lib --fatal-style --fatal-warnings --fatal-performance
 
-      #     echo "Running checks for unused files"
-      #     # Add `--fatal-unused` if you want to fail this step if there are unused files
-      #     flutter pub run dart_code_metrics:metrics check-unused-files lib 
+          # Running checks for unused files
+          # Add `--fatal-unused` if you want to fail this step if there are unused files
+          flutter pub run dart_code_metrics:metrics check-unused-files lib
 
-      #     echo "Running checks for unused code"
-      #     # Add `--fatal-unused` if you want to fail this step if there are unused code
-      #     flutter pub run dart_code_metrics:metrics check-unused-code lib
+          # Running checks for unused code
+          # Add `--fatal-unused` if you want to fail this step if there are unused code
+          flutter pub run dart_code_metrics:metrics check-unused-code lib
 
-      #     echo "Running checks for unused localizations"
-      #     # Add `--fatal-unused` if you want to fail this step if there are unused localizations
-      #     flutter pub run dart_code_metrics:metrics check-unused-l10n -p Il8n lib
-      #   working-directory: ${{ env.PROJECT_WORKING_DIRECTORY }}
-          
+          # Running checks for unused localizations
+          # Add `--fatal-unused` if you want to fail this step if there are unused localizations
+          flutter pub run dart_code_metrics:metrics check-unused-l10n -p Il8n lib
+        working-directory: ${{ env.PROJECT_WORKING_DIRECTORY }}
+
       - name: Add ignore-coverage to generated files
         run: |
-          find . -type f -name "*.gen.dart" -exec sh -c 'sed -i "1s/^/\/\/\ coverage:ignore-file\r\n/" "$1"' -- {} \;
-          find . -type f -name "*.config.dart" -exec sh -c 'sed -i "1s/^/\/\/\ coverage:ignore-file\r\n/" "$1"' -- {} \;
-          find . -type f -name "*.g.dart" -exec sh -c 'sed -i "1s/^/\/\/\ coverage:ignore-file\r\n/" "$1"' -- {} \;
-          find . -type f -name "messages_*.dart" -exec sh -c 'sed -i "1s/^/\/\/\ coverage:ignore-file\r\n/" "$1"' -- {} \;
-          find . -type f -name "l10n.dart" -exec sh -c 'sed -i "1s/^/\/\/\ coverage:ignore-file\r\n/" "$1"' -- {} \;
+          find . -type f -name "*.gen.dart" -exec sh -c 'sed -i "" -e "1s/^/\/\/\ coverage:ignore-file\r\n/" "$1"' -- {} \;
+          find . -type f -name "*.config.dart" -exec sh -c 'sed -i "" -e "1s/^/\/\/\ coverage:ignore-file\r\n/" "$1"' -- {} \;
+          find . -type f -name "*.g.dart" -exec sh -c 'sed -i "" -e "1s/^/\/\/\ coverage:ignore-file\r\n/" "$1"' -- {} \;
+          find . -type f -name "messages_*.dart" -exec sh -c 'sed -i "" -e "1s/^/\/\/\ coverage:ignore-file\r\n/" "$1"' -- {} \;
+          find . -type f -name "l10n.dart" -exec sh -c 'sed -i "" -e "1s/^/\/\/\ coverage:ignore-file\r\n/" "$1"' -- {} \;
         working-directory: ${{ env.PROJECT_WORKING_DIRECTORY }}
 
       - name: Run tests
         run: |
           mkdir coverage
           touch coverage/results.json
-          flutter test --coverage --machine > coverage/results.json
+          flutter test --coverage --machine >> coverage/results.json
         working-directory: ${{ env.PROJECT_WORKING_DIRECTORY }}
-      
+
       - name: Check for golden test failures
         run: |
-          # Check golden test failures
           $fileExists = Test-Path -Path "test/widget_tests/**/failures/**"
           echo "IS_GOLDEN_TEST_FAILED=$fileExists" | Out-File -FilePath $Env:GITHUB_ENV -Encoding utf8 -Append
         shell: powershell
         working-directory: ${{ env.PROJECT_WORKING_DIRECTORY }}
-      
+
       - name: Publish golden test failures
         uses: actions/upload-artifact@v3
         with:
           name: golden_test_failures
           path: ${{ env.PROJECT_WORKING_DIRECTORY }}/test/widget_tests/views/failures
         if: ${{ env.IS_GOLDEN_TEST_FAILED == 'true' }}
-      
+
       - name: Report code coverage
-        uses: zgosalvez/github-actions-report-lcov@v1
+        uses: romeovs/lcov-reporter-action@v0.2.16
         with:
-          coverage-files: coverage/lcov.info
-          minimum-coverage: 40
-          artifact-name: code-coverage-report
           github-token: ${{ secrets.GITHUB_TOKEN }}
-          working-directory: ${{ env.PROJECT_WORKING_DIRECTORY }}
+          lcov-file: ${{ env.PROJECT_WORKING_DIRECTORY }}/coverage/lcov.info
 
       - name: Report test results
         uses: dorny/test-reporter@v1
         with:
-          artifact: test-results
           name: ${{ env.PROJECT_WORKING_DIRECTORY }} Tests
           path: coverage/results.json
           reporter: flutter-json
           working-directory: ${{ env.PROJECT_WORKING_DIRECTORY }}
-
-      - name: Publish JSCPD report
-        uses: actions/upload-artifact@v3
-        with:
-          name: jscpd_report
-          path: ${{ env.PROJECT_WORKING_DIRECTORY }}/report
-        continue-on-error: true

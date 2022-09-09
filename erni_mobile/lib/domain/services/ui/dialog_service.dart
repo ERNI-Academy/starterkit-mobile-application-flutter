@@ -14,4 +14,6 @@ abstract class DialogService {
   void showSnackbar(String message, {Duration duration = const Duration(seconds: 2)});
 
   Future<T?> show<T extends Object?>(String dialogName, {Object? parameter, bool dismissable = true});
+
+  Future<void> showNoInternet();
 }

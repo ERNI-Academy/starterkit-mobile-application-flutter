@@ -1,13 +1,13 @@
 // coverage:ignore-file
 
 import 'package:erni_mobile/ui/widgets/extensions/theme_extensions.dart';
-import 'package:erni_mobile_core/mvvm.dart';
 import 'package:flutter/material.dart';
+import 'package:simple_command/commands.dart';
 
 class LoadingButton extends StatelessWidget {
   const LoadingButton({required this.command, required this.child, Key? key}) : super(key: key);
 
-  final AsyncCommand command;
+  final AsyncRelayCommand command;
   final Widget child;
 
   @override

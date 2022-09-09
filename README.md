@@ -5,8 +5,7 @@ ERNI Academy mobile boilerplate to start a cross-platform Flutter mobile applica
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
-[![Build Status](https://dev.azure.com/erniegh/ERNI-EPH-Mobile-FlutterStack/_apis/build/status/ERNI-Mobile-Blueprint-CI-Android?branchName=master&label=Android)](https://dev.azure.com/erniegh/ERNI-EPH-Mobile-FlutterStack/_build/latest?definitionId=772&branchName=master) [![Build Status](https://dev.azure.com/erniegh/ERNI-EPH-Mobile-FlutterStack/_apis/build/status/ERNI-Mobile-Blueprint-CI-iOS?branchName=master&label=iOS)](https://dev.azure.com/erniegh/ERNI-EPH-Mobile-FlutterStack/_build/latest?definitionId=773&branchName=master) [![Build Status](https://dev.azure.com/erniegh/ERNI-EPH-Mobile-FlutterStack/_apis/build/status/ERNI-Mobile-Blueprint-CI-Web?branchName=master&label=Web)](https://dev.azure.com/erniegh/ERNI-EPH-Mobile-FlutterStack/_build/latest?definitionId=774&branchName=master) [![Build Status](https://dev.azure.com/erniegh/ERNI-EPH-Mobile-FlutterStack/_apis/build/status/ERNI-Mobile-Blueprint-CI-Windows?branchName=master&label=Windows)](https://dev.azure.com/erniegh/ERNI-EPH-Mobile-FlutterStack/_build/latest?definitionId=784&branchName=master) [![Build Status](https://dev.azure.com/erniegh/ERNI-EPH-Mobile-FlutterStack/_apis/build/status/ERNI-Mobile-Blueprint-CI-Code-Validation?branchName=master&label=Code%20Validation)](https://dev.azure.com/erniegh/ERNI-EPH-Mobile-FlutterStack/_build/latest?definitionId=777&branchName=master)
-
+[![Code Validation](https://github.com/ERNI-Academy/starterkit-mobile-application-flutter/actions/workflows/ci-code-validation.yml/badge.svg?branch=main)](https://github.com/ERNI-Academy/starterkit-mobile-application-flutter/actions/workflows/ci-code-validation.yml) [![Android Build](https://github.com/ERNI-Academy/starterkit-mobile-application-flutter/actions/workflows/ci-android.yml/badge.svg)](https://github.com/ERNI-Academy/starterkit-mobile-application-flutter/actions/workflows/ci-android.yml)
 ## Built With
 
 - [Flutter](https://flutter.dev)
@@ -18,6 +17,12 @@ ERNI Academy mobile boilerplate to start a cross-platform Flutter mobile applica
 - [Flutter Documentation](https://docs.flutter.dev/)
 
 ## Prerequisites
+
+**Flutter**
+- v3.3.0+ on stable channel
+
+**Dart**
+- v2.17.0+
 
 **Visual Studio Code**
 - [Download VS Code](https://code.visualstudio.com/download)
@@ -39,11 +44,9 @@ ERNI Academy mobile boilerplate to start a cross-platform Flutter mobile applica
 - Note that **Visual Studio** is different from **Visual Studio *Code***
   
 **Web**
-- Any browser capable of debugging, but preferrably chrome-based browsers
+- Any browser capable of debugging, but preferably chrome-based browsers
 
 ## Installation
-
-Installation instructions {{ Name }} by running:
 
 1. Clone the repo
 
@@ -56,8 +59,9 @@ Installation instructions {{ Name }} by running:
     ```sh
     flutter pub get
     ```
+3. Set secrets file (TODO)
 
-3. Run code generation
+4. Run code generation
 
     ```sh
     # Run this command one time
@@ -78,7 +82,7 @@ Please see our [Contribution Guide](CONTRIBUTING.md) to learn how to contribute.
 
 ![MIT](https://img.shields.io/badge/License-MIT-blue.svg)
 
-(LICENSE) © {{Year}} [ERNI - Swiss Software Engineering](https://www.betterask.erni)
+Copyright © 2022 [ERNI - Swiss Software Engineering](https://www.betterask.erni)
 
 ## Code of conduct
 

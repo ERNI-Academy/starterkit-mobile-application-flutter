@@ -15,8 +15,6 @@ before_all do
 
   puts "Loading variables and secrets for `#{app_environment}`"
 
-  Dotenv.load("fastlane_shared.env", "fastlane_#{app_environment}.env")
-
   build_type = app_environment.capitalize
   secrets = read_json(json_path: ".secrets/#{app_environment}.secrets")
   secrets.each { |k, v| dart_defines << "--dart-define \"#{k}=#{v}\" " }

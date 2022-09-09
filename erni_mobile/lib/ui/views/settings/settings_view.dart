@@ -4,21 +4,21 @@ import 'package:erni_mobile/common/localization/localization.dart';
 import 'package:erni_mobile/ui/view_models/settings/settings_view_model.dart';
 import 'package:erni_mobile/ui/views/settings/account_settings_view.dart';
 import 'package:erni_mobile/ui/views/settings/update_app_settings_view.dart';
+import 'package:erni_mobile/ui/views/view_mixin.dart';
 import 'package:erni_mobile/ui/widgets/widgets.dart';
-import 'package:erni_mobile_core/mvvm.dart';
 
 class SettingsView extends StatelessWidget with ViewMixin<SettingsViewModel> {
-  SettingsView({Key? key}) : super(key: key);
+  const SettingsView({Key? key}) : super(key: key);
 
   @override
-  Widget buildView(BuildContext context) {
+  Widget buildView(BuildContext context, SettingsViewModel viewModel) {
     return Scaffold(
       body: ListView(
         children: [
           ListTile(subtitle: _ListSectionTitle(Il8n.of(context).settingsAppSectionTitle)),
-          UpdateAppSettingsView(),
+          const UpdateAppSettingsView(),
           ListTile(subtitle: _ListSectionTitle(Il8n.of(context).settingsAccountSectionTitle)),
-          AccountSettingsView(),
+          const AccountSettingsView(),
         ],
       ),
     );

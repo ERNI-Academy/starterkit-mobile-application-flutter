@@ -1,9 +1,0 @@
-name: erni_mobile_lints
-description: Custom analysis rules.
-version: 0.0.1
-
-environment:
-  sdk: ">=2.17.1 <3.0.0"
-
-dependencies:
-  flutter_lints: ^2.0.0

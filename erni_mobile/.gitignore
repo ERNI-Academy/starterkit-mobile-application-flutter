@@ -90,4 +90,4 @@ google-services.json
 GoogleService-Info.plist
 
 # Comment this out after setting the correct secrets file
-.secrets/**
+# .secrets/**

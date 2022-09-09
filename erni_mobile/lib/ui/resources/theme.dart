@@ -133,7 +133,7 @@ abstract class MaterialAppThemes {
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ElevatedButton.styleFrom(
           elevation: 0,
-          primary: colorScheme.secondary,
+          backgroundColor: colorScheme.secondary,
           minimumSize: const Size(80, 40),
           textStyle: const TextStyle(fontWeight: FontWeight.w600),
           shape: RoundedRectangleBorder(
@@ -144,7 +144,7 @@ abstract class MaterialAppThemes {
       outlinedButtonTheme: OutlinedButtonThemeData(
         style: OutlinedButton.styleFrom(
           minimumSize: const Size.fromHeight(48),
-          primary: colorScheme.secondary,
+          backgroundColor: colorScheme.secondary,
           textStyle: const TextStyle(fontWeight: FontWeight.w600),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.all(Radius.circular(base.rawDimensions.cornerRadius)),
@@ -153,7 +153,7 @@ abstract class MaterialAppThemes {
       ),
       textButtonTheme: TextButtonThemeData(
         style: TextButton.styleFrom(
-          primary: colorScheme.secondary,
+          foregroundColor: colorScheme.secondary,
           textStyle: const TextStyle(
             fontSize: 16,
             fontWeight: FontWeight.w600,

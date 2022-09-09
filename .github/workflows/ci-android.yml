@@ -1,0 +1,81 @@
+name: Android Build
+
+on:
+  workflow_dispatch:
+    inputs:
+      choice:
+        required: false
+        type: choice
+        description: Select environment
+        default: dev
+        options:
+        - dev
+
+  push:
+    branches:
+      - main
+
+  pull_request:
+    types: [opened, synchronize, reopened]
+      
+concurrency: 
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+env:
+  PROJECT_WORKING_DIRECTORY: "erni_mobile"
+  ANDROID_KEYSTORE_FILE_NAME: "ERNI Mobile Generic Keystore.keystore"
+  ANDROID_KEYSTORE_PROPERTIES_FILE_NAME: "ERNI Mobile Generic Keystore.keystore.properties"
+
+jobs:
+  build-apk:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set app environment
+        run: |
+          APP_ENVIRONMENT_VALUE=${{ github.event.inputs.target_environment }}
+          if [[ -z "$APP_ENVIRONMENT_VALUE" ]]; then
+            APP_ENVIRONMENT_VALUE=dev
+          fi
+          echo "APP_ENVIRONMENT=$APP_ENVIRONMENT_VALUE" >> $GITHUB_ENV
+          echo "SECRETS_FILE_KEY=${APP_ENVIRONMENT_VALUE}_secrets" >> $GITHUB_ENV
+      
+      - name: Set secrets file
+        run: |
+          mkdir .secrets
+          echo -n "${{ secrets[env.SECRETS_FILE_KEY] }}" | base64 --decode > .secrets/${{ env.APP_ENVIRONMENT  }}.secrets
+        working-directory: ${{ env.PROJECT_WORKING_DIRECTORY }}
+
+      - name: Set keystore file
+        run: |
+          echo -n "${{ secrets.ANDROID_KEYSTORE_FILE }}" | base64 --decode > "${{ env.ANDROID_KEYSTORE_FILE_NAME }}"
+          echo -n "${{ secrets.ANDROID_KEYSTORE_PROPERTIES_FILE }}" | base64 --decode > "${{ env.ANDROID_KEYSTORE_PROPERTIES_FILE_NAME }}"
+        working-directory: ${{ env.PROJECT_WORKING_DIRECTORY }}/android/app
+
+      - name: Install Flutter
+        uses: ./.github/workflows/templates/steps/install-flutter
+
+      - name: Set java version
+        uses: actions/setup-java@v2
+        with:
+          distribution: 'adopt'
+          java-version: "11"
+
+      - name: Run code generation
+        uses: ./.github/workflows/templates/steps/run-pub-get-and-code-generation
+        with:
+          generate_intl: "true"
+          working_directory: ${{ env.PROJECT_WORKING_DIRECTORY }}
+
+      - name: Build Android APK
+        run: |
+          fastlane build_android_release
+        working-directory: ${{ env.PROJECT_WORKING_DIRECTORY }}
+
+      - name: Publish Android APK
+        uses: actions/upload-artifact@v3
+        with:
+          name: android_build
+          path: ${{ env.PROJECT_WORKING_DIRECTORY }}/build/app/outputs/apk/release/app-release.apk
