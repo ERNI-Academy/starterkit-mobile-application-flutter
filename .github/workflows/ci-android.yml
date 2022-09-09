@@ -40,7 +40,7 @@ jobs:
       
       - name: Set secrets file
         run: |
-          $APP_SECRETS=${{ secrets[env.SECRETS_FILE_KEY] }}
+          $APP_SECRETS=$(echo -n ${{ secrets[env.SECRETS_FILE_KEY] }})
           $APP_ENVIRONMENT=${{ env.APP_ENVIRONMENT }}
           chmod +x ./../scripts/set_secrets_file.sh
           ./../scripts/set_secrets_file.sh $APP_SECRETS $APP_ENVIRONMENT
