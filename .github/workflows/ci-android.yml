@@ -29,7 +29,7 @@ env:
 
 jobs:
   build-apk:
-    runs-on: ubuntu-latest
+    runs-on: macos-latest
     steps:
       - uses: actions/checkout@v3
 
@@ -68,7 +68,7 @@ jobs:
 
       - name: Build Android APK
         run: |
-          fastlane build_android_release
+          bundle exec fastlane build_android_release
         working-directory: ${{ env.PROJECT_WORKING_DIRECTORY }}
 
       - name: Publish Android APK
