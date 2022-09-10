@@ -337,6 +337,22 @@ lane :"distribute_release_appcenter" do |options|
   )
 end
 
+desc "Build release"
+lane :"build_web_release" do |options|
+  if is_number?(options[:version_number]) && !options[:version_name].nil?
+    version_number = options[:version_number]
+    version_name = options[:version_name]
+
+    puts "Building #{version_name} (#{version_number})"
+
+    sh "flutter build web --build-number #{version_number} --build-name #{version_name} #{dart_defines}"
+  else
+    sh "flutter build web #{dart_defines}"
+  end
+
+  "build/web"
+end
+
 def is_number? string
   true if Float(string) rescue false
 end
