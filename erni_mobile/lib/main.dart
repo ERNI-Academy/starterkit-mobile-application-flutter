@@ -9,7 +9,7 @@ import 'package:flutter/widgets.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await registerDependencies();
+  await ServiceLocator.registerDependencies();
   await Il8n.load(const Locale('en'));
   runZonedGuarded(
     () => runApp(const App()),

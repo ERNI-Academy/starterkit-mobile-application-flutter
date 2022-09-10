@@ -9,7 +9,7 @@ import 'package:golden_toolkit/golden_toolkit.dart';
 import 'package:path/path.dart';
 
 Future<void> setupWidgetTest() async {
-  await registerDependencies(isTest: true);
+  await ServiceLocator.registerDependencies(isTest: true);
   await Il8n.load(const Locale('en'));
   await loadAppFonts();
 }

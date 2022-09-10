@@ -11,59 +11,31 @@ import 'package:get_it/get_it.dart';
   preferRelativeImports: false,
   asExtension: false,
 )
-Future<void> registerDependencies({bool isTest = false}) async {
-  await ServiceLocator.registerDependencies(isTest: isTest, asyncRegistration: $register);
-
-  driftRuntimeOptions.dontWarnAboutMultipleDatabases = isTest;
-
-  // We register `ApiEndpoints.baseUrl` here since its value is determined during runtime.
-  ServiceLocator.instance.registerSingleton(ApiEndpoints.baseUrl, instanceName: apiBaseUrl.name);
-}
-
 abstract class ServiceLocator {
-  static final GetIt instance = GetIt.instance..allowReassignment = true;
+  static late final GetIt instance;
 
-  static Future<void> registerDependencies({
-    GetIt Function(GetIt get, {String? environment, EnvironmentFilter? environmentFilter})? registration,
-    Future<GetIt> Function(GetIt get, {String? environment, EnvironmentFilter? environmentFilter})? asyncRegistration,
-    bool isTest = false,
-  }) {
-    return _internalRegistration(isTest: isTest, registration: registration, asyncRegistration: asyncRegistration);
-  }
-}
+  static Future<void> registerDependencies({bool isTest = false}) async {
+    final environmentFilter = NoEnvOrContainsAny(_getEnvironments(isTest));
+    ServiceLocator.instance = GetIt.instance..allowReassignment = true;
 
-Future<void> _internalRegistration({
-  GetIt Function(GetIt get, {String? environment, EnvironmentFilter? environmentFilter})? registration,
-  Future<GetIt> Function(GetIt get, {String? environment, EnvironmentFilter? environmentFilter})? asyncRegistration,
-  bool isTest = false,
-}) async {
-  final environments = <String>{};
+    await $register(ServiceLocator.instance, environmentFilter: environmentFilter);
 
-  if (kIsWeb) {
-    environments.add(platformWeb.name);
-  } else if (Platform.isAndroid || Platform.isIOS) {
-    environments.add(platformMobile.name);
-  } else if (Platform.isWindows || Platform.isMacOS || Platform.isLinux) {
-    environments.add(platformDesktop.name);
-  } else {
-    throw UnsupportedError('Current platform not supported');
+    driftRuntimeOptions.dontWarnAboutMultipleDatabases = isTest;
+
+    // We register `ApiEndpoints.baseUrl` here since its value is determined during runtime.
+    ServiceLocator.instance.registerSingleton(ApiEndpoints.baseUrl, instanceName: apiBaseUrl.name);
   }
 
-  if (isTest) {
-    environments.add(test.name);
-  } else {
-    environments.add(prod.name);
+  static Set<String> _getEnvironments(bool isTest) {
+    return <String>{
+      if (isTest) test.name else prod.name,
+      if (kReleaseMode) release.name,
+      if (kDebugMode) debug.name,
+      if (kIsWeb) platformWeb.name,
+      if (Platform.isAndroid || Platform.isIOS) platformMobile.name,
+      if (Platform.isWindows || Platform.isMacOS || Platform.isLinux) platformDesktop.name,
+    };
   }
-
-  if (kReleaseMode) {
-    environments.add(release.name);
-  } else if (kDebugMode) {
-    environments.add(debug.name);
-  }
-
-  final environmentFilter = NoEnvOrContainsAny(environments);
-  registration?.call(ServiceLocator.instance, environmentFilter: environmentFilter);
-  await asyncRegistration?.call(ServiceLocator.instance, environmentFilter: environmentFilter);
 }
 
 const Environment platformWeb = Environment('web');
