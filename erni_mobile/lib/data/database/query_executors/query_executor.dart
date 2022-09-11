@@ -6,6 +6,6 @@ abstract class BaseQueryExecutor extends InternalQueryExecutor implements QueryE
   BaseQueryExecutor(String dbName) : super(dbName);
 }
 
-abstract class BaseInMemmoryQueryExecutor extends InternalInMemmoryQueryExecutor implements QueryExecutor {
-  BaseInMemmoryQueryExecutor(String dbName) : super(dbName);
+abstract class BaseInMemoryQueryExecutor extends InternalInMemmoryQueryExecutor implements QueryExecutor {
+  BaseInMemoryQueryExecutor(String dbName) : super(dbName);
 }

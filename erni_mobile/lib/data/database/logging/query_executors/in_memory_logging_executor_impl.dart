@@ -6,6 +6,6 @@ import 'package:injectable/injectable.dart';
 
 @LazySingleton(as: LoggingQueryExecutor)
 @test
-class TestLoggingExecutorImpl extends BaseInMemmoryQueryExecutor implements LoggingQueryExecutor {
-  TestLoggingExecutorImpl() : super('db_logging');
+class InMemoryLoggingExecutorImpl extends BaseInMemoryQueryExecutor implements LoggingQueryExecutor {
+  InMemoryLoggingExecutorImpl() : super('db_logging');
 }
