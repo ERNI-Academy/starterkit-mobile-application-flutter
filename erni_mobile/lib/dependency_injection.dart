@@ -5,6 +5,7 @@ import 'package:erni_mobile/data/web/apis/api.dart';
 import 'package:erni_mobile/dependency_injection.config.dart';
 import 'package:flutter/foundation.dart';
 import 'package:get_it/get_it.dart';
+import 'package:injectable/injectable.dart';
 
 @InjectableInit(
   initializerName: r'$register',

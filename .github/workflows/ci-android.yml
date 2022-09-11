@@ -68,8 +68,7 @@ jobs:
 
       - name: Build Android APK
         run: |
-          bundle install --jobs=4
-          bundle exec fastlane build_android_release
+          fastlane build_android_release
         working-directory: ${{ env.PROJECT_WORKING_DIRECTORY }}
 
       - name: Publish Android APK

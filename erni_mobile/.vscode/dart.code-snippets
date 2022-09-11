@@ -336,6 +336,7 @@
         "prefix": "api",
         "body": [
             "import 'package:erni_mobile/data/web/apis/api.dart';",
+            "import 'package:injectable/injectable.dart';",
             "",
             "part '${TM_FILENAME_BASE}.g.dart';",
             "",
