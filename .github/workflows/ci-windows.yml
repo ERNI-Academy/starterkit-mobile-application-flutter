@@ -47,7 +47,7 @@ jobs:
       - name: Set certificate file
         run: |
           $certificateFileBytes = [Convert]::FromBase64String("${{ secrets.WINDOWS_DISTRIBUTION_CERTIFICATE_FILE }}")
-          [IO.File]::WriteAllBytes(${{ env.CERTIFICATE_FILE_NAME }}, $certificateFileBytes)
+          [IO.File]::WriteAllBytes("${{ env.CERTIFICATE_FILE_NAME }}", $certificateFileBytes)
         shell: powershell
         working-directory: ${{ env.PROJECT_WORKING_DIRECTORY }}
 
