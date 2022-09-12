@@ -14,6 +14,6 @@ runs:
   steps:
     - run: |
         $dartDefineParams = ./../scripts/set_secrets_as_dart_define_params.ps1 ${{ inputs.app_environment }}
-        echo "DART_DEFINE_PARAMS=$dartDefineParams" >> $GITHUB_ENV
+        echo "DART_DEFINE_PARAMS=$dartDefineParams" | Out-File -FilePath $Env:GITHUB_ENV -Encoding utf8 -Append
       shell: powershell
       working-directory: ${{ inputs.working_directory }}
