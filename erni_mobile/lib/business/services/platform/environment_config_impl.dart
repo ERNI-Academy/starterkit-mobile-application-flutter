@@ -1,4 +1,5 @@
 import 'package:erni_mobile/business/models/logging/log_level.dart';
+import 'package:erni_mobile/business/models/platform/app_environment.dart';
 import 'package:erni_mobile/domain/services/platform/environment_config.dart';
 import 'package:injectable/injectable.dart';
 import 'package:uuid/uuid.dart';
@@ -9,7 +10,7 @@ class EnvironmentConfigImpl implements EnvironmentConfig {
   final String sessionId = const Uuid().v1();
 
   @override
-  String get appEnvironment => const String.fromEnvironment('appEnvironment');
+  AppEnvironment get appEnvironment => AppEnvironment.values.byName(const String.fromEnvironment('appEnvironment'));
 
   @override
   String get appName => const String.fromEnvironment('appName', defaultValue: 'App');

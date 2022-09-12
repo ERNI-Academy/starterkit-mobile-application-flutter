@@ -1,6 +1,5 @@
 import 'dart:io';
 
-import 'package:drift/drift.dart';
 import 'package:erni_mobile/data/web/apis/api.dart';
 import 'package:erni_mobile/dependency_injection.config.dart';
 import 'package:flutter/foundation.dart';
@@ -13,23 +12,20 @@ import 'package:injectable/injectable.dart';
   asExtension: false,
 )
 abstract class ServiceLocator {
-  static late final GetIt instance;
+  static final GetIt instance = GetIt.instance..allowReassignment = true;
 
-  static Future<void> registerDependencies({bool isTest = false}) async {
-    final environmentFilter = NoEnvOrContainsAny(_getEnvironments(isTest));
-    ServiceLocator.instance = GetIt.instance..allowReassignment = true;
+  static Future<void> registerDependencies({bool forTesting = false}) async {
+    final environmentFilter = NoEnvOrContainsAny(_getEnvironments(forTesting));
 
     await $register(ServiceLocator.instance, environmentFilter: environmentFilter);
-
-    driftRuntimeOptions.dontWarnAboutMultipleDatabases = isTest;
 
     // We register `ApiEndpoints.baseUrl` here since its value is determined during runtime.
     ServiceLocator.instance.registerSingleton(ApiEndpoints.baseUrl, instanceName: apiBaseUrl.name);
   }
 
-  static Set<String> _getEnvironments(bool isTest) {
+  static Set<String> _getEnvironments(bool forTesting) {
     return <String>{
-      if (isTest) test.name else prod.name,
+      if (forTesting) uiTest.name else running.name,
       if (kReleaseMode) release.name,
       if (kDebugMode) debug.name,
       if (kIsWeb) platformWeb.name,
@@ -48,3 +44,7 @@ const Environment platformDesktop = Environment('desktop');
 const Environment release = Environment('release');
 
 const Environment debug = Environment('debug');
+
+const Environment uiTest = Environment('uiTest');
+
+const Environment running = Environment('running');

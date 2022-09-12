@@ -12,4 +12,3 @@ foreach ($info in $secrets.PSObject.Properties) {
 }
 
 Write-Output $dartDefines
-Write-Host "##vso[task.setvariable variable=SecretsDartDefines;]$dartDefines"

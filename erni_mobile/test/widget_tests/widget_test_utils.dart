@@ -1,15 +1,34 @@
 import 'dart:async';
 import 'dart:io';
 
+import 'package:connectivity_plus/connectivity_plus.dart';
+import 'package:drift/drift.dart';
 import 'package:erni_mobile/common/localization/localization.dart';
 import 'package:erni_mobile/dependency_injection.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:golden_toolkit/golden_toolkit.dart';
+import 'package:mockito/annotations.dart';
 import 'package:path/path.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
+import 'widget_test_utils.mocks.dart';
+
+@GenerateNiceMocks([
+  MockSpec<SharedPreferences>(),
+  MockSpec<FlutterSecureStorage>(),
+  MockSpec<Connectivity>(),
+])
 Future<void> setupWidgetTest() async {
-  await ServiceLocator.registerDependencies(isTest: true);
+  await ServiceLocator.registerDependencies(forTesting: true);
+
+  // We register mock 3rd party libraries
+  ServiceLocator.instance.registerSingleton<SharedPreferences>(MockSharedPreferences());
+  ServiceLocator.instance.registerSingleton<FlutterSecureStorage>(MockFlutterSecureStorage());
+  ServiceLocator.instance.registerSingleton<Connectivity>(MockConnectivity());
+
+  driftRuntimeOptions.dontWarnAboutMultipleDatabases = true;
   await Il8n.load(const Locale('en'));
   await loadAppFonts();
 }

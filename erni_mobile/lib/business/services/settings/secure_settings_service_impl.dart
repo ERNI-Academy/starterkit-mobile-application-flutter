@@ -8,17 +8,6 @@ class SecureSettingsServiceImpl implements SecureSettingsService {
 
   final FlutterSecureStorage _secureStorage;
 
-  @factoryMethod
-  static SecureSettingsService create() {
-    const secureStorage = FlutterSecureStorage(
-      aOptions: AndroidOptions(
-        encryptedSharedPreferences: true,
-      ),
-    );
-
-    return SecureSettingsServiceImpl(secureStorage);
-  }
-
   @override
   Future<void> addOrUpdateValue(String key, String value) {
     return _secureStorage.write(key: key, value: value);

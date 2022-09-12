@@ -11,7 +11,7 @@ import 'package:sentry_flutter/sentry_flutter.dart';
 
 @module
 abstract class AppLogModule {
-  @singleton
+  @lazySingleton
   @preResolve
   @release
   Future<List<AppLogWriter>> getWritersForRelease(
@@ -25,12 +25,12 @@ abstract class AppLogModule {
     return List.unmodifiable(<AppLogWriter>[consoleWriter, fileWriter, sentryWriter]);
   }
 
-  @singleton
+  @lazySingleton
   @debug
   List<AppLogWriter> getWritersForDebug(AppLogConsoleWriter consoleWriter, AppLogFileWriter fileWriter) {
     return List.unmodifiable(<AppLogWriter>[consoleWriter, fileWriter]);
   }
 
-  @singleton
+  @lazySingleton
   Hub getSentryHub() => HubAdapter();
 }

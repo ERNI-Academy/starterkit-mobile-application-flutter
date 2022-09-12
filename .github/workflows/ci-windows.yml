@@ -1,0 +1,70 @@
+name: Windows Build
+
+on:
+  workflow_dispatch:
+    inputs:
+      target_environment:
+        required: false
+        type: choice
+        description: Select environment
+        default: dev
+        options:
+        - dev
+
+  push:
+    branches:
+      - main
+
+  pull_request:
+    types: [opened, synchronize, reopened]
+      
+concurrency: 
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+env:
+  PROJECT_WORKING_DIRECTORY: "erni_mobile"
+
+jobs:
+  build-web:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set app environment
+        uses: ./.github/workflows/templates/steps/set-app-environment
+        with:
+          target_environment: ${{ github.event.inputs.target_environment }}
+
+      - name: Set secrets file
+        uses: ./.github/workflows/templates/steps/set-secrets-file
+        with:
+          secrets_file_value: ${{ secrets[env.SECRETS_FILE_KEY] }}
+          app_environment: ${{ env.APP_ENVIRONMENT }}
+          working_directory: ${{ env.PROJECT_WORKING_DIRECTORY }}
+
+      - name: Set secrets as Dart define params
+        uses: ./.github/workflows/templates/steps/set-secrets-as-dart-define-params
+        with:
+          app_environment: ${{ env.APP_ENVIRONMENT }}
+          working_directory: ${{ env.PROJECT_WORKING_DIRECTORY }}
+
+      - name: Install Flutter
+        uses: ./.github/workflows/templates/steps/install-flutter
+
+      - name: Run code generation
+        uses: ./.github/workflows/templates/steps/run-pub-get-and-code-generation
+        with:
+          generate_intl: "true"
+          working_directory: ${{ env.PROJECT_WORKING_DIRECTORY }}
+
+      - name: Build Windows
+        run: |
+          flutter build windows ${{ env.DART_DEFINE_PARAMS }}
+        working-directory: ${{ env.PROJECT_WORKING_DIRECTORY }}
+
+      - name: Publish Windows
+        uses: actions/upload-artifact@v3
+        with:
+          name: windows_build
+          path: ${{ env.PROJECT_WORKING_DIRECTORY }}/build/windows/runner/Release

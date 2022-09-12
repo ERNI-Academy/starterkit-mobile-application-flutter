@@ -43,7 +43,7 @@ class AppLogSentryExceptionWriterImpl implements AppLogSentryExceptionWriter {
     await _sentryHub.captureEvent(
       SentryEvent(
         breadcrumbs: breadCrumbs,
-        environment: _environmentConfig.appEnvironment,
+        environment: _environmentConfig.appEnvironment.name,
         exceptions: [exceptionFactory.getSentryException(event.error, stackTrace: event.stackTrace)],
         extra: event.extras,
         logger: event.owner,
