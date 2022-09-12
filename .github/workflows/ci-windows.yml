@@ -59,12 +59,18 @@ jobs:
           working_directory: ${{ env.PROJECT_WORKING_DIRECTORY }}
 
       - name: Build Windows
-        run: |
-          flutter build windows ${{ env.DART_DEFINE_PARAMS }}
-        working-directory: ${{ env.PROJECT_WORKING_DIRECTORY }}
+        uses: ./.github/workflows/templates/steps/run-command-with-secrets-as-json
+        with:
+          app_environment: ${{ env.APP_ENVIRONMENT }}
+          command: |
+            $certificateFileName = "Certificate.pfx"
+            echo -n "${{ secrets.WINDOWS_DISTRIBUTION_CERTIFICATE_FILE }}" | base64 --decode > $certificateFileName
+            flutter build windows ${{ env.DART_DEFINE_PARAMS }}
+            echo y | flutter pub run msix:create --build-windows false --display-name $SecretsJson.AppName --publisher-display-name "ERNI AG" --identity-name "$($SecretsJson.AppId)$($SecretsJson.AppIdSuffix)" --certificate-path $certificateFileName --certificate-password "${{ secrets.WINDOWS_DISTRIBUTION_CERTIFICATE_PASSWORD }}"
+          working_directory: ${{ env.PROJECT_WORKING_DIRECTORY }}
 
       - name: Publish Windows
         uses: actions/upload-artifact@v3
         with:
           name: windows_build
-          path: ${{ env.PROJECT_WORKING_DIRECTORY }}/build/windows/runner/Release
+          path: ${{ env.PROJECT_WORKING_DIRECTORY }}/build/windows/runner/Release/*.msix
