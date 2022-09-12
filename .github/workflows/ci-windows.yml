@@ -24,6 +24,7 @@ concurrency:
 
 env:
   PROJECT_WORKING_DIRECTORY: "erni_mobile"
+  CERTIFICATE_FILE_NAME: "Certificate.pfx"
 
 jobs:
   build-windows:
@@ -42,6 +43,13 @@ jobs:
           secrets_file_value: ${{ secrets[env.SECRETS_FILE_KEY] }}
           app_environment: ${{ env.APP_ENVIRONMENT }}
           working_directory: ${{ env.PROJECT_WORKING_DIRECTORY }}
+
+      - name: Set certificate file
+        run: |
+          $certificateFileBytes = [Convert]::FromBase64String("${{ secrets.WINDOWS_DISTRIBUTION_CERTIFICATE_FILE }}")
+          [IO.File]::WriteAllBytes(${{ env.CERTIFICATE_FILE_NAME }}, $certificateFileBytes)
+        shell: powershell
+        working-directory: ${{ env.PROJECT_WORKING_DIRECTORY }}
 
       - name: Set secrets as Dart define params
         uses: ./.github/workflows/templates/steps/set-secrets-as-dart-define-params
@@ -63,12 +71,8 @@ jobs:
         with:
           app_environment: ${{ env.APP_ENVIRONMENT }}
           command: |
-            $certificateFileName = "Certificate.pfx"
-            $certificateFileBytes = [Convert]::FromBase64String("${{ secrets.WINDOWS_DISTRIBUTION_CERTIFICATE_FILE }}")
-            [IO.File]::WriteAllBytes($certificateFileName, $certificateFileBytes)
-
             flutter build windows ${{ env.DART_DEFINE_PARAMS }}
-            echo y | flutter pub run msix:create --build-windows false --display-name $SecretsJson.AppName --publisher-display-name "ERNI AG" --identity-name "$($SecretsJson.AppId)$($SecretsJson.AppIdSuffix)" --certificate-path $certificateFileName --certificate-password "${{ secrets.WINDOWS_DISTRIBUTION_CERTIFICATE_PASSWORD }}"
+            echo y | flutter pub run msix:create --build-windows false --display-name $SecretsJson.AppName --publisher-display-name "ERNI AG" --identity-name "$($SecretsJson.AppId)$($SecretsJson.AppIdSuffix)" --certificate-path ${{ env.CERTIFICATE_FILE_NAME }} --certificate-password "${{ secrets.WINDOWS_DISTRIBUTION_CERTIFICATE_PASSWORD }}"
           working_directory: ${{ env.PROJECT_WORKING_DIRECTORY }}
 
       - name: Publish Windows
