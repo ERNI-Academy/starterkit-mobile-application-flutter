@@ -8,8 +8,8 @@ class DatabaseLogLevelToStringConverter extends LogLevelToStringConverter implem
   const DatabaseLogLevelToStringConverter();
 
   @override
-  LogLevel? mapToDart(String? fromDb) => convert(fromDb!);
+  LogLevel fromSql(String fromDb) => convert(fromDb);
 
   @override
-  String? mapToSql(LogLevel? value) => convertBack(value!);
+  String toSql(LogLevel value) => convertBack(value);
 }

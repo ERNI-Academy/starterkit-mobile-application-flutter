@@ -1,4 +1,3 @@
-import 'dart:ffi';
 import 'dart:io';
 
 import 'package:drift/drift.dart';
@@ -6,8 +5,7 @@ import 'package:drift/native.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:sqlite3/open.dart';
-import 'package:sqlite3/sqlite3.dart';
+import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 
 abstract class InternalQueryExecutor extends LazyDatabase {
   InternalQueryExecutor(String dbName) : super(() => _databaseOpener(dbName));
@@ -15,10 +13,7 @@ abstract class InternalQueryExecutor extends LazyDatabase {
 
 Future<NativeDatabase> _databaseOpener(String dbName) async {
   if (Platform.isWindows) {
-    open.overrideFor(OperatingSystem.windows, _openOnWindows);
-
-    final db = sqlite3.openInMemory();
-    db.dispose();
+    sqfliteFfiInit();
   }
 
   final docsDir = await getApplicationSupportDirectory();
@@ -29,15 +24,7 @@ Future<NativeDatabase> _databaseOpener(String dbName) async {
   return NativeDatabase(dbFile);
 }
 
-DynamicLibrary _openOnWindows() {
-  final script = File(Platform.resolvedExecutable);
-  final libraryNextToScript = File(join(script.parent.path, 'sqlite3.dll'));
-
-  return DynamicLibrary.open(libraryNextToScript.path);
-}
-
 abstract class InternalInMemmoryQueryExecutor extends LazyDatabase {
   // Parameter [dbName] is ignored to satisfy other class signature.
-  // ignore: avoid_unused_constructor_parameters
-  InternalInMemmoryQueryExecutor(String dbName) : super(NativeDatabase.memory);
+  InternalInMemmoryQueryExecutor(String _) : super(NativeDatabase.memory);
 }
