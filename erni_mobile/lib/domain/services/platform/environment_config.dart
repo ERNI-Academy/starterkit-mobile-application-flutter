@@ -1,7 +1,8 @@
 import 'package:erni_mobile/business/models/logging/log_level.dart';
+import 'package:erni_mobile/business/models/platform/app_environment.dart';
 
 abstract class EnvironmentConfig {
-  String get appEnvironment;
+  AppEnvironment get appEnvironment;
 
   String get appName;
 

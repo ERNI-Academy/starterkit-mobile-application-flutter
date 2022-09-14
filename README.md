@@ -5,7 +5,7 @@ ERNI Academy mobile boilerplate to start a cross-platform Flutter mobile applica
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
-[![Code Validation](https://github.com/ERNI-Academy/starterkit-mobile-application-flutter/actions/workflows/ci-code-validation.yml/badge.svg?branch=main)](https://github.com/ERNI-Academy/starterkit-mobile-application-flutter/actions/workflows/ci-code-validation.yml) [![Android Build](https://github.com/ERNI-Academy/starterkit-mobile-application-flutter/actions/workflows/ci-android.yml/badge.svg)](https://github.com/ERNI-Academy/starterkit-mobile-application-flutter/actions/workflows/ci-android.yml)
+[![Code Validation](https://github.com/ERNI-Academy/starterkit-mobile-application-flutter/actions/workflows/ci-code-validation.yml/badge.svg)](https://github.com/ERNI-Academy/starterkit-mobile-application-flutter/actions/workflows/ci-code-validation.yml) [![Android Build](https://github.com/ERNI-Academy/starterkit-mobile-application-flutter/actions/workflows/ci-android.yml/badge.svg)](https://github.com/ERNI-Academy/starterkit-mobile-application-flutter/actions/workflows/ci-android.yml) [![Web Build](https://github.com/ERNI-Academy/starterkit-mobile-application-flutter/actions/workflows/ci-web.yml/badge.svg)](https://github.com/ERNI-Academy/starterkit-mobile-application-flutter/actions/workflows/ci-web.yml) [![Windows Build](https://github.com/ERNI-Academy/starterkit-mobile-application-flutter/actions/workflows/ci-windows.yml/badge.svg)](https://github.com/ERNI-Academy/starterkit-mobile-application-flutter/actions/workflows/ci-windows.yml)
 ## Built With
 
 - [Flutter](https://flutter.dev)
@@ -22,31 +22,31 @@ ERNI Academy mobile boilerplate to start a cross-platform Flutter mobile applica
 - v3.3.0+ on stable channel
 
 **Dart**
-- v2.17.0+
+- v2.18.0+
 
 **Visual Studio Code**
-- [Download VS Code](https://code.visualstudio.com/download)
+- [Download Visual Studio Code](https://code.visualstudio.com/download)
 - A [list of extensions](erni_mobile/.vscode/extensions.json) are required to be installed in order to properly run the project
 
 **Android**
-- Android 29 (minimum), Android 32 (target)
 - [Download Android Studio](https://developer.android.com/studio)
+- Android 30 (minimum), Android 33 (target)
 
 **iOS and macOS**
+- [Download Xcode 13](https://developer.apple.com/download/all/)
 - iOS 13 (minimum), iOS 16 (target)
 - Requires macOS 11 (Big Sur) or higher
-- [Download Xcode 13](https://developer.apple.com/download/all/)
 
 **Windows**
+- [Download Visual Studio 2022](https://visualstudio.microsoft.com/vs/)
 - Windows 10 or later (64-bit), x86-64 based
-- Visual Studio 2022 is required for [building Windows applications](https://docs.flutter.dev/desktop#additional-windows-requirements)
 - Additional Windows requirements [here](https://docs.flutter.dev/development/platform-integration/desktop#additional-windows-requirements)
 - Note that **Visual Studio** is different from **Visual Studio *Code***
   
 **Web**
 - Any browser capable of debugging, but preferably chrome-based browsers
 
-## Installation
+## Project Setup
 
 1. Clone the repo
 
@@ -59,7 +59,7 @@ ERNI Academy mobile boilerplate to start a cross-platform Flutter mobile applica
     ```sh
     flutter pub get
     ```
-3. Set secrets file (TODO)
+3. Update the contents of `.secrets/dev.secrets` and untrack it from git
 
 4. Run code generation
 
@@ -67,11 +67,11 @@ ERNI Academy mobile boilerplate to start a cross-platform Flutter mobile applica
     # Run this command one time
     flutter pub global activate intl_utils
 
-    # Run this command whenever you use build_runner
-    flutter pub run build_runner build --delete-conflicting-outputs
-
     # Run this command to generate localization files
     flutter pub global run intl_utils:generate
+
+    # Run this command whenever you use build_runner
+    flutter pub run build_runner build --delete-conflicting-outputs
     ```
 
 ## Contributing
@@ -90,7 +90,7 @@ Please see our [Code of Conduct](CODE_OF_CONDUCT.md)
 
 ## Stats
 
-Check [https://repobeats.axiom.co/](https://repobeats.axiom.co/) for the right URL
+![Alt](https://repobeats.axiom.co/api/embed/0efcc903e049a8ee8086139e5a6b22e2504c1fa1.svg "Repobeats analytics image")
 
 ## Follow us
 

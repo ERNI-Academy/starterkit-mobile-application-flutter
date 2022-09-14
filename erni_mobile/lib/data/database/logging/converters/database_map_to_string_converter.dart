@@ -6,20 +6,8 @@ class DatabaseMapToStringConverter implements TypeConverter<Map<String, Object>,
   const DatabaseMapToStringConverter();
 
   @override
-  Map<String, Object>? mapToDart(String? fromDb) {
-    if (fromDb == null) {
-      return null;
-    }
-
-    return (jsonDecode(fromDb) as Map).cast();
-  }
+  Map<String, Object> fromSql(String fromDb) => (jsonDecode(fromDb) as Map).cast();
 
   @override
-  String? mapToSql(Map<String, Object>? value) {
-    if (value == null) {
-      return null;
-    }
-
-    return jsonEncode(value);
-  }
+  String toSql(Map<String, Object> value) => jsonEncode(value);
 }

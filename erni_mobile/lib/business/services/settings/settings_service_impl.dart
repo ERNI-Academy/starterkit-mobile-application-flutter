@@ -8,7 +8,6 @@ import 'package:injectable/injectable.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 @LazySingleton(as: SettingsService)
-@preResolve
 class SettingsServiceImpl implements SettingsService {
   SettingsServiceImpl(this._prefs, this._jsonConverter) {
     settingsChanged = _streamController.stream;
@@ -20,13 +19,6 @@ class SettingsServiceImpl implements SettingsService {
 
   @override
   late final Stream<SettingsChangedModel> settingsChanged;
-
-  @factoryMethod
-  static Future<SettingsServiceImpl> create(JsonConverter jsonService) async {
-    final prefs = await SharedPreferences.getInstance();
-
-    return SettingsServiceImpl(prefs, jsonService);
-  }
 
   @override
   T? getValue<T extends Object>(String key, {T? defaultValue}) {

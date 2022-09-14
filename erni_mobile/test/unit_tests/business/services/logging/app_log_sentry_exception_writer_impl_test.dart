@@ -1,5 +1,6 @@
 import 'package:erni_mobile/business/models/logging/app_log_event_entity.dart';
 import 'package:erni_mobile/business/models/logging/log_level.dart';
+import 'package:erni_mobile/business/models/platform/app_environment.dart';
 import 'package:erni_mobile/business/services/logging/app_log_sentry_exception_writer_impl.dart';
 import 'package:erni_mobile/data/database/logging/logging_database.dart';
 import 'package:erni_mobile/domain/repositories/logging/app_log_repository.dart';
@@ -36,8 +37,8 @@ void main() {
       when(mockAppLogRepository.selectAll()).thenAnswer((_) async => events);
     }
 
-    void setupEnvironmentConfig([String? appEnvironment]) {
-      when(mockEnvironmentConfig.appEnvironment).thenReturn(appEnvironment ?? '');
+    void setupEnvironmentConfig([AppEnvironment appEnvironment = AppEnvironment.dev]) {
+      when(mockEnvironmentConfig.appEnvironment).thenReturn(appEnvironment);
     }
 
     AppLogSentryExceptionWriterImpl createUnitToTest() =>
@@ -130,9 +131,9 @@ void main() {
         appLogEventEntityWithError,
       ];
       final appLogEventObjects = appLogEventEntities.map(fromEntity).toList();
-      const actualAppEnvironment = 'test';
+      const actualAppEnvironment = AppEnvironment.dev;
       setupAppLogRepository(appLogEventObjects);
-      setupEnvironmentConfig(actualAppEnvironment);
+      setupEnvironmentConfig();
 
       final unit = createUnitToTest();
 
@@ -147,7 +148,7 @@ void main() {
       expect(actualSentryEvent.logger, appLogEventEntityWithError.owner);
       expect(actualSentryEvent.exceptions, isNotEmpty);
       expect(actualSentryEvent.breadcrumbs, isNotEmpty);
-      expect(actualSentryEvent.environment, actualAppEnvironment);
+      expect(actualSentryEvent.environment, actualAppEnvironment.name);
     });
 
     test('write should not capture event when event error is null', () async {

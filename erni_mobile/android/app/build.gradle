@@ -74,7 +74,7 @@ if (project.hasProperty('dart-defines')) {
 }
 
 android {
-    compileSdkVersion 32
+    compileSdkVersion 33
 
     sourceSets {
         main.java.srcDirs += 'src/main/kotlin'
@@ -82,8 +82,8 @@ android {
 
     defaultConfig {
         applicationId dartDefines.appId
-        minSdkVersion 29
-        targetSdkVersion 32
+        minSdkVersion 30
+        targetSdkVersion 33
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
         resValue "string", "app_name", dartDefines.appName

@@ -1,0 +1,19 @@
+name: Set app environment
+description: Sets the current app environment
+
+inputs:
+  target_environment:
+    description: 'The target environment'
+    default: dev
+
+runs:
+  using: composite
+  steps:
+    - run: |
+        APP_ENVIRONMENT_VALUE=${{ inputs.target_environment }}
+        if [[ -z "$APP_ENVIRONMENT_VALUE" ]]; then
+            APP_ENVIRONMENT_VALUE=dev
+        fi
+        echo "APP_ENVIRONMENT=$APP_ENVIRONMENT_VALUE" >> $GITHUB_ENV
+        echo "SECRETS_FILE_KEY=${APP_ENVIRONMENT_VALUE}_secrets" >> $GITHUB_ENV
+      shell: bash

@@ -11,6 +11,7 @@ import 'package:erni_mobile/ui/view_models/main/app_view_model.dart';
 import 'package:erni_mobile/ui/views/main/splash_view.dart';
 import 'package:erni_mobile/ui/views/view_mixin.dart';
 import 'package:erni_mobile/ui/widgets/widgets.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 import 'package:responsive_framework/utils/responsive_utils.dart';
@@ -20,6 +21,13 @@ class App extends StatelessWidget with ViewMixin<AppViewModel> {
   const App({Key? key, this.home}) : super(key: key);
 
   final Widget? home;
+
+  @override
+  AppViewModel onCreateViewModel(BuildContext context) {
+    SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(statusBarColor: Colors.transparent));
+
+    return super.onCreateViewModel(context);
+  }
 
   @override
   Widget buildView(BuildContext context, AppViewModel viewModel) {
