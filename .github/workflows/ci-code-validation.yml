@@ -100,16 +100,19 @@ jobs:
 
       - name: Check for golden test failures
         run: |
-          $fileExists = Test-Path -Path "test/widget_tests/**/failures/**"
-          echo "IS_GOLDEN_TEST_FAILED=$fileExists" | Out-File -FilePath $Env:GITHUB_ENV -Encoding utf8 -Append
-        shell: powershell
+          $fileExists = false
+          if compgen -G "test/widget_tests/**/failures/**"  > /dev/null;
+            $fileExists = true
+          fi
+          echo "IS_GOLDEN_TEST_FAILED=$fileExists" >> $GITHUB_ENV
+        shell: bash
         working-directory: ${{ env.PROJECT_WORKING_DIRECTORY }}
 
       - name: Publish golden test failures
         uses: actions/upload-artifact@v3
         with:
           name: golden_test_failures
-          path: ${{ env.PROJECT_WORKING_DIRECTORY }}/test/widget_tests/views/failures
+          path: ${{ env.PROJECT_WORKING_DIRECTORY }}/test/widget_tests/**/failures/**
         if: ${{ env.IS_GOLDEN_TEST_FAILED == 'true' }}
 
       - name: Code Coverage Report
