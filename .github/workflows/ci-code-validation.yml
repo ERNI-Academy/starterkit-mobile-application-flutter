@@ -98,22 +98,12 @@ jobs:
           python ../../scripts/cobertura.py lcov.info
         working-directory: ${{ env.PROJECT_WORKING_DIRECTORY }}
 
-      - name: Check for golden test failures
-        run: |
-          $fileExists = false
-          if compgen -G "test/widget_tests/**/failures/**"  > /dev/null;
-            $fileExists = true
-          fi
-          echo "IS_GOLDEN_TEST_FAILED=$fileExists" >> $GITHUB_ENV
-        shell: bash
-        working-directory: ${{ env.PROJECT_WORKING_DIRECTORY }}
-
       - name: Publish golden test failures
         uses: actions/upload-artifact@v3
         with:
           name: golden_test_failures
           path: ${{ env.PROJECT_WORKING_DIRECTORY }}/test/widget_tests/**/failures/**
-        if: ${{ env.IS_GOLDEN_TEST_FAILED == 'true' }}
+        continue-on-error: true
 
       - name: Code Coverage Report
         uses: irongut/CodeCoverageSummary@v1.3.0
