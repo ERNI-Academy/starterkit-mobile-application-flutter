@@ -10,14 +10,12 @@ import 'package:erni_mobile/common/utils/extensions/string_extensions.dart';
 import 'package:erni_mobile/dependency_injection.dart';
 import 'package:erni_mobile/domain/services/logging/app_logger.dart';
 import 'package:flutter/foundation.dart';
-import 'package:injectable/injectable.dart';
 
-@lazySingleton
-class DioProvider {
+abstract class DioProvider {
   static const _requestTimeOutInMs = 30000;
 
-  Dio create({required String serviceName}) {
-    final identityHash = describeIdentity(this).split('#').last;
+  static Dio create({required String serviceName}) {
+    final identityHash = describeIdentity(serviceName).split('#').last;
     final logger = ServiceLocator.instance<AppLogger>()..logForNamed('$serviceName#$identityHash');
     final dioLoggingInterceptor = _DioLoggingInterceptor(logger);
 

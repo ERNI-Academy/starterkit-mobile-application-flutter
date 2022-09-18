@@ -39,11 +39,10 @@ jobs:
         working-directory: ${{ env.PROJECT_WORKING_DIRECTORY }}
 
       - name: Check for duplicate lines of code
-        uses: Pposong-Hantaihe/dry-code@v1.0.2
-        with:
-          token: "${{ secrets.GITHUB_TOKEN }}"
-          arguments: ${{ env.PROJECT_WORKING_DIRECTORY }}/lib
-          options: --threshold 5
+        run: |
+          npm install -g jscpd
+          npx jscpd lib --reporters consoleFull --threshold 5
+        working-directory: ${{ env.PROJECT_WORKING_DIRECTORY }}
 
       - name: Run code generation
         uses: ./.github/workflows/templates/steps/run-pub-get-and-code-generation
