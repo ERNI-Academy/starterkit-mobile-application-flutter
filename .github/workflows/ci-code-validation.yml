@@ -45,7 +45,7 @@ jobs:
         working-directory: ${{ env.PROJECT_WORKING_DIRECTORY }}
         if: github.event_name != 'pull_request'
 
-      - name: Check for duplicate lines of code
+      - name: Check for duplicate lines of code and comment on PR
         uses: Pposong-Hantaihe/dry-code@v1.0.2
         with:
           token: "${{ secrets.GITHUB_TOKEN }}"
@@ -94,6 +94,8 @@ jobs:
           mkdir coverage
           touch coverage/results.json
           flutter test --coverage --machine >> coverage/results.json
+          cd coverage
+          python ../../scripts/cobertura.py lcov.info
         working-directory: ${{ env.PROJECT_WORKING_DIRECTORY }}
 
       - name: Check for golden test failures
@@ -110,11 +112,24 @@ jobs:
           path: ${{ env.PROJECT_WORKING_DIRECTORY }}/test/widget_tests/views/failures
         if: ${{ env.IS_GOLDEN_TEST_FAILED == 'true' }}
 
-      - name: Report code coverage
-        uses: romeovs/lcov-reporter-action@v0.2.16
+      - name: Code Coverage Report
+        uses: irongut/CodeCoverageSummary@v1.3.0
         with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          lcov-file: ${{ env.PROJECT_WORKING_DIRECTORY }}/coverage/lcov.info
+          filename: ${{ env.PROJECT_WORKING_DIRECTORY }}/coverage/coverage.xml
+          badge: true
+          fail_below_min: false
+          format: markdown
+          hide_branch_rate: false
+          hide_complexity: true
+          indicators: true
+          output: both
+          thresholds: '60 80'
+
+      - name: Add Coverage PR Comment
+        uses: marocchino/sticky-pull-request-comment@v2
+        with:
+          recreate: true
+          path: code-coverage-results.md
         if: github.event_name == 'pull_request'
 
       - name: Report test results
