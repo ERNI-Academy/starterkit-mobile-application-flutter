@@ -43,6 +43,15 @@ jobs:
           npm install -g jscpd
           npx jscpd lib --reporters consoleFull --threshold 5
         working-directory: ${{ env.PROJECT_WORKING_DIRECTORY }}
+        if: github.event_name != 'pull_request'
+
+      - name: Check for duplicate lines of code
+        uses: Pposong-Hantaihe/dry-code@v1.0.2
+        with:
+          token: "${{ secrets.GITHUB_TOKEN }}"
+          arguments: ${{ env.PROJECT_WORKING_DIRECTORY }}/lib
+          options: --threshold 5
+        if: github.event_name == 'pull_request'
 
       - name: Run code generation
         uses: ./.github/workflows/templates/steps/run-pub-get-and-code-generation
@@ -106,6 +115,7 @@ jobs:
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           lcov-file: ${{ env.PROJECT_WORKING_DIRECTORY }}/coverage/lcov.info
+        if: github.event_name == 'pull_request'
 
       - name: Report test results
         uses: dorny/test-reporter@v1
