@@ -16,7 +16,7 @@ ERNI Academy mobile boilerplate to start a cross-platform Flutter mobile applica
 ## Getting Started
 
 - [Install Flutter](https://docs.flutter.dev/get-started/install)
-- [Dart Lanugage Tour](https://dart.dev/guides/language/language-tour)
+- [Introduction to Dart Language](https://dart.dev/guides/language/language-tour)
 - [Flutter Documentation](https://docs.flutter.dev/)
 
 ## Prerequisites
@@ -62,7 +62,12 @@ ERNI Academy mobile boilerplate to start a cross-platform Flutter mobile applica
     ```sh
     flutter pub get
     ```
-3. Update the contents of `.secrets/dev.secrets` and untrack it from git
+3. Update the contents of `.secrets/dev.secrets` and untrack it from git. In the project's [.gitignore](erni_mobile/.gitignore), update it to add:
+   ```sh
+    # Comment this out after setting the correct secrets
+    .secrets/**
+   ```
+   Read more about setting up your environments [here](docs/environments.md).
 
 4. Run code generation
 
@@ -76,6 +81,8 @@ ERNI Academy mobile boilerplate to start a cross-platform Flutter mobile applica
     # Run this command whenever you use build_runner
     flutter pub run build_runner build --delete-conflicting-outputs
     ```
+
+    Read more about code generation [here](docs/code_generation.md).
 
 ## Contributing
 

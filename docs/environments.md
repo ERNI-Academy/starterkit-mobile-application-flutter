@@ -26,16 +26,18 @@ Below is a sample of a `.secrets` file for the development environment:
 
 ```json
 {
-    "appName": "App (Dev)",
-    "appServerUrl": "https://ephblueprint-be.azurewebsites.net",
+    "appEnvironment": "Dev",
+    "appName": "ERNI Mobile",
     "appWebDebugPort": "7072",
+    "appServerUrl": "https://jsonplaceholder.typicode.com/",
     "appId": "ch.erni.mobile",
     "appIdSuffix": ".dev",
-    "appUniversalLink": "ephblueprint-fe.azurewebsites.net",
-    "iOSDevelopmentTeam": "2A26KBG984",
-    "iOSDevelopmentProfile": "ERNI Mobile Blueprint Flutter (Development)",
-    "iOSDistributionProfile": "ERNI Mobile Blueprint Flutter (Distribution)",
-    "iOSExportMethod": "enterprise"
+    "iOSDevelopmentTeam": "ABCDE12345",
+    "iOSDevelopmentProfile": "Your Apple Development Profile",
+    "iOSDistributionProfile": "Your Apple Distribution Profile",
+    "iOSExportMethod": "enterprise",
+    "minLogLevel": "info",
+    "sentryDsn": "https://abcde12345.ingest.sentry.io/abcde1234"
 }
 ```
 
@@ -44,27 +46,3 @@ If you want to use some values like Google Maps Keys, application suffix IDs, et
 :exclamation: **<span style="color: red">IMPORTANT</span>**
 
 The folder `.secrets` is committed to git by default (for testing purposes), you should uncomment last part of the [.gitignore](../erni_mobile/.gitignore) file to remove it from git.
-
-# CI Pipeline Integration
-
-The `.secrets` file should be uploaded to our CI server and download this file to each of our CI pipelines. We have a custom script (PowerShell) step that extracts the values for the appropriate environment:
-
-```powershell
-$secrets = Get-Content ".secrets/<your-env>.secrets" | out-string | ConvertFrom-Json # you must set the secret file to use as a pipeline variable
-$dartDefines = ""
-
-foreach ($info in $secrets.PSObject.Properties) {
-    $key = $info.Name
-    $value = $info.Value
-    $dartDefines += "--dart-define `"$key=$value`" "
-}
-
-Write-Output $dartDefines
-Write-Host "##vso[task.setvariable variable=dartDefines;]$dartDefines"
-```
-
-The script creates a part of the build command that contains the Dart defines, stored in `$dartDefines` variable which will be available to the following steps of the pipeline:
-
-```sh
-flutter build apk --debug $(dartDefines)
-```
