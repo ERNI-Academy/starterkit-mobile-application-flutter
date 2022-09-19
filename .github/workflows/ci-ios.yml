@@ -1,4 +1,4 @@
-name: Web Build
+name: iOS Build
 
 on:
   workflow_dispatch:
@@ -26,7 +26,7 @@ env:
   PROJECT_WORKING_DIRECTORY: "erni_mobile"
 
 jobs:
-  build-web:
+  build-ios:
     runs-on: macos-latest
     steps:
       - uses: actions/checkout@v3
@@ -43,6 +43,17 @@ jobs:
           app_environment: ${{ env.APP_ENVIRONMENT }}
           working_directory: ${{ env.PROJECT_WORKING_DIRECTORY }}
 
+      - name: Install iOS distribution certificate
+        uses: apple-actions/import-codesign-certs@v1
+        with: 
+          p12-file-base64: ${{ secrets.IOS_DISTRIBUTION_CERTIFICATE_FILE }}
+          p12-password: ${{ secrets.IOS_DISTRIBUTION_CERTIFICATE_PASSWORD }}
+
+      - name: Install iOS provisioning profile
+        uses: akiojin/install-provisioning-profile-github-action@v1.0
+        with:
+          base64: ${{ secrets.IOS_PROVISIONING_PROFILE_FILE }}
+
       - name: Install Flutter
         uses: ./.github/workflows/steps/install-flutter
 
@@ -52,13 +63,13 @@ jobs:
           generate_intl: "true"
           working_directory: ${{ env.PROJECT_WORKING_DIRECTORY }}
 
-      - name: Build Web
+      - name: Build iOS App
         run: |
-          fastlane build_web_release
+          fastlane build_ios_release
         working-directory: ${{ env.PROJECT_WORKING_DIRECTORY }}
 
-      - name: Publish Web
+      - name: Publish iOS App
         uses: actions/upload-artifact@v3
         with:
-          name: web_build
-          path: ${{ env.PROJECT_WORKING_DIRECTORY }}/build/web
+          name: ios_build
+          path: ${{ env.PROJECT_WORKING_DIRECTORY }}/build/ios/ipa/**
