@@ -1,12 +1,12 @@
 #!/bin/sh
 
 # Usage:
-#   bash set_dart_defines_variable.sh <env>
+#   bash env_to_dart_defines.sh <env>
 #
 # Example:
-#   bash set_dart_defines_variable.sh dev
-#   export DART_DEFINES=$(bash set_dart_defines_variable.sh dev)
-#   eval flutter build apk $DART_DEFINES
+#   bash env_to_dart_defines.sh dev
+#   export DART_DEFINES=$(bash env_to_dart_defines.sh dev)
+#   flutter build apk $DART_DEFINES
 
 json=$(cat .secrets/${1}.secrets)
 
