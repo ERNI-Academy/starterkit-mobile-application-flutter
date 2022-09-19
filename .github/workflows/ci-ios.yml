@@ -32,12 +32,12 @@ jobs:
       - uses: actions/checkout@v3
 
       - name: Set app environment
-        uses: ./.github/workflows/templates/steps/set-app-environment
+        uses: ./.github/workflows/steps/set-app-environment
         with:
           target_environment: ${{ github.event.inputs.target_environment }}
       
       - name: Set secrets file
-        uses: ./.github/workflows/templates/steps/set-secrets-file
+        uses: ./.github/workflows/steps/set-secrets-file
         with:
           secrets_file_value: ${{ secrets[env.SECRETS_FILE_KEY] }}
           app_environment: ${{ env.APP_ENVIRONMENT }}
@@ -55,18 +55,12 @@ jobs:
           base64: ${{ secrets.IOS_PROVISIONING_PROFILE_FILE }}
 
       - name: Install Flutter
-        uses: ./.github/workflows/templates/steps/install-flutter
+        uses: ./.github/workflows/steps/install-flutter
 
       - name: Run code generation
-        uses: ./.github/workflows/templates/steps/run-pub-get-and-code-generation
+        uses: ./.github/workflows/steps/run-pub-get-and-code-generation
         with:
           generate_intl: "true"
-          working_directory: ${{ env.PROJECT_WORKING_DIRECTORY }}
-
-      - name: Set secrets as Dart define params
-        uses: ./.github/workflows/templates/steps/set-secrets-as-dart-define-params
-        with:
-          app_environment: ${{ env.APP_ENVIRONMENT }}
           working_directory: ${{ env.PROJECT_WORKING_DIRECTORY }}
 
       - name: Build iOS App
