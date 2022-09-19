@@ -18,7 +18,7 @@ before_all do
   secrets.each { |k, v| dart_defines << "--dart-define \"#{k}=#{v}\" " }
 end
 
-desc "Build release"
+desc "Build Android release"
 lane :"build_android_release" do |options|
   output = options[:output]
   task = ""
@@ -48,22 +48,34 @@ lane :"build_android_release" do |options|
   end
 end
 
-desc "Build release"
+desc "Build iOS release"
 lane :"build_ios_release" do |options|
-  sh "cd ..; pod --version; sh ../scripts/gen_export_options_plist.sh #{app_environment}"
-
   if is_number?(options[:version_number]) && !options[:version_name].nil?
     version_number = options[:version_number]
     version_name = options[:version_name]
 
     puts "Building #{version_name} (#{version_number})"
 
-    sh "cd ..; flutter build ipa --export-options-plist \"ios/Runner/ExportOptions.plist\" --build-number #{version_number} --build-name #{version_name} #{dart_defines}"
+    sh "flutter build ios --build-number #{version_number} --build-name #{version_name} #{dart_defines}"
   else
-    sh "cd ..; flutter build ipa --export-options-plist \"ios/Runner/ExportOptions.plist\" #{dart_defines}"
+    sh "flutter build ios #{dart_defines}"
   end
 
-  "build/ios/ipa/#{secrets[:appName]}.ipa"
+  build_app(
+    workspace: "ios/Runner.xcworkspace",
+    scheme: "Runner",
+    configuration: "Release",
+    output_directory: "build/ios/ipa",
+    output_name: "app-release.ipa",
+    export_options: {
+      method: "#{secrets[:iOSExportMethod]}",
+      provisioningProfiles: { 
+        "#{secrets[:appId]}#{secrets[:appIdSuffix]}" => "#{secrets[:iOSDistributionProfile]}",
+      }
+    }
+  )
+
+  "build/ios/ipa/app-release.ipa"
 end
 
 desc "Build web release"
