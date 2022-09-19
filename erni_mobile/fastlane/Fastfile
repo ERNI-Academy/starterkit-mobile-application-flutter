@@ -56,9 +56,9 @@ lane :"build_ios_release" do |options|
 
     puts "Building #{version_name} (#{version_number})"
 
-    sh "flutter build ios --build-number #{version_number} --build-name #{version_name} #{dart_defines}"
+    sh "flutter build ios --no-codesign --build-number #{version_number} --build-name #{version_name} #{dart_defines}"
   else
-    sh "flutter build ios #{dart_defines}"
+    sh "flutter build ios --no-codesign #{dart_defines}"
   end
 
   build_app(
@@ -68,6 +68,8 @@ lane :"build_ios_release" do |options|
     output_directory: "build/ios/ipa",
     output_name: "app-release.ipa",
     export_options: {
+      signingStyle: "manual",
+      teamID: "#{secrets[:iOSDevelopmentTeam]}",
       method: "#{secrets[:iOSExportMethod]}",
       provisioningProfiles: { 
         "#{secrets[:appId]}#{secrets[:appIdSuffix]}" => "#{secrets[:iOSDistributionProfile]}",
