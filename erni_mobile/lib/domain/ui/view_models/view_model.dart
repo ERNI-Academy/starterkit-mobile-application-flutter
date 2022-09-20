@@ -29,9 +29,4 @@ abstract class ViewModel<TParameter extends Object> extends ChangeNotifier {
   ///
   /// [parameter] and [queries] are passed when navigating to this view model.
   Future<void> onFirstRender([TParameter? parameter, Queries queries = const {}]) => Future.value();
-
-  /// Vetos the pop navigation (i.e. pressing back button).
-  ///
-  /// Return `true` if you want the view to pop, otherwise return `false`.
-  Future<bool> onWillPop() => Future.value(true);
 }

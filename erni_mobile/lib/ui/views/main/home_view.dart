@@ -3,11 +3,11 @@
 import 'package:erni_mobile/business/models/ui/drawer_menu_model.dart';
 import 'package:erni_mobile/common/constants/route_names.dart';
 import 'package:erni_mobile/common/localization/localization.dart';
+import 'package:erni_mobile/domain/ui/views/view_mixin.dart';
 import 'package:erni_mobile/ui/view_models/main/home_view_model.dart';
 import 'package:erni_mobile/ui/views/main/about_view.dart';
 import 'package:erni_mobile/ui/views/main/side_menu_view.dart';
 import 'package:erni_mobile/ui/views/settings/settings_view.dart';
-import 'package:erni_mobile/ui/views/view_mixin.dart';
 import 'package:erni_mobile/ui/widgets/widgets.dart';
 import 'package:injectable/injectable.dart';
 

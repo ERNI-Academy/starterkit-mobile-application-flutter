@@ -1,10 +1,8 @@
-// ignore_for_file: avoid-unused-parameters
-
 import 'package:erni_mobile/dependency_injection.dart';
 import 'package:erni_mobile/domain/services/ui/navigation/navigation_service.dart';
-import 'package:erni_mobile/ui/view_models/app_lifecycle_aware_mixin.dart';
-import 'package:erni_mobile/ui/view_models/route_aware_mixin.dart';
-import 'package:erni_mobile/ui/view_models/view_model.dart';
+import 'package:erni_mobile/domain/ui/view_models/app_lifecycle_aware_mixin.dart';
+import 'package:erni_mobile/domain/ui/view_models/route_aware_mixin.dart';
+import 'package:erni_mobile/domain/ui/view_models/view_model.dart';
 import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
 
@@ -20,10 +18,7 @@ abstract class ViewMixin<TViewModel extends ViewModel> {
       builder: (context, child) {
         final viewModel = context.watch<TViewModel>();
 
-        return WillPopScope(
-          onWillPop: viewModel.onWillPop,
-          child: buildView(context, viewModel),
-        );
+        return buildView(context, viewModel);
       },
     );
   }
@@ -37,11 +32,11 @@ abstract class ViewMixin<TViewModel extends ViewModel> {
     viewModel.dispose();
 
     if (viewModel is RouteAwareMixin) {
-      NavigationService.navigationObserverRegistrar.unsubscribe(viewModel as RouteAwareMixin);
+      NavigationService.navigationObserverRegistrar.unsubscribe(viewModel);
     }
 
     if (viewModel is AppLifeCycleAwareMixin) {
-      WidgetsBinding.instance.removeObserver(viewModel as AppLifeCycleAwareMixin);
+      WidgetsBinding.instance.removeObserver(viewModel);
     }
   }
 
@@ -57,12 +52,12 @@ abstract class ViewMixin<TViewModel extends ViewModel> {
     final route = ModalRoute.of(context);
 
     if (route != null && viewModel is RouteAwareMixin) {
-      NavigationService.navigationObserverRegistrar.subscribe(viewModel as RouteAwareMixin, route);
+      NavigationService.navigationObserverRegistrar.subscribe(viewModel, route);
     }
 
     // Add binding observer
     if (viewModel is AppLifeCycleAwareMixin) {
-      WidgetsBinding.instance.addObserver(viewModel as AppLifeCycleAwareMixin);
+      WidgetsBinding.instance.addObserver(viewModel);
     }
 
     _initializeViewModel(viewModel, route?.settings.name, route?.settings.arguments);

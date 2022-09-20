@@ -12,7 +12,7 @@
     "Creates a ViewModel class": {
         "prefix": "vm",
         "body": [
-            "import 'package:erni_mobile/ui/view_models/view_model.dart';",
+            "import 'package:erni_mobile/domain/ui/view_models/view_model.dart';",
             "import 'package:injectable/injectable.dart';",
             "",
             "@injectable",
@@ -68,7 +68,7 @@
             "// coverage:ignore-file",
             "",
             "import 'package:erni_mobile/common/constants/route_names.dart';",
-            "import 'package:erni_mobile/ui/views/view_mixin.dart';",
+            "import 'package:erni_mobile/domain/ui/views/view_mixin.dart';",
             "import 'package:erni_mobile/ui/widgets/widgets.dart';",
             "import 'package:injectable/injectable.dart';",
             "",
@@ -95,7 +95,7 @@
             "// coverage:ignore-file",
             "",
             "import 'package:erni_mobile/common/constants/route_names.dart';",
-            "import 'package:erni_mobile/ui/views/view_mixin.dart';",
+            "import 'package:erni_mobile/domain/ui/views/view_mixin.dart';",
             "import 'package:erni_mobile/ui/widgets/widgets.dart';",
             "import 'package:injectable/injectable.dart';",
             "",
