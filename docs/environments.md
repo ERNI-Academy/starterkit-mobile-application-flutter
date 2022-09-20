@@ -41,8 +41,12 @@ Below is a sample of a `.secrets` file for the development environment:
 }
 ```
 
-If you want to use some values like Google Maps Keys, application suffix IDs, etc., these Dart defines can be accessed in the native platforms. Read more about it [here](https://itnext.io/flutter-1-17-no-more-flavors-no-more-ios-schemas-command-argument-that-solves-everything-8b145ed4285d).
-
 :exclamation: **<span style="color: red">IMPORTANT</span>**
 
 The folder `.secrets` is committed to git by default (for testing purposes), you should uncomment last part of the [.gitignore](../erni_mobile/.gitignore) file to remove it from git.
+
+### Accessing Dart Defines in the Platforms
+
+The Android and iOS native projects are already configured to update their current configurations based on the environment file we will use. For example, the provisioning profile used for running the app on an iPhone device are automatically selected (given that the profile is available in your local machine).
+
+If you want to use some values like Google Maps Keys, application suffix IDs, etc., these Dart defines can be accessed in the native platforms. Read more about it [here](https://itnext.io/flutter-1-17-no-more-flavors-no-more-ios-schemas-command-argument-that-solves-everything-8b145ed4285d).

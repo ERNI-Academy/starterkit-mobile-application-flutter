@@ -62,14 +62,8 @@ ERNI Academy mobile boilerplate to start a cross-platform Flutter mobile applica
     ```sh
     flutter pub get
     ```
-3. Update the contents of `.secrets/dev.secrets` and untrack it from git. In the project's [.gitignore](erni_mobile/.gitignore), update it to add:
-   ```sh
-    # Comment this out after setting the correct secrets
-    .secrets/**
-   ```
-   Read more about setting up your environments [here](docs/environments.md).
 
-4. Run code generation
+3. Run code generation
 
     ```sh
     # Run this command one time
@@ -83,6 +77,13 @@ ERNI Academy mobile boilerplate to start a cross-platform Flutter mobile applica
     ```
 
     Read more about code generation [here](docs/code_generation.md).
+    
+ 4. Update the contents of `.secrets/dev.secrets` and untrack it from git. In the project's [.gitignore](erni_mobile/.gitignore), update it to add:
+    ```sh
+    # Comment this out after setting the correct secrets
+    .secrets/**
+    ```
+    Read more about setting up your environments [here](docs/environments.md).
 
 ## Contributing
 
