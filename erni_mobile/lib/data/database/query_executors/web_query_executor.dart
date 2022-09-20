@@ -1,3 +1,5 @@
+// coverage:ignore-file
+
 import 'package:drift/web.dart';
 
 abstract class InternalQueryExecutor extends WebDatabase {

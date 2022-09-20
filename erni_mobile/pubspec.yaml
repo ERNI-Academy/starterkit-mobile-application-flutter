@@ -50,6 +50,7 @@ dependencies:
   smartstruct: ^1.2.7
   sqflite_common_ffi: ^2.1.1+1
   sqlite3: ^1.8.0
+  sqlite3_flutter_libs: ^0.5.10
   uuid: ^3.0.5
   validation_notifier: ^1.4.5
 
