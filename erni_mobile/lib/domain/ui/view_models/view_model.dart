@@ -3,16 +3,6 @@ import 'package:flutter/widgets.dart';
 
 /// Contains the state of your view.
 abstract class ViewModel<TParameter extends Object> extends ChangeNotifier {
-  /// Determines whether this view model was disposed.
-  final ValueNotifier<bool> isDisposed = ValueNotifier(false);
-
-  @override
-  @mustCallSuper
-  void dispose() {
-    isDisposed.value = true;
-    super.dispose();
-  }
-
   /// Called when this view model was first initialized.
   ///
   /// This will execute even though the first frame has not been rendered.
