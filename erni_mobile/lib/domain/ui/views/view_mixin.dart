@@ -30,9 +30,9 @@ abstract class ViewMixin<TViewModel extends ViewModel> implements View<TViewMode
   @mustCallSuper
   TViewModel onCreateViewModel(BuildContext context) {
     final viewModel = ServiceLocator.instance<TViewModel>();
-    final route = ModalRoute.of(context)!;
+    final route = ModalRoute.of(context);
 
-    if (viewModel is RouteAwareMixin) {
+    if (route != null && viewModel is RouteAwareMixin) {
       NavigationObserver.instance.subscribe(viewModel, route);
     }
 
@@ -40,7 +40,7 @@ abstract class ViewMixin<TViewModel extends ViewModel> implements View<TViewMode
       WidgetsBinding.instance.addObserver(viewModel.appLifeCycleObserver);
     }
 
-    _initializeViewModel(viewModel, route.settings.name, route.settings.arguments);
+    _initializeViewModel(viewModel, route?.settings.name, route?.settings.arguments);
 
     return viewModel;
   }
