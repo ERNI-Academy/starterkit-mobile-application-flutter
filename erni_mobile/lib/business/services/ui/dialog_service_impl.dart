@@ -3,10 +3,10 @@
 import 'dart:async';
 
 import 'package:erni_mobile/business/models/ui/confirm_dialog_response.dart';
+import 'package:erni_mobile/business/services/ui/navigation/view_locator.dart';
 import 'package:erni_mobile/common/localization/localization.dart';
 import 'package:erni_mobile/domain/services/ui/dialog_service.dart';
-import 'package:erni_mobile/domain/services/ui/navigation/navigation_service.dart';
-import 'package:erni_mobile/domain/services/ui/navigation/view_locator.dart';
+import 'package:erni_mobile/domain/services/ui/navigation_service.dart';
 import 'package:erni_mobile/ui/widgets/widgets.dart';
 import 'package:injectable/injectable.dart';
 
@@ -180,7 +180,7 @@ class DialogServiceImpl implements DialogService {
     );
   }
 
-  Widget _tryGetRegisteredWidget(String name) {
+  static Widget _tryGetRegisteredWidget(String name) {
     final isDialogRegistered = ViewLocator.isViewRegistered(name);
     assert(isDialogRegistered, 'Dialog named $name is not registered');
 

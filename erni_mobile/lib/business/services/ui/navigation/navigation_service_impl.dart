@@ -1,54 +1,9 @@
 import 'dart:async';
 
 import 'package:erni_mobile/business/models/ui/navigation_options.dart';
-import 'package:flutter/material.dart';
+import 'package:erni_mobile/domain/services/ui/navigation_service.dart';
+import 'package:flutter/widgets.dart';
 import 'package:injectable/injectable.dart';
-
-typedef Queries = Map<String, String>;
-
-abstract class NavigationService {
-  static final navigatorKey = GlobalKey<NavigatorState>();
-
-  static final RouteObserver<ModalRoute> navigationObserverRegistrar = RouteObserver<ModalRoute>();
-
-  String? get currentRoute;
-
-  Future<bool> pop([Object? result]);
-
-  void popToRoot();
-
-  void popUntil(String routeName);
-
-  Future<T?> push<T extends Object>(
-    String routeName, {
-    Object? parameter,
-    Queries queries = const {},
-    bool isFullScreenDialog = false,
-  });
-
-  Future<T?> pushAndRemoveUntil<T extends Object>(
-    String routeName, {
-    required String removeUntil,
-    Object? parameter,
-    Queries queries = const {},
-    bool isFullScreenDialog = false,
-  });
-
-  Future<void> pushToNewRoot(
-    String routeName, {
-    Object? parameter,
-    Queries queries = const {},
-    bool isFullScreenDialog = false,
-  });
-
-  Future<T?> pushReplacement<T extends Object>(
-    String routeName, {
-    Object? parameter,
-    Queries queries = const {},
-    Object? result,
-    bool isFullScreenDialog = false,
-  });
-}
 
 @LazySingleton(as: NavigationService)
 class NavigationServiceImpl implements NavigationService {

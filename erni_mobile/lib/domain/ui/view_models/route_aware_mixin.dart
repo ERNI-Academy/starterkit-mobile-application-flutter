@@ -3,14 +3,14 @@ import 'package:flutter/widgets.dart';
 
 mixin RouteAwareMixin<T extends Object> on ViewModel<T> implements RouteAware {
   @override
-  Future<void> didPop() => Future.value();
+  Future<void> didPop() async {}
 
   @override
-  Future<void> didPush() => Future.value();
+  Future<void> didPush() async {}
 
   @override
-  Future<void> didPushNext() => Future.value();
+  Future<void> didPushNext() async {}
 
   @override
-  Future<void> didPopNext() => Future.value();
+  Future<void> didPopNext() async {}
 }

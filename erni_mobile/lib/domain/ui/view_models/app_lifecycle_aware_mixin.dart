@@ -3,7 +3,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
 
 mixin AppLifeCycleAwareMixin<T extends Object> on ViewModel<T> {
-  late final WidgetsBindingObserver appLifeCylceObserver = _WidgetsBindingObserverImpl(this);
+  late final WidgetsBindingObserver appLifeCycleObserver = _WidgetsBindingObserverImpl(this);
 
   Future<void> onAppPaused() async {}
 

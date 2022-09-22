@@ -1,5 +1,5 @@
 import 'package:erni_mobile/business/models/ui/navigation_options.dart';
-import 'package:erni_mobile/domain/services/ui/navigation/view_locator.dart';
+import 'package:erni_mobile/business/services/ui/navigation/view_locator.dart';
 import 'package:erni_mobile/ui/widgets/widgets.dart';
 import 'package:page_transition/page_transition.dart';
 

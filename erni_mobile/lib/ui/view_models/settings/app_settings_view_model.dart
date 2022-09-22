@@ -6,7 +6,7 @@ import 'package:erni_mobile/business/models/settings/language_entity.dart';
 import 'package:erni_mobile/business/models/settings/settings_changed_model.dart';
 import 'package:erni_mobile/common/constants/settings_keys.dart';
 import 'package:erni_mobile/domain/services/settings/settings_service.dart';
-import 'package:erni_mobile/domain/services/ui/navigation/navigation_service.dart';
+import 'package:erni_mobile/domain/services/ui/navigation_service.dart';
 import 'package:erni_mobile/domain/ui/view_models/view_model.dart';
 import 'package:flutter/material.dart';
 

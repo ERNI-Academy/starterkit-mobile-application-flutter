@@ -1,5 +1,5 @@
+import 'package:erni_mobile/business/services/ui/navigation/navigation_observer.dart';
 import 'package:erni_mobile/dependency_injection.dart';
-import 'package:erni_mobile/domain/services/ui/navigation/navigation_service.dart';
 import 'package:erni_mobile/domain/ui/view_models/app_lifecycle_aware_mixin.dart';
 import 'package:erni_mobile/domain/ui/view_models/route_aware_mixin.dart';
 import 'package:erni_mobile/domain/ui/view_models/view_model.dart';
@@ -30,21 +30,17 @@ abstract class ViewMixin<TViewModel extends ViewModel> implements View<TViewMode
   @mustCallSuper
   TViewModel onCreateViewModel(BuildContext context) {
     final viewModel = ServiceLocator.instance<TViewModel>();
+    final route = ModalRoute.of(context)!;
 
-    // Add route observer
-    final route = ModalRoute.of(context);
-
-    if (route != null && viewModel is RouteAwareMixin) {
-      NavigationService.navigationObserverRegistrar.subscribe(viewModel, route);
+    if (viewModel is RouteAwareMixin) {
+      NavigationObserver.instance.subscribe(viewModel, route);
     }
 
-    // Add binding observer
     if (viewModel is AppLifeCycleAwareMixin) {
-      WidgetsBinding.instance.addObserver(viewModel.appLifeCylceObserver);
+      WidgetsBinding.instance.addObserver(viewModel.appLifeCycleObserver);
     }
 
-    _initializeViewModel(viewModel, route?.settings.name, route?.settings.arguments);
-    WidgetsBinding.instance.addPostFrameCallback((_) => viewModel.onFirstRender());
+    _initializeViewModel(viewModel, route.settings.name, route.settings.arguments);
 
     return viewModel;
   }
@@ -56,11 +52,11 @@ abstract class ViewMixin<TViewModel extends ViewModel> implements View<TViewMode
     viewModel.dispose();
 
     if (viewModel is RouteAwareMixin) {
-      NavigationService.navigationObserverRegistrar.unsubscribe(viewModel);
+      NavigationObserver.instance.unsubscribe(viewModel);
     }
 
     if (viewModel is AppLifeCycleAwareMixin) {
-      WidgetsBinding.instance.removeObserver(viewModel.appLifeCylceObserver);
+      WidgetsBinding.instance.removeObserver(viewModel.appLifeCycleObserver);
     }
   }
 
@@ -76,6 +72,7 @@ abstract class ViewMixin<TViewModel extends ViewModel> implements View<TViewMode
       queries.addAll(routeUri.queryParameters);
     }
 
+    WidgetsBinding.instance.addPostFrameCallback((_) => viewModel.onFirstRender(parameter, queries));
     viewModel.onInitialize(parameter, queries);
   }
 }
