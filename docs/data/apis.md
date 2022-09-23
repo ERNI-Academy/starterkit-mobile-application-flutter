@@ -1,23 +1,31 @@
-# Web Services
+# APIs
 
-Web service classes are used for REST API calls. 
+API classes are used for REST API calls. 
 
 The blueprint uses [`retrofit`](https://pub.dev/packages/retrofit) to generate the code.
 
 ```dart
-@lazySingleton
+abstract class PostApi {
+  Future<List<PostContract>> getAllPosts(String authToken);
+
+  Future<void> createPost(CreateOrUpdatePostContract contract, String authToken);
+}
+
+@LazySingleton(as: PostApi)
 @RestApi()
-abstract class PostService {
+abstract class PostApiImpl implements PostApi {
   @factoryMethod
-  factory PostService(DioProvider dioProvider) {
-    final dio = dioProvider.createDio(loggerName: 'PostService');
-    return _PostService(dio, baseUrl: ApiEndpoints.baseUrl);
+  factory PostApiImpl(@apiBaseUrl String baseUrl) {
+    final dio = DioProvider.createDio(apiName: 'PostApi');
+    return _PostApiImpl(dio, baseUrl: baseUrl);
   }
 
   @GET(ApiEndpoints.allPosts)
+  @override
   Future<List<PostContract>> getAllPosts(@AuthHeader() String authToken);
 
   @POST(ApiEndpoints.createPost)
+  @override
   Future<void> createPost(@Body() CreateOrUpdatePostContract contract, @AuthHeader() String authToken);
 }
 ```
@@ -27,4 +35,4 @@ abstract class PostService {
 
 :bulb: **<span style="color: green">TIP</span>**
 
-Use the code snippet shortcut `webs` to create a web service class.
+Use the code snippet shortcut `api` to create an API class.

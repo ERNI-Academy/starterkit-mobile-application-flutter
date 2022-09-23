@@ -51,39 +51,46 @@ ERNI Academy mobile boilerplate to start a cross-platform Flutter mobile applica
 
 ## Project Setup
 
-1. Clone the repo
+**Setup local repository**
 
-   ```sh
-   git clone https://github.com/ERNI-Academy/starterkit-mobile-application-flutter.git
-   ```
+Clone the repo.
 
-2. Get packages
+```sh
+git clone https://github.com/ERNI-Academy/starterkit-mobile-application-flutter.git
+```
 
-    ```sh
-    flutter pub get
-    ```
+Untrack the files under the folder `lib/.secrets` by adding it in your [.gitignore](erni_mobile/.gitignore)
 
-3. Run code generation
+```sh
+.secrets/**
+```
 
-    ```sh
-    # Run this command one time
-    flutter pub global activate intl_utils
+**Setup your secrets**
 
-    # Run this command to generate localization files
-    flutter pub global run intl_utils:generate
+Update the contents of `.secrets/dev.secrets`, and add the other `.secrets` file for each of your environment.
 
-    # Run this command whenever you use build_runner
-    flutter pub run build_runner build --delete-conflicting-outputs
-    ```
+Read more about setting up your environments [here](docs/environments.md).
 
-    Read more about code generation [here](docs/code_generation.md).
-    
- 4. Update the contents of `.secrets/dev.secrets` and untrack it from git. In the project's [.gitignore](erni_mobile/.gitignore), update it to add:
-    ```sh
-    # Comment this out after setting the correct secrets
-    .secrets/**
-    ```
-    Read more about setting up your environments [here](docs/environments.md).
+
+**Generate code**
+
+Run the following commands to generate code.
+
+```sh
+# Run this command if appropriate
+flutter pub get
+
+# Run this command one time
+flutter pub global activate intl_utils
+
+# Run this command to generate localization files
+flutter pub global run intl_utils:generate
+
+# Run this command whenever you use build_runner
+flutter pub run build_runner build --delete-conflicting-outputs
+```
+
+Read more about code generation [here](docs/code_generation.md).
 
 ## Contributing
 

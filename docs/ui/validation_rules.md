@@ -7,6 +7,8 @@ We can define custom validation rules by inheriting from [`ValidationRule`](http
 import 'package:validation_notifier/validation_notifier.dart';
 
 class RequiredStringRule extends ValidationRule<String> {
+  const RequiredStringRule();
+
   @override
   String get errorMessage => 'This field is required';
 
@@ -15,6 +17,8 @@ class RequiredStringRule extends ValidationRule<String> {
 }
 
 class EmailFormatRule extends ValidationRule<String> {
+  const EmailFormatRule();
+
   @override
   String get errorMessage => 'Invalid email format';
 
@@ -34,9 +38,9 @@ class LoginViewModel extends ViewModel {
     loginCommand = Command.createAsyncNoParamNoResult(_onLogin);
   }
 
-  final ValidationNotifier<String> email = ValidationNotifier(rules: [RequiredRule(), EmailFormatRule()]); // USE
+  final ValidationNotifier<String> email = ValidationNotifier(rules: const [RequiredRule(), EmailFormatRule()]); // USE
 
-  final ValidationNotifier<String> password = ValidationNotifier(rules: [RequiredRule()]); // USE
+  final ValidationNotifier<String> password = ValidationNotifier(rules: const [RequiredRule()]); // USE
 
   late final Command<void, void> loginCommand;
 

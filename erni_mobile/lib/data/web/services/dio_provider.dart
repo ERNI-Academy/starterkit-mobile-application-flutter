@@ -14,9 +14,9 @@ import 'package:flutter/foundation.dart';
 abstract class DioProvider {
   static const _requestTimeOutInMs = 30000;
 
-  static Dio create({required String serviceName}) {
-    final identityHash = describeIdentity(serviceName).split('#').last;
-    final logger = ServiceLocator.instance<AppLogger>()..logForNamed('$serviceName#$identityHash');
+  static Dio create({required String apiName}) {
+    final identityHash = describeIdentity(apiName).split('#').last;
+    final logger = ServiceLocator.instance<AppLogger>()..logForNamed('$apiName#$identityHash');
     final dioLoggingInterceptor = _DioLoggingInterceptor(logger);
 
     return Dio(

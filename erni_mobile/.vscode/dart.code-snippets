@@ -340,14 +340,14 @@
             "",
             "part '${TM_FILENAME_BASE}.g.dart';",
             "",
-            "abstract class ${ServiceName}Api{",
+            "abstract class ${ApiName}Api {",
             "}",
             "",
-            "@LazySingleton(as: ${ServiceName}Api)",
+            "@LazySingleton(as: ${ApiName}Api)",
             "@RestApi()",
-            "abstract class ${ServiceName}ApiImpl{",
+            "abstract class ${ApiName}ApiImpl implements ${ApiName}Api{",
             "  @factoryMethod",
-            "  factory ${ServiceName}ApiImpl(@apiBaseUrl String baseUrl) => _${ServiceName}ApiImpl(DioProvider.create(serviceName: '${ServiceName}Api'), baseUrl: baseUrl);",
+            "  factory ${ApiName}ApiImpl(@apiBaseUrl String baseUrl) => _${ApiName}ApiImpl(DioProvider.create(apiName: '${ApiName}Api'), baseUrl: baseUrl);",
             "}"
         ],
         "description": "Creates an retrofit API"

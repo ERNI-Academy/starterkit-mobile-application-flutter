@@ -1,6 +1,6 @@
 # Data Objects
 
-Data Objects are classes that represents a table in your database.
+Data Objects classes are models that represents a table in your database.
 
 Here is a definition of the table named `Posts`, which will generate a companion data class name called `PostObject`:
 

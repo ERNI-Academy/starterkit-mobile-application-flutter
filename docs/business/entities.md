@@ -1,6 +1,6 @@
-# Domain Entities
+# Entities
 
-Domain Entities are immutable business object classes. They can contain business logics used within your domain.
+Entities are immutable model classes. They can contain business logics used within your domain.
 
 At it's simplest form, entities can be PODOs (Plain Old Dart Objects):
 
@@ -13,7 +13,7 @@ class OtpVerificationEntity implements DomainEntity {
 }
 ```
 
-The blueprint uses entities as the representation of [Data Contracts](../web/data_contracts.md) or [Data Objects](../data/data_objects.md) in the Domain and Core layer.
+The blueprint uses entities as the representation of [Data Contracts](data_contracts.md) or [Data Objects](data_objects.md) in the Domain and UI layer.
 
 :bulb: **<span style="color: green">TIP</span>**
 

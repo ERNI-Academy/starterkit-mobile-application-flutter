@@ -1,6 +1,6 @@
 # Data Contracts
 
-Data contract classes are representation of REST API response JSON body.
+Data contract classes are models that represents REST API response JSON body.
 
 The blueprint uses [`json_annotation`](https://pub.dev/packages/json_serializable) to generate the serialization/deserialization code.
 

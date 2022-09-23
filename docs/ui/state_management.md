@@ -17,10 +17,10 @@ class HomeViewModel extends ViewModel {
 }
 
 class HomeView extends StatelessWidget with ViewMixin<HomeViewModel> {
-  HomeView({Key? key}) : super(key: key);
+  const HomeView({Key? key}) : super(key: key);
 
   @override
-  Widget buildView(BuildContext context) {
+  Widget buildView(BuildContext context, HomeViewModel viewModel) {
     return Scaffold(
       appBar: AppBar(title: const Text('Home')),
       body: ValueListenableBuilder<int>(

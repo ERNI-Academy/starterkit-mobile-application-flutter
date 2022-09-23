@@ -6,10 +6,10 @@
 @Named(RouteNames.splash)
 @Injectable(as: Widget)
 class SplashView extends StatelessWidget with ViewMixin<SplashViewModel> {
-  SplashView() : super(key: const Key(RouteNames.splash));
+  const SplashView() : super(key: const Key(RouteNames.splash));
 
   @override
-  Widget buildView(BuildContext context) {
+  Widget buildView(BuildContext context, SplashViewModel viewModel) {
     return Scaffold(
       appBar: AppBar(
         systemOverlayStyle: SystemUiOverlayStyle.dark,
@@ -35,9 +35,9 @@ Use the snippet shortcut `vsl` to create a view using a `StatelessWidget`, and `
 
 ### ViewMixin and ChildViewMixin
 
-[`ViewMixin`](../../../erni_mobile/lib/core/views/base/view.dart) is used when a view is the main presenter (i.e. the current route). Using this will always resolve a new view model.
+`ViewMixin` is used when a view is the main presenter (i.e. the current route). Using this will always resolve a new view model.
 
-Use [`ChildViewMixin`](../../../erni_mobile/lib/core/views/base/view.dart) if you want a view to be a child of a parent view. This will look-up the nearest `TViewModel` above the tree.
+Use `ChildViewMixin` if you want a view to be a child of a parent view. This will look-up the nearest `TViewModel` above the tree.
 
 :exclamation: **<span style="color: red">DON'T</span>**
 
@@ -47,10 +47,10 @@ Do not use two `ViewMixin` when trying to split your view:
 @Named(RouteNames.login)
 @Injectable(as: Widget)
 class LoginView extends StatelessWidget with ViewMixin<LoginViewModel> {
-  LoginView() : super(key: const Key(RouteNames.login));
+  const LoginView() : super(key: const Key(RouteNames.login));
 
   @override
-  Widget buildView(BuildContext context) {
+  Widget buildView(BuildContext context, LoginViewModel viewModel) {
     return Scaffold(
       appBar: AppBar(title: Text(l10n.loginTitle)),
       body: Center(
@@ -73,19 +73,19 @@ class LoginView extends StatelessWidget with ViewMixin<LoginViewModel> {
 }
 
 class _LoginFormSection extends StatelessWidget with ViewMixin<LoginViewModel> { // DON'T!
-  _LoginFormSection({Key? key}) : super(key: key);
+  const _LoginFormSection({Key? key}) : super(key: key);
 
   @override
-  Widget buildView(BuildContext context) {
+  Widget buildView(BuildContext context, LoginViewModel viewModel) {
     ...
   }
 }
 
 class _RegisterForgotPasswordSection extends StatelessWidget with ViewMixin<LoginViewModel> { // DON'T!
-  _RegisterForgotPasswordSection({Key? key}) : super(key: key);
+  const _RegisterForgotPasswordSection({Key? key}) : super(key: key);
 
   @override
-  Widget buildView(BuildContext context) {
+  Widget buildView(BuildContext context, LoginViewModel viewModel) {
     ...
   }
 }
@@ -97,19 +97,19 @@ Use `ChildViewMixin` instead for `_LoginFormSection` and `_RegisterForgotPasswor
 
 ```dart
 class _LoginFormSection extends StatelessWidget with ChildViewMixin<LoginViewModel> { // DO
-  _LoginFormSection({Key? key}) : super(key: key);
+  const _LoginFormSection({Key? key}) : super(key: key);
 
   @override
-  Widget buildView(BuildContext context) {
+  Widget buildView(BuildContext context, LoginViewModel viewModel) {
     ...
   }
 }
 
 class _RegisterForgotPasswordSection extends StatelessWidget with ChildViewMixin<LoginViewModel> { // DO
-  _RegisterForgotPasswordSection({Key? key}) : super(key: key);
+  const _RegisterForgotPasswordSection({Key? key}) : super(key: key);
 
   @override
-  Widget buildView(BuildContext context) {
+  Widget buildView(BuildContext context, LoginViewModel viewModel) {
     ...
   }
 }
@@ -121,7 +121,7 @@ class _RegisterForgotPasswordSection extends StatelessWidget with ChildViewMixin
 @Named(RouteNames.splash)
 @Injectable(as: Widget)
 class SplashView extends StatelessWidget with ViewMixin<SplashViewModel> {
-  SplashView() : super(key: const Key(RouteNames.splash));
+  const SplashView() : super(key: const Key(RouteNames.splash));
 
   @override
   SplashViewModel onCreateViewModel(BuildContext context) {
@@ -136,7 +136,7 @@ class SplashView extends StatelessWidget with ViewMixin<SplashViewModel> {
   }
 
   @override
-  Widget buildView(BuildContext context) {
+  Widget buildView(BuildContext context, SplashViewModel viewModel) {
     return Scaffold(
       appBar: AppBar(
         systemOverlayStyle: SystemUiOverlayStyle.dark,
