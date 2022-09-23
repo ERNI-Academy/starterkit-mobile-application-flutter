@@ -1,15 +1,16 @@
 import 'package:erni_mobile/business/models/settings/language_entity.dart';
+import 'package:erni_mobile/business/services/ui/navigation/navigation_observer.dart';
+import 'package:erni_mobile/business/services/ui/navigation/route_generator.dart';
 import 'package:erni_mobile/common/localization/generated/l10n.dart';
 import 'package:erni_mobile/common/localization/localization.dart';
 import 'package:erni_mobile/dependency_injection.dart';
 import 'package:erni_mobile/domain/services/logging/navigation_logger.dart';
 import 'package:erni_mobile/domain/services/platform/environment_config.dart';
-import 'package:erni_mobile/domain/services/ui/navigation/navigation_service.dart';
-import 'package:erni_mobile/domain/services/ui/navigation/route_generator.dart';
+import 'package:erni_mobile/domain/services/ui/navigation_service.dart';
+import 'package:erni_mobile/domain/ui/views/view_mixin.dart';
 import 'package:erni_mobile/ui/resources/theme.dart';
 import 'package:erni_mobile/ui/view_models/main/app_view_model.dart';
 import 'package:erni_mobile/ui/views/main/splash_view.dart';
-import 'package:erni_mobile/ui/views/view_mixin.dart';
 import 'package:erni_mobile/ui/widgets/widgets.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -62,7 +63,7 @@ class App extends StatelessWidget with ViewMixin<AppViewModel> {
               navigatorKey: NavigationService.navigatorKey,
               navigatorObservers: [
                 ServiceLocator.instance<NavigationLogger>(),
-                NavigationService.navigationObserverRegistrar,
+                NavigationObserver.instance,
                 SentryNavigatorObserver(),
               ],
               home: home ?? const SplashView(),

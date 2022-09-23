@@ -25,7 +25,7 @@ abstract class ServiceLocator {
 
   static Set<String> _getEnvironments(bool forTesting) {
     return <String>{
-      if (forTesting) uiTest.name else running.name,
+      if (forTesting) testing.name else running.name,
       if (kReleaseMode) release.name,
       if (kDebugMode) debug.name,
       if (kIsWeb) platformWeb.name,
@@ -45,6 +45,6 @@ const Environment release = Environment('release');
 
 const Environment debug = Environment('debug');
 
-const Environment uiTest = Environment('uiTest');
+const Environment testing = Environment('testing');
 
 const Environment running = Environment('running');

@@ -1,8 +1,6 @@
 # Code Analysis
 
-We use a custom `analysis_options.yaml` file that is hosted [here](https://dev.azure.com/erniegh/ERNI-EPH-Mobile-FlutterStack/_git/ERNI-Mobile-Blueprint-Lints), and is added as a development dependency to the project.
-
-Combined with [flutter_lints](https://pub.dev/packages/flutter_lints) and additional rules, it enforces a strict and type-safe development.
+We use a custom [`analysis_options.yaml`](../erni_mobile/analysis_options.yaml). sCombined with [flutter_lints](https://pub.dev/packages/flutter_lints) and additional rules, it enforces a strict and type-safe development.
 
 # Code Metrics
 
@@ -38,8 +36,8 @@ Checking is part of the project's CI workflow (see [azure-pipelines.yml](../ci/a
 
 [Dart Code Metrics](https://dartcodemetrics.dev)' analysis can be run locally using the following commands:
 
-```shell
+```sh
 flutter pub run dart_code_metrics:metrics analyze lib --fatal-style --fatal-warnings --fatal-performance
 flutter pub run dart_code_metrics:metrics check-unused-files lib --fatal-unused
-flutter pub run dart_code_metrics:metrics check-unused-code lib --exclude="{**/internal_query_executor_web.dart,**/mapper.dart}" --fatal-unused
+flutter pub run dart_code_metrics:metrics check-unused-code lib --fatal-unused
 ```

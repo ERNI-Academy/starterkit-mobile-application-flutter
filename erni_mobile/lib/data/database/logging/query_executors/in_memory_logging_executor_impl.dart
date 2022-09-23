@@ -6,7 +6,7 @@ import 'package:erni_mobile/dependency_injection.dart';
 import 'package:injectable/injectable.dart';
 
 @LazySingleton(as: LoggingQueryExecutor)
-@uiTest
+@testing
 class InMemoryLoggingExecutorImpl extends BaseInMemoryQueryExecutor implements LoggingQueryExecutor {
   InMemoryLoggingExecutorImpl() : super('db_logging');
 }

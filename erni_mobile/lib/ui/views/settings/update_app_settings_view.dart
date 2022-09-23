@@ -2,8 +2,8 @@
 
 import 'package:erni_mobile/business/models/settings/language_entity.dart';
 import 'package:erni_mobile/common/localization/localization.dart';
+import 'package:erni_mobile/domain/ui/views/view_mixin.dart';
 import 'package:erni_mobile/ui/view_models/settings/update_app_settings_view_model.dart';
-import 'package:erni_mobile/ui/views/view_mixin.dart';
 import 'package:erni_mobile/ui/widgets/widgets.dart';
 
 class UpdateAppSettingsView extends StatelessWidget with ViewMixin<UpdateAppSettingsViewModel> {

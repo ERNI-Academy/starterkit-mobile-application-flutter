@@ -1,8 +1,8 @@
 // coverage:ignore-file
 
 import 'package:erni_mobile/business/models/ui/drawer_menu_model.dart';
+import 'package:erni_mobile/domain/ui/views/view_mixin.dart';
 import 'package:erni_mobile/ui/view_models/main/side_menu_view_model.dart';
-import 'package:erni_mobile/ui/views/view_mixin.dart';
 import 'package:erni_mobile/ui/widgets/widgets.dart';
 
 class SideMenuView extends StatelessWidget with ViewMixin<SideMenuViewModel> {

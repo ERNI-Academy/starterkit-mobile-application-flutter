@@ -1,3 +1,5 @@
+// coverage:ignore-file
+
 import 'dart:io';
 
 import 'package:drift/drift.dart';

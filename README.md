@@ -2,8 +2,6 @@
 
 ERNI Academy mobile boilerplate to start a cross-platform Flutter mobile application.
 
->Please note that documentation update of this project is still ongoing
-
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
@@ -16,7 +14,7 @@ ERNI Academy mobile boilerplate to start a cross-platform Flutter mobile applica
 ## Getting Started
 
 - [Install Flutter](https://docs.flutter.dev/get-started/install)
-- [Dart Lanugage Tour](https://dart.dev/guides/language/language-tour)
+- [Introduction to Dart Language](https://dart.dev/guides/language/language-tour)
 - [Flutter Documentation](https://docs.flutter.dev/)
 
 ## Prerequisites
@@ -51,31 +49,46 @@ ERNI Academy mobile boilerplate to start a cross-platform Flutter mobile applica
 
 ## Project Setup
 
-1. Clone the repo
+**Setup local repository**
 
-   ```sh
-   git clone https://github.com/ERNI-Academy/starterkit-mobile-application-flutter.git
-   ```
+Clone the repo.
 
-2. Get packages
+```sh
+git clone https://github.com/ERNI-Academy/starterkit-mobile-application-flutter.git
+```
 
-    ```sh
-    flutter pub get
-    ```
-3. Update the contents of `.secrets/dev.secrets` and untrack it from git
+Untrack the files under the folder `lib/.secrets` by adding it in your [.gitignore](erni_mobile/.gitignore)
 
-4. Run code generation
+```sh
+.secrets/**
+```
 
-    ```sh
-    # Run this command one time
-    flutter pub global activate intl_utils
+**Setup your secrets**
 
-    # Run this command to generate localization files
-    flutter pub global run intl_utils:generate
+Update the contents of `.secrets/dev.secrets`, and add the other `.secrets` file for each of your environment.
 
-    # Run this command whenever you use build_runner
-    flutter pub run build_runner build --delete-conflicting-outputs
-    ```
+Read more about setting up your environments [here](docs/environments.md).
+
+
+**Generate code**
+
+Run the following commands to generate code.
+
+```sh
+# Run this command if appropriate
+flutter pub get
+
+# Run this command one time
+flutter pub global activate intl_utils
+
+# Run this command to generate localization files
+flutter pub global run intl_utils:generate
+
+# Run this command whenever you use build_runner
+flutter pub run build_runner build --delete-conflicting-outputs
+```
+
+Read more about code generation [here](docs/code_generation.md).
 
 ## Contributing
 
