@@ -2,8 +2,6 @@
 
 ERNI Academy mobile boilerplate to start a cross-platform Flutter mobile application.
 
->Please note that documentation update of this project is still ongoing
-
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
