@@ -9,7 +9,6 @@
 .history
 .svn/
 *.dll
-!sqlite3.dll
 
 # IntelliJ related
 *.iml
