@@ -1,4 +1,4 @@
-import 'package:erni_mobile/business/models/ui/drawer_menu_model.dart';
+import 'package:erni_mobile/business/models/ui/side_menu_model.dart';
 import 'package:erni_mobile/domain/services/ui/menu_provider.dart';
 import 'package:erni_mobile/domain/services/ui/navigation_service.dart';
 import 'package:erni_mobile/domain/ui/view_models/view_model.dart';
@@ -13,32 +13,30 @@ class SideMenuViewModel extends ViewModel {
 
   final MenuProvider _menuProvider;
 
-  late final List<DrawerMenuModel> menus = _menuProvider.menus;
+  late final Iterable<SideMenuModel> menus = _menuProvider.menus;
 
-  late final AsyncTwoWayCommand<DrawerMenuModel, bool> menuTapCommand = AsyncTwoWayCommand.withParam(_onMenuTapped);
+  late final AsyncTwoWayCommand<SideMenuModel, bool> menuTapCommand = AsyncTwoWayCommand.withParam(_onMenuTapped);
 
-  DrawerMenuModel get currentMenu => menus.firstWhere((m) => m.type == _menuProvider.currentMenu.type);
-
-  Future<bool> _onMenuTapped(DrawerMenuModel menu) async {
+  Future<bool> _onMenuTapped(SideMenuModel menu) async {
     switch (menu.actionType) {
-      case MenuActionTypes.navigatable:
+      case MenuActionType.navigatable:
         await _handleNavigatableMenu(menu);
         return true;
 
-      case MenuActionTypes.clickable:
+      case MenuActionType.clickable:
         await _handleClickableMenu(menu.type);
         return false;
     }
   }
 
-  Future<void> _handleNavigatableMenu(DrawerMenuModel menu) async {
-    currentMenu.isSelected.value = false;
+  Future<void> _handleNavigatableMenu(SideMenuModel menu) async {
+    _menuProvider.currentMenu.value.isSelected.value = false;
     menu.isSelected.value = true;
-    _menuProvider.currentMenu = menu;
+    _menuProvider.currentMenu.value = menu;
     await _navigationService.pop();
   }
 
-  Future<void> _handleClickableMenu(MenuTypes type) async {
+  Future<void> _handleClickableMenu(MenuType type) async {
     switch (type) {
       default:
         break;

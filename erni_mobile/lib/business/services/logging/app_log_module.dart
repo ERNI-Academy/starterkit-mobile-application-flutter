@@ -1,6 +1,5 @@
 // coverage:ignore-file
 
-import 'package:erni_mobile/dependency_injection.dart';
 import 'package:erni_mobile/domain/services/logging/app_log_console_writer.dart';
 import 'package:erni_mobile/domain/services/logging/app_log_file_writer.dart';
 import 'package:erni_mobile/domain/services/logging/app_log_sentry_exception_writer.dart';
@@ -13,8 +12,7 @@ import 'package:sentry_flutter/sentry_flutter.dart';
 abstract class AppLogModule {
   @lazySingleton
   @preResolve
-  @release
-  Future<List<AppLogWriter>> getWritersForRelease(
+  Future<Iterable<AppLogWriter>> getLogWriters(
     AppLogConsoleWriter consoleWriter,
     AppLogFileWriter fileWriter,
     AppLogSentryExceptionWriter sentryWriter,
@@ -23,12 +21,6 @@ abstract class AppLogModule {
     await SentryFlutter.init((options) => options.dsn = environmentConfig.sentryDsn);
 
     return List.unmodifiable(<AppLogWriter>[consoleWriter, fileWriter, sentryWriter]);
-  }
-
-  @lazySingleton
-  @debug
-  List<AppLogWriter> getWritersForDebug(AppLogConsoleWriter consoleWriter, AppLogFileWriter fileWriter) {
-    return List.unmodifiable(<AppLogWriter>[consoleWriter, fileWriter]);
   }
 
   @lazySingleton

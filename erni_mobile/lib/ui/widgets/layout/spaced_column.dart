@@ -25,7 +25,7 @@ class SpacedColumn extends StatelessWidget {
   final TextDirection? textDirection;
   final VerticalDirection verticalDirection;
   final TextBaseline? textBaseline;
-  final List<Widget> children;
+  final Iterable<Widget> children;
 
   @override
   Widget build(BuildContext context) {
@@ -37,11 +37,11 @@ class SpacedColumn extends StatelessWidget {
       textDirection: textDirection,
       verticalDirection: verticalDirection,
       // ignore: avoid-returning-widgets
-      children: getChildren(),
+      children: _getChildren(),
     );
   }
 
-  List<Widget> getChildren() {
+  List<Widget> _getChildren() {
     final newChildren = <Widget>[];
 
     for (final w in children) {

@@ -23,7 +23,7 @@ class AppTextFormField extends StatefulWidget {
   final bool isPassword;
   final bool hasError;
   final bool enabled;
-  final List<String> autofillHints;
+  final Iterable<String> autofillHints;
   final TextInputType? textInputType;
   final FocusNode? focusNode;
 

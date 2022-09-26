@@ -1,14 +1,12 @@
 // coverage:ignore-file
 
-import 'package:erni_mobile/business/models/ui/drawer_menu_model.dart';
+import 'package:erni_mobile/business/models/ui/side_menu_model.dart';
 import 'package:erni_mobile/domain/ui/views/view_mixin.dart';
 import 'package:erni_mobile/ui/view_models/main/side_menu_view_model.dart';
 import 'package:erni_mobile/ui/widgets/widgets.dart';
 
 class SideMenuView extends StatelessWidget with ViewMixin<SideMenuViewModel> {
-  SideMenuView({required this.navigatableMenuSelected, Key? key}) : super(key: key);
-
-  final void Function(DrawerMenuModel) navigatableMenuSelected;
+  const SideMenuView({Key? key}) : super(key: key);
 
   @override
   Widget buildView(BuildContext context, SideMenuViewModel viewModel) {
@@ -19,14 +17,16 @@ class SideMenuView extends StatelessWidget with ViewMixin<SideMenuViewModel> {
           children: [
             Flexible(
               child: ListView(
-                children: viewModel.menus.map(
-                  (m) {
-                    return _MenuTile(
-                      menu: m,
-                      onTap: () => _onMenuTileTap(m, viewModel.menuTapCommand),
-                    );
-                  },
-                ).toList(),
+                children: [
+                  ...viewModel.menus.map(
+                    (m) {
+                      return _MenuTile(
+                        menu: m,
+                        onTap: viewModel.menuTapCommand,
+                      );
+                    },
+                  ),
+                ],
               ),
             ),
           ],
@@ -34,21 +34,13 @@ class SideMenuView extends StatelessWidget with ViewMixin<SideMenuViewModel> {
       ),
     );
   }
-
-  Future<void> _onMenuTileTap(DrawerMenuModel menu, Future<bool?> Function(DrawerMenuModel) onTap) async {
-    final shouldNavigate = await onTap(menu) ?? false;
-
-    if (shouldNavigate) {
-      navigatableMenuSelected(menu);
-    }
-  }
 }
 
 class _MenuTile extends StatelessWidget {
   const _MenuTile({required this.menu, required this.onTap});
 
-  final DrawerMenuModel menu;
-  final VoidCallback onTap;
+  final SideMenuModel menu;
+  final void Function(SideMenuModel) onTap;
 
   @override
   Widget build(BuildContext context) {
@@ -59,7 +51,7 @@ class _MenuTile extends StatelessWidget {
           selected: isSelected,
           selectedTileColor: context.materialTheme.colorScheme.primary.withOpacity(0.2),
           title: Text(menu.text),
-          onTap: onTap,
+          onTap: () => onTap(menu),
         );
       },
     );

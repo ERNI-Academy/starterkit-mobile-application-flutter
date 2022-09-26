@@ -7,10 +7,10 @@ abstract class JsonConverter {
     T? Function(Object error)? onConversionFailed,
   });
 
-  List<T> decodeToList<T extends Object>(
+  Iterable<T> decodeToCollection<T extends Object>(
     String decodable, {
     JsonConverterCallback<T>? itemConverter,
-    List<T> Function(Object error)? onConversionFailed,
+    Iterable<T> Function(Object error)? onConversionFailed,
   });
 
   Object decode(String encodable);

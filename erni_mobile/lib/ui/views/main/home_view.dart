@@ -1,6 +1,6 @@
 // coverage:ignore-file
 
-import 'package:erni_mobile/business/models/ui/drawer_menu_model.dart';
+import 'package:erni_mobile/business/models/ui/side_menu_model.dart';
 import 'package:erni_mobile/common/constants/route_names.dart';
 import 'package:erni_mobile/common/localization/localization.dart';
 import 'package:erni_mobile/domain/ui/views/view_mixin.dart';
@@ -16,17 +16,27 @@ import 'package:injectable/injectable.dart';
 class HomeView extends StatelessWidget with ViewMixin<HomeViewModel> {
   HomeView() : super(key: const Key(RouteNames.home));
 
-  late final List<Widget> _menuWidgets;
+  late final Iterable<Widget> _menuWidgets;
   late final PageController _pageController;
-  late final HomeViewModel viewModel;
+  late final VoidCallback _selectedMenuIndexListener;
 
   @override
   HomeViewModel onCreateViewModel(BuildContext context) {
-    viewModel = super.onCreateViewModel(context);
+    final viewModel = super.onCreateViewModel(context);
     _pageController = PageController(initialPage: viewModel.selectedMenuIndex);
     _setMenuWidgets(viewModel.menus);
 
+    viewModel.selectedMenu.addListener(
+      _selectedMenuIndexListener = () => _pageController.jumpToPage(viewModel.selectedMenuIndex),
+    );
+
     return viewModel;
+  }
+
+  @override
+  void onDisposeViewModel(BuildContext context, HomeViewModel viewModel) {
+    super.onDisposeViewModel(context, viewModel);
+    viewModel.selectedMenu.removeListener(_selectedMenuIndexListener);
   }
 
   @override
@@ -34,14 +44,13 @@ class HomeView extends StatelessWidget with ViewMixin<HomeViewModel> {
     return LayoutBuilder(
       builder: (context, constraints) {
         final isLandscape = constraints.minWidth >= constraints.minHeight;
-        final sideMenu = SideMenuView(navigatableMenuSelected: _onNavigatableMenuSelected);
 
-        return ValueListenableBuilder<DrawerMenuModel>(
+        return ValueListenableBuilder<SideMenuModel>(
           valueListenable: viewModel.selectedMenu,
           builder: (context, selectedMenu, child) {
             return Row(
               children: [
-                if (isLandscape) sideMenu,
+                if (isLandscape) const SideMenuView(),
                 Expanded(
                   child: Scaffold(
                     appBar: AppBar(title: Text(selectedMenu.text)),
@@ -50,9 +59,9 @@ class HomeView extends StatelessWidget with ViewMixin<HomeViewModel> {
                       itemCount: _menuWidgets.length,
                       controller: _pageController,
                       physics: const NeverScrollableScrollPhysics(),
-                      itemBuilder: (context, index) => _menuWidgets[index],
+                      itemBuilder: (context, index) => _menuWidgets.elementAt(index),
                     ),
-                    drawer: isLandscape ? null : sideMenu,
+                    drawer: isLandscape ? null : const SideMenuView(),
                   ),
                 ),
               ],
@@ -63,21 +72,16 @@ class HomeView extends StatelessWidget with ViewMixin<HomeViewModel> {
     );
   }
 
-  void _onNavigatableMenuSelected(DrawerMenuModel menu) {
-    viewModel.navigatableMenuSelectedCommand(menu);
-    _pageController.jumpToPage(viewModel.selectedMenuIndex);
-  }
-
-  void _setMenuWidgets(List<DrawerMenuModel> menus) {
+  void _setMenuWidgets(Iterable<SideMenuModel> menus) {
     _menuWidgets = menus.map((m) {
       Widget child;
 
       switch (m.type) {
-        case MenuTypes.settings:
+        case MenuType.settings:
           child = const SettingsView();
           break;
 
-        case MenuTypes.about:
+        case MenuType.about:
           child = const AboutView();
           break;
 
@@ -87,7 +91,7 @@ class HomeView extends StatelessWidget with ViewMixin<HomeViewModel> {
       }
 
       return KeepAliveWidget(child: child);
-    }).toList();
+    });
   }
 }
 
