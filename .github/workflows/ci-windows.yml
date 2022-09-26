@@ -75,7 +75,7 @@ jobs:
             flutter build windows ${{ env.DART_DEFINE_PARAMS }}
 
             # Download and copy sqlite3.dll
-            Invoke-WebRequest -uri "https://www.sqlite.org/2022/sqlite-dll-win64-x64-3390300.zip" -Method "GET" -Out-File sqlite.zip
+            Invoke-WebRequest -uri "https://www.sqlite.org/2022/sqlite-dll-win64-x64-3390300.zip" -Method "GET" -OutFile sqlite.zip
             Expand-Archive sqlite.zip
             copy sqlite\sqlite3.dll build\windows\runner\Release
 
