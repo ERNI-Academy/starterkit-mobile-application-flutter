@@ -9,7 +9,7 @@ import 'package:injectable/injectable.dart';
 @LazySingleton(as: AppLogConsoleWriter)
 class AppLogConsoleWriterImpl implements AppLogConsoleWriter {
   @override
-  Future<void> write(AppLogEventEntity event) async {
+  Future<void> write(AppLogEventEntity event) {
     log(
       event.message,
       name: event.owner,
@@ -18,5 +18,7 @@ class AppLogConsoleWriterImpl implements AppLogConsoleWriter {
       error: event.error,
       stackTrace: event.stackTrace,
     );
+
+    return Future.value();
   }
 }

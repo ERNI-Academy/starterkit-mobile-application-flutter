@@ -30,7 +30,7 @@ abstract class NavigationService {
     bool isFullScreenDialog = false,
   });
 
-  Future<void> pushToNewRoot(
+  void pushToNewRoot(
     String routeName, {
     Object? parameter,
     Queries queries = const {},

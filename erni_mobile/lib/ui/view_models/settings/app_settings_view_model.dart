@@ -24,9 +24,11 @@ abstract class AppSettingsViewModel<T extends Object> extends ViewModel<T> {
 
   @override
   @mustCallSuper
-  Future<void> onInitialize([T? parameter, Queries queries = const {}]) async {
+  Future<void> onInitialize([T? parameter, Queries queries = const {}]) {
     updateAppSettings();
     _settingsSubscription = settingsService.settingsChanged.listen(onSettingsChanged);
+
+    return super.onInitialize(parameter, queries);
   }
 
   @override

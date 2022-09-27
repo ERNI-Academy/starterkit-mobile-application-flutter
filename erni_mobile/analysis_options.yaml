@@ -47,6 +47,7 @@ dart_code_metrics:
     - avoid-global-state
     - avoid-missing-enum-constant-in-map
     - avoid-nested-conditional-expressions
+    - avoid-redundant-async
     - avoid-unnecessary-type-assertions
     - avoid-unnecessary-type-casts
     - avoid-unrelated-type-assertions
@@ -88,6 +89,7 @@ dart_code_metrics:
     - prefer-conditional-expressions
     - prefer-enums-by-name
     - prefer-first
+    - prefer-iterable-of
     - prefer-last
     - prefer-trailing-comma
 

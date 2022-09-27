@@ -68,21 +68,18 @@ class NavigationServiceImpl implements NavigationService {
   }
 
   @override
-  Future<void> pushToNewRoot(
+  void pushToNewRoot(
     String routeName, {
     Object? parameter,
     Queries queries = const {},
     bool isFullScreenDialog = false,
-  }) async {
+  }) {
     final routeUri = _createRouteUri(routeName, queries);
 
-    // This future does not complete
-    unawaited(
-      _navigator.pushNamedAndRemoveUntil(
-        routeUri.toString(),
-        (_) => false,
-        arguments: NavigationOptions(parameter, isRoot: true, isFullScreenDialog: isFullScreenDialog),
-      ),
+    _navigator.pushNamedAndRemoveUntil(
+      routeUri.toString(),
+      (_) => false,
+      arguments: NavigationOptions(parameter, isRoot: true, isFullScreenDialog: isFullScreenDialog),
     );
   }
 

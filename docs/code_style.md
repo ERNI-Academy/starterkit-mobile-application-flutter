@@ -41,3 +41,45 @@ The following order must be observed:
       - private-methods
       - private-static-methods
 ```
+
+## Explicit type for public members
+
+Explicitly define the type of public members.
+
+**Don't**
+
+```dart
+class MyClass {
+  final name = "John Doe";
+}
+```
+
+**Do**
+
+```dart
+class MyClass {
+  final String name = "John Doe";
+}
+```
+
+## Always return `Iterable<T>` rather than `List<T>` if possible
+
+Prefer returning `Iterable<T>`  over `List<T>` for immutability of collections. This is also preferred if the returned collection is a constant.
+
+```dart
+Iterable<LogWriter> getLogWriters() => [ConsoleLogWriter(), FileLogWriter()];
+
+Iterable<String> getNames() => const ["Bob", "Joe", "John"];
+```
+
+## Use abstract classes with static-only members
+
+A class with static-only members can be made abstract since it will not be instantiated.
+
+```dart
+abstract class MyConstants {
+  static final String constant1 = "constant1 value";
+
+  static void foo() => print('bar');
+}
+```

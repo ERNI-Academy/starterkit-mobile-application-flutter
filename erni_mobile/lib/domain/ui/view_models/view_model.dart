@@ -11,12 +11,12 @@ abstract class ViewModel<TParameter extends Object> extends ChangeNotifier {
   /// after the first frame has been rendered.
   ///
   /// [parameter] and [queries] are passed when navigating to this view model.
-  Future<void> onInitialize([TParameter? parameter, Queries queries = const {}]) async {}
+  Future<void> onInitialize([TParameter? parameter, Queries queries = const {}]) => Future.value();
 
   /// Called when the view of this view model has rendered its first frame.
   ///
   /// It uses [WidgetsBinding.instance.addPostFrameCallback].
   ///
   /// [parameter] and [queries] are passed when navigating to this view model.
-  Future<void> onFirstRender([TParameter? parameter, Queries queries = const {}]) async {}
+  Future<void> onFirstRender([TParameter? parameter, Queries queries = const {}]) => Future.value();
 }

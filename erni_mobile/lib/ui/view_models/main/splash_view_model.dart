@@ -23,6 +23,6 @@ class SplashViewModel extends ViewModel {
   Future<void> onInitialize([Object? parameter, Queries queries = const {}]) async {
     await _delayProvider.delay(1000);
     await _connectivityChecker.initialize();
-    await _navigationService.pushToNewRoot(RouteNames.home);
+    _navigationService.pushToNewRoot(RouteNames.home);
   }
 }

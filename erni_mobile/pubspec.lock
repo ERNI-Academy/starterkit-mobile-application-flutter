@@ -16,7 +16,7 @@ packages:
     source: hosted
     version: "4.7.0"
   analyzer_plugin:
-    dependency: transitive
+    dependency: "direct overridden"
     description:
       name: analyzer_plugin
       url: "https://pub.dartlang.org"
@@ -252,7 +252,7 @@ packages:
       name: dart_code_metrics
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "4.18.0"
+    version: "4.19.0"
   dart_console:
     dependency: transitive
     description:

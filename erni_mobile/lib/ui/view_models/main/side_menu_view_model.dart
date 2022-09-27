@@ -24,7 +24,7 @@ class SideMenuViewModel extends ViewModel {
         return true;
 
       case MenuActionType.clickable:
-        await _handleClickableMenu(menu.type);
+        _handleClickableMenu(menu.type);
         return false;
     }
   }
@@ -36,7 +36,7 @@ class SideMenuViewModel extends ViewModel {
     await _navigationService.pop();
   }
 
-  Future<void> _handleClickableMenu(MenuType type) async {
+  void _handleClickableMenu(MenuType type) {
     switch (type) {
       default:
         break;
