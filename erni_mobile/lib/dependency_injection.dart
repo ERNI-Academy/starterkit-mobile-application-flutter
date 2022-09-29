@@ -28,9 +28,12 @@ abstract class ServiceLocator {
       if (forTesting) testing.name else running.name,
       if (kReleaseMode) release.name,
       if (kDebugMode) debug.name,
-      if (kIsWeb) platformWeb.name,
-      if (Platform.isAndroid || Platform.isIOS) platformMobile.name,
-      if (Platform.isWindows || Platform.isMacOS || Platform.isLinux) platformDesktop.name,
+      if (kIsWeb)
+        platformWeb.name
+      else if (Platform.isAndroid || Platform.isIOS)
+        platformMobile.name
+      else if (Platform.isWindows || Platform.isMacOS || Platform.isLinux)
+        platformDesktop.name,
     };
   }
 }
