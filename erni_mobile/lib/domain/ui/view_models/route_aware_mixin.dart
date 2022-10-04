@@ -1,7 +1,7 @@
 import 'package:erni_mobile/domain/ui/view_models/view_model.dart';
 import 'package:flutter/widgets.dart';
 
-mixin RouteAwareMixin<T extends Object> on ViewModel<T> implements RouteAware {
+mixin RouteAwareMixin on ViewModel implements RouteAware {
   @override
   Future<void> didPop() => Future.value();
 

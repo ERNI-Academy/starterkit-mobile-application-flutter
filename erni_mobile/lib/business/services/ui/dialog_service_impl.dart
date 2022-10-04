@@ -3,8 +3,8 @@
 import 'dart:async';
 
 import 'package:erni_mobile/business/models/ui/confirm_dialog_response.dart';
-import 'package:erni_mobile/business/services/ui/navigation/view_locator.dart';
 import 'package:erni_mobile/common/localization/localization.dart';
+import 'package:erni_mobile/dependency_injection.dart';
 import 'package:erni_mobile/domain/services/ui/dialog_service.dart';
 import 'package:erni_mobile/domain/services/ui/navigation_service.dart';
 import 'package:erni_mobile/ui/widgets/widgets.dart';
@@ -16,7 +16,7 @@ class DialogServiceImpl implements DialogService {
   bool _isDialogShown = false;
 
   static BuildContext get _context {
-    final context = NavigationService.navigatorKey.currentState?.overlay?.context;
+    final context = NavigationService.currentNavigatorKey.currentState?.overlay?.context;
 
     if (context == null) {
       throw StateError('BuildContext is null');
@@ -83,7 +83,7 @@ class DialogServiceImpl implements DialogService {
       builder: (context) {
         return Padding(
           padding: MediaQuery.of(context).viewInsets,
-          child: _tryGetRegisteredWidget(bottomSheetName),
+          child: _getView(bottomSheetName),
         );
       },
     );
@@ -164,7 +164,7 @@ class DialogServiceImpl implements DialogService {
       context: _context,
       routeSettings: settings,
       barrierDismissible: dismissable,
-      builder: (context) => _tryGetRegisteredWidget(dialogName),
+      builder: (context) => _getView(dialogName),
     );
 
     _isDialogShown = false;
@@ -180,11 +180,15 @@ class DialogServiceImpl implements DialogService {
     );
   }
 
-  static Widget _tryGetRegisteredWidget(String name) {
-    final isDialogRegistered = ViewLocator.isViewRegistered(name);
-    assert(isDialogRegistered, 'Dialog named $name is not registered');
+  static Widget _getView(String name) {
+    final viewUri = Uri.parse(name);
+    final viewPath = viewUri.path;
 
-    return ViewLocator.getView(name);
+    if (ServiceLocator.instance.isRegistered<Widget>(instanceName: viewPath)) {
+      return ServiceLocator.instance<Widget>(instanceName: viewPath);
+    }
+
+    throw UnsupportedError('view $viewPath not registeredin GetIt');
   }
 }
 

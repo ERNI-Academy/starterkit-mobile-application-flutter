@@ -6,11 +6,10 @@ import 'package:erni_mobile/business/models/settings/language_entity.dart';
 import 'package:erni_mobile/business/models/settings/settings_changed_model.dart';
 import 'package:erni_mobile/common/constants/settings_keys.dart';
 import 'package:erni_mobile/domain/services/settings/settings_service.dart';
-import 'package:erni_mobile/domain/services/ui/navigation_service.dart';
 import 'package:erni_mobile/domain/ui/view_models/view_model.dart';
 import 'package:flutter/material.dart';
 
-abstract class AppSettingsViewModel<T extends Object> extends ViewModel<T> {
+abstract class AppSettingsViewModel extends ViewModel {
   AppSettingsViewModel(this.settingsService);
 
   late final StreamSubscription _settingsSubscription;
@@ -24,11 +23,11 @@ abstract class AppSettingsViewModel<T extends Object> extends ViewModel<T> {
 
   @override
   @mustCallSuper
-  Future<void> onInitialize([T? parameter, Queries queries = const {}]) {
+  Future<void> onInitialize() {
     updateAppSettings();
     _settingsSubscription = settingsService.settingsChanged.listen(onSettingsChanged);
 
-    return super.onInitialize(parameter, queries);
+    return super.onInitialize();
   }
 
   @override

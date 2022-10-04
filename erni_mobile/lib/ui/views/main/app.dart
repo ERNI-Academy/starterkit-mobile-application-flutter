@@ -1,6 +1,6 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:erni_mobile/business/models/settings/language_entity.dart';
 import 'package:erni_mobile/business/services/ui/navigation/navigation_observer.dart';
-import 'package:erni_mobile/business/services/ui/navigation/route_generator.dart';
 import 'package:erni_mobile/common/localization/generated/l10n.dart';
 import 'package:erni_mobile/common/localization/localization.dart';
 import 'package:erni_mobile/dependency_injection.dart';
@@ -10,7 +10,6 @@ import 'package:erni_mobile/domain/services/ui/navigation_service.dart';
 import 'package:erni_mobile/domain/ui/views/view_mixin.dart';
 import 'package:erni_mobile/ui/resources/theme.dart';
 import 'package:erni_mobile/ui/view_models/main/app_view_model.dart';
-import 'package:erni_mobile/ui/views/main/splash_view.dart';
 import 'package:erni_mobile/ui/widgets/widgets.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -38,7 +37,7 @@ class App extends StatelessWidget with ViewMixin<AppViewModel> {
         return ValueListenableBuilder<LanguageEntity>(
           valueListenable: viewModel.currentLanguage,
           builder: (context, currentLanguage, child) {
-            return MaterialApp(
+            return MaterialApp.router(
               builder: (context, child) => ResponsiveWrapper.builder(
                 child,
                 defaultScale: true,
@@ -60,14 +59,15 @@ class App extends StatelessWidget with ViewMixin<AppViewModel> {
               darkTheme: MaterialAppThemes.darkTheme,
               themeMode: currentTheme,
               debugShowCheckedModeBanner: false,
-              navigatorKey: NavigationService.navigatorKey,
-              navigatorObservers: [
-                ServiceLocator.instance<NavigationLogger>(),
-                NavigationObserver.instance,
-                SentryNavigatorObserver(),
-              ],
-              home: home ?? const SplashView(),
-              onGenerateRoute: RouteGenerator.onGenerateRoute,
+              routerDelegate: AutoRouterDelegate(
+                ServiceLocator.instance<NavigationService>(),
+                navigatorObservers: () => [
+                  ServiceLocator.instance<NavigationLogger>(),
+                  NavigationObserver.instance,
+                  SentryNavigatorObserver(),
+                ],
+              ),
+              routeInformationParser: ServiceLocator.instance<NavigationService>().defaultRouteParser(),
               localizationsDelegates: const [
                 Il8n.delegate,
                 GlobalMaterialLocalizations.delegate,

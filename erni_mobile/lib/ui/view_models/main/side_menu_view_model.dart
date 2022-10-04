@@ -10,22 +10,20 @@ class SideMenuViewModel extends ViewModel {
   SideMenuViewModel(this._navigationService, this._menuProvider);
 
   final NavigationService _navigationService;
-
   final MenuProvider _menuProvider;
 
   late final Iterable<SideMenuModel> menus = _menuProvider.menus;
 
-  late final AsyncTwoWayCommand<SideMenuModel, bool> menuTapCommand = AsyncTwoWayCommand.withParam(_onMenuTapped);
+  late final AsyncRelayCommand<SideMenuModel> menuTapCommand = AsyncRelayCommand.withParam(_onMenuTapped);
 
-  Future<bool> _onMenuTapped(SideMenuModel menu) async {
+  Future<void> _onMenuTapped(SideMenuModel menu) async {
     switch (menu.actionType) {
       case MenuActionType.navigatable:
         await _handleNavigatableMenu(menu);
-        return true;
-
+        break;
       case MenuActionType.clickable:
         _handleClickableMenu(menu.type);
-        return false;
+        break;
     }
   }
 
@@ -33,6 +31,16 @@ class SideMenuViewModel extends ViewModel {
     _menuProvider.currentMenu.value.isSelected.value = false;
     menu.isSelected.value = true;
     _menuProvider.currentMenu.value = menu;
+
+    switch (menu.type) {
+      case MenuType.about:
+        await _navigationService.replace(const AboutViewRoute());
+        break;
+      case MenuType.settings:
+        await _navigationService.replace(const SettingsViewRoute());
+        break;
+    }
+
     await _navigationService.pop();
   }
 

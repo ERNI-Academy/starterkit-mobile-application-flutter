@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:erni_mobile/common/constants/route_names.dart';
 import 'package:erni_mobile/domain/services/async/delay_provider.dart';
 import 'package:erni_mobile/domain/services/logging/app_logger.dart';
 import 'package:erni_mobile/domain/services/platform/connectivity_checker.dart';
@@ -20,9 +19,9 @@ class SplashViewModel extends ViewModel {
   final DelayProvider _delayProvider;
 
   @override
-  Future<void> onInitialize([Object? parameter, Queries queries = const {}]) async {
+  Future<void> onInitialize() async {
     await _delayProvider.delay(1000);
     await _connectivityChecker.initialize();
-    _navigationService.pushToNewRoot(RouteNames.home);
+    await _navigationService.replace(DashboardViewRoute(message: 'Hello from splash'));
   }
 }

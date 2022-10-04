@@ -1,16 +1,13 @@
 // coverage:ignore-file
 
-import 'package:erni_mobile/common/constants/route_names.dart';
+import 'package:erni_mobile/domain/services/ui/navigation_service.dart';
 import 'package:erni_mobile/domain/ui/views/view_mixin.dart';
 import 'package:erni_mobile/ui/resources/assets.gen.dart';
 import 'package:erni_mobile/ui/view_models/main/splash_view_model.dart';
 import 'package:erni_mobile/ui/widgets/widgets.dart';
-import 'package:injectable/injectable.dart';
 
-@Named(RouteNames.splash)
-@Injectable(as: Widget)
 class SplashView extends StatelessWidget with ViewMixin<SplashViewModel> {
-  const SplashView() : super(key: const Key(RouteNames.splash));
+  const SplashView() : super(key: const Key(SplashViewRoute.name));
 
   @override
   SplashViewModel onCreateViewModel(BuildContext context) {

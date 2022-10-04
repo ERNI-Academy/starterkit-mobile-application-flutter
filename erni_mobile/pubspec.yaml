@@ -21,6 +21,7 @@ environment:
   sdk: ">=2.18.0 <3.0.0"
 
 dependencies:
+  auto_route: ^5.0.1
   connectivity_plus: ^2.3.6+1
   cupertino_icons: ^1.0.3
   dio: ^4.0.6
@@ -34,13 +35,12 @@ dependencies:
   injectable: ^1.5.0
   intl: ^0.17.0
   json_annotation: ^4.5.0
-  jwt_decoder: ^2.0.1
   meta: ^1.3.0
   package_info_plus: ^1.4.3+1
-  page_transition: ^2.0.9
   path: ^1.8.0
   path_provider: ^2.0.11
   provider: ^6.0.3
+  reflectable: ^4.0.0
   responsive_framework: ^0.2.0
   retrofit: ^3.0.1
   sentry: ^6.8.0
@@ -55,6 +55,7 @@ dependencies:
   validation_notifier: ^1.4.5
 
 dev_dependencies:
+  auto_route_generator: ^5.0.2
   build_runner: ^2.1.11
   dart_code_metrics: ^4.19.0
   drift_dev: ^2.1.0

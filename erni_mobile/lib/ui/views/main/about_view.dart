@@ -1,11 +1,11 @@
 // coverage:ignore-file
 
+import 'package:erni_mobile/business/services/ui/navigation/navigation_service_impl.dart';
 import 'package:erni_mobile/common/localization/localization.dart';
-import 'package:erni_mobile/ui/resources/resources.dart';
 import 'package:erni_mobile/ui/widgets/widgets.dart';
 
 class AboutView extends StatelessWidget {
-  const AboutView({Key? key}) : super(key: key);
+  const AboutView() : super(key: const Key(AboutViewRoute.name));
 
   @override
   Widget build(BuildContext context) {
@@ -14,10 +14,7 @@ class AboutView extends StatelessWidget {
         children: [
           ListTile(
             title: Text(Il8n.of(context).aboutLicenses),
-            onTap: () => showLicensePage(
-              context: context,
-              applicationIcon: Assets.graphics.icErniLogo.image(width: 128),
-            ),
+            onTap: () => showLicensePage(context: context, useRootNavigator: true),
           ),
         ],
       ),
