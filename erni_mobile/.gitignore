@@ -33,6 +33,8 @@
 .pub/
 /build/
 **/*.g.dart
+**/*.gr.dart
+**/*.reflectable.dart
 **/*.config.dart
 **/*.gen.dart
 **/*.mocks.dart
