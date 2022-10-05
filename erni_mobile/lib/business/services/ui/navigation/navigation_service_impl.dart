@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:auto_route/auto_route.dart';
 import 'package:erni_mobile/domain/services/ui/navigation_service.dart';
 import 'package:erni_mobile/ui/views/main/about_view.dart';
@@ -9,31 +11,31 @@ import 'package:injectable/injectable.dart';
 
 part 'navigation_service_impl.gr.dart';
 
-typedef ViewRoute<T extends Object> = AutoRoute<T>;
+typedef GenericRoute<T extends Object> = AutoRoute<T>;
 
-typedef CustomViewRoute<T extends Object> = CustomRoute<T>;
+typedef ExplicitRoute<T extends Object> = CustomRoute<T>;
 
 @LazySingleton(as: NavigationService)
 @MaterialAutoRouter(
   routes: <AutoRoute>[
-    ViewRoute(
+    GenericRoute(
       path: '/splash',
       page: SplashView,
       initial: true,
     ),
-    ViewRoute(
+    GenericRoute(
       path: '/dashboard',
       page: DashboardView,
       children: [
         RedirectRoute(path: '', redirectTo: 'about'),
-        CustomViewRoute(
+        ExplicitRoute(
           path: 'about',
           page: AboutView,
           initial: true,
           transitionsBuilder: TransitionsBuilders.noTransition,
           durationInMilliseconds: 0,
         ),
-        CustomViewRoute(
+        ExplicitRoute(
           path: 'settings',
           page: SettingsView,
           transitionsBuilder: TransitionsBuilders.noTransition,
@@ -45,4 +47,12 @@ typedef CustomViewRoute<T extends Object> = CustomRoute<T>;
 )
 class NavigationServiceImpl extends _$NavigationServiceImpl implements NavigationService {
   NavigationServiceImpl() : super(NavigationService.currentNavigatorKey);
+
+  @override
+  Future<T?> replace<T extends Object?>(PageRouteInfo route, {OnNavigationFailure? onFailure}) {
+    // This future does not complete
+    unawaited(super.replace(route, onFailure: onFailure));
+
+    return Future.value();
+  }
 }
