@@ -22,6 +22,7 @@ abstract class ViewMixin<TViewModel extends ViewModel> implements View<TViewMode
       dispose: onDisposeViewModel,
       builder: (context, child) {
         final viewModel = context.watch<TViewModel>();
+        _tryGetQueryParams(context, viewModel);
 
         return buildView(context, viewModel);
       },
@@ -64,14 +65,19 @@ abstract class ViewMixin<TViewModel extends ViewModel> implements View<TViewMode
   }
 
   static void _initializeViewModel<TViewModel extends ViewModel>(BuildContext context, TViewModel viewModel) {
+    _tryGetQueryParams(context, viewModel);
+    WidgetsBinding.instance.addPostFrameCallback((_) => viewModel.onFirstRender());
+    viewModel.onInitialize();
+  }
+
+  static void _tryGetQueryParams<TViewModel extends ViewModel>(BuildContext context, TViewModel viewModel) {
     if (reflectable.canReflect(viewModel) && reflectable.canReflectType(TViewModel)) {
       final route = context.routeData;
       final instanceMirror = reflectable.reflect(viewModel);
       final typeMirror = reflectable.reflectType(TViewModel) as ClassMirror;
 
-      Map<String, Object>.from(route.queryParams.rawMap).forEach((key, value) {
-        bool predicate(DeclarationMirror element) =>
-            element.metadata.any((element) => element is QueryParam && element.name == key);
+      Map<String, Object?>.from(route.queryParams.rawMap).forEach((key, value) {
+        bool predicate(DeclarationMirror element) => element.metadata.any((m) => m is QueryParam && m.name == key);
 
         if (typeMirror.declarations.values.any(predicate)) {
           final matchingDeclaration = typeMirror.declarations.values.firstWhere(predicate);
@@ -79,9 +85,6 @@ abstract class ViewMixin<TViewModel extends ViewModel> implements View<TViewMode
         }
       });
     }
-
-    WidgetsBinding.instance.addPostFrameCallback((_) => viewModel.onFirstRender());
-    viewModel.onInitialize();
   }
 }
 
