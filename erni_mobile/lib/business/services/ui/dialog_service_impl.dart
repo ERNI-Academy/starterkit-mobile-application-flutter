@@ -2,6 +2,7 @@
 
 import 'dart:async';
 
+import 'package:auto_route/auto_route.dart';
 import 'package:erni_mobile/business/models/ui/confirm_dialog_response.dart';
 import 'package:erni_mobile/common/localization/localization.dart';
 import 'package:erni_mobile/dependency_injection.dart';
@@ -30,6 +31,7 @@ class DialogServiceImpl implements DialogService {
     _isDialogShown = true;
     await showDialog<void>(
       context: _context,
+      routeSettings: const RouteSettings(name: '/dialogs/alert'),
       builder: (context) {
         return _AlertDialog(
           message: message,
@@ -51,6 +53,7 @@ class DialogServiceImpl implements DialogService {
   }) async {
     final confirmed = await showDialog<bool?>(
       barrierDismissible: false,
+      routeSettings: const RouteSettings(name: '/dialogs/confirm'),
       context: _context,
       builder: (context) {
         return _AlertDialog(
@@ -75,7 +78,7 @@ class DialogServiceImpl implements DialogService {
 
   @override
   Future<T?> showBottomSheet<T extends Object>(String bottomSheetName, {Object? parameter}) async {
-    final settings = RouteSettings(name: bottomSheetName, arguments: parameter);
+    final settings = RouteSettings(name: '/botto-sheets/$bottomSheetName', arguments: parameter);
     final result = showModalBottomSheet<T>(
       context: _context,
       routeSettings: settings,
@@ -108,6 +111,7 @@ class DialogServiceImpl implements DialogService {
           await showDialog<void>(
             context: _context,
             barrierDismissible: false,
+            routeSettings: const RouteSettings(name: '/dialogs/loading'),
             builder: (context) {
               return AlertDialog(
                 content: SpacedRow(
@@ -135,7 +139,7 @@ class DialogServiceImpl implements DialogService {
   @override
   Future<bool> dismiss([Object? result]) async {
     if (_isDialogShown || _isLoadingShown) {
-      return Navigator.of(_context).maybePop(result);
+      return AutoRouter.of(_context).pop(result);
     }
 
     return false;
@@ -159,7 +163,7 @@ class DialogServiceImpl implements DialogService {
   @override
   Future<T?> show<T>(String dialogName, {Object? parameter, bool dismissable = true}) async {
     _isDialogShown = true;
-    final settings = RouteSettings(name: dialogName, arguments: parameter);
+    final settings = RouteSettings(name: '/dialogs/$dialogName', arguments: parameter);
     final result = await showDialog<T>(
       context: _context,
       routeSettings: settings,
