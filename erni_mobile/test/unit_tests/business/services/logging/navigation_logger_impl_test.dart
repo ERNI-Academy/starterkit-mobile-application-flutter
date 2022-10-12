@@ -6,12 +6,11 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 
-import '../../../unit_test_utils.dart';
 import 'navigation_logger_impl_test.mocks.dart';
 
-@GenerateMocks([
-  AppLogger,
-  Route,
+@GenerateNiceMocks([
+  MockSpec<AppLogger>(),
+  MockSpec<Route>(),
 ])
 void main() {
   group(NavigationLoggerImpl, () {
@@ -40,77 +39,50 @@ void main() {
 
     test('didPush should log the next route\'s name when not null', () {
       // Arrange
-      const expectedRouteName = 'route-name';
+      const expectedPreviousRouteName = 'route1';
+      const expectedNewRouteName = 'route2';
       final unit = createUnitToTest();
-      final nextRoute = createAndSetupRoute(name: expectedRouteName);
+      final nextRoute = createAndSetupRoute(name: expectedNewRouteName);
+      final previousRoute = createAndSetupRoute(name: expectedPreviousRouteName);
 
       // Act
-      unit.didPush(nextRoute, null);
+      unit.didPush(nextRoute, previousRoute);
 
       // Assert
-      verify(mockAppLogger.log(LogLevel.info, 'Pushed $expectedRouteName')).called(1);
-    });
-
-    test('didPush should not log the next route\'s name when null', () {
-      // Arrange
-      final unit = createUnitToTest();
-      final nextRoute = createAndSetupRoute();
-
-      // Act
-      unit.didPush(nextRoute, null);
-
-      // Assert
-      verifyNever(mockAppLogger.log(LogLevel.info, anyInstanceOf<String>()));
+      verify(mockAppLogger.log(LogLevel.info, '$expectedPreviousRouteName === PUSHED ==> $expectedNewRouteName'))
+          .called(1);
     });
 
     test('didPop should log the popped route\'s name when not null', () {
       // Arrange
-      const expectedRouteName = 'route-name';
+      const expectedPreviousRouteName = 'route1';
+      const expectedPoppedRouteName = 'route2';
       final unit = createUnitToTest();
-      final popped = createAndSetupRoute(name: expectedRouteName);
+      final poppedRoute = createAndSetupRoute(name: expectedPoppedRouteName);
+      final previousRoute = createAndSetupRoute(name: expectedPreviousRouteName);
 
       // Act
-      unit.didPop(popped, null);
+      unit.didPop(poppedRoute, previousRoute);
 
       // Assert
-      verify(mockAppLogger.log(LogLevel.info, 'Popped $expectedRouteName')).called(1);
-    });
-
-    test('didPop should not log the popped route\'s name when null', () {
-      // Arrange
-      final unit = createUnitToTest();
-      final popped = createAndSetupRoute();
-
-      // Act
-      unit.didPop(popped, null);
-
-      // Assert
-      verifyNever(mockAppLogger.log(LogLevel.info, anyInstanceOf<String>()));
+      verify(mockAppLogger.log(LogLevel.info, '$expectedPreviousRouteName <== POPPED === $expectedPoppedRouteName'))
+          .called(1);
     });
 
     test('didReplace should log the new route\'s name when not null', () {
       // Arrange
-      const expectedRouteName = 'route-name';
+      const expectedNewRouteName = 'route1';
+      const expectedOldRouteName = 'route2';
       final unit = createUnitToTest();
-      final popped = createAndSetupRoute(name: expectedRouteName);
+      final newRoute = createAndSetupRoute(name: expectedNewRouteName);
+      final oldRoute = createAndSetupRoute(name: expectedOldRouteName);
 
       // Act
-      unit.didReplace(newRoute: popped);
+      unit.didReplace(newRoute: newRoute, oldRoute: oldRoute);
 
       // Assert
-      verify(mockAppLogger.log(LogLevel.info, 'Replaced with $expectedRouteName')).called(1);
-    });
-
-    test('didReplace should not log the new route\'s name when null', () {
-      // Arrange
-      final unit = createUnitToTest();
-      final popped = createAndSetupRoute();
-
-      // Act
-      unit.didReplace(newRoute: popped);
-
-      // Assert
-      verifyNever(mockAppLogger.log(LogLevel.info, anyInstanceOf<String>()));
+      verify(mockAppLogger.log(LogLevel.info, '$expectedOldRouteName === REPLACED ==> $expectedNewRouteName'))
+          .called(1);
     });
   });
 }
