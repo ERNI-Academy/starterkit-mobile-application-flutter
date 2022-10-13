@@ -97,6 +97,7 @@ To know more about this project, you can read the following:
 **[Overview](docs/overview.md)**
 - [Environment](docs/environments.md)
 - [Dependency Injection](docs/dependency_injection.md)
+- [Reflection](docs/reflection.md)
 - [Code Generation](docs/code_generation.md)
 - [Code Style](docs/code_style.md)
 - [Code Analysis and Metrics](docs/code_analysis_and_metrics.md)
