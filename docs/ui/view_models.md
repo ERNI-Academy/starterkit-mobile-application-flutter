@@ -6,20 +6,20 @@ View Models contains the state of your view.
 @injectable
 class SplashViewModel extends ViewModel {
   @override
-  Future<void> onInitialize([Object? parameter, Queries queries = const {}]) async {
-    // your initialization logic after the view model was created, use parameters if any
+  Future<void> onInitialize() async {
+    // your initialization logic after the view model was created
   }
 
   @override
-  Future<void> onFirstRender([Object? parameter, Queries queries = const {}]) async {
-    // your initialization logic after the first frame has rendered, use parameters if any
+  Future<void> onFirstRender() async {
+    // your initialization logic after the first frame has rendered
   }
 }
 ```
 
 - The `ViewModel` class inherits from `ChangeNotifier`.
 - A new instance is returned always whenever we resolve a view model.
-- Use `onInitialize` or `onFirstRender` to extract the parameters passed during navigation. More details about navigation [here](navigation.md).
+- To know how to extract parameters passed during navigation, read about it [here](navigation.md).
 
 <div style="">
 
@@ -41,7 +41,7 @@ class SplashViewModel extends ViewModel {
   bool isInitialized = false;
   
   @override
-  Future<void> onInitialize([Object? parameter, Queries queries = const {}]) async {
+  Future<void> onInitialize() async {
     isInitialized = true;
     notifyListeners();
   }
@@ -52,8 +52,8 @@ Read more about the project's state management approach [here](state_management.
 
 ### Lifecycle
 
-- `onInitialize` is called when the view model was first initialized. `parameter` and `queries` are passed when navigating to this view model.
-- `onFirstRender` is called when the view of the view model has rendered its first frame. `parameter` and `queries` are passed when navigating to this view model.
+- `onInitialize` is called when the view model was first initialized
+- `onFirstRender` is called when the view of the view model has rendered its first frame
 - `dispose` is called whenever the view to which this view model is attached to is removed from the tree.
 
 :bulb: **<span style="color: green">TIP</span>**
