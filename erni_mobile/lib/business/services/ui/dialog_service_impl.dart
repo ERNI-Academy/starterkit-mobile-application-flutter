@@ -4,10 +4,10 @@ import 'dart:async';
 
 import 'package:auto_route/auto_route.dart';
 import 'package:erni_mobile/business/models/ui/confirm_dialog_response.dart';
+import 'package:erni_mobile/common/constants/widget_keys.dart';
 import 'package:erni_mobile/common/localization/localization.dart';
 import 'package:erni_mobile/dependency_injection.dart';
 import 'package:erni_mobile/domain/services/ui/dialog_service.dart';
-import 'package:erni_mobile/domain/services/ui/navigation_service.dart';
 import 'package:erni_mobile/ui/widgets/widgets.dart';
 import 'package:injectable/injectable.dart';
 
@@ -17,7 +17,7 @@ class DialogServiceImpl implements DialogService {
   bool _isDialogShown = false;
 
   static BuildContext get _context {
-    final context = NavigationService.currentNavigatorKey.currentState?.overlay?.context;
+    final context = WidgetKeys.navigatorKey.currentState?.overlay?.context;
 
     if (context == null) {
       throw StateError('BuildContext is null');

@@ -2,7 +2,7 @@
 
 import 'package:auto_route/auto_route.dart';
 import 'package:erni_mobile/business/models/ui/side_menu_model.dart';
-import 'package:erni_mobile/domain/services/ui/navigation_service.dart';
+import 'package:erni_mobile/domain/services/ui/navigation/navigation_service.dart';
 import 'package:erni_mobile/domain/ui/views/view_mixin.dart';
 import 'package:erni_mobile/ui/view_models/main/dashboard_view_model.dart';
 import 'package:erni_mobile/ui/views/main/side_menu_view.dart';

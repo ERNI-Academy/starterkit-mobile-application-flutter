@@ -1,7 +1,8 @@
 import 'dart:async';
 
 import 'package:auto_route/auto_route.dart';
-import 'package:erni_mobile/domain/services/ui/navigation_service.dart';
+import 'package:erni_mobile/common/constants/widget_keys.dart';
+import 'package:erni_mobile/domain/services/ui/navigation/navigation_service.dart';
 import 'package:erni_mobile/ui/views/main/about_view.dart';
 import 'package:erni_mobile/ui/views/main/dashboard_view.dart';
 import 'package:erni_mobile/ui/views/main/splash_view.dart';
@@ -46,7 +47,7 @@ typedef ExplicitRoute<T extends Object> = CustomRoute<T>;
   ],
 )
 class NavigationServiceImpl extends _$NavigationServiceImpl implements NavigationService {
-  NavigationServiceImpl() : super(NavigationService.currentNavigatorKey);
+  NavigationServiceImpl() : super(WidgetKeys.navigatorKey);
 
   @override
   Future<T?> replace<T extends Object?>(PageRouteInfo route, {OnNavigationFailure? onFailure}) {

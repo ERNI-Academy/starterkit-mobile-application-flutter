@@ -1,6 +1,6 @@
 // coverage:ignore-file
 
-import 'package:erni_mobile/domain/services/ui/navigation_service.dart';
+import 'package:erni_mobile/domain/services/ui/navigation/navigation_service.dart';
 import 'package:erni_mobile/domain/ui/views/view_mixin.dart';
 import 'package:erni_mobile/ui/resources/assets.gen.dart';
 import 'package:erni_mobile/ui/view_models/main/splash_view_model.dart';

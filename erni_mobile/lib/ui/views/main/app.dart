@@ -6,7 +6,7 @@ import 'package:erni_mobile/common/localization/localization.dart';
 import 'package:erni_mobile/dependency_injection.dart';
 import 'package:erni_mobile/domain/services/logging/navigation_logger.dart';
 import 'package:erni_mobile/domain/services/platform/environment_config.dart';
-import 'package:erni_mobile/domain/services/ui/navigation_service.dart';
+import 'package:erni_mobile/domain/services/ui/navigation/navigation_service.dart';
 import 'package:erni_mobile/domain/ui/views/view_mixin.dart';
 import 'package:erni_mobile/ui/resources/theme.dart';
 import 'package:erni_mobile/ui/view_models/main/app_view_model.dart';

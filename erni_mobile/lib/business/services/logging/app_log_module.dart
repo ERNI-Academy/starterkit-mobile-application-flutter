@@ -1,5 +1,3 @@
-// coverage:ignore-file
-
 import 'package:erni_mobile/domain/services/logging/app_log_console_writer.dart';
 import 'package:erni_mobile/domain/services/logging/app_log_file_writer.dart';
 import 'package:erni_mobile/domain/services/logging/app_log_sentry_exception_writer.dart';

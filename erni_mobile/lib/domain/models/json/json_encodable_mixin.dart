@@ -1,3 +1,5 @@
+// coverage:ignore-file
+
 import 'dart:convert';
 
 export 'package:json_annotation/json_annotation.dart' show JsonSerializable;
