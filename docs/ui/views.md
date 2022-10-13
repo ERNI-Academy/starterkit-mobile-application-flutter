@@ -3,10 +3,8 @@
 A view is a collection of visible elements that receives user inputs.
 
 ```dart
-@Named(RouteNames.splash)
-@Injectable(as: Widget)
 class SplashView extends StatelessWidget with ViewMixin<SplashViewModel> {
-  const SplashView() : super(key: const Key(RouteNames.splash));
+  const SplashView() : super(key: const Key(SplashViewRoute.name));
 
   @override
   Widget buildView(BuildContext context, SplashViewModel viewModel) {
@@ -25,9 +23,6 @@ class SplashView extends StatelessWidget with ViewMixin<SplashViewModel> {
 }
 ```
 
-- `@Named` is part of `injectable`, meaning that this class can be resolved using a constant string value. In this case, the name will be the `RouteName.splash`. Later on, the same constant value will be used if we want to navigate to this route. More details about navigation [here](navigation.md).
-- `@Injectable` is used to tell `injectable` that this will be resolved as the type `Widget`, and an new instance is returned everytime it is resolved.
-
 :bulb: **<span style="color: green">TIP</span>**
 
 Use the snippet shortcut `vsl` to create a view using a `StatelessWidget`, and `vsf` to use `StatefulWidget`.
@@ -43,10 +38,8 @@ Use `ChildViewMixin` if you want a view to be a child of a parent view. This wil
 Do not use two `ViewMixin` when trying to split your view:
 
 ```dart
-@Named(RouteNames.login)
-@Injectable(as: Widget)
 class LoginView extends StatelessWidget with ViewMixin<LoginViewModel> {
-  const LoginView() : super(key: const Key(RouteNames.login));
+  const LoginView() : super(key: const Key(LoginViewRoute.name));
 
   @override
   Widget buildView(BuildContext context, LoginViewModel viewModel) {
@@ -117,10 +110,8 @@ class _RegisterForgotPasswordSection extends StatelessWidget with ChildViewMixin
 ### Lifecycle
 
 ```dart
-@Named(RouteNames.splash)
-@Injectable(as: Widget)
 class SplashView extends StatelessWidget with ViewMixin<SplashViewModel> {
-  const SplashView() : super(key: const Key(RouteNames.splash));
+  const SplashView() : super(key: const Key(SplashViewRoute.name));
 
   @override
   SplashViewModel onCreateViewModel(BuildContext context) {
