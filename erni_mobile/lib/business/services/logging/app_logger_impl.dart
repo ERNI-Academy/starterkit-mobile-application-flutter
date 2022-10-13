@@ -14,7 +14,7 @@ class AppLoggerImpl implements AppLogger {
   AppLoggerImpl(this._formatter, this._logWriters, this._dateTimeService, this._environmentConfig);
 
   final AppLogFormatter _formatter;
-  final List<AppLogWriter> _logWriters;
+  final Iterable<AppLogWriter> _logWriters;
   final DateTimeService _dateTimeService;
   final EnvironmentConfig _environmentConfig;
   String? _owner;

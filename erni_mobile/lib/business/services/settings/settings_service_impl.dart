@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:erni_mobile/business/models/settings/settings_changed_model.dart';
-import 'package:erni_mobile/domain/models/json/json_encodable.dart';
+import 'package:erni_mobile/domain/models/json/json_encodable_mixin.dart';
 import 'package:erni_mobile/domain/services/json/json_converter.dart';
 import 'package:erni_mobile/domain/services/settings/settings_service.dart';
 import 'package:injectable/injectable.dart';
@@ -28,7 +28,7 @@ class SettingsServiceImpl implements SettingsService {
   }
 
   @override
-  T? getObject<T extends JsonEncodable>(String key, JsonConverterCallback<T> converter, {T? defaultValue}) {
+  T? getObject<T extends JsonEncodableMixin>(String key, JsonConverterCallback<T> converter, {T? defaultValue}) {
     final value = _prefs.get(key) as String?;
 
     if (value != null) {
@@ -50,7 +50,7 @@ class SettingsServiceImpl implements SettingsService {
   }
 
   @override
-  Future<bool> addOrUpdateObject(String key, JsonEncodable value) async {
+  Future<bool> addOrUpdateObject(String key, JsonEncodableMixin value) async {
     final encoded = _jsonConverter.encode(value);
     final didUpdate = await _tryAddOrUpdateValue(key, encoded);
 

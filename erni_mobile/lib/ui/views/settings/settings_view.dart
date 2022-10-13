@@ -1,14 +1,14 @@
 // coverage:ignore-file
 
 import 'package:erni_mobile/common/localization/localization.dart';
+import 'package:erni_mobile/domain/services/ui/navigation/navigation_service.dart';
 import 'package:erni_mobile/domain/ui/views/view_mixin.dart';
 import 'package:erni_mobile/ui/view_models/settings/settings_view_model.dart';
-import 'package:erni_mobile/ui/views/settings/account_settings_view.dart';
 import 'package:erni_mobile/ui/views/settings/update_app_settings_view.dart';
 import 'package:erni_mobile/ui/widgets/widgets.dart';
 
 class SettingsView extends StatelessWidget with ViewMixin<SettingsViewModel> {
-  const SettingsView({Key? key}) : super(key: key);
+  const SettingsView() : super(key: const Key(SettingsViewRoute.name));
 
   @override
   Widget buildView(BuildContext context, SettingsViewModel viewModel) {
@@ -17,8 +17,6 @@ class SettingsView extends StatelessWidget with ViewMixin<SettingsViewModel> {
         children: [
           ListTile(subtitle: _ListSectionTitle(Il8n.of(context).settingsAppSectionTitle)),
           const UpdateAppSettingsView(),
-          ListTile(subtitle: _ListSectionTitle(Il8n.of(context).settingsAccountSectionTitle)),
-          const AccountSettingsView(),
         ],
       ),
     );

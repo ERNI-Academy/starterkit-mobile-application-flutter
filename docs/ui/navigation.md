@@ -1,58 +1,62 @@
-#Navigation
+# Navigation
+
+The project uses [auto_route](https://pub.dev/packages/auto_route) as the navigation solution. It is based on Flutter's Navigator 2.0 and provides the following feature:
+
+- Declarative routing
+- Route guards
+- Nested navigation
+- Similar API compared to Flutter's Navigator 1.0, including as passing argument and result
+
+See [`NavigationService`](../../erni_mobile/lib/domain/services/ui/navigation/navigation_service.dart) and its implementing class for more details.
 
 ## Push Navigation
 
-Push to route named `/user/verify`.
-
 ```dart
-final isUserVerified = await navigation.push<bool>('/user/verify');
+final isUserVerified = await navigation.push<bool>(const UserVerificationViewRoute());
 ```
+
 ## Passing Parameter
 
-Push to route named `/user/verify?lang=en` and pass a `String` parameter.
+For example, you want to pass `userId` to `UserVerificationView`.
+
+**Updating a route to receive parameter**
+
+In your view model
 
 ```dart
-const userId = 'asda-123-asd';
+const userIdParam = QueryParam('userId');
 
-// One way
-final isUserVerified = await navigation.push<bool>('/user/verify?lang=en', parameter: userId);
-
-// Or
-final isUserVerified = await navigation.push<bool>('/user/verify', parameter: userId, queries: {'lang': 'en'});
+class UserVerificationViewModel extends ViewModel {
+  @userIdParam
+  String? userId;
+}
 ```
 
-You can get the parameter and queries passed by using either:
+And in your view
 
-- `ViewModel.onInitialize` during initialization
+```dart
+class UserVerificationView extends StatelessWidget with ViewMixin<UserVerificationViewModel> {
+  const UserVerificationView({@userIdParam String? userId}) : super(key: const Key(UserVerificationViewRoute.name));
+}
+```
 
-  ```dart
-  class UserVerificationViewModel extends ViewModel<String> {
-    @override
-    Future<void> onInitialize([String? parameter, Queries queries = const {}]) async {
-      if (parameter != null) {
-        print(parameter); // prints `asda-123-asd`
-      }
-      if (queries.containsKey('lang')) {
-        print(queries['lang']); // prints 'en'
-      }
-    }
-  }
-  ```
+Run `build_runner` and `UserVerificationViewRoute` will have an optional parameter named `userId`.
 
-- `ViewModel.onFirstRender` after the first frame has been rendered by the view
+When navigating and supplying a value to `userId`, `UserVerificationViewModel.userId` will be automatically set.
 
-  ```dart
-  class UserVerificationViewModel extends ViewModel<String> {
-    @override
-    Future<void> onFirstRender([String? parameter, Queries queries = const {}]) async {
-      ...
-    }
-  }
-  ```
+```dart
+final isUserVerified = await navigation.push<bool>(const UserVerificationRoute(userId: 'asda-123-asd'));
+```
+
 ## Pop Navigation
 
-Pop current route named `/user/verify?lang=en` and return `true` to previous route.
+Pop current route and return `true` to previous route.
 
 ```dart
 await navigation.pop(true);
 ```
+
+:bulb: **<span style="color: red">IMPORTANT</span>**
+
+- Be sure to annotate your view model with `@reflectable`
+- Be sure to annotate your expected parameter with `@QueryParam('name')` or a custom one

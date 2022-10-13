@@ -13,12 +13,16 @@ class AppViewModel extends AppSettingsViewModel with AppLifeCycleAwareMixin {
   final AppLogger _logger;
 
   @override
-  Future<void> onAppPaused() async {
+  Future<void> onAppPaused() {
     _logger.log(LogLevel.info, 'App paused');
+
+    return super.onAppPaused();
   }
 
   @override
-  Future<void> onAppResumed() async {
+  Future<void> onAppResumed() {
     _logger.log(LogLevel.info, 'App resumed');
+
+    return super.onAppResumed();
   }
 }

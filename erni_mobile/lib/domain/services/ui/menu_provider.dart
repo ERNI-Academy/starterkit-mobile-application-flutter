@@ -1,11 +1,10 @@
-import 'package:erni_mobile/business/models/ui/drawer_menu_model.dart';
+import 'package:erni_mobile/business/models/ui/side_menu_model.dart';
+import 'package:flutter/foundation.dart';
 
 abstract class MenuProvider {
-  List<DrawerMenuModel> get menus;
+  Iterable<SideMenuModel> get menus;
 
-  List<DrawerMenuModel> get navigatableMenus;
+  Iterable<SideMenuModel> get navigatableMenus;
 
-  DrawerMenuModel get currentMenu;
-
-  set currentMenu(DrawerMenuModel newValue);
+  ValueNotifier<SideMenuModel> get currentMenu;
 }

@@ -2,8 +2,8 @@ import 'package:erni_mobile/common/localization/generated/l10n.dart';
 import 'package:flutter/foundation.dart';
 
 @immutable
-class DrawerMenuModel {
-  DrawerMenuModel({
+class SideMenuModel {
+  SideMenuModel({
     required this.type,
     required this.actionType,
     bool isSelected = false,
@@ -11,20 +11,20 @@ class DrawerMenuModel {
     this.isSelected = ValueNotifier(isSelected);
   }
 
-  final MenuTypes type;
-  final MenuActionTypes actionType;
+  final MenuType type;
+  final MenuActionType actionType;
   late final ValueNotifier<bool> isSelected;
 
   String get text {
     switch (type) {
-      case MenuTypes.about:
+      case MenuType.about:
         return Il8n.current.menuAbout;
-      case MenuTypes.settings:
+      case MenuType.settings:
         return Il8n.current.menuSettings;
     }
   }
 }
 
-enum MenuTypes { about, settings }
+enum MenuType { about, settings }
 
-enum MenuActionTypes { navigatable, clickable }
+enum MenuActionType { navigatable, clickable }

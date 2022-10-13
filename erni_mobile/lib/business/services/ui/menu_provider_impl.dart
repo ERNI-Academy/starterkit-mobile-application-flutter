@@ -1,32 +1,20 @@
-import 'package:erni_mobile/business/models/ui/drawer_menu_model.dart';
+import 'package:erni_mobile/business/models/ui/side_menu_model.dart';
 import 'package:erni_mobile/domain/services/ui/menu_provider.dart';
+import 'package:flutter/foundation.dart';
 import 'package:injectable/injectable.dart';
 
 @LazySingleton(as: MenuProvider)
 class MenuProviderImpl implements MenuProvider {
-  MenuProviderImpl() {
-    menus = List.unmodifiable(<DrawerMenuModel>[
-      DrawerMenuModel(type: MenuTypes.about, actionType: MenuActionTypes.navigatable),
-      DrawerMenuModel(type: MenuTypes.settings, actionType: MenuActionTypes.navigatable),
-    ]);
-    _currentMenu = menus.first;
-    _currentMenu.isSelected.value = true;
-  }
-
-  late DrawerMenuModel _currentMenu;
+  @override
+  final Iterable<SideMenuModel> menus = List.unmodifiable(<SideMenuModel>[
+    SideMenuModel(type: MenuType.about, actionType: MenuActionType.navigatable, isSelected: true),
+    SideMenuModel(type: MenuType.settings, actionType: MenuActionType.navigatable),
+  ]);
 
   @override
-  late final List<DrawerMenuModel> menus;
+  late final ValueNotifier<SideMenuModel> currentMenu = ValueNotifier<SideMenuModel>(menus.first);
 
   @override
-  List<DrawerMenuModel> get navigatableMenus =>
-      List.unmodifiable(menus.where((m) => m.actionType == MenuActionTypes.navigatable));
-
-  @override
-  DrawerMenuModel get currentMenu => _currentMenu;
-
-  @override
-  set currentMenu(DrawerMenuModel newValue) {
-    _currentMenu = newValue;
-  }
+  Iterable<SideMenuModel> get navigatableMenus =>
+      List.unmodifiable(menus.where((m) => m.actionType == MenuActionType.navigatable));
 }

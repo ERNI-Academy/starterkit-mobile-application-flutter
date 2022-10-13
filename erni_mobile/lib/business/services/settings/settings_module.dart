@@ -1,3 +1,5 @@
+// coverage:ignore-file
+
 import 'package:erni_mobile/dependency_injection.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:injectable/injectable.dart';

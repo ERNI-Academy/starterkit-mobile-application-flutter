@@ -1,3 +1,5 @@
+// coverage:ignore-file
+
 import 'package:drift/drift.dart';
 import 'package:erni_mobile/domain/models/data/data_table.dart';
 import 'package:meta/meta.dart';

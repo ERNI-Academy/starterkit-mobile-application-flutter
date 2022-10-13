@@ -1,9 +1,9 @@
 // coverage:ignore-file
 
 import 'package:dio/dio.dart';
-import 'package:erni_mobile/domain/models/json/json_encodable.dart';
+import 'package:erni_mobile/domain/models/json/json_encodable_mixin.dart';
 
-class ApiException extends DioError implements JsonEncodable {
+class ApiException extends DioError with JsonEncodableMixin {
   ApiException({required DioError error, this.errorCode})
       : super(requestOptions: error.requestOptions, response: error.response, error: error.error);
 
@@ -18,9 +18,6 @@ class ApiException extends DioError implements JsonEncodable {
   String? get reasonPhrase => response?.statusMessage;
 
   Object? get responseBody => response?.data;
-
-  @override
-  String toString() => JsonEncodable.encoder.convert(this);
 
   @override
   Map<String, dynamic> toJson() {

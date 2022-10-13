@@ -3,6 +3,8 @@
     "files.exclude": {
         "build": true,
         "**/*.g.dart": true,
+        "**/*.gr.dart": true,
+        "**/*.reflectable.dart": true,
         "**/*.config.dart": true,
         "**/*.mocks.dart": true,
         "**/generated_plugin_registrant.dart": true,

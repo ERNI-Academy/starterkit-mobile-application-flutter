@@ -16,7 +16,7 @@ packages:
     source: hosted
     version: "4.7.0"
   analyzer_plugin:
-    dependency: transitive
+    dependency: "direct overridden"
     description:
       name: analyzer_plugin
       url: "https://pub.dartlang.org"
@@ -50,6 +50,20 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.9.0"
+  auto_route:
+    dependency: "direct main"
+    description:
+      name: auto_route
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "5.0.1"
+  auto_route_generator:
+    dependency: "direct dev"
+    description:
+      name: auto_route_generator
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "5.0.2"
   boolean_selector:
     dependency: transitive
     description:
@@ -252,7 +266,7 @@ packages:
       name: dart_code_metrics
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "4.18.0"
+    version: "4.19.0"
   dart_console:
     dependency: transitive
     description:
@@ -546,13 +560,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "6.3.2"
-  jwt_decoder:
-    dependency: "direct main"
-    description:
-      name: jwt_decoder
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "2.0.1"
   lint:
     dependency: transitive
     description:
@@ -679,13 +686,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.1.0"
-  page_transition:
-    dependency: "direct main"
-    description:
-      name: page_transition
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "2.0.9"
   path:
     dependency: "direct main"
     description:
@@ -809,6 +809,13 @@ packages:
     dependency: transitive
     description:
       name: recase
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "4.0.0"
+  reflectable:
+    dependency: "direct main"
+    description:
+      name: reflectable
       url: "https://pub.dartlang.org"
     source: hosted
     version: "4.0.0"

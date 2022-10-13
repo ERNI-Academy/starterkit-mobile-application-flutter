@@ -10,7 +10,7 @@ class ConnectivityCheckerImpl implements ConnectivityChecker {
 
   final Connectivity _connectivity;
   late final StreamSubscription<void> _connectivitySubscription;
-  ConnectivityResult? _currentState;
+  ConnectivityResult _currentState = ConnectivityResult.none;
 
   @override
   Future<void> initialize() async {
@@ -23,7 +23,10 @@ class ConnectivityCheckerImpl implements ConnectivityChecker {
       }
     });
 
-    await completer.future;
+    await completer.future.timeout(
+      const Duration(milliseconds: 500),
+      onTimeout: () async => _currentState = await _connectivity.checkConnectivity(),
+    );
   }
 
   @override

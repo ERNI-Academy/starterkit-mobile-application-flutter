@@ -1,15 +1,15 @@
-# Unit Testing Guidlines
+# Unit Testing Guidelines
 
 ## Naming Convention
 
-|Items|Naming Pattern|Target|Example
-|---|---|---|---|
-|Test Files|{{class_name_to_be_tested}}_test.dart|MainViewModel|main_view_model_test.dart|
-|Test Methods|{{methodNameToBeTested}} should {{expected result}} when {{state}}|openLink()|openLink should trigger open uri when internet connection not available|s
+| Items        | Naming Pattern                                                     | Target        | Example                                                                 |
+| ------------ | ------------------------------------------------------------------ | ------------- | ----------------------------------------------------------------------- |
+| Test Files   | {{class_name_to_be_tested}}_test.dart                              | MainViewModel | main_view_model_test.dart                                               |
+| Test Methods | {{methodNameToBeTested}} should {{expected result}} when {{state}} | openLink()    | openLink should trigger open uri when internet connection not available |
 
 ## Testing Code Style
 
-Below is an example of a unit test code for the class [`DateTimeProviderImpl`](../../erni_mobile/lib/business/services/platform/date_time_service_impl.dart):
+Below is an example of a unit test code for the class `DateTimeProviderImpl`:
 
 ```dart
 

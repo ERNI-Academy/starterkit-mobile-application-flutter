@@ -1,11 +1,14 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:erni_mobile/business/services/ui/navigation/navigation_observer.dart';
 import 'package:erni_mobile/dependency_injection.dart';
 import 'package:erni_mobile/domain/ui/view_models/app_lifecycle_aware_mixin.dart';
 import 'package:erni_mobile/domain/ui/view_models/route_aware_mixin.dart';
 import 'package:erni_mobile/domain/ui/view_models/view_model.dart';
 import 'package:erni_mobile/domain/ui/views/view.dart';
+import 'package:erni_mobile/reflection.dart';
 import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
+import 'package:reflectable/reflectable.dart';
 
 /// Configures a [StatelessWidget] or [State] as a view.
 ///
@@ -19,6 +22,7 @@ abstract class ViewMixin<TViewModel extends ViewModel> implements View<TViewMode
       dispose: onDisposeViewModel,
       builder: (context, child) {
         final viewModel = context.watch<TViewModel>();
+        _tryGetQueryParams(context, viewModel);
 
         return buildView(context, viewModel);
       },
@@ -40,7 +44,7 @@ abstract class ViewMixin<TViewModel extends ViewModel> implements View<TViewMode
       WidgetsBinding.instance.addObserver(viewModel.appLifeCycleObserver);
     }
 
-    _initializeViewModel(viewModel, route?.settings.name, route?.settings.arguments);
+    _initializeViewModel(context, viewModel);
 
     return viewModel;
   }
@@ -60,20 +64,27 @@ abstract class ViewMixin<TViewModel extends ViewModel> implements View<TViewMode
     }
   }
 
-  static void _initializeViewModel<TViewModel extends ViewModel>(
-    TViewModel viewModel,
-    String? routeName,
-    Object? parameter,
-  ) {
-    final queries = <String, String>{};
+  static void _initializeViewModel<TViewModel extends ViewModel>(BuildContext context, TViewModel viewModel) {
+    _tryGetQueryParams(context, viewModel);
+    WidgetsBinding.instance.addPostFrameCallback((_) => viewModel.onFirstRender());
+    viewModel.onInitialize();
+  }
 
-    if (routeName != null) {
-      final routeUri = Uri.parse(routeName);
-      queries.addAll(routeUri.queryParameters);
+  static void _tryGetQueryParams<TViewModel extends ViewModel>(BuildContext context, TViewModel viewModel) {
+    if (reflectable.canReflect(viewModel) && reflectable.canReflectType(TViewModel)) {
+      final route = context.routeData;
+      final instanceMirror = reflectable.reflect(viewModel);
+      final typeMirror = reflectable.reflectType(TViewModel) as ClassMirror;
+
+      Map<String, Object?>.from(route.queryParams.rawMap).forEach((key, value) {
+        bool predicate(DeclarationMirror element) => element.metadata.any((m) => m is QueryParam && m.name == key);
+
+        if (typeMirror.declarations.values.any(predicate)) {
+          final matchingDeclaration = typeMirror.declarations.values.firstWhere(predicate);
+          instanceMirror.invokeSetter(matchingDeclaration.simpleName, value);
+        }
+      });
     }
-
-    WidgetsBinding.instance.addPostFrameCallback((_) => viewModel.onFirstRender(parameter, queries));
-    viewModel.onInitialize(parameter, queries);
   }
 }
 

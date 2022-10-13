@@ -2,11 +2,12 @@
 
 import 'dart:async';
 
+import 'package:auto_route/auto_route.dart';
 import 'package:erni_mobile/business/models/ui/confirm_dialog_response.dart';
-import 'package:erni_mobile/business/services/ui/navigation/view_locator.dart';
+import 'package:erni_mobile/common/constants/widget_keys.dart';
 import 'package:erni_mobile/common/localization/localization.dart';
+import 'package:erni_mobile/dependency_injection.dart';
 import 'package:erni_mobile/domain/services/ui/dialog_service.dart';
-import 'package:erni_mobile/domain/services/ui/navigation_service.dart';
 import 'package:erni_mobile/ui/widgets/widgets.dart';
 import 'package:injectable/injectable.dart';
 
@@ -16,7 +17,7 @@ class DialogServiceImpl implements DialogService {
   bool _isDialogShown = false;
 
   static BuildContext get _context {
-    final context = NavigationService.navigatorKey.currentState?.overlay?.context;
+    final context = WidgetKeys.navigatorKey.currentState?.overlay?.context;
 
     if (context == null) {
       throw StateError('BuildContext is null');
@@ -30,6 +31,7 @@ class DialogServiceImpl implements DialogService {
     _isDialogShown = true;
     await showDialog<void>(
       context: _context,
+      routeSettings: const RouteSettings(name: '/dialogs/alert'),
       builder: (context) {
         return _AlertDialog(
           message: message,
@@ -51,6 +53,7 @@ class DialogServiceImpl implements DialogService {
   }) async {
     final confirmed = await showDialog<bool?>(
       barrierDismissible: false,
+      routeSettings: const RouteSettings(name: '/dialogs/confirm'),
       context: _context,
       builder: (context) {
         return _AlertDialog(
@@ -75,7 +78,7 @@ class DialogServiceImpl implements DialogService {
 
   @override
   Future<T?> showBottomSheet<T extends Object>(String bottomSheetName, {Object? parameter}) async {
-    final settings = RouteSettings(name: bottomSheetName, arguments: parameter);
+    final settings = RouteSettings(name: '/botto-sheets/$bottomSheetName', arguments: parameter);
     final result = showModalBottomSheet<T>(
       context: _context,
       routeSettings: settings,
@@ -83,7 +86,7 @@ class DialogServiceImpl implements DialogService {
       builder: (context) {
         return Padding(
           padding: MediaQuery.of(context).viewInsets,
-          child: _tryGetRegisteredWidget(bottomSheetName),
+          child: _getView(bottomSheetName),
         );
       },
     );
@@ -108,6 +111,7 @@ class DialogServiceImpl implements DialogService {
           await showDialog<void>(
             context: _context,
             barrierDismissible: false,
+            routeSettings: const RouteSettings(name: '/dialogs/loading'),
             builder: (context) {
               return AlertDialog(
                 content: SpacedRow(
@@ -135,7 +139,7 @@ class DialogServiceImpl implements DialogService {
   @override
   Future<bool> dismiss([Object? result]) async {
     if (_isDialogShown || _isLoadingShown) {
-      return Navigator.of(_context).maybePop(result);
+      return AutoRouter.of(_context).pop(result);
     }
 
     return false;
@@ -159,12 +163,12 @@ class DialogServiceImpl implements DialogService {
   @override
   Future<T?> show<T>(String dialogName, {Object? parameter, bool dismissable = true}) async {
     _isDialogShown = true;
-    final settings = RouteSettings(name: dialogName, arguments: parameter);
+    final settings = RouteSettings(name: '/dialogs/$dialogName', arguments: parameter);
     final result = await showDialog<T>(
       context: _context,
       routeSettings: settings,
       barrierDismissible: dismissable,
-      builder: (context) => _tryGetRegisteredWidget(dialogName),
+      builder: (context) => _getView(dialogName),
     );
 
     _isDialogShown = false;
@@ -180,11 +184,15 @@ class DialogServiceImpl implements DialogService {
     );
   }
 
-  static Widget _tryGetRegisteredWidget(String name) {
-    final isDialogRegistered = ViewLocator.isViewRegistered(name);
-    assert(isDialogRegistered, 'Dialog named $name is not registered');
+  static Widget _getView(String name) {
+    final viewUri = Uri.parse(name);
+    final viewPath = viewUri.path;
 
-    return ViewLocator.getView(name);
+    if (ServiceLocator.instance.isRegistered<Widget>(instanceName: viewPath)) {
+      return ServiceLocator.instance<Widget>(instanceName: viewPath);
+    }
+
+    throw UnsupportedError('view $viewPath not registeredin GetIt');
   }
 }
 

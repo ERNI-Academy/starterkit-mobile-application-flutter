@@ -7,17 +7,23 @@ import 'package:dio/dio.dart';
 import 'package:erni_mobile/business/models/logging/log_level.dart';
 import 'package:erni_mobile/common/exceptions/api_exceptions.dart';
 import 'package:erni_mobile/common/utils/extensions/string_extensions.dart';
-import 'package:erni_mobile/dependency_injection.dart';
+import 'package:erni_mobile/domain/apis/dio_provider.dart';
 import 'package:erni_mobile/domain/services/logging/app_logger.dart';
 import 'package:flutter/foundation.dart';
+import 'package:injectable/injectable.dart';
 
-abstract class DioProvider {
+@Injectable(as: DioProvider)
+class DioProviderImpl implements DioProvider {
   static const _requestTimeOutInMs = 30000;
 
-  static Dio create({required String apiName}) {
+  DioProviderImpl(this._logger);
+
+  final AppLogger _logger;
+
+  @override
+  Dio create(String apiName) {
     final identityHash = describeIdentity(apiName).split('#').last;
-    final logger = ServiceLocator.instance<AppLogger>()..logForNamed('$apiName#$identityHash');
-    final dioLoggingInterceptor = _DioLoggingInterceptor(logger);
+    _logger.logForNamed('$apiName#$identityHash');
 
     return Dio(
       BaseOptions(
@@ -25,7 +31,7 @@ abstract class DioProvider {
         sendTimeout: _requestTimeOutInMs,
         receiveTimeout: _requestTimeOutInMs,
       ),
-    )..interceptors.add(dioLoggingInterceptor);
+    )..interceptors.add(_DioLoggingInterceptor(_logger));
   }
 }
 

@@ -1,3 +1,5 @@
+// coverage:ignore-file
+
 import 'package:drift/drift.dart';
 
 abstract class DataTable extends Table {
