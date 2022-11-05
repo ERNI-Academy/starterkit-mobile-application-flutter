@@ -7,7 +7,6 @@ import 'package:erni_mobile/domain/ui/view_models/view_model.dart';
 import 'package:erni_mobile/domain/ui/views/view.dart';
 import 'package:erni_mobile/reflection.dart';
 import 'package:flutter/widgets.dart';
-import 'package:provider/provider.dart';
 import 'package:reflectable/reflectable.dart';
 
 /// Configures a [StatelessWidget] or [State] as a view.
@@ -17,11 +16,10 @@ abstract class ViewMixin<TViewModel extends ViewModel> implements View<TViewMode
   @override
   @mustCallSuper
   Widget build(BuildContext context) {
-    return ListenableProvider<TViewModel>(
-      create: (_) => onCreateViewModel(context),
+    return _ViewModelBuilder<TViewModel>(
+      create: () => onCreateViewModel(context),
       dispose: onDisposeViewModel,
-      builder: (context, child) {
-        final viewModel = context.watch<TViewModel>();
+      builder: (context, viewModel) {
         _tryGetQueryParams(context, viewModel);
 
         return buildView(context, viewModel);
@@ -95,23 +93,84 @@ abstract class ChildViewMixin<TViewModel extends ViewModel> implements View<TVie
   @override
   @mustCallSuper
   Widget build(BuildContext context) {
-    return ListenableProvider(
-      create: onCreateViewModel,
+    return _ViewModelBuilder<TViewModel>(
+      create: () => onCreateViewModel(context),
       dispose: onDisposeViewModel,
-      builder: (context, child) {
-        final viewModel = context.watch<TViewModel>();
-
-        return buildView(context, viewModel);
-      },
+      builder: buildView,
     );
   }
 
   @protected
   @override
   @mustCallSuper
-  TViewModel onCreateViewModel(BuildContext context) => Provider.of<TViewModel>(context, listen: false);
+  TViewModel onCreateViewModel(BuildContext context) => ViewModel.of<TViewModel>(context);
 
   @protected
   @override
   void onDisposeViewModel(BuildContext context, TViewModel viewModel) {}
+}
+
+class ViewModelHolder<T extends ViewModel> extends InheritedWidget {
+  const ViewModelHolder({
+    super.key,
+    required super.child,
+    required this.viewModel,
+  });
+
+  final T viewModel;
+
+  static ViewModelHolder<T>? of<T extends ViewModel>(BuildContext context) {
+    return context.dependOnInheritedWidgetOfExactType<ViewModelHolder<T>>();
+  }
+
+  @override
+  bool updateShouldNotify(ViewModelHolder<T> oldWidget) {
+    return false;
+  }
+}
+
+class _ViewModelBuilder<TViewModel extends ViewModel> extends StatefulWidget {
+  const _ViewModelBuilder({
+    required this.create,
+    required this.builder,
+    this.dispose,
+    super.key,
+  });
+
+  final TViewModel Function() create;
+  final Widget Function(BuildContext, TViewModel) builder;
+  final void Function(BuildContext, TViewModel)? dispose;
+
+  @override
+  State<StatefulWidget> createState() => _ViewModelBuilderState<TViewModel>();
+}
+
+class _ViewModelBuilderState<TViewModel extends ViewModel> extends State<_ViewModelBuilder<TViewModel>> {
+  late final TViewModel _currentViewModel;
+
+  @override
+  void initState() {
+    super.initState();
+
+    _currentViewModel = widget.create();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return AnimatedBuilder(
+      animation: _currentViewModel,
+      builder: (context, child) {
+        return ViewModelHolder<TViewModel>(
+          viewModel: _currentViewModel,
+          child: widget.builder(context, _currentViewModel),
+        );
+      },
+    );
+  }
+
+  @override
+  void dispose() {
+    widget.dispose?.call(context, _currentViewModel);
+    super.dispose();
+  }
 }

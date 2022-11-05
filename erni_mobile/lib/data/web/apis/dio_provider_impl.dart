@@ -5,9 +5,9 @@ import 'dart:convert';
 
 import 'package:dio/dio.dart';
 import 'package:erni_mobile/business/models/logging/log_level.dart';
-import 'package:erni_mobile/common/exceptions/api_exceptions.dart';
 import 'package:erni_mobile/common/utils/extensions/string_extensions.dart';
 import 'package:erni_mobile/domain/apis/dio_provider.dart';
+import 'package:erni_mobile/domain/exceptions/api_exceptions.dart';
 import 'package:erni_mobile/domain/services/logging/app_logger.dart';
 import 'package:flutter/foundation.dart';
 import 'package:injectable/injectable.dart';

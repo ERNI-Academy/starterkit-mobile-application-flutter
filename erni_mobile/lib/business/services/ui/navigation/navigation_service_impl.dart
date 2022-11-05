@@ -5,7 +5,6 @@ import 'package:erni_mobile/common/constants/widget_keys.dart';
 import 'package:erni_mobile/domain/services/ui/navigation/navigation_service.dart';
 import 'package:erni_mobile/ui/views/main/about_view.dart';
 import 'package:erni_mobile/ui/views/main/dashboard_view.dart';
-import 'package:erni_mobile/ui/views/main/splash_view.dart';
 import 'package:erni_mobile/ui/views/settings/settings_view.dart';
 import 'package:erni_mobile/ui/widgets/widgets.dart';
 import 'package:injectable/injectable.dart';
@@ -20,13 +19,9 @@ typedef ExplicitRoute<T extends Object> = CustomRoute<T>;
 @MaterialAutoRouter(
   routes: <AutoRoute>[
     GenericRoute(
-      path: '/splash',
-      page: SplashView,
-      initial: true,
-    ),
-    GenericRoute(
       path: '/dashboard',
       page: DashboardView,
+      initial: true,
       children: [
         RedirectRoute(path: '', redirectTo: 'about'),
         ExplicitRoute(

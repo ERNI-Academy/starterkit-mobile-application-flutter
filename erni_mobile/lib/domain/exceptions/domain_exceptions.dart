@@ -1,8 +1,8 @@
 // coverage:ignore-file
 
-import 'package:erni_mobile/common/exceptions/base_exception.dart';
+import 'package:erni_mobile/domain/exceptions/base_exception.dart';
 
-class DomainException extends BaseException {
+abstract class DomainException extends BaseException {
   const DomainException([this.message]);
 
   final String? message;
@@ -15,6 +15,6 @@ class DomainException extends BaseException {
   }
 }
 
-class NoInternetException implements Exception {
+class NoInternetException extends DomainException {
   const NoInternetException();
 }

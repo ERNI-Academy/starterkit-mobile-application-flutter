@@ -39,7 +39,6 @@ dependencies:
   package_info_plus: ^1.4.3+1
   path: ^1.8.0
   path_provider: ^2.0.11
-  provider: ^6.0.3
   reflectable: ^4.0.0
   responsive_framework: ^0.2.0
   retrofit: ^3.0.1
