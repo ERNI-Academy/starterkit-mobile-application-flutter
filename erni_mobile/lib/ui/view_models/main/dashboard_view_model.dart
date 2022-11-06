@@ -1,4 +1,3 @@
-import 'package:auto_route/annotations.dart';
 import 'package:erni_mobile/business/models/logging/log_level.dart';
 import 'package:erni_mobile/business/models/ui/side_menu_model.dart';
 import 'package:erni_mobile/domain/services/logging/app_logger.dart';
@@ -26,19 +25,7 @@ class DashboardViewModel extends ViewModel {
 
   int get selectedMenuIndex => menus.toList().indexWhere((m) => m.type == selectedMenu.value.type);
 
-  @messageParam
-  String? messageFromSplash;
-
-  @override
-  Future<void> onInitialize() {
-    _logger.log(LogLevel.info, messageFromSplash ?? '');
-
-    return super.onInitialize();
-  }
-
   void _onMenuSelected() {
     _logger.log(LogLevel.info, 'Navigating to ${selectedMenu.value.type.name}');
   }
 }
-
-const QueryParam messageParam = QueryParam('message');

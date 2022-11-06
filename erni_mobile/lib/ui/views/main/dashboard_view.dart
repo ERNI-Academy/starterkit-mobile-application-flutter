@@ -9,7 +9,7 @@ import 'package:erni_mobile/ui/views/main/side_menu_view.dart';
 import 'package:erni_mobile/ui/widgets/widgets.dart';
 
 class DashboardView extends StatelessWidget with ViewMixin<DashboardViewModel> {
-  DashboardView({@messageParam String? message}) : super(key: const Key(DashboardViewRoute.name));
+  const DashboardView() : super(key: const Key(DashboardViewRoute.name));
 
   @override
   Widget buildView(BuildContext context, DashboardViewModel viewModel) {

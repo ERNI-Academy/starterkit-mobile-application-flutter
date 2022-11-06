@@ -56,9 +56,35 @@ dart_code_metrics:
     - avoid-unused-parameters
     - binary-expression-operand-order
     - double-literal-format
-    - member-ordering-extended:
+    - member-ordering:
         alphabetize: false
         order:
+          - public-const-fields
+          - public-static-final-fields
+          - public-static-fields
+          - private-static-const-fields
+          - private-static-final-fields
+          - constructors
+          - factory-constructors
+          - private-constructors
+          - private-final-fields
+          - private-late-final-fields
+          - private-fields
+          - public-final-fields
+          - public-late-final-fields
+          - public-getters
+          - public-getters-setters
+          - public-fields
+          - protected-public-final-fields
+          - protected-public-late-final-fields
+          - public-static-methods
+          - overridden-public-methods
+          - public-methods
+          - overridden-protected-methods
+          - protected-methods
+          - private-methods
+          - private-static-methods
+        widgets-order:
           - public-const-fields
           - public-static-final-fields
           - public-static-fields
@@ -101,7 +127,7 @@ dart_code_metrics:
     - avoid-returning-widgets
     - avoid-shrink-wrap-in-lists
     - avoid-unnecessary-setstate
-    - avoid-use-expanded-as-spacer
+    - avoid-expanded-as-spacer
     - avoid-wrapping-in-padding
     - prefer-const-border-radius
     - prefer-correct-edge-insets-constructor
