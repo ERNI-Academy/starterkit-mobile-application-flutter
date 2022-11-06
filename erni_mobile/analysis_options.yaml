@@ -84,6 +84,32 @@ dart_code_metrics:
           - protected-methods
           - private-methods
           - private-static-methods
+        widgets-order:
+          - public-const-fields
+          - public-static-final-fields
+          - public-static-fields
+          - private-static-const-fields
+          - private-static-final-fields
+          - constructors
+          - factory-constructors
+          - private-constructors
+          - private-final-fields
+          - private-late-final-fields
+          - private-fields
+          - public-final-fields
+          - public-late-final-fields
+          - public-getters
+          - public-getters-setters
+          - public-fields
+          - protected-public-final-fields
+          - protected-public-late-final-fields
+          - public-static-methods
+          - overridden-public-methods
+          - public-methods
+          - overridden-protected-methods
+          - protected-methods
+          - private-methods
+          - private-static-methods
     - newline-before-return
     - no-boolean-literal-compare
     - no-equal-then-else
