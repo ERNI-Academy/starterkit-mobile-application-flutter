@@ -56,7 +56,7 @@ dart_code_metrics:
     - avoid-unused-parameters
     - binary-expression-operand-order
     - double-literal-format
-    - member-ordering-extended:
+    - member-ordering:
         alphabetize: false
         order:
           - public-const-fields
@@ -101,7 +101,7 @@ dart_code_metrics:
     - avoid-returning-widgets
     - avoid-shrink-wrap-in-lists
     - avoid-unnecessary-setstate
-    - avoid-use-expanded-as-spacer
+    - avoid-expanded-as-spacer
     - avoid-wrapping-in-padding
     - prefer-const-border-radius
     - prefer-correct-edge-insets-constructor
