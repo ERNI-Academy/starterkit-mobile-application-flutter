@@ -69,11 +69,11 @@ jobs:
 
           # Running checks for unused files
           # Add `--fatal-unused` if you want to fail this step if there are unused files
-          flutter pub run dart_code_metrics:metrics check-unused-files lib
+          flutter pub run dart_code_metrics:metrics check-unused-files lib --no-fatal-unused
 
           # Running checks for unused code
           # Add `--fatal-unused` if you want to fail this step if there are unused code
-          flutter pub run dart_code_metrics:metrics check-unused-code lib
+          flutter pub run dart_code_metrics:metrics check-unused-code lib --no-fatal-unused
 
           # Running checks for unused localizations
           # Add `--fatal-unused` if you want to fail this step if there are unused localizations
