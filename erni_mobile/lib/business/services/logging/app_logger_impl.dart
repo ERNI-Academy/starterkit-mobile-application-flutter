@@ -1,4 +1,4 @@
-import 'package:erni_mobile/business/models/logging/app_log_event_entity.dart';
+import 'package:erni_mobile/business/models/logging/app_log_event.dart';
 import 'package:erni_mobile/business/models/logging/log_level.dart';
 import 'package:erni_mobile/domain/services/logging/app_log_formatter.dart';
 import 'package:erni_mobile/domain/services/logging/app_log_writer.dart';
@@ -42,7 +42,7 @@ class AppLoggerImpl implements AppLogger {
     }
 
     final formattedMessage = _formatter.format(logLevel, message, exception, stackTrace);
-    final logEvent = AppLogEventEntity(
+    final logEvent = AppLogEvent(
       id: const Uuid().v1(),
       sessionId: _environmentConfig.sessionId,
       level: logLevel,
@@ -57,7 +57,7 @@ class AppLoggerImpl implements AppLogger {
     _internalWriteLog(logEvent);
   }
 
-  Future<void> _internalWriteLog(AppLogEventEntity log) async {
+  Future<void> _internalWriteLog(AppLogEvent log) async {
     for (final writer in _logWriters) {
       await writer.write(log);
     }

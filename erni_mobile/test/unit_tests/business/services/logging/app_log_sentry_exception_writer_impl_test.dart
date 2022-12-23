@@ -1,4 +1,4 @@
-import 'package:erni_mobile/business/models/logging/app_log_event_entity.dart';
+import 'package:erni_mobile/business/models/logging/app_log_event.dart';
 import 'package:erni_mobile/business/models/logging/log_level.dart';
 import 'package:erni_mobile/business/models/platform/app_environment.dart';
 import 'package:erni_mobile/business/services/logging/app_log_sentry_exception_writer_impl.dart';
@@ -33,7 +33,7 @@ void main() {
       when(mockHub.captureEvent(anyInstanceOf<SentryEvent>())).thenAnswer((_) => Future.value(SentryId.newId()));
     });
 
-    void setupAppLogRepository(List<AppLogObject> events) {
+    void setupAppLogRepository(List<AppLogEventObject> events) {
       when(mockAppLogRepository.selectAll()).thenAnswer((_) async => events);
     }
 
@@ -45,7 +45,7 @@ void main() {
         AppLogSentryExceptionWriterImpl(mockAppLogRepository, mockHub, mockEnvironmentConfig);
 
     // ignore:long-parameter-list
-    AppLogEventEntity createLogEventEntity(
+    AppLogEvent createLogEventEntity(
       String id,
       String message,
       String owner,
@@ -54,7 +54,7 @@ void main() {
       StackTrace? stackTrace,
       Map<String, Object> extras = const {},
     ]) {
-      return AppLogEventEntity(
+      return AppLogEvent(
         id: id,
         sessionId: sessionId,
         message: message,
@@ -67,8 +67,8 @@ void main() {
       );
     }
 
-    AppLogObject fromEntity(AppLogEventEntity entity) {
-      return AppLogObject(
+    AppLogEventObject fromEntity(AppLogEvent entity) {
+      return AppLogEventObject(
         id: entity.id,
         sessionId: entity.sessionId,
         message: entity.message,

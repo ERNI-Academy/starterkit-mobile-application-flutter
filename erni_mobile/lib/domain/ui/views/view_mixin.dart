@@ -9,7 +9,7 @@ import 'package:erni_mobile/reflection.dart';
 import 'package:flutter/widgets.dart';
 import 'package:reflectable/reflectable.dart';
 
-/// Configures a [StatelessWidget] or [State] as a view.
+/// Configures a [StatelessWidget] or [State] as a parent view.
 ///
 /// This will locate and initialize the view model [TViewModel], then it can be used to build the layout.
 abstract class ViewMixin<TViewModel extends ViewModel> implements View<TViewModel> {
@@ -19,8 +19,37 @@ abstract class ViewMixin<TViewModel extends ViewModel> implements View<TViewMode
     return _ViewModelBuilder<TViewModel>(
       create: () => onCreateViewModel(context),
       dispose: onDisposeViewModel,
+      builder: buildView,
+    );
+  }
+
+  @protected
+  @override
+  @mustCallSuper
+  TViewModel onCreateViewModel(BuildContext context) {
+    return _ViewLifeCycleHander._onCreateViewModel<TViewModel>(context);
+  }
+
+  @protected
+  @override
+  @mustCallSuper
+  void onDisposeViewModel(BuildContext context, TViewModel viewModel) {
+    _ViewLifeCycleHander._onDisposeViewModel(context, viewModel);
+  }
+}
+
+/// Configures a [StatelessWidget] or [State] as a parent view that can be navigated to.
+///
+/// This will locate and initialize the view model [TViewModel], then it can be used to build the layout.
+abstract class ViewRouteMixin<TViewModel extends ViewModel> implements View<TViewModel> {
+  @override
+  @mustCallSuper
+  Widget build(BuildContext context) {
+    return _ViewModelBuilder<TViewModel>(
+      create: () => onCreateViewModel(context),
+      dispose: onDisposeViewModel,
       builder: (context, viewModel) {
-        _tryGetQueryParams(context, viewModel);
+        _ViewLifeCycleHander._tryGetQueryParams(context, viewModel);
 
         return buildView(context, viewModel);
       },
@@ -31,58 +60,14 @@ abstract class ViewMixin<TViewModel extends ViewModel> implements View<TViewMode
   @override
   @mustCallSuper
   TViewModel onCreateViewModel(BuildContext context) {
-    final viewModel = ServiceLocator.instance<TViewModel>();
-    final route = ModalRoute.of(context);
-
-    if (route != null && viewModel is RouteAwareMixin) {
-      NavigationObserver.instance.subscribe(viewModel, route);
-    }
-
-    if (viewModel is AppLifeCycleAwareMixin) {
-      WidgetsBinding.instance.addObserver(viewModel.appLifeCycleObserver);
-    }
-
-    _initializeViewModel(context, viewModel);
-
-    return viewModel;
+    return _ViewLifeCycleHander._onCreateViewModel<TViewModel>(context, getQueryParams: true);
   }
 
   @protected
   @override
   @mustCallSuper
   void onDisposeViewModel(BuildContext context, TViewModel viewModel) {
-    viewModel.dispose();
-
-    if (viewModel is RouteAwareMixin) {
-      NavigationObserver.instance.unsubscribe(viewModel);
-    }
-
-    if (viewModel is AppLifeCycleAwareMixin) {
-      WidgetsBinding.instance.removeObserver(viewModel.appLifeCycleObserver);
-    }
-  }
-
-  static void _initializeViewModel<TViewModel extends ViewModel>(BuildContext context, TViewModel viewModel) {
-    _tryGetQueryParams(context, viewModel);
-    WidgetsBinding.instance.addPostFrameCallback((_) => viewModel.onFirstRender());
-    viewModel.onInitialize();
-  }
-
-  static void _tryGetQueryParams<TViewModel extends ViewModel>(BuildContext context, TViewModel viewModel) {
-    if (reflectable.canReflect(viewModel) && reflectable.canReflectType(TViewModel)) {
-      final route = context.routeData;
-      final instanceMirror = reflectable.reflect(viewModel);
-      final typeMirror = reflectable.reflectType(TViewModel) as ClassMirror;
-
-      Map<String, Object?>.from(route.queryParams.rawMap).forEach((key, value) {
-        bool predicate(DeclarationMirror element) => element.metadata.any((m) => m is QueryParam && m.name == key);
-
-        if (typeMirror.declarations.values.any(predicate)) {
-          final matchingDeclaration = typeMirror.declarations.values.firstWhere(predicate);
-          instanceMirror.invokeSetter(matchingDeclaration.simpleName, value);
-        }
-      });
-    }
+    _ViewLifeCycleHander._onDisposeViewModel(context, viewModel);
   }
 }
 
@@ -108,6 +93,70 @@ abstract class ChildViewMixin<TViewModel extends ViewModel> implements View<TVie
   @protected
   @override
   void onDisposeViewModel(BuildContext context, TViewModel viewModel) {}
+}
+
+abstract class _ViewLifeCycleHander {
+  static TViewModel _onCreateViewModel<TViewModel extends ViewModel>(
+    BuildContext context, {
+    bool getQueryParams = false,
+  }) {
+    final viewModel = ServiceLocator.instance<TViewModel>();
+    final route = ModalRoute.of(context);
+
+    if (route != null && viewModel is RouteAwareMixin) {
+      NavigationObserver.instance.subscribe(viewModel, route);
+    }
+
+    if (viewModel is AppLifeCycleAwareMixin) {
+      WidgetsBinding.instance.addObserver(viewModel.appLifeCycleObserver);
+    }
+
+    _initializeViewModel(context, viewModel, getQueryParams);
+
+    return viewModel;
+  }
+
+  static void _onDisposeViewModel<TViewModel extends ViewModel>(BuildContext context, TViewModel viewModel) {
+    viewModel.dispose();
+
+    if (viewModel is RouteAwareMixin) {
+      NavigationObserver.instance.unsubscribe(viewModel);
+    }
+
+    if (viewModel is AppLifeCycleAwareMixin) {
+      WidgetsBinding.instance.removeObserver(viewModel.appLifeCycleObserver);
+    }
+  }
+
+  static void _initializeViewModel<TViewModel extends ViewModel>(
+    BuildContext context,
+    TViewModel viewModel,
+    bool getQueryParams,
+  ) {
+    if (getQueryParams) {
+      _tryGetQueryParams(context, viewModel);
+    }
+
+    WidgetsBinding.instance.addPostFrameCallback((_) => viewModel.onFirstRender());
+    viewModel.onInitialize();
+  }
+
+  static void _tryGetQueryParams<TViewModel extends ViewModel>(BuildContext context, TViewModel viewModel) {
+    if (reflectable.canReflect(viewModel) && reflectable.canReflectType(TViewModel)) {
+      final route = context.routeData;
+      final instanceMirror = reflectable.reflect(viewModel);
+      final typeMirror = reflectable.reflectType(TViewModel) as ClassMirror;
+
+      Map<String, Object?>.from(route.queryParams.rawMap).forEach((key, value) {
+        bool predicate(DeclarationMirror element) => element.metadata.any((m) => m is QueryParam && m.name == key);
+
+        if (typeMirror.declarations.values.any(predicate)) {
+          final matchingDeclaration = typeMirror.declarations.values.firstWhere(predicate);
+          instanceMirror.invokeSetter(matchingDeclaration.simpleName, value);
+        }
+      });
+    }
+  }
 }
 
 class ViewModelHolder<T extends ViewModel> extends InheritedWidget {

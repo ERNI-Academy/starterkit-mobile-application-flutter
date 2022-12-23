@@ -3,7 +3,7 @@
 A view is a collection of visible elements that receives user inputs.
 
 ```dart
-class SplashView extends StatelessWidget with ViewMixin<SplashViewModel> {
+class SplashView extends StatelessWidget with ViewRouteMixin<SplashViewModel> {
   const SplashView() : super(key: const Key(SplashViewRoute.name));
 
   @override
@@ -15,7 +15,7 @@ class SplashView extends StatelessWidget with ViewMixin<SplashViewModel> {
         elevation: 0,
       ),
       body: Center(
-        child: Assets.graphics.icErniLogo.image(width: 128),
+        child: Assets.graphics.icAppLogo.image(width: 128),
       ),
       extendBodyBehindAppBar: true,
     );
@@ -23,22 +23,25 @@ class SplashView extends StatelessWidget with ViewMixin<SplashViewModel> {
 }
 ```
 
+### ViewRouteMixin, ViewMixin, and ChildViewMixin
+
+- `ViewRouteMixin` is used when a view is navigatable. Using this will always resolve a new view model.
+
+- `ViewMixin` is used when you want a view that is not navigatable, and will resolve its own view model.
+
+- Use `ChildViewMixin` if you want a view to be a child of a view that is a `ViewRouteMixin` or `ViewMixin`. This will look-up the nearest `TViewModel` above the tree.
+
 :bulb: **<span style="color: green">TIP</span>**
 
-Use the snippet shortcut `vsl` to create a view using a `StatelessWidget`, and `vsf` to use `StatefulWidget`.
-
-### ViewMixin and ChildViewMixin
-
-`ViewMixin` is used when a view is the main presenter (i.e. the current route). Using this will always resolve a new view model.
-
-Use `ChildViewMixin` if you want a view to be a child of a parent view. This will look-up the nearest `TViewModel` above the tree.
+- Use the snippet shortcut `vrsl` to create a navigatable view using a `StatelessWidget`. 
+- Use the snippet shortcut `vsl` to create a view using a `StatelessWidget`, and `vsf` to use `StatefulWidget`.
 
 :exclamation: **<span style="color: red">DON'T</span>**
 
-Do not use two `ViewMixin` when trying to split your view:
+Do not use two `ViewRouteMixin` when trying to split your view:
 
 ```dart
-class LoginView extends StatelessWidget with ViewMixin<LoginViewModel> {
+class LoginView extends StatelessWidget with ViewRouteMixin<LoginViewModel> {
   const LoginView() : super(key: const Key(LoginViewRoute.name));
 
   @override
@@ -52,7 +55,7 @@ class LoginView extends StatelessWidget with ViewMixin<LoginViewModel> {
             constraints: const BoxConstraints(maxWidth: 512),
             child: SpacedColumn(
               spacing: 16,
-              children: [
+              children: const [
                 _LoginFormSection(),
                 _RegisterForgotPasswordSection(),
               ],
@@ -64,7 +67,7 @@ class LoginView extends StatelessWidget with ViewMixin<LoginViewModel> {
   }
 }
 
-class _LoginFormSection extends StatelessWidget with ViewMixin<LoginViewModel> { // DON'T!
+class _LoginFormSection extends StatelessWidget with ViewRouteMixin<LoginViewModel> { // DON'T!
   const _LoginFormSection({Key? key}) : super(key: key);
 
   @override
@@ -73,7 +76,7 @@ class _LoginFormSection extends StatelessWidget with ViewMixin<LoginViewModel> {
   }
 }
 
-class _RegisterForgotPasswordSection extends StatelessWidget with ViewMixin<LoginViewModel> { // DON'T!
+class _RegisterForgotPasswordSection extends StatelessWidget with ViewRouteMixin<LoginViewModel> { // DON'T!
   const _RegisterForgotPasswordSection({Key? key}) : super(key: key);
 
   @override
@@ -107,10 +110,49 @@ class _RegisterForgotPasswordSection extends StatelessWidget with ChildViewMixin
 }
 ```
 
+:bulb: **<span style="color: red">IMPORTANT</span>**
+
+When navigating to a view that uses a `Hero` widget, make sure to use `Hero.flightShuttleBuilder`
+s `toContext` parameter to get the correct `BuildContext` when resolving the view model:
+
+```dart
+class CarDetailsView extends StatelessWidget with ViewRouteMixin<CarDetailsViewModel> {
+  CarDetailsView({@carParam Car? car}) : super(key: const Key(CarDetailsViewRoute.name));
+
+  @override
+  Widget buildView(BuildContext context, CarDetailsViewModel viewModel) {
+    // This is a workaround for the issue with Hero transition when looking up for the ViewModel in the widget tree
+    return Hero(
+      tag: viewModel.car.hashCode,
+      flightShuttleBuilder: (flightContext, animation, flightDirection, fromHeroContext, toHeroContext) {
+        return _CarDetailsContent(toHeroContext);
+      },
+      child: _CarDetailsContent(),
+    );
+  }
+}
+
+class _CarDetailsContent extends StatelessWidget with ChildViewMixin<CarDetailsViewModel> {
+  _CarDetailsContent([this.context]);
+
+  final BuildContext? context;
+
+  @override
+  CarDetailsViewModel onCreateViewModel(BuildContext context) {
+    return super.onCreateViewModel(this.context ?? context);
+  }
+
+  @override
+  Widget buildView(BuildContext context, CarDetailsViewModel viewModel) {
+    ...
+  }
+}
+```
+
 ### Lifecycle
 
 ```dart
-class SplashView extends StatelessWidget with ViewMixin<SplashViewModel> {
+class SplashView extends StatelessWidget with ViewRouteMixin<SplashViewModel> {
   const SplashView() : super(key: const Key(SplashViewRoute.name));
 
   @override
@@ -134,7 +176,7 @@ class SplashView extends StatelessWidget with ViewMixin<SplashViewModel> {
         elevation: 0,
       ),
       body: Center(
-        child: Assets.graphics.icErniLogo.image(width: 128),
+        child: Assets.graphics.icAppLogo.image(width: 128),
       ),
       extendBodyBehindAppBar: true,
     );

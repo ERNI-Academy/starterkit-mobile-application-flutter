@@ -20,7 +20,7 @@ ERNI Academy mobile boilerplate to start a cross-platform Flutter mobile applica
 ## Prerequisites
 
 **Flutter**
-- v3.3.0+ on stable channel
+- v3.3.10+ on stable channel
 
 **Dart**
 - v2.18.0+
@@ -111,11 +111,9 @@ To know more about this project, you can read the following:
 - [Navigation](docs/ui/navigation.md)
 - [Validation Rules](docs/ui/validation_rules.md)
 
-**Business**
-- [Data Contracts](docs/business/data_contracts.md)
-- [Data Objects](docs/business/data_objects.md)
-- [Entities](docs/business/entities.md)
-- [Mappers](docs/business/mappers.md)
+**Models**
+- [Data Contracts](docs/business/models/data_contracts.md)
+- [Data Objects](docs/business/models/data_objects.md)
 
 **Data**
 - [APIs](docs/data/apis.md)

@@ -62,15 +62,15 @@
         ],
         "description": "Creates an abstract class and a class to implement it"
     },
-    "Creates a View class": {
-        "prefix": "vsl",
+    "Creates a navigatable view using a stateless widget": {
+        "prefix": "vrsl",
         "body": [
             "// coverage:ignore-file",
             "",
             "import 'package:erni_mobile/domain/ui/views/view_mixin.dart';",
             "import 'package:erni_mobile/ui/widgets/widgets.dart';",
             "",
-            "class ${1}View extends StatelessWidget with ViewMixin<${1}ViewModel> {",
+            "class ${1}View extends StatelessWidget with ViewRouteMixin<${1}ViewModel> {",
             "  const ${1}View() : super(key: const Key(${1}ViewRoute.name));",
             "",
             "  @override",
@@ -83,10 +83,10 @@
             "  }",
             "}"
         ],
-        "description": "Creates a Stateless Widget as a View class",
+        "description": "Creates a navigatable view using a stateless widget",
     },
-    "Creates a stateful view": {
-        "prefix": "vsf",
+    "Creates a navigatable view using a stateful widget": {
+        "prefix": "vrsf",
         "body": [
             "// coverage:ignore-file",
             "",
@@ -95,6 +95,58 @@
             "",
             "class ${1}View extends StatefulWidget {",
             "  const ${1}View() : super(key: const Key(${1}ViewRoute.name));",
+            "",
+            "  @override",
+            "  State<${1}View> createState() => _${1}ViewState();",
+            "}",
+            "",
+            "class _${1}ViewState extends State<${1}View> with ViewRouteMixin<${1}ViewModel> {",
+            "  @override",
+            "  Widget buildView(BuildContext context, ${1}ViewModel viewModel) {",
+            "    return Scaffold(",
+            "      appBar: AppBar(",
+            "        title: const Text('${1}'),",
+            "      ),",
+            "    );",
+            "  }",
+            "}",
+            ""
+        ],
+        "description": "Creates a navigatable view using a stateful widget"
+    },
+    "Creates a view using a stateless widget": {
+        "prefix": "vsl",
+        "body": [
+            "// coverage:ignore-file",
+            "",
+            "import 'package:erni_mobile/domain/ui/views/view_mixin.dart';",
+            "import 'package:erni_mobile/ui/widgets/widgets.dart';",
+            "",
+            "class ${1}View extends StatelessWidget with ViewMixin<${1}ViewModel> {",
+            "  const ${1}View({super.key});",
+            "",
+            "  @override",
+            "  Widget buildView(BuildContext context, ${1}ViewModel viewModel) {",
+            "    return Scaffold(",
+            "      appBar: AppBar(",
+            "        title: const Text('${1}'),",
+            "      ),",
+            "    );",
+            "  }",
+            "}"
+        ],
+        "description": "Creates a view using a stateless widget",
+    },
+    "Creates a view using a stateful widget": {
+        "prefix": "vsf",
+        "body": [
+            "// coverage:ignore-file",
+            "",
+            "import 'package:erni_mobile/domain/ui/views/view_mixin.dart';",
+            "import 'package:erni_mobile/ui/widgets/widgets.dart';",
+            "",
+            "class ${1}View extends StatefulWidget {",
+            "  const ${1}View({super.key});",
             "",
             "  @override",
             "  State<${1}View> createState() => _${1}ViewState();",
@@ -112,7 +164,59 @@
             "}",
             ""
         ],
-        "description": "Creates a stateful view"
+        "description": "Creates a view using a stateful widget"
+    },
+    "Creates a child view using a stateless widget": {
+        "prefix": "cvsl",
+        "body": [
+            "// coverage:ignore-file",
+            "",
+            "import 'package:erni_mobile/domain/ui/views/view_mixin.dart';",
+            "import 'package:erni_mobile/ui/widgets/widgets.dart';",
+            "",
+            "class ${1}View extends StatelessWidget with ChildViewMixin<${1}ViewModel> {",
+            "  const ${1}View({super.key});",
+            "",
+            "  @override",
+            "  Widget buildView(BuildContext context, ${1}ViewModel viewModel) {",
+            "    return Scaffold(",
+            "      appBar: AppBar(",
+            "        title: const Text('${1}'),",
+            "      ),",
+            "    );",
+            "  }",
+            "}"
+        ],
+        "description": "Creates a child view using a stateless widget",
+    },
+    "Creates a child view using a stateful widget": {
+        "prefix": "cvsf",
+        "body": [
+            "// coverage:ignore-file",
+            "",
+            "import 'package:erni_mobile/domain/ui/views/view_mixin.dart';",
+            "import 'package:erni_mobile/ui/widgets/widgets.dart';",
+            "",
+            "class ${1}View extends StatefulWidget {",
+            "  const ${1}View({super.key});",
+            "",
+            "  @override",
+            "  State<${1}View> createState() => _${1}ViewState();",
+            "}",
+            "",
+            "class _${1}ViewState extends State<${1}View> with ChildViewMixin<${1}ViewModel> {",
+            "  @override",
+            "  Widget buildView(BuildContext context, ${1}ViewModel viewModel) {",
+            "    return Scaffold(",
+            "      appBar: AppBar(",
+            "        title: const Text('${1}'),",
+            "      ),",
+            "    );",
+            "  }",
+            "}",
+            ""
+        ],
+        "description": "Creates a child view using a stateful widget"
     },
     "Creates an injectable dependency": {
         "prefix": "dep",
@@ -135,17 +239,6 @@
             "}"
         ],
         "description": "Override init view model"
-    },
-    "Creates a Domain Entity": {
-        "prefix": "dome",
-        "body": [
-            "import 'package:erni_mobile/domain/models/entities/entity.dart';",
-            "",
-            "class ${Name}Entity implements Entity {",
-            "  const ${Name}Entity();",
-            "}"
-        ],
-        "description": "Creates a Domain Entity"
     },
     "Creates a Data Contract class": {
         "prefix": "dataC",
@@ -187,114 +280,6 @@
             "}"
         ],
         "description": "Creates a JSON class"
-    },
-    "Creates a Data Contract from Entity Mapper": {
-        "prefix": "mapde",
-        "body": [
-            "import 'package:injectable/injectable.dart';",
-            "import 'package:smartstruct/smartstruct.dart';",
-            "",
-            "part '${TM_FILENAME_BASE}.mapper.g.dart';",
-            "",
-            "@Mapper(useInjection: true)",
-            "abstract class ${name}ContractFromEntityMapper",
-            "    extends ContractFromEntityMapper<${name}Contract, ${name}Entity> {",
-            "",
-            "  @override",
-            "  ${name}Contract? fromEntity(${name}Entity? entity);",
-            "}"
-        ],
-        "description": ""
-    },
-    "Creates a Data Contract from Data Object Mapper": {
-        "prefix": "mapdo",
-        "body": [
-            "import 'package:injectable/injectable.dart';",
-            "import 'package:smartstruct/smartstruct.dart';",
-            "",
-            "part '${TM_FILENAME_BASE}.mapper.g.dart';",
-            "",
-            "@Mapper(useInjection: true)",
-            "abstract class ${name}ContractFromObjectMapper",
-            "    extends ContractFromObjectMapper<${name}Contract, ${name}Object> {",
-            "",
-            "  @override",
-            "  ${name}Contract? fromObject(${name}Object? object);",
-            "}"
-        ],
-        "description": ""
-    },
-    "Creates an Entity from Data Contract Mapper": {
-        "prefix": "maped",
-        "body": [
-            "import 'package:injectable/injectable.dart';",
-            "import 'package:smartstruct/smartstruct.dart';",
-            "",
-            "part '${TM_FILENAME_BASE}.mapper.g.dart';",
-            "",
-            "@Mapper(useInjection: true)",
-            "abstract class ${name}EntityFromContractMapper",
-            "    extends EntityFromContractMapper<${name}Entity, ${name}Contract> {",
-            "",
-            "  @override",
-            "  ${name}Entity? fromContract(${name}Contract? contract);",
-            "}"
-        ],
-        "description": ""
-    },
-    "Creates a Data Object from Data Contract Mapper": {
-        "prefix": "mapod",
-        "body": [
-            "import 'package:injectable/injectable.dart';",
-            "import 'package:smartstruct/smartstruct.dart';",
-            "",
-            "part '${TM_FILENAME_BASE}.mapper.g.dart';",
-            "",
-            "@Mapper(useInjection: true)",
-            "abstract class ${name}ObjectFromContractMapper",
-            "    extends ObjectFromContractMapper<${name}Object, ${name}Contract> {",
-            "",
-            "  @override",
-            "  ${name}Object? fromContract(${name}Contract? contract);",
-            "}"
-        ],
-        "description": ""
-    },
-    "Creates a Data Object from Entity Mapper": {
-        "prefix": "mapoe",
-        "body": [
-            "import 'package:injectable/injectable.dart';",
-            "import 'package:smartstruct/smartstruct.dart';",
-            "",
-            "part '${TM_FILENAME_BASE}.mapper.g.dart';",
-            "",
-            "@Mapper(useInjection: true)",
-            "abstract class ${name}ObjectFromEntityMapper",
-            "    extends ObjectFromEntityMapper<${name}Object, ${name}Entity> {",
-            "",
-            "  @override",
-            "  ${name}Object? fromEntity(${name}Entity? entity);",
-            "}"
-        ],
-        "description": ""
-    },
-    "Creates an Entity from Data Object Mapper": {
-        "prefix": "mapeo",
-        "body": [
-            "import 'package:injectable/injectable.dart';",
-            "import 'package:smartstruct/smartstruct.dart';",
-            "",
-            "part '${TM_FILENAME_BASE}.mapper.g.dart';",
-            "",
-            "@Mapper(useInjection: true)",
-            "abstract class ${name}EntityFromObjectMapper",
-            "    extends EntityFromObjectMapper<${name}Entity, ${name}Object> {",
-            "",
-            "  @override",
-            "  ${name}Entity? fromObject(${name}Object? object);",
-            "}"
-        ],
-        "description": ""
     },
     "Create test group": {
         "prefix": "gtest",
