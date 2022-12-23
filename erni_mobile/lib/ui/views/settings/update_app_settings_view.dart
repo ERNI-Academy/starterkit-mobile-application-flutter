@@ -1,6 +1,6 @@
 // coverage:ignore-file
 
-import 'package:erni_mobile/business/models/settings/language_entity.dart';
+import 'package:erni_mobile/business/models/settings/language.dart';
 import 'package:erni_mobile/common/localization/localization.dart';
 import 'package:erni_mobile/domain/ui/views/view_mixin.dart';
 import 'package:erni_mobile/ui/view_models/settings/update_app_settings_view_model.dart';
@@ -15,7 +15,7 @@ class UpdateAppSettingsView extends StatelessWidget with ViewMixin<UpdateAppSett
       children: [
         ListTile(
           title: Text(Il8n.of(context).settingsLanguage),
-          subtitle: ValueListenableBuilder<LanguageEntity>(
+          subtitle: ValueListenableBuilder<Language>(
             valueListenable: viewModel.currentLanguage,
             builder: (context, currentLocale, child) {
               return Text(currentLocale.languageCode.name.toUpperCase());

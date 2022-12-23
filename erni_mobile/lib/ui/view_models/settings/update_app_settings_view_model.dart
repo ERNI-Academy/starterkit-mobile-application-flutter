@@ -1,9 +1,9 @@
 import 'dart:async';
 
 import 'package:erni_mobile/business/models/logging/log_level.dart';
-import 'package:erni_mobile/business/models/settings/app_settings_entity.dart';
+import 'package:erni_mobile/business/models/settings/app_settings.dart';
+import 'package:erni_mobile/business/models/settings/language.dart';
 import 'package:erni_mobile/business/models/settings/language_code.dart';
-import 'package:erni_mobile/business/models/settings/language_entity.dart';
 import 'package:erni_mobile/common/constants/settings_keys.dart';
 import 'package:erni_mobile/domain/services/logging/app_logger.dart';
 import 'package:erni_mobile/ui/view_models/settings/app_settings_view_model.dart';
@@ -24,12 +24,12 @@ class UpdateAppSettingsViewModel extends AppSettingsViewModel {
   late final AsyncRelayCommand<void> toggleDarkThemeCommand = AsyncRelayCommand.withoutParam(_onToggleDarkTheme);
 
   Future<void> _onToggleLanguage() async {
-    LanguageEntity newLanguage = const LanguageEntity(LanguageCode.en);
+    Language newLanguage = const Language(LanguageCode.en);
 
     if (currentLanguage.value.languageCode == LanguageCode.en) {
-      newLanguage = const LanguageEntity(LanguageCode.de);
+      newLanguage = const Language(LanguageCode.de);
     } else if (currentLanguage.value.languageCode == LanguageCode.de) {
-      newLanguage = const LanguageEntity(LanguageCode.en);
+      newLanguage = const Language(LanguageCode.en);
     }
 
     currentLanguage.value = newLanguage;
@@ -59,7 +59,7 @@ class UpdateAppSettingsViewModel extends AppSettingsViewModel {
     _logger.log(LogLevel.info, 'Theme changed to $newTheme');
   }
 
-  Future<void> _updateSettings(LanguageEntity newLanguage, ThemeMode newTheme) async {
-    await settingsService.addOrUpdateObject(SettingsKeys.appSettings, AppSettingsEntity(newLanguage, newTheme));
+  Future<void> _updateSettings(Language newLanguage, ThemeMode newTheme) async {
+    await settingsService.addOrUpdateObject(SettingsKeys.appSettings, AppSettings(newLanguage, newTheme));
   }
 }

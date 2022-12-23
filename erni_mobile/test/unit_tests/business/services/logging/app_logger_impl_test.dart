@@ -1,4 +1,4 @@
-import 'package:erni_mobile/business/models/logging/app_log_event_entity.dart';
+import 'package:erni_mobile/business/models/logging/app_log_event.dart';
 import 'package:erni_mobile/business/models/logging/log_level.dart';
 import 'package:erni_mobile/business/services/logging/app_logger_impl.dart';
 import 'package:erni_mobile/domain/services/logging/app_log_formatter.dart';
@@ -62,10 +62,10 @@ void main() {
       when(mockDateTimeService.utcNow()).thenReturn(expectedDateTime ?? DateTime.now().toUtc());
     }
 
-    List<AppLogEventEntity> getCapturedLogEvents() {
+    List<AppLogEvent> getCapturedLogEvents() {
       return verify(
-        mockAppLogWriter.write(captureAnyInstanceOf<AppLogEventEntity>()),
-      ).captured.cast<AppLogEventEntity>();
+        mockAppLogWriter.write(captureAnyInstanceOf<AppLogEvent>()),
+      ).captured.cast<AppLogEvent>();
     }
 
     test('logFor should describe identity of owner when called', () {
@@ -111,7 +111,7 @@ void main() {
       unit.log(LogLevel.info, 'test message');
 
       // Assert
-      verify(mockAppLogWriter.write(anyInstanceOf<AppLogEventEntity>())).called(1);
+      verify(mockAppLogWriter.write(anyInstanceOf<AppLogEvent>())).called(1);
     });
 
     test('log should not write logEvent when environmentConfig logLevel is less than logEvent logLevel', () {
@@ -123,7 +123,7 @@ void main() {
       unit.log(LogLevel.debug, 'test message');
 
       // Assert
-      verifyNever(mockAppLogWriter.write(anyInstanceOf<AppLogEventEntity>()));
+      verifyNever(mockAppLogWriter.write(anyInstanceOf<AppLogEvent>()));
     });
 
     test('log should write correct logEvent properties when called', () {

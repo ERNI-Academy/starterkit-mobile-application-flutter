@@ -5,8 +5,8 @@ import 'package:erni_mobile/data/database/logging/converters/database_log_level_
 import 'package:erni_mobile/data/database/logging/converters/database_map_to_string_converter.dart';
 import 'package:erni_mobile/domain/models/data/data_table.dart';
 
-@DataClassName('AppLogObject')
-class AppLogs extends DataTable {
+@DataClassName('AppLogEventObject')
+class AppLogEvents extends DataTable {
   @override
   TextColumn get id => text()();
 

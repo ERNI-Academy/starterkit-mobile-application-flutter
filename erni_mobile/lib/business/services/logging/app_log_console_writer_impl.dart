@@ -2,14 +2,14 @@
 
 import 'dart:developer';
 
-import 'package:erni_mobile/business/models/logging/app_log_event_entity.dart';
+import 'package:erni_mobile/business/models/logging/app_log_event.dart';
 import 'package:erni_mobile/domain/services/logging/app_log_console_writer.dart';
 import 'package:injectable/injectable.dart';
 
 @LazySingleton(as: AppLogConsoleWriter)
 class AppLogConsoleWriterImpl implements AppLogConsoleWriter {
   @override
-  Future<void> write(AppLogEventEntity event) {
+  Future<void> write(AppLogEvent event) {
     log(
       event.message,
       name: event.owner,

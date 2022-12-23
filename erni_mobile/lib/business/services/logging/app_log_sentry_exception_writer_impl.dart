@@ -1,4 +1,4 @@
-import 'package:erni_mobile/business/models/logging/app_log_event_entity.dart';
+import 'package:erni_mobile/business/models/logging/app_log_event.dart';
 import 'package:erni_mobile/business/models/logging/log_level.dart';
 import 'package:erni_mobile/data/database/logging/logging_database.dart';
 import 'package:erni_mobile/domain/repositories/logging/app_log_repository.dart';
@@ -16,7 +16,7 @@ class AppLogSentryExceptionWriterImpl implements AppLogSentryExceptionWriter {
   final EnvironmentConfig _environmentConfig;
 
   @override
-  Future<void> write(AppLogEventEntity event) async {
+  Future<void> write(AppLogEvent event) async {
     if (event.error == null) {
       return;
     }
@@ -24,7 +24,7 @@ class AppLogSentryExceptionWriterImpl implements AppLogSentryExceptionWriter {
     await _internalCaptureEvent(event);
   }
 
-  Future<void> _internalCaptureEvent(AppLogEventEntity event) async {
+  Future<void> _internalCaptureEvent(AppLogEvent event) async {
     final eventsBefore = await _takeEventsBeforeThis(event.id, event.sessionId);
     final breadCrumbs = eventsBefore.map(
       (e) {
@@ -53,7 +53,7 @@ class AppLogSentryExceptionWriterImpl implements AppLogSentryExceptionWriter {
     );
   }
 
-  Future<List<AppLogObject>> _takeEventsBeforeThis(String eventId, String sessionId) async {
+  Future<List<AppLogEventObject>> _takeEventsBeforeThis(String eventId, String sessionId) async {
     final events = await _appLogRepository.selectAll();
     final eventsForSession = events.where((e) => e.sessionId == sessionId && e.level != LogLevel.debug).toList();
     final index = eventsForSession.indexWhere((e) => e.id == eventId);

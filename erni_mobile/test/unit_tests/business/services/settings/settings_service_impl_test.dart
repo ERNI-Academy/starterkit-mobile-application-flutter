@@ -1,7 +1,7 @@
 import 'dart:async';
 
+import 'package:erni_mobile/business/models/settings/language.dart';
 import 'package:erni_mobile/business/models/settings/language_code.dart';
-import 'package:erni_mobile/business/models/settings/language_entity.dart';
 import 'package:erni_mobile/business/models/settings/settings_changed_model.dart';
 import 'package:erni_mobile/business/services/settings/settings_service_impl.dart';
 import 'package:erni_mobile/domain/services/json/json_converter.dart';
@@ -62,17 +62,17 @@ void main() {
       final unitToTest = createUnitToTest();
       const expectedKey = 'key';
       const expectedValue = 'value';
-      const expectedDecodedValue = LanguageEntity(LanguageCode.en);
+      const expectedDecodedValue = Language(LanguageCode.en);
       when(mockSharedPrefs.get(expectedKey)).thenReturn(expectedValue);
       when(
-        mockJsonConverter.decodeToObject<LanguageEntity>(
+        mockJsonConverter.decodeToObject<Language>(
           expectedValue,
-          converter: anyInstanceOf<JsonConverterCallback<LanguageEntity>>(named: 'converter'),
+          converter: anyInstanceOf<JsonConverterCallback<Language>>(named: 'converter'),
         ),
       ).thenReturn(expectedDecodedValue);
 
       // Act
-      final actualResult = unitToTest.getObject<LanguageEntity>(expectedKey, LanguageEntity.fromJson);
+      final actualResult = unitToTest.getObject<Language>(expectedKey, Language.fromJson);
 
       // Assert
       expect(actualResult, expectedDecodedValue);
@@ -82,13 +82,13 @@ void main() {
       // Arrange
       final unitToTest = createUnitToTest();
       const expectedKey = 'key';
-      const expectedDefaultValue = LanguageEntity(LanguageCode.en);
+      const expectedDefaultValue = Language(LanguageCode.en);
       when(mockSharedPrefs.get(expectedKey)).thenReturn(null);
 
       // Act
-      final actualValue = unitToTest.getObject<LanguageEntity>(
+      final actualValue = unitToTest.getObject<Language>(
         expectedKey,
-        LanguageEntity.fromJson,
+        Language.fromJson,
         defaultValue: expectedDefaultValue,
       );
 
@@ -154,7 +154,7 @@ void main() {
       // Arrange
       final unitToTest = createUnitToTest();
       const expectedKey = 'key';
-      const expectedValue = LanguageEntity(LanguageCode.en);
+      const expectedValue = Language(LanguageCode.en);
       const expectedEncodedValue = 'value';
       when(mockJsonConverter.encode(expectedValue)).thenReturn(expectedEncodedValue);
       when(mockSharedPrefs.setString(expectedKey, expectedEncodedValue)).thenAnswer((_) => Future.value(true));
@@ -174,7 +174,7 @@ void main() {
         final unitToTest = createUnitToTest();
         final settingsChangedCompleter = Completer<SettingsChangedModel>();
         const expectedKey = 'key';
-        const expectedValue = LanguageEntity(LanguageCode.en);
+        const expectedValue = Language(LanguageCode.en);
         const expectedEncodedValue = 'value';
         when(mockJsonConverter.encode(expectedValue)).thenReturn(expectedEncodedValue);
         when(mockSharedPrefs.setString(expectedKey, expectedEncodedValue)).thenAnswer((_) => Future.value(true));
@@ -197,7 +197,7 @@ void main() {
         final unitToTest = createUnitToTest();
         final settingsChangedCompleter = Completer<SettingsChangedModel>();
         const expectedKey = 'key';
-        const expectedValue = LanguageEntity(LanguageCode.en);
+        const expectedValue = Language(LanguageCode.en);
         const expectedEncodedValue = 'value';
         when(mockJsonConverter.encode(expectedValue)).thenReturn(expectedEncodedValue);
         when(mockSharedPrefs.setString(expectedKey, expectedEncodedValue)).thenAnswer((_) => Future.value(false));

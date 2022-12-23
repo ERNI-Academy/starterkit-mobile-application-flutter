@@ -1,5 +1,5 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:erni_mobile/business/models/settings/language_entity.dart';
+import 'package:erni_mobile/business/models/settings/language.dart';
 import 'package:erni_mobile/business/services/ui/navigation/navigation_observer.dart';
 import 'package:erni_mobile/common/localization/generated/l10n.dart';
 import 'package:erni_mobile/common/localization/localization.dart';
@@ -34,7 +34,7 @@ class App extends StatelessWidget with ViewMixin<AppViewModel> {
     return ValueListenableBuilder<ThemeMode>(
       valueListenable: viewModel.currentTheme,
       builder: (context, currentTheme, child) {
-        return ValueListenableBuilder<LanguageEntity>(
+        return ValueListenableBuilder<Language>(
           valueListenable: viewModel.currentLanguage,
           builder: (context, currentLanguage, child) {
             return MaterialApp.router(
