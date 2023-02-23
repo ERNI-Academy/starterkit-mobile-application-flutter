@@ -59,6 +59,7 @@ lcov.info
 **/failures/**
 screenshots
 report
+libisar.dylib
 
 # fastlane
 fastlane/report.xml

@@ -4,57 +4,16 @@
     // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
     "version": "0.2.0",
     "configurations": [
-
         // All device configuration
         {
             "name": "Run Current Device",
             "program": "lib/main.dart",
             "request": "launch",
             "type": "dart",
-            "osx": {
-                "args": [
-                    "--dart-define",
-                    "appEnvironment=${input:appEnvironment}",
-                    "--dart-define",
-                    "appServerUrl=${input:appServerUrl}",
-                    "--dart-define",
-                    "appName=${input:appName}",
-                    "--dart-define",
-                    "appId=${input:appId}",
-                    "--dart-define",
-                    "appIdSuffix=${input:appIdSuffix}",
-                    "--dart-define",
-                    "appUniversalLink=${input:appUniversalLink}",
-                    "--dart-define",
-                    "iOSDevelopmentTeam=${input:iOSDevelopmentTeam}",
-                    "--dart-define",
-                    "iOSDevelopmentProfile=${input:iOSDevelopmentProfile}",
-                    "--dart-define",
-                    "sentryDsn=${input:sentryDsn}",
-                    "--web-port",
-                    "${input:appWebDebugPort}",
-                ]
-            },
-            "windows": {
-                "args": [
-                    "--dart-define",
-                    "appEnvironment=${input:appEnvironment}",
-                    "--dart-define",
-                    "appServerUrl=${input:appServerUrl}",
-                    "--dart-define",
-                    "appName=${input:appName}",
-                    "--dart-define",
-                    "appId=${input:appId}",
-                    "--dart-define",
-                    "appIdSuffix=${input:appIdSuffix}",
-                    "--dart-define",
-                    "appUniversalLink=${input:appUniversalLink}",
-                    "--dart-define",
-                    "sentryDsn=${input:sentryDsn}",
-                    "--web-port",
-                    "${input:appWebDebugPort}",
-                ]
-            },
+            "args": [
+                "--dart-define-from-file",
+                ".secrets/${input:appEnvironment}.secrets",
+            ]
         },
         {
             "name": "Test Coverage",
@@ -103,87 +62,6 @@
                         "keyRemember": "secretsFile"
                     }
                 }
-            }
-        },
-        {
-            "id": "appServerUrl",
-            "type": "command",
-            "command": "extension.commandvariable.file.content",
-            "args": {
-                "fileName": "${remember:secretsFile}",
-                "json": "content.appServerUrl"
-            }
-        },
-        {
-            "id": "appWebDebugPort",
-            "type": "command",
-            "command": "extension.commandvariable.file.content",
-            "args": {
-                "fileName": "${remember:secretsFile}",
-                "json": "content.appWebDebugPort"
-            }
-        },
-        {
-            "id": "appId",
-            "type": "command",
-            "command": "extension.commandvariable.file.content",
-            "args": {
-                "fileName": "${remember:secretsFile}",
-                "json": "content.appId"
-            }
-        },
-        {
-            "id": "appIdSuffix",
-            "type": "command",
-            "command": "extension.commandvariable.file.content",
-            "args": {
-                "fileName": "${remember:secretsFile}",
-                "json": "content.appIdSuffix"
-            }
-        },
-        {
-            "id": "appName",
-            "type": "command",
-            "command": "extension.commandvariable.file.content",
-            "args": {
-                "fileName": "${remember:secretsFile}",
-                "json": "content.appName"
-            }
-        },
-        {
-            "id": "appUniversalLink",
-            "type": "command",
-            "command": "extension.commandvariable.file.content",
-            "args": {
-                "fileName": "${remember:secretsFile}",
-                "json": "content.appUniversalLink"
-            }
-        },
-        {
-            "id": "iOSDevelopmentTeam",
-            "type": "command",
-            "command": "extension.commandvariable.file.content",
-            "args": {
-                "fileName": "${remember:secretsFile}",
-                "json": "content.iOSDevelopmentTeam"
-            }
-        },
-        {
-            "id": "iOSDevelopmentProfile",
-            "type": "command",
-            "command": "extension.commandvariable.file.content",
-            "args": {
-                "fileName": "${remember:secretsFile}",
-                "json": "content.iOSDevelopmentProfile"
-            },
-        },
-        {
-            "id": "sentryDsn",
-            "type": "command",
-            "command": "extension.commandvariable.file.content",
-            "args": {
-                "fileName": "${remember:secretsFile}",
-                "json": "content.sentryDsn"
             }
         }
     ],

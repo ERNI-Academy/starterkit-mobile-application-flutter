@@ -43,7 +43,7 @@ class AppLoggerImpl implements AppLogger {
 
     final formattedMessage = _formatter.format(logLevel, message, exception, stackTrace);
     final logEvent = AppLogEvent(
-      id: const Uuid().v1(),
+      uid: const Uuid().v1(),
       sessionId: _environmentConfig.sessionId,
       level: logLevel,
       message: formattedMessage,

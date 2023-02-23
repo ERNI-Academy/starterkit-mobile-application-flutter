@@ -4,7 +4,7 @@
 
 list(APPEND FLUTTER_PLUGIN_LIST
   flutter_secure_storage_windows
-  objectbox_flutter_libs
+  isar_flutter_libs
   sentry_flutter
 )
 

@@ -3,7 +3,7 @@ import 'package:erni_mobile/business/models/logging/log_level.dart';
 
 class AppLogEvent {
   const AppLogEvent({
-    required this.id,
+    required this.uid,
     required this.sessionId,
     required this.level,
     required this.message,
@@ -14,7 +14,7 @@ class AppLogEvent {
     this.extras = const {},
   });
 
-  final String id;
+  final String uid;
   final String sessionId;
   final LogLevel level;
   final String message;
@@ -26,12 +26,11 @@ class AppLogEvent {
 
   AppLogObject toObject() {
     return AppLogObject(
-      uid: id,
+      uid: uid,
       sessionId: sessionId,
-      level: level.name,
+      level: level,
       message: message,
       createdAt: createdAt,
-      extras: extras,
       owner: owner,
     );
   }
