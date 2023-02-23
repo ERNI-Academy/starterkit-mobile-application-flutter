@@ -3,8 +3,6 @@
     "generalOk": "Ok",
     "generalCancel": "Cancel",
     "dialogLoading": "Loading...",
-    "dialogConnectionProblemTitle": "Connection Problem",
-    "dialogConnectionProblemMessage": "You are not connected to the Internet. Please check your connection and try again.",
     "menuAbout": "About",
     "menuSettings": "Settings",
     "settingsAppSectionTitle": "App",
