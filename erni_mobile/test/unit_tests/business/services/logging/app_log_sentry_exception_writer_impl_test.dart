@@ -1,40 +1,40 @@
 import 'package:erni_mobile/business/models/logging/app_log_event.dart';
+import 'package:erni_mobile/business/models/logging/app_log_object.dart';
 import 'package:erni_mobile/business/models/logging/log_level.dart';
 import 'package:erni_mobile/business/models/platform/app_environment.dart';
 import 'package:erni_mobile/business/services/logging/app_log_sentry_exception_writer_impl.dart';
-import 'package:erni_mobile/data/database/logging/logging_database.dart';
-import 'package:erni_mobile/domain/repositories/logging/app_log_repository.dart';
 import 'package:erni_mobile/domain/services/platform/environment_config.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
+import 'package:objectbox/objectbox.dart';
 import 'package:sentry/sentry.dart';
 
 import '../../../unit_test_utils.dart';
 import 'app_log_sentry_exception_writer_impl_test.mocks.dart';
 
 @GenerateMocks([
-  AppLogRepository,
+  Box<AppLogObject>,
   Hub,
   EnvironmentConfig,
 ])
 void main() {
   group(AppLogSentryExceptionWriterImpl, () {
     const String sessionId = '1';
-    late MockAppLogRepository mockAppLogRepository;
+    late MockBox<AppLogObject> mockAppLogObjectBox;
     late MockHub mockHub;
     late MockEnvironmentConfig mockEnvironmentConfig;
 
     setUp(() {
-      mockAppLogRepository = MockAppLogRepository();
+      mockAppLogObjectBox = MockBox<AppLogObject>();
       mockHub = MockHub();
       mockEnvironmentConfig = MockEnvironmentConfig();
       when(mockHub.options).thenReturn(SentryOptions());
       when(mockHub.captureEvent(anyInstanceOf<SentryEvent>())).thenAnswer((_) => Future.value(SentryId.newId()));
     });
 
-    void setupAppLogRepository(List<AppLogEventObject> events) {
-      when(mockAppLogRepository.selectAll()).thenAnswer((_) async => events);
+    void setupAppLogRepository(List<AppLogObject> events) {
+      when(mockAppLogObjectBox.getAll()).thenReturn(events);
     }
 
     void setupEnvironmentConfig([AppEnvironment appEnvironment = AppEnvironment.dev]) {
@@ -42,7 +42,7 @@ void main() {
     }
 
     AppLogSentryExceptionWriterImpl createUnitToTest() =>
-        AppLogSentryExceptionWriterImpl(mockAppLogRepository, mockHub, mockEnvironmentConfig);
+        AppLogSentryExceptionWriterImpl(mockAppLogObjectBox, mockHub, mockEnvironmentConfig);
 
     // ignore:long-parameter-list
     AppLogEvent createLogEventEntity(
@@ -67,12 +67,12 @@ void main() {
       );
     }
 
-    AppLogEventObject fromEntity(AppLogEvent entity) {
-      return AppLogEventObject(
-        id: entity.id,
+    AppLogObject fromEntity(AppLogEvent entity) {
+      return AppLogObject(
+        uid: entity.id,
         sessionId: entity.sessionId,
         message: entity.message,
-        level: entity.level,
+        level: entity.level.name,
         extras: entity.extras,
         createdAt: entity.createdAt,
         owner: entity.owner,

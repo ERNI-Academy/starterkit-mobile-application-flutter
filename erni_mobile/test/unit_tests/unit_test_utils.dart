@@ -1,4 +1,5 @@
 // ignore_for_file: prefer_void_to_null
+// ignore_for_file: prefer-static-class
 
 import 'dart:ui';
 

@@ -50,10 +50,10 @@ if (keystorePropertiesFileExists) {
 // Extract Dart defines
 
 def dartDefines = [
-    appIdSuffix: '',
-    appName: '',
-    appUniversalLink: '',
-];
+        appIdSuffix     : '',
+        appName         : '',
+        appUniversalLink: '',
+]
 
 if (project.hasProperty('dart-defines')) {
     dartDefines = dartDefines + project.property('dart-defines')
@@ -88,7 +88,7 @@ android {
         versionName flutterVersionName
         resValue "string", "app_name", dartDefines.appName
         resValue "string", "app_universal_link", dartDefines.appUniversalLink
-        
+
         // Set applicationIdSuffix. `Unknown` if dartDefines.appIdSuffix is empty in secrets file
         if (dartDefines.appIdSuffix != null && dartDefines.appIdSuffix != "Unknown") {
             applicationIdSuffix dartDefines.appIdSuffix

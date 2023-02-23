@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:erni_mobile/business/models/settings/language.dart';
 import 'package:erni_mobile/business/models/settings/language_code.dart';
-import 'package:erni_mobile/business/models/settings/settings_changed_model.dart';
+import 'package:erni_mobile/business/models/settings/settings_changed.dart';
 import 'package:erni_mobile/business/services/settings/settings_service_impl.dart';
 import 'package:erni_mobile/domain/services/json/json_converter.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -96,7 +96,46 @@ void main() {
       expect(actualValue, expectedDefaultValue);
     });
 
-    test('addOrUpdateValue should add value of key to shared prefs when called', () async {
+    test('getObjects should return decoded value when value of key from shared prefs is not null', () {
+      // Arrange
+      final unitToTest = createUnitToTest();
+      const expectedKey = 'key';
+      const expectedValue = 'value';
+      const expectedDecodedValue = [Language(LanguageCode.en)];
+      when(mockSharedPrefs.getString(expectedKey)).thenReturn(expectedValue);
+      when(
+        mockJsonConverter.decodeToCollection<Language>(
+          expectedValue,
+          itemConverter: anyInstanceOf<JsonConverterCallback<Language>>(named: 'itemConverter'),
+        ),
+      ).thenReturn(expectedDecodedValue);
+
+      // Act
+      final actualResult = unitToTest.getObjects<Language>(expectedKey, Language.fromJson);
+
+      // Assert
+      expect(actualResult, expectedDecodedValue);
+    });
+
+    test('getObjects should return defaultValue when value of key from shared prefs is null', () {
+      // Arrange
+      final unitToTest = createUnitToTest();
+      const expectedKey = 'key';
+      const expectedDefaultValue = [Language(LanguageCode.en)];
+      when(mockSharedPrefs.getString(expectedKey)).thenReturn(null);
+
+      // Act
+      final actualValue = unitToTest.getObjects<Language>(
+        expectedKey,
+        Language.fromJson,
+        defaultValues: expectedDefaultValue,
+      );
+
+      // Assert
+      expect(actualValue, expectedDefaultValue);
+    });
+
+    test('addOrUpdateValue should add value of key to shared prefs when value is string', () async {
       // Arrange
       final unitToTest = createUnitToTest();
       const expectedKey = 'key';
@@ -110,12 +149,64 @@ void main() {
       verify(mockSharedPrefs.setString(expectedKey, expectedValue)).called(1);
     });
 
+    test('addOrUpdateValue should add value of key to shared prefs when value is int', () async {
+      // Arrange
+      final unitToTest = createUnitToTest();
+      const expectedKey = 'key';
+      const expectedValue = 1;
+      when(mockSharedPrefs.setInt(expectedKey, expectedValue)).thenAnswer((_) => Future.value(true));
+
+      // Act
+      await unitToTest.addOrUpdateValue(expectedKey, expectedValue);
+
+      // Assert
+      verify(mockSharedPrefs.setInt(expectedKey, expectedValue)).called(1);
+    });
+
+    test('addOrUpdateValue should add value of key to shared prefs when value is double', () async {
+      // Arrange
+      final unitToTest = createUnitToTest();
+      const expectedKey = 'key';
+      const expectedValue = 1.0;
+      when(mockSharedPrefs.setDouble(expectedKey, expectedValue)).thenAnswer((_) => Future.value(true));
+
+      // Act
+      await unitToTest.addOrUpdateValue(expectedKey, expectedValue);
+
+      // Assert
+      verify(mockSharedPrefs.setDouble(expectedKey, expectedValue)).called(1);
+    });
+
+    test('addOrUpdateValue should add value of key to shared prefs when value is bool', () async {
+      // Arrange
+      final unitToTest = createUnitToTest();
+      const expectedKey = 'key';
+      const expectedValue = true;
+      when(mockSharedPrefs.setBool(expectedKey, expectedValue)).thenAnswer((_) => Future.value(true));
+
+      // Act
+      await unitToTest.addOrUpdateValue(expectedKey, expectedValue);
+
+      // Assert
+      verify(mockSharedPrefs.setBool(expectedKey, expectedValue)).called(1);
+    });
+
+    test('addOrUpdateValue should throw UnsupportedError when value is not supported', () async {
+      // Arrange
+      final unitToTest = createUnitToTest();
+      const expectedKey = 'key';
+      const expectedValue = <String>['value'];
+
+      // Assert
+      await expectLater(unitToTest.addOrUpdateValue(expectedKey, expectedValue), throwsUnsupportedError);
+    });
+
     test(
       'addOrUpdateValue should add event to settingsChanged when adding value of key to shared prefs returns true',
       () async {
         // Arrange
         final unitToTest = createUnitToTest();
-        final settingsChangedCompleter = Completer<SettingsChangedModel>();
+        final settingsChangedCompleter = Completer<SettingsChanged>();
         const expectedKey = 'key';
         const expectedValue = 'value';
         when(mockSharedPrefs.setString(expectedKey, expectedValue)).thenAnswer((_) => Future.value(true));
@@ -136,7 +227,7 @@ void main() {
       () async {
         // Arrange
         final unitToTest = createUnitToTest();
-        final settingsChangedCompleter = Completer<SettingsChangedModel>();
+        final settingsChangedCompleter = Completer<SettingsChanged>();
         const expectedKey = 'key';
         const expectedValue = 'value';
         when(mockSharedPrefs.setString(expectedKey, expectedValue)).thenAnswer((_) => Future.value(false));
@@ -172,7 +263,7 @@ void main() {
       () async {
         // Arrange
         final unitToTest = createUnitToTest();
-        final settingsChangedCompleter = Completer<SettingsChangedModel>();
+        final settingsChangedCompleter = Completer<SettingsChanged>();
         const expectedKey = 'key';
         const expectedValue = Language(LanguageCode.en);
         const expectedEncodedValue = 'value';
@@ -195,7 +286,7 @@ void main() {
       () async {
         // Arrange
         final unitToTest = createUnitToTest();
-        final settingsChangedCompleter = Completer<SettingsChangedModel>();
+        final settingsChangedCompleter = Completer<SettingsChanged>();
         const expectedKey = 'key';
         const expectedValue = Language(LanguageCode.en);
         const expectedEncodedValue = 'value';
@@ -205,6 +296,67 @@ void main() {
         // Act
         unitToTest.settingsChanged.listen(settingsChangedCompleter.complete);
         await unitToTest.addOrUpdateObject(expectedKey, expectedValue);
+
+        // Assert
+        await expectLater(settingsChangedCompleter.future, doesNotComplete);
+      },
+    );
+
+    test('addOrUpdateObjects should add value of key to shared prefs when called', () async {
+      // Arrange
+      final unitToTest = createUnitToTest();
+      const expectedKey = 'key';
+      const expectedValue = [Language(LanguageCode.en)];
+      const expectedEncodedValue = 'value';
+      when(mockJsonConverter.encode(expectedValue)).thenReturn(expectedEncodedValue);
+      when(mockSharedPrefs.setString(expectedKey, expectedEncodedValue)).thenAnswer((_) => Future.value(true));
+
+      // Act
+      await unitToTest.addOrUpdateObjects(expectedKey, expectedValue);
+
+      // Assert
+      verify(mockJsonConverter.encode(expectedValue)).called(1);
+      verify(mockSharedPrefs.setString(expectedKey, expectedEncodedValue)).called(1);
+    });
+
+    test(
+      'addOrUpdateObjects should add event to settingsChanged when adding value of key to shared prefs returns true',
+      () async {
+        // Arrange
+        final unitToTest = createUnitToTest();
+        final settingsChangedCompleter = Completer<SettingsChanged>();
+        const expectedKey = 'key';
+        const expectedValue = [Language(LanguageCode.en)];
+        const expectedEncodedValue = 'value';
+        when(mockJsonConverter.encode(expectedValue)).thenReturn(expectedEncodedValue);
+        when(mockSharedPrefs.setString(expectedKey, expectedEncodedValue)).thenAnswer((_) => Future.value(true));
+
+        // Act
+        unitToTest.settingsChanged.listen(settingsChangedCompleter.complete);
+        await unitToTest.addOrUpdateObjects(expectedKey, expectedValue);
+        final actualEvent = await settingsChangedCompleter.future;
+
+        // Assert
+        expect(actualEvent.key, expectedKey);
+        expect(actualEvent.value, expectedValue);
+      },
+    );
+
+    test(
+      'addOrUpdateObjects should not add event to settingsChanged when adding value of key to shared prefs returns false',
+      () async {
+        // Arrange
+        final unitToTest = createUnitToTest();
+        final settingsChangedCompleter = Completer<SettingsChanged>();
+        const expectedKey = 'key';
+        const expectedValue = [Language(LanguageCode.en)];
+        const expectedEncodedValue = 'value';
+        when(mockJsonConverter.encode(expectedValue)).thenReturn(expectedEncodedValue);
+        when(mockSharedPrefs.setString(expectedKey, expectedEncodedValue)).thenAnswer((_) => Future.value(false));
+
+        // Act
+        unitToTest.settingsChanged.listen(settingsChangedCompleter.complete);
+        await unitToTest.addOrUpdateObjects(expectedKey, expectedValue);
 
         // Assert
         await expectLater(settingsChangedCompleter.future, doesNotComplete);
@@ -229,7 +381,7 @@ void main() {
       () async {
         // Arrange
         final unitToTest = createUnitToTest();
-        final settingsChangedCompleter = Completer<SettingsChangedModel>();
+        final settingsChangedCompleter = Completer<SettingsChanged>();
         const expectedKey = 'key';
         when(mockSharedPrefs.remove(expectedKey)).thenAnswer((_) => Future.value(true));
 
@@ -249,7 +401,7 @@ void main() {
       () async {
         // Arrange
         final unitToTest = createUnitToTest();
-        final settingsChangedCompleter = Completer<SettingsChangedModel>();
+        final settingsChangedCompleter = Completer<SettingsChanged>();
         const expectedKey = 'key';
         when(mockSharedPrefs.remove(expectedKey)).thenAnswer((_) => Future.value(false));
 
@@ -278,7 +430,7 @@ void main() {
       // Arrange
       const expectedKey = 'key';
       final unitToTest = createUnitToTest();
-      final settingsChangedCompleter = Completer<SettingsChangedModel>();
+      final settingsChangedCompleter = Completer<SettingsChanged>();
       when(mockSharedPrefs.remove(expectedKey)).thenAnswer((_) => Future.value(true));
 
       // Act

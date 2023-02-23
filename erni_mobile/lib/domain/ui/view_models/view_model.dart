@@ -8,7 +8,7 @@ abstract class ViewModel extends ChangeNotifier {
     final viewModel = ViewModelHolder.of<T>(context)?.viewModel;
 
     if (viewModel == null) {
-      throw FlutterError('Could not locate viewmodel $T');
+      throw StateError('Could not locate viewmodel $T');
     }
 
     return viewModel;

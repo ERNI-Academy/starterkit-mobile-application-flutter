@@ -10,14 +10,14 @@ import 'package:injectable/injectable.dart';
 @injectable
 @reflectable
 class DashboardViewModel extends ViewModel {
+  final AppLogger _logger;
+
   DashboardViewModel(MenuProvider menuProvider, this._logger) {
     menus = menuProvider.navigatableMenus;
     selectedMenu = menuProvider.currentMenu;
     selectedMenu.addListener(_onMenuSelected);
     _logger.logFor(this);
   }
-
-  final AppLogger _logger;
 
   late final Iterable<SideMenuModel> menus;
 

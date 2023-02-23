@@ -6,11 +6,11 @@ import 'package:injectable/injectable.dart';
 
 @injectable
 class AppViewModel extends AppSettingsViewModel with AppLifeCycleAwareMixin {
+  final AppLogger _logger;
+
   AppViewModel(this._logger, super.settingsService) {
     _logger.logFor(this);
   }
-
-  final AppLogger _logger;
 
   @override
   Future<void> onAppPaused() {

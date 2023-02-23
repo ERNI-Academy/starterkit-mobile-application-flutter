@@ -64,19 +64,23 @@ dart_code_metrics:
           - public-static-fields
           - private-static-const-fields
           - private-static-final-fields
-          - constructors
-          - factory-constructors
-          - private-constructors
           - private-final-fields
           - private-late-final-fields
           - private-fields
+          - constructors
+          - factory-constructors
+          - private-constructors
           - public-final-fields
           - public-late-final-fields
-          - public-getters
-          - public-getters-setters
           - public-fields
           - protected-public-final-fields
           - protected-public-late-final-fields
+          - public-getters
+          - public-getters-setters
+          - protected-getters
+          - protected-getters-setters
+          - private-getters
+          - private-getters-setters
           - public-static-methods
           - overridden-public-methods
           - public-methods
@@ -90,19 +94,23 @@ dart_code_metrics:
           - public-static-fields
           - private-static-const-fields
           - private-static-final-fields
-          - constructors
-          - factory-constructors
-          - private-constructors
           - private-final-fields
           - private-late-final-fields
           - private-fields
+          - constructors
+          - factory-constructors
+          - private-constructors
           - public-final-fields
           - public-late-final-fields
-          - public-getters
-          - public-getters-setters
           - public-fields
           - protected-public-final-fields
           - protected-public-late-final-fields
+          - public-getters
+          - public-getters-setters
+          - protected-getters
+          - protected-getters-setters
+          - private-getters
+          - private-getters-setters
           - public-static-methods
           - overridden-public-methods
           - public-methods
@@ -119,7 +127,20 @@ dart_code_metrics:
     - prefer-first
     - prefer-iterable-of
     - prefer-last
-    - prefer-trailing-comma
+    - prefer-static-class:
+        ignore-private: true
+        ignore-names:
+          - Environment
+          - (.*)Param
+          - reflectable
+          - platformWeb
+          - platformMobile
+          - platformDesktop
+          - release
+          - debug
+          - testing
+          - running
+          - apiBaseUrl
 
     # Flutter
     - always-remove-listener
@@ -211,7 +232,6 @@ linter:
     - file_names
     - hash_and_equals
     - implementation_imports
-    - invariant_booleans
     - iterable_contains_unrelated_type
     - join_return_with_assignment
     - library_names

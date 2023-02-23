@@ -11,13 +11,13 @@ import 'package:uuid/uuid.dart';
 
 @Injectable(as: AppLogger)
 class AppLoggerImpl implements AppLogger {
-  AppLoggerImpl(this._formatter, this._logWriters, this._dateTimeService, this._environmentConfig);
-
   final AppLogFormatter _formatter;
   final Iterable<AppLogWriter> _logWriters;
   final DateTimeService _dateTimeService;
   final EnvironmentConfig _environmentConfig;
   String? _owner;
+
+  AppLoggerImpl(this._formatter, this._logWriters, this._dateTimeService, this._environmentConfig);
 
   @override
   void logFor(Object owner) {

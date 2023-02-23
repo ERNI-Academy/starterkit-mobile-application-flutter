@@ -44,11 +44,32 @@ typedef ExplicitRoute<T extends Object> = CustomRoute<T>;
 class NavigationServiceImpl extends _$NavigationServiceImpl implements NavigationService {
   NavigationServiceImpl() : super(WidgetKeys.navigatorKey);
 
+  static Route<T> modalSheetBuilder<T>(BuildContext _, Widget child, CustomPage<T> page) {
+    return ModalBottomSheetRoute(
+      settings: page,
+      builder: (context) => child,
+      isScrollControlled: true,
+    );
+  }
+
   @override
   Future<T?> replace<T extends Object?>(PageRouteInfo route, {OnNavigationFailure? onFailure}) {
     // This future does not complete
     unawaited(super.replace(route, onFailure: onFailure));
 
     return Future.value();
+  }
+
+  @override
+  Future<T?> push<T extends Object?>(PageRouteInfo route, {OnNavigationFailure? onFailure}) async {
+    final result = await super.push(route, onFailure: onFailure);
+
+    return result as T?;
+  }
+
+  @override
+  Future<void> pushToNewRoot(PageRouteInfo route, {OnNavigationFailure? onFailure}) async {
+    popUntilRoot();
+    await replace(route, onFailure: onFailure);
   }
 }

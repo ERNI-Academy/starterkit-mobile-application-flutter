@@ -4,9 +4,9 @@ import 'package:injectable/injectable.dart';
 
 @LazySingleton(as: SecureSettingsService)
 class SecureSettingsServiceImpl implements SecureSettingsService {
-  SecureSettingsServiceImpl(this._secureStorage);
-
   final FlutterSecureStorage _secureStorage;
+
+  SecureSettingsServiceImpl(this._secureStorage);
 
   @override
   Future<void> addOrUpdateValue(String key, String value) {

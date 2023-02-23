@@ -1,5 +1,5 @@
+import 'package:erni_mobile/business/models/logging/app_log_object.dart';
 import 'package:erni_mobile/business/models/logging/log_level.dart';
-import 'package:erni_mobile/data/database/logging/logging_database.dart';
 
 class AppLogEvent {
   const AppLogEvent({
@@ -24,11 +24,11 @@ class AppLogEvent {
   final StackTrace? stackTrace;
   final Map<String, Object> extras;
 
-  AppLogEventObject toDatabaseObject() {
-    return AppLogEventObject(
-      id: id,
+  AppLogObject toObject() {
+    return AppLogObject(
+      uid: id,
       sessionId: sessionId,
-      level: level,
+      level: level.name,
       message: message,
       createdAt: createdAt,
       extras: extras,

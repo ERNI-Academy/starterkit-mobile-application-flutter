@@ -20,7 +20,7 @@ void main() {
       expect(actualErrorMessage, Il8n.current.validationRequiredField);
     });
 
-    test('checkIsValid should return true when value is not null', () async {
+    test('checkIsValid should return true when value is not null', () {
       // Arrange
       final unit = createUnitToTest();
 
@@ -31,7 +31,7 @@ void main() {
       expect(actualIsValid, true);
     });
 
-    test('checkIsValid should return true when value is non-null string', () async {
+    test('checkIsValid should return true when value is non-null string', () {
       // Arrange
       const validValue = 'some value';
       final unit = createUnitToTest();
@@ -43,7 +43,7 @@ void main() {
       expect(actualResult, true);
     });
 
-    test('checkIsValid should return false when value is null string', () async {
+    test('checkIsValid should return false when value is null string', () {
       // Arrange
       const String? invalidValue = null;
       final unit = createUnitToTest();
@@ -55,7 +55,7 @@ void main() {
       expect(actualResult, false);
     });
 
-    test('checkIsValid should return false when value is empty string', () async {
+    test('checkIsValid should return false when value is empty string', () {
       // Arrange
       const invalidValue = '';
       final unit = createUnitToTest();

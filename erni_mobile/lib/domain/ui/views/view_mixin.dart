@@ -145,16 +145,38 @@ abstract class _ViewLifeCycleHander {
     if (reflectable.canReflect(viewModel) && reflectable.canReflectType(TViewModel)) {
       final route = context.routeData;
       final instanceMirror = reflectable.reflect(viewModel);
-      final typeMirror = reflectable.reflectType(TViewModel) as ClassMirror;
+      final typeMirror = reflectable.reflectType(TViewModel) as ClassMirror?;
+
+      if (typeMirror == null) {
+        return;
+      }
 
       Map<String, Object?>.from(route.queryParams.rawMap).forEach((key, value) {
         bool predicate(DeclarationMirror element) => element.metadata.any((m) => m is QueryParam && m.name == key);
-
-        if (typeMirror.declarations.values.any(predicate)) {
-          final matchingDeclaration = typeMirror.declarations.values.firstWhere(predicate);
-          instanceMirror.invokeSetter(matchingDeclaration.simpleName, value);
-        }
+        _setValue(instanceMirror, typeMirror, predicate, value);
       });
+
+      Map<String, Object?>.from(route.pathParams.rawMap).forEach((key, value) {
+        bool predicate(DeclarationMirror element) => element.metadata.any((m) => m is PathParam && m.name == key);
+        _setValue(instanceMirror, typeMirror, predicate, value);
+      });
+    }
+  }
+
+  static void _setValue(
+    InstanceMirror instanceMirror,
+    ClassMirror typeMirror,
+    bool Function(DeclarationMirror element) predicate,
+    Object? value,
+  ) {
+    if (typeMirror.declarations.values.any(predicate)) {
+      final matchingDeclaration = typeMirror.declarations.values.firstWhere(predicate) as VariableMirror;
+
+      if (value == null) {
+        return;
+      }
+
+      instanceMirror.invokeSetter(matchingDeclaration.simpleName, value);
     }
   }
 }

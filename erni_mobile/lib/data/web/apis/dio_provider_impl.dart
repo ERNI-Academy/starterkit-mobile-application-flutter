@@ -6,19 +6,19 @@ import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:erni_mobile/business/models/logging/log_level.dart';
 import 'package:erni_mobile/common/utils/extensions/string_extensions.dart';
+import 'package:erni_mobile/data/web/apis/dio_error_to_api_exception_mapper.dart';
 import 'package:erni_mobile/domain/apis/dio_provider.dart';
-import 'package:erni_mobile/domain/exceptions/api_exceptions.dart';
 import 'package:erni_mobile/domain/services/logging/app_logger.dart';
 import 'package:flutter/foundation.dart';
 import 'package:injectable/injectable.dart';
 
 @Injectable(as: DioProvider)
 class DioProviderImpl implements DioProvider {
-  static const _requestTimeOutInMs = 30000;
-
-  DioProviderImpl(this._logger);
+  static const _requestTimeOut = Duration(seconds: 30);
 
   final AppLogger _logger;
+
+  DioProviderImpl(this._logger);
 
   @override
   Dio create(String apiName) {
@@ -27,9 +27,9 @@ class DioProviderImpl implements DioProvider {
 
     return Dio(
       BaseOptions(
-        connectTimeout: _requestTimeOutInMs,
-        sendTimeout: _requestTimeOutInMs,
-        receiveTimeout: _requestTimeOutInMs,
+        connectTimeout: _requestTimeOut,
+        sendTimeout: _requestTimeOut,
+        receiveTimeout: _requestTimeOut,
       ),
     )..interceptors.add(_DioLoggingInterceptor(_logger));
   }
@@ -38,18 +38,18 @@ class DioProviderImpl implements DioProvider {
 class _DioLoggingInterceptor extends Interceptor {
   static const _jsonEncoder = JsonEncoder.withIndent('    ');
 
-  _DioLoggingInterceptor(this._logger);
-
   final AppLogger _logger;
   late DateTime _startTime;
   late DateTime _endTime;
+
+  _DioLoggingInterceptor(this._logger);
 
   @override
   void onRequest(RequestOptions options, RequestInterceptorHandler handler) {
     super.onRequest(options, handler);
 
     _startTime = DateTime.now();
-    final reqUuid = _createUuidFromRequest(options);
+    final reqUuid = shortHash(options);
     final reqTag = '[REQ#$reqUuid]';
     final reqUri = options.uri;
 
@@ -78,7 +78,7 @@ class _DioLoggingInterceptor extends Interceptor {
   void onError(DioError err, ErrorInterceptorHandler handler) {
     super.onError(err, handler);
 
-    final reqUuid = _createUuidFromRequest(err.requestOptions);
+    final reqUuid = shortHash(err.requestOptions);
     final resTag = '[RES#$reqUuid]';
     final response = err.response;
 
@@ -87,7 +87,7 @@ class _DioLoggingInterceptor extends Interceptor {
     }
 
     switch (err.type) {
-      case DioErrorType.connectTimeout:
+      case DioErrorType.connectionTimeout:
       case DioErrorType.receiveTimeout:
       case DioErrorType.sendTimeout:
         final timeOutMessage = 'Failed: ${err.type.name.capitalize().split(RegExp('(?=[A-Z])')).join(' ')}';
@@ -97,7 +97,7 @@ class _DioLoggingInterceptor extends Interceptor {
         break;
     }
 
-    final exception = _errorToException(err);
+    final exception = DioErrorToApiExceptionMapper.map(err);
 
     _logger.log(LogLevel.error, '$resTag ${exception.message}');
 
@@ -105,7 +105,7 @@ class _DioLoggingInterceptor extends Interceptor {
   }
 
   void _logResponse(Response response) {
-    final reqUuid = _createUuidFromRequest(response.requestOptions);
+    final reqUuid = shortHash(response.requestOptions);
     final resTag = '[RES#$reqUuid]';
     _endTime = DateTime.now();
 
@@ -134,40 +134,5 @@ class _DioLoggingInterceptor extends Interceptor {
     } else if (body is String && body.isNotEmpty) {
       _logger.log(LogLevel.debug, '$tag Content: $body');
     }
-  }
-
-  static String _createUuidFromRequest(RequestOptions request) {
-    final identity = describeIdentity(request);
-
-    return identity.split('#').last;
-  }
-
-  static ApiException _errorToException(DioError error) {
-    final statusCode = error.response?.statusCode ?? 0;
-    final errorCode = _tryGetErrorCode(error.response?.data);
-
-    if (statusCode >= 400 && statusCode < 500) {
-      return statusCode == 401
-          ? UnauthorizedException(error: error, errorCode: errorCode)
-          : BadRequestException(error: error, errorCode: errorCode);
-    } else if (statusCode >= 500 && statusCode < 600) {
-      return ServerUnavailableException(error: error, errorCode: errorCode);
-    } else {
-      return ApiException(error: error, errorCode: errorCode);
-    }
-  }
-
-  static String? _tryGetErrorCode(Object? response) {
-    if (response == null || (response is String && response.isEmpty)) {
-      return null;
-    }
-
-    final responseMap = (response as Map?)?.cast<String, Map<String, dynamic>>();
-
-    if (responseMap != null) {
-      return responseMap['error']?['code']?.toString();
-    }
-
-    return null;
   }
 }

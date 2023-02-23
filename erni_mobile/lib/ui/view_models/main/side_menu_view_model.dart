@@ -7,13 +7,12 @@ import 'package:simple_command/commands.dart';
 
 @injectable
 class SideMenuViewModel extends ViewModel {
-  SideMenuViewModel(this._navigationService, this._menuProvider);
-
   final NavigationService _navigationService;
   final MenuProvider _menuProvider;
 
-  late final Iterable<SideMenuModel> menus = _menuProvider.menus;
+  SideMenuViewModel(this._navigationService, this._menuProvider);
 
+  late final Iterable<SideMenuModel> menus = _menuProvider.menus;
   late final AsyncRelayCommand<SideMenuModel> menuTapCommand = AsyncRelayCommand.withParam(_onMenuTapped);
 
   Future<void> _onMenuTapped(SideMenuModel menu) async {

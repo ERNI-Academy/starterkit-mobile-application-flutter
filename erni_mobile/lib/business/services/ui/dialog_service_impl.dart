@@ -45,25 +45,10 @@ class DialogServiceImpl implements DialogService {
   }
 
   @override
-  Future<ConfirmDialogResponse> confirm(
-    String message, {
-    String? title,
-    String? ok,
-    String? cancel,
-  }) async {
-    final confirmed = await showDialog<bool?>(
-      barrierDismissible: false,
-      routeSettings: const RouteSettings(name: '/dialogs/confirm'),
-      context: _context,
-      builder: (context) {
-        return _AlertDialog(
-          message: message,
-          title: title,
-          ok: ok ?? Il8n.of(context).generalOk,
-          cancel: cancel ?? Il8n.of(context).generalCancel,
-        );
-      },
-    );
+  Future<ConfirmDialogResponse> confirm(String message, {String? title, String? ok, String? cancel}) async {
+    _isDialogShown = true;
+
+    final confirmed = await _showDismissableAlert('/dialogs/confirm', message, title, ok, cancel);
 
     _isDialogShown = false;
 
@@ -78,8 +63,10 @@ class DialogServiceImpl implements DialogService {
 
   @override
   Future<T?> showBottomSheet<T extends Object>(String bottomSheetName, {Object? parameter}) async {
-    final settings = RouteSettings(name: '/botto-sheets/$bottomSheetName', arguments: parameter);
-    final result = showModalBottomSheet<T>(
+    _isDialogShown = true;
+
+    final settings = RouteSettings(name: '/bottom-sheets/$bottomSheetName', arguments: parameter);
+    final result = await showModalBottomSheet<T>(
       context: _context,
       routeSettings: settings,
       isScrollControlled: true,
@@ -176,11 +163,28 @@ class DialogServiceImpl implements DialogService {
     return result;
   }
 
-  @override
-  Future<void> showNoInternet() {
-    return alert(
-      Il8n.current.dialogConnectionProblemMessage,
-      title: Il8n.current.dialogConnectionProblemTitle,
+  // ignore: long-parameter-list
+  Future<bool?> _showDismissableAlert(
+    String routeName,
+    String message, [
+    String? title,
+    String? ok,
+    String? cancel,
+    Widget? child,
+  ]) {
+    return showDialog<bool?>(
+      barrierDismissible: false,
+      routeSettings: RouteSettings(name: routeName),
+      context: _context,
+      builder: (context) {
+        return _AlertDialog(
+          message: message,
+          title: title,
+          ok: ok ?? Il8n.of(context).generalOk,
+          cancel: cancel ?? Il8n.of(context).generalCancel,
+          child: child,
+        );
+      },
     );
   }
 
@@ -202,15 +206,20 @@ class _AlertDialog extends StatelessWidget {
     required this.ok,
     this.title,
     this.cancel,
+    this.child,
   });
 
   final String message;
   final String ok;
   final String? title;
   final String? cancel;
+  final Widget? child;
 
   @override
   Widget build(BuildContext context) {
+    final hasChild = child != null;
+    const actionStyle = TextStyle(fontSize: 16);
+
     return AlertDialog(
       title: title != null
           ? Text(
@@ -218,16 +227,35 @@ class _AlertDialog extends StatelessWidget {
               style: const TextStyle(fontWeight: FontWeight.w600),
             )
           : null,
-      content: Text(message),
+      content: hasChild
+          ? SpacedColumn(
+              spacing: 8,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(message),
+                child!,
+              ],
+            )
+          : Text(
+              message,
+              style: const TextStyle(height: 1.5),
+            ),
       actions: <Widget>[
         if (cancel != null)
           TextButton(
             onPressed: () => Navigator.of(context).pop(false),
-            child: Text(cancel!),
+            child: Text(
+              cancel!,
+              style: actionStyle,
+            ),
           ),
         TextButton(
           onPressed: () => Navigator.of(context).pop(true),
-          child: Text(ok),
+          child: Text(
+            ok,
+            style: actionStyle,
+          ),
         ),
       ],
     );

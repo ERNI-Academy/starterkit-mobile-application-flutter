@@ -7,11 +7,11 @@ import 'package:injectable/injectable.dart';
 
 @LazySingleton(as: NavigationLogger)
 class NavigationLoggerImpl extends NavigationLogger {
+  final AppLogger _logger;
+
   NavigationLoggerImpl(this._logger) {
     _logger.logFor(this);
   }
-
-  final AppLogger _logger;
 
   @override
   void didPush(Route route, Route? previousRoute) {

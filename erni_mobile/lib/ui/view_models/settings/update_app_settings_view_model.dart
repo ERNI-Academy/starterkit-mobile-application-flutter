@@ -13,14 +13,13 @@ import 'package:simple_command/commands.dart';
 
 @injectable
 class UpdateAppSettingsViewModel extends AppSettingsViewModel {
+  final AppLogger _logger;
+
   UpdateAppSettingsViewModel(this._logger, super.settingsService) {
     _logger.logFor(this);
   }
 
-  final AppLogger _logger;
-
   late final AsyncRelayCommand<void> toggleLanguageCommand = AsyncRelayCommand.withoutParam(_onToggleLanguage);
-
   late final AsyncRelayCommand<void> toggleDarkThemeCommand = AsyncRelayCommand.withoutParam(_onToggleDarkTheme);
 
   Future<void> _onToggleLanguage() async {

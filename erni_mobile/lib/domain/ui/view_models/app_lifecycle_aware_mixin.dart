@@ -13,9 +13,9 @@ mixin AppLifeCycleAwareMixin on ViewModel {
 }
 
 class _WidgetsBindingObserverImpl extends WidgetsBindingObserver {
-  _WidgetsBindingObserverImpl(this._delegate);
-
   final AppLifeCycleAwareMixin _delegate;
+
+  _WidgetsBindingObserverImpl(this._delegate);
 
   @protected
   @override

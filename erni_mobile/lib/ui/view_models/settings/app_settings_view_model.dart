@@ -3,16 +3,16 @@ import 'dart:async';
 import 'package:erni_mobile/business/models/settings/app_settings.dart';
 import 'package:erni_mobile/business/models/settings/language.dart';
 import 'package:erni_mobile/business/models/settings/language_code.dart';
-import 'package:erni_mobile/business/models/settings/settings_changed_model.dart';
+import 'package:erni_mobile/business/models/settings/settings_changed.dart';
 import 'package:erni_mobile/common/constants/settings_keys.dart';
 import 'package:erni_mobile/domain/services/settings/settings_service.dart';
 import 'package:erni_mobile/domain/ui/view_models/view_model.dart';
 import 'package:flutter/material.dart';
 
 abstract class AppSettingsViewModel extends ViewModel {
-  AppSettingsViewModel(this.settingsService);
-
   late final StreamSubscription _settingsSubscription;
+
+  AppSettingsViewModel(this.settingsService);
 
   final ValueNotifier<Language> currentLanguage = ValueNotifier(const Language(LanguageCode.en));
 
@@ -47,7 +47,7 @@ abstract class AppSettingsViewModel extends ViewModel {
 
   @protected
   @mustCallSuper
-  void onSettingsChanged(SettingsChangedModel args) {
+  void onSettingsChanged(SettingsChanged args) {
     final key = args.key;
     final value = args.value;
 

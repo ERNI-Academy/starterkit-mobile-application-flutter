@@ -1,24 +1,24 @@
 import 'dart:async';
 
-import 'package:erni_mobile/business/models/settings/settings_changed_model.dart';
+import 'package:erni_mobile/business/models/settings/settings_changed.dart';
 import 'package:erni_mobile/domain/models/json/json_encodable_mixin.dart';
-import 'package:erni_mobile/domain/services/json/json_converter.dart';
+import 'package:erni_mobile/domain/services/json/json_converter.dart' as json_converter;
 import 'package:erni_mobile/domain/services/settings/settings_service.dart';
 import 'package:injectable/injectable.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 @LazySingleton(as: SettingsService)
 class SettingsServiceImpl implements SettingsService {
+  final StreamController<SettingsChanged> _streamController = StreamController.broadcast();
+  final json_converter.JsonConverter _jsonConverter;
+  final SharedPreferences _prefs;
+
   SettingsServiceImpl(this._prefs, this._jsonConverter) {
     settingsChanged = _streamController.stream;
   }
 
-  final StreamController<SettingsChangedModel> _streamController = StreamController.broadcast();
-  final JsonConverter _jsonConverter;
-  final SharedPreferences _prefs;
-
   @override
-  late final Stream<SettingsChangedModel> settingsChanged;
+  late final Stream<SettingsChanged> settingsChanged;
 
   @override
   T? getValue<T extends Object>(String key, {T? defaultValue}) {
@@ -28,7 +28,11 @@ class SettingsServiceImpl implements SettingsService {
   }
 
   @override
-  T? getObject<T extends JsonEncodableMixin>(String key, JsonConverterCallback<T> converter, {T? defaultValue}) {
+  T? getObject<T extends JsonEncodableMixin>(
+    String key,
+    json_converter.JsonConverterCallback<T> converter, {
+    T? defaultValue,
+  }) {
     final value = _prefs.get(key) as String?;
 
     if (value != null) {
@@ -39,11 +43,26 @@ class SettingsServiceImpl implements SettingsService {
   }
 
   @override
+  Iterable<T> getObjects<T extends JsonEncodableMixin>(
+    String key,
+    json_converter.JsonConverterCallback<T> converter, {
+    Iterable<T> defaultValues = const [],
+  }) {
+    final values = _prefs.getString(key);
+
+    if (values != null) {
+      return _jsonConverter.decodeToCollection<T>(values, itemConverter: converter);
+    }
+
+    return defaultValues;
+  }
+
+  @override
   Future<bool> addOrUpdateValue(String key, Object value) async {
     final didUpdate = await _tryAddOrUpdateValue(key, value);
 
     if (didUpdate && !_streamController.isClosed) {
-      _streamController.add(SettingsChangedModel(key, value));
+      _streamController.add(SettingsChanged(key, value));
     }
 
     return didUpdate;
@@ -55,10 +74,20 @@ class SettingsServiceImpl implements SettingsService {
     final didUpdate = await _tryAddOrUpdateValue(key, encoded);
 
     if (didUpdate && !_streamController.isClosed) {
-      _streamController.add(SettingsChangedModel(key, value));
+      _streamController.add(SettingsChanged(key, value));
     }
 
     return didUpdate;
+  }
+
+  @override
+  Future<void> addOrUpdateObjects(String key, Iterable<JsonEncodableMixin> values) async {
+    final encoded = _jsonConverter.encode(values);
+    final didUpdate = await _tryAddOrUpdateValue(key, encoded);
+
+    if (didUpdate && !_streamController.isClosed) {
+      _streamController.add(SettingsChanged(key, values));
+    }
   }
 
   @override
@@ -66,7 +95,7 @@ class SettingsServiceImpl implements SettingsService {
     final didUpdate = await _prefs.remove(key);
 
     if (didUpdate && !_streamController.isClosed) {
-      _streamController.add(SettingsChangedModel(key, null));
+      _streamController.add(SettingsChanged(key, null));
     }
   }
 

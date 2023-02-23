@@ -2,6 +2,7 @@
 
 import 'dart:convert';
 
+import 'package:collection/collection.dart';
 import 'package:erni_mobile/domain/services/json/json_converter.dart';
 import 'package:injectable/injectable.dart';
 
@@ -45,10 +46,10 @@ class JsonConverterImpl implements JsonConverter {
     try {
       final json = jsonDecode(decodable) as Object;
 
-      if (json is Iterable<Map> && itemConverter != null) {
-        return json.map<T>((e) => itemConverter(e.cast<String, Object>())!);
-      } else if (json is Iterable<T>) {
-        return json;
+      if (json is List && json.firstOrNull is Map && itemConverter != null) {
+        return json.cast<Map>().map<T>((e) => itemConverter(e.cast<String, Object>())!);
+      } else if (json is List && json.firstOrNull is T) {
+        return json.cast<T>();
       } else {
         throw FormatException('The decoded JSON is not a List, use `decodeToObject` instead', json);
       }

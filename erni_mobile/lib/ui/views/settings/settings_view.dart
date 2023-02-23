@@ -32,7 +32,7 @@ class _ListSectionTitle extends StatelessWidget {
   Widget build(BuildContext context) {
     return Text(
       text,
-      style: context.materialTheme.textTheme.caption,
+      style: context.materialTheme.textTheme.bodySmall,
     );
   }
 }
