@@ -311,31 +311,4 @@
         ],
         "description": "Creates an retrofit API"
     },
-    "Creates a repository class": {
-        "prefix": "repo",
-        "body": [
-            "import 'package:erni_mobile/data/database/repository.dart';",
-            "import 'package:erni_mobile/domain/repositories/repository.dart';",
-            "import 'package:injectable/injectable.dart';",
-            "",
-            "abstract class ${2}Repository implements Repository<${2}s, ${2}Object> {}",
-            "",
-            "@LazySingleton(as: ${2}Repository)",
-            "class ${2}RepositoryImpl extends BaseRepository<${1}, ${2}s, ${2}Object> implements ${2}Repository {",
-            "  ${2}RepositoryImpl(${1} db) : super(db);",
-            "}"
-        ],
-        "description": "Creates a repository class"
-    },
-    "Creates a data table class": {
-        "prefix": "dtbl",
-        "body": [
-            "import 'package:drift/drift.dart';",
-            "import 'package:erni_mobile/domain/models/data/data_table.dart';",
-            "",
-            "@DataClassName('${1}Object')",
-            "class ${1}s extends DataTable {}"
-        ],
-        "description": "Creates a data object class"
-    }
 }

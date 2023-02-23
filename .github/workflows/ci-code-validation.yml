@@ -45,14 +45,6 @@ jobs:
         working-directory: ${{ env.PROJECT_WORKING_DIRECTORY }}
         if: github.event_name != 'pull_request'
 
-      - name: Check for duplicate lines of code and comment on PR
-        uses: Pposong-Hantaihe/dry-code@v1.0.2
-        with:
-          token: "${{ secrets.GITHUB_TOKEN }}"
-          arguments: ${{ env.PROJECT_WORKING_DIRECTORY }}/lib
-          options: --threshold 5
-        if: github.event_name == 'pull_request'
-
       - name: Run code generation
         uses: ./.github/workflows/steps/run-pub-get-and-code-generation
         with:

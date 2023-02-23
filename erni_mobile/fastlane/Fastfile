@@ -1,7 +1,7 @@
 fastlane_require 'dotenv'
 
-dart_defines = ""
 secrets = {}
+secrets_file = ""
 app_environment = ""
 
 before_all do
@@ -14,8 +14,8 @@ before_all do
 
   puts "Loading variables and secrets for `#{app_environment}`"
 
-  secrets = read_json(json_path: ".secrets/#{app_environment}.secrets")
-  secrets.each { |k, v| dart_defines << "--dart-define \"#{k}=#{v}\" " }
+  secrets_file = ".secrets/#{app_environment}.secrets"
+  secrets = read_json(json_path: secrets_file)
 end
 
 desc "Build Android release"
@@ -36,9 +36,9 @@ lane :"build_android_release" do |options|
 
     puts "Building #{version_name} (#{version_number})"
 
-    sh "flutter build #{task} --target-platform android-arm64 --build-number #{version_number} --build-name #{version_name} #{dart_defines}"
+    sh "flutter build #{task} --target-platform android-arm64 --target-platform android-arm --build-number #{version_number} --build-name #{version_name} --dart-define-from-file #{secrets_file}"
   else
-    sh "flutter build #{task} --target-platform android-arm64 #{dart_defines}"
+    sh "flutter build #{task} --target-platform android-arm64 --target-platform android-arm --dart-define-from-file #{secrets_file}"
   end
 
   if task == "appbundle"
@@ -56,9 +56,9 @@ lane :"build_ios_release" do |options|
 
     puts "Building #{version_name} (#{version_number})"
 
-    sh "flutter build ios --no-codesign --build-number #{version_number} --build-name #{version_name} #{dart_defines}"
+    sh "flutter build ios --no-codesign --build-number #{version_number} --build-name #{version_name} --dart-define-from-file #{secrets_file}"
   else
-    sh "flutter build ios --no-codesign #{dart_defines}"
+    sh "flutter build ios --no-codesign --dart-define-from-file #{secrets_file}"
   end
 
   build_app(
