@@ -3,25 +3,25 @@ import 'package:erni_mobile/business/models/logging/app_log_object.dart';
 import 'package:erni_mobile/business/models/logging/log_level.dart';
 import 'package:erni_mobile/business/services/logging/app_log_file_writer_impl.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:isar/isar.dart';
+import 'package:hive/hive.dart';
 import 'package:mockito/annotations.dart';
+import 'package:mockito/mockito.dart';
 
 import '../../../unit_test_utils.dart';
+import 'app_log_sentry_exception_writer_impl_test.mocks.dart';
 
-@GenerateMocks([])
+@GenerateNiceMocks([
+  MockSpec<Box>(),
+])
 void main() {
   group(AppLogFileWriterImpl, () {
-    late Isar isar;
+    late MockBox<AppLogObject> mockAppLogObjectBox;
 
-    setUpAll(() async {
-      isar = await setupIsar();
+    setUp(() {
+      mockAppLogObjectBox = MockBox<AppLogObject>();
     });
 
-    tearDownAll(() async {
-      await isar.close();
-    });
-
-    AppLogFileWriterImpl createUnitToTest() => AppLogFileWriterImpl(isar);
+    AppLogFileWriterImpl createUnitToTest() => AppLogFileWriterImpl(mockAppLogObjectBox);
 
     test('write should put log to box when called', () async {
       // Arrange
@@ -34,14 +34,13 @@ void main() {
         createdAt: DateTime.now(),
         owner: 'owner',
       );
+      when(mockAppLogObjectBox.add(anyInstanceOf<AppLogObject>())).thenAnswer((_) => Future.value(1));
 
       // Act
       await unit.write(expectedLogEvent);
 
       // Assert
-      final actualLogObject = await isar.appLogObjects.where().findFirst();
-      expect(actualLogObject, isNotNull);
-      expect(actualLogObject!.uid, expectedLogEvent.uid);
+      verify(mockAppLogObjectBox.add(anyInstanceOf<AppLogObject>()));
     });
   });
 }

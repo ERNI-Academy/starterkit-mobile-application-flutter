@@ -5,7 +5,7 @@ import 'package:erni_mobile/business/models/platform/app_environment.dart';
 import 'package:erni_mobile/business/services/logging/app_log_sentry_exception_writer_impl.dart';
 import 'package:erni_mobile/domain/services/platform/environment_config.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:isar/isar.dart';
+import 'package:hive/hive.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:sentry/sentry.dart';
@@ -14,35 +14,27 @@ import '../../../unit_test_utils.dart';
 import 'app_log_sentry_exception_writer_impl_test.mocks.dart';
 
 @GenerateMocks([
+  Box,
   Hub,
   EnvironmentConfig,
 ])
 void main() {
   group(AppLogSentryExceptionWriterImpl, () {
     const String sessionId = '1';
-    late Isar isar;
+    late MockBox<AppLogObject> mockAppLogObjectBox;
     late MockHub mockHub;
     late MockEnvironmentConfig mockEnvironmentConfig;
 
-    setUpAll(() async {
-      isar = await setupIsar();
-    });
-
-    tearDownAll(() async {
-      await isar.close();
-    });
-
     setUp(() {
+      mockAppLogObjectBox = MockBox<AppLogObject>();
       mockHub = MockHub();
       mockEnvironmentConfig = MockEnvironmentConfig();
       when(mockHub.options).thenReturn(SentryOptions());
       when(mockHub.captureEvent(anyInstanceOf<SentryEvent>())).thenAnswer((_) => Future.value(SentryId.newId()));
     });
 
-    Future<void> setupAppLogRepository(List<AppLogObject> events) async {
-      await isar.writeTxn(() async {
-        await isar.appLogObjects.putAll(events);
-      });
+    void setupAppLogRepository(List<AppLogObject> events) {
+      when(mockAppLogObjectBox.values).thenAnswer((_) => events);
     }
 
     void setupEnvironmentConfig([AppEnvironment appEnvironment = AppEnvironment.dev]) {
@@ -50,7 +42,7 @@ void main() {
     }
 
     AppLogSentryExceptionWriterImpl createUnitToTest() =>
-        AppLogSentryExceptionWriterImpl(isar, mockHub, mockEnvironmentConfig);
+        AppLogSentryExceptionWriterImpl(mockAppLogObjectBox, mockHub, mockEnvironmentConfig);
 
     // ignore:long-parameter-list
     AppLogEvent createLogEventEntity(
@@ -104,7 +96,7 @@ void main() {
       );
       final appLogEventEntities = [appLogEventEntityBeforeError, appLogEventEntityWithError];
       final appLogEventObjects = appLogEventEntities.map(fromEntity).toList();
-      await setupAppLogRepository(appLogEventObjects);
+      setupAppLogRepository(appLogEventObjects);
       setupEnvironmentConfig();
 
       final unit = createUnitToTest();
@@ -139,7 +131,7 @@ void main() {
       ];
       final appLogEventObjects = appLogEventEntities.map(fromEntity).toList();
       const actualAppEnvironment = AppEnvironment.dev;
-      await setupAppLogRepository(appLogEventObjects);
+      setupAppLogRepository(appLogEventObjects);
       setupEnvironmentConfig();
 
       final unit = createUnitToTest();
