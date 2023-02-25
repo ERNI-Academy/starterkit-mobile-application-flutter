@@ -61,21 +61,22 @@ lane :"build_ios_release" do |options|
     sh "flutter build ios --no-codesign --dart-define-from-file #{secrets_file}"
   end
 
-  build_app(
-    workspace: "ios/Runner.xcworkspace",
-    scheme: "Runner",
-    configuration: "Release",
-    output_directory: "build/ios/ipa",
-    output_name: "app-release.ipa",
-    export_options: {
-      signingStyle: "manual",
-      teamID: "#{secrets[:iOSDevelopmentTeam]}",
-      method: "#{secrets[:iOSExportMethod]}",
-      provisioningProfiles: { 
-        "#{secrets[:appId]}#{secrets[:appIdSuffix]}" => "#{secrets[:iOSDistributionProfile]}",
-      }
-    }
-  )
+  # Uncomment this if you want to export the app as an IPA file and after you have set your signing configuration
+  # build_app(
+  #   workspace: "ios/Runner.xcworkspace",
+  #   scheme: "Runner",
+  #   configuration: "Release",
+  #   output_directory: "build/ios/ipa",
+  #   output_name: "app-release.ipa",
+  #   export_options: {
+  #     signingStyle: "manual",
+  #     teamID: "#{secrets[:iOSDevelopmentTeam]}",
+  #     method: "#{secrets[:iOSExportMethod]}",
+  #     provisioningProfiles: { 
+  #       "#{secrets[:appId]}#{secrets[:appIdSuffix]}" => "#{secrets[:iOSDistributionProfile]}",
+  #     }
+  #   }
+  # )
 
   "build/ios/ipa/app-release.ipa"
 end
