@@ -7,7 +7,7 @@ import 'package:injectable/injectable.dart';
 abstract class LocalDataModule {
   @preResolve
   @lazySingleton
-  Future<HiveInterface> get initHive async {
+  Future<HiveInterface> initHive() async {
     await Hive.initFlutter();
     Hive
       ..registerAdapter(AppLogObjectAdapter())
@@ -18,5 +18,5 @@ abstract class LocalDataModule {
 
   @preResolve
   @lazySingleton
-  Future<Box<AppLogObject>> getAppLogObjectBox(HiveInterface hive) => hive.openBox('appLogObjects');
+  Future<Box<AppLogObject>> getAppLogObjectBox(HiveInterface hive) => hive.openBox<AppLogObject>('appLogObjects');
 }

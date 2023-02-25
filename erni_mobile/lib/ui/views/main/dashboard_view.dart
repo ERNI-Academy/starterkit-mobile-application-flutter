@@ -12,33 +12,6 @@ class DashboardView extends StatelessWidget with ViewMixin<DashboardViewModel> {
 
   @override
   Widget buildView(BuildContext context, DashboardViewModel viewModel) {
-    // AutoTabsRouter(
-    //   routes: const [
-    //     AboutViewRoute(),
-    //     SettingsViewRoute(),
-    //   ],
-    //   lazyLoad: true,
-    //   builder: (context, child, animation) {
-    //     final tabsRouter = AutoTabsRouter.of(context);
-
-    //     return Scaffold(
-    //       body: child,
-    //       bottomNavigationBar: BottomNavigationBar(
-    //         selectedIconTheme: IconThemeData(color: context.materialTheme.colorScheme.primary),
-    //         unselectedIconTheme: IconThemeData(color: context.materialTheme.colorScheme.onBackground),
-    //         selectedItemColor: context.materialTheme.colorScheme.primary,
-    //         unselectedItemColor: context.materialTheme.colorScheme.onBackground,
-    //         type: BottomNavigationBarType.fixed,
-    //         showSelectedLabels: false,
-    //         showUnselectedLabels: false,
-    //         currentIndex: tabsRouter.activeIndex,
-    //         onTap: (index) => _onTap(context, index),
-    //         items: _getBottomMenuItems(context),
-    //       ),
-    //     );
-    //   },
-    // );
-
     return AutoTabsRouter(
       routes: const [
         AboutViewRoute(),
@@ -55,6 +28,7 @@ class DashboardView extends StatelessWidget with ViewMixin<DashboardViewModel> {
                 if (isLandscape) const SideMenuView(),
                 Expanded(
                   child: Scaffold(
+                    appBar: AppBar(),
                     backgroundColor: context.materialTheme.colorScheme.background,
                     body: child,
                     drawer: isLandscape ? null : const SideMenuView(),

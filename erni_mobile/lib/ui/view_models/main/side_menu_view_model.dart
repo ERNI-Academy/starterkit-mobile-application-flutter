@@ -33,10 +33,10 @@ class SideMenuViewModel extends ViewModel {
 
     switch (menu.type) {
       case MenuType.about:
-        await _navigationService.replace(const AboutViewRoute());
+        await _navigationService.navigate(const AboutViewRoute());
         break;
       case MenuType.settings:
-        await _navigationService.replace(const SettingsViewRoute());
+        await _navigationService.navigate(const SettingsViewRoute());
         break;
     }
 

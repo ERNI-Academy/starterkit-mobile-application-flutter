@@ -88,9 +88,9 @@ lane :"build_web_release" do |options|
 
     puts "Building #{version_name} (#{version_number})"
 
-    sh "flutter build web --build-number #{version_number} --build-name #{version_name} #{dart_defines}"
+    sh "flutter build web --build-number #{version_number} --build-name #{version_name} --dart-define-from-file #{secrets_file}"
   else
-    sh "flutter build web #{dart_defines}"
+    sh "flutter build web --dart-define-from-file #{secrets_file}"
   end
 
   "build/web"
