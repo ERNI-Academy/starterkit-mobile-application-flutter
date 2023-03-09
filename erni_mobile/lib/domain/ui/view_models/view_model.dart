@@ -1,6 +1,9 @@
 import 'package:erni_mobile/domain/ui/views/view_mixin.dart';
 import 'package:flutter/widgets.dart';
 
+export 'package:flutter/foundation.dart';
+export 'package:rxdart/rxdart.dart';
+
 /// Contains the state of your view.
 abstract class ViewModel extends ChangeNotifier {
   /// Locates the closest [T] view model up in the widget tree.

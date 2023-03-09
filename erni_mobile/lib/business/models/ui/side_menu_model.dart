@@ -17,6 +17,8 @@ class SideMenuModel {
 
   String get text {
     switch (type) {
+      case MenuType.posts:
+        return Il8n.current.menuPosts;
       case MenuType.about:
         return Il8n.current.menuAbout;
       case MenuType.settings:
@@ -25,6 +27,6 @@ class SideMenuModel {
   }
 }
 
-enum MenuType { about, settings }
+enum MenuType { posts, about, settings }
 
 enum MenuActionType { navigatable, clickable }

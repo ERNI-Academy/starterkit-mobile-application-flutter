@@ -33,7 +33,7 @@ void main() {
       when(mockHub.captureEvent(anyInstanceOf<SentryEvent>())).thenAnswer((_) => Future.value(SentryId.newId()));
     });
 
-    void setupAppLogRepository(List<AppLogObject> events) {
+    void setupAppLogObjectBox(List<AppLogObject> events) {
       when(mockAppLogObjectBox.values).thenAnswer((_) => events);
     }
 
@@ -96,7 +96,7 @@ void main() {
       );
       final appLogEventEntities = [appLogEventEntityBeforeError, appLogEventEntityWithError];
       final appLogEventObjects = appLogEventEntities.map(fromEntity).toList();
-      setupAppLogRepository(appLogEventObjects);
+      setupAppLogObjectBox(appLogEventObjects);
       setupEnvironmentConfig();
 
       final unit = createUnitToTest();
@@ -131,7 +131,7 @@ void main() {
       ];
       final appLogEventObjects = appLogEventEntities.map(fromEntity).toList();
       const actualAppEnvironment = AppEnvironment.dev;
-      setupAppLogRepository(appLogEventObjects);
+      setupAppLogObjectBox(appLogEventObjects);
       setupEnvironmentConfig();
 
       final unit = createUnitToTest();

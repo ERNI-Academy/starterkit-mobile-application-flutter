@@ -7,7 +7,8 @@ import 'package:injectable/injectable.dart';
 class MenuProviderImpl implements MenuProvider {
   @override
   final Iterable<SideMenuModel> menus = List.unmodifiable(<SideMenuModel>[
-    SideMenuModel(type: MenuType.about, actionType: MenuActionType.navigatable, isSelected: true),
+    SideMenuModel(type: MenuType.posts, actionType: MenuActionType.navigatable, isSelected: true),
+    SideMenuModel(type: MenuType.about, actionType: MenuActionType.navigatable),
     SideMenuModel(type: MenuType.settings, actionType: MenuActionType.navigatable),
   ]);
 

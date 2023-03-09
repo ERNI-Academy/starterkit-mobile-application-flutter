@@ -18,6 +18,8 @@ Future<void> main() async {
 
   runZonedGuarded(
     () => runApp(const App()),
-    (ex, st) => ServiceLocator.instance<AppLogger>().log(LogLevel.error, 'Unhandled error', ex, st),
+    (ex, st) {
+      ServiceLocator.instance<AppLogger>().log(LogLevel.error, 'Unhandled error', ex, st);
+    },
   );
 }

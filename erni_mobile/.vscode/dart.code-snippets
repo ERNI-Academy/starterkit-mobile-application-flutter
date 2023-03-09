@@ -306,7 +306,7 @@
             "@RestApi()",
             "abstract class ${ApiName}ApiImpl implements ${ApiName}Api{",
             "  @factoryMethod",
-            "  factory ${ApiName}ApiImpl(DioProvider dioProvider, @apiBaseUrl String baseUrl) => _${ApiName}ApiImpl(dioProvider.create(apiName: '${ApiName}Api'), baseUrl: baseUrl);",
+            "  factory ${ApiName}ApiImpl(DioProvider dioProvider, @apiBaseUrl String baseUrl) => _${ApiName}ApiImpl(dioProvider.createFor<${ApiName}ApiImpl>(), baseUrl: baseUrl);",
             "}"
         ],
         "description": "Creates an retrofit API"

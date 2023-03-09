@@ -25,6 +25,7 @@ dependencies:
   collection: ^1.17.0
   cupertino_icons: ^1.0.3
   dio: ^5.0.0
+  equatable: ^2.0.5
   flutter:
     sdk: flutter
   flutter_localizations:
@@ -43,6 +44,7 @@ dependencies:
   reflectable: ^4.0.5
   responsive_framework: ^0.2.0
   retrofit: ^4.0.1
+  rxdart: ^0.27.7
   sentry: ^6.20.1
   sentry_flutter: ^6.20.1
   shared_preferences: ^2.0.17

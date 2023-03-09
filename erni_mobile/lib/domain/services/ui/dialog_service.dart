@@ -5,8 +5,6 @@ abstract class DialogService {
 
   Future<ConfirmDialogResponse> confirm(String message, {String? title, String? ok, String? cancel});
 
-  Future<T?> showBottomSheet<T extends Object>(String bottomSheetName, {Object? parameter});
-
   Future<bool> dismiss([Object? result]);
 
   Future<void> showLoading([String? message]);

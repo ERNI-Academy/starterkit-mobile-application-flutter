@@ -6,14 +6,14 @@ import '../../../unit_test_utils.dart';
 
 void main() {
   group(MenuProviderImpl, () {
-    late List<SideMenuModel> expectedMenus;
+    final List<SideMenuModel> expectedMenus = [
+      SideMenuModel(type: MenuType.posts, actionType: MenuActionType.navigatable, isSelected: true),
+      SideMenuModel(type: MenuType.about, actionType: MenuActionType.navigatable),
+      SideMenuModel(type: MenuType.settings, actionType: MenuActionType.navigatable),
+    ];
 
     setUp(() async {
       await setupLocale();
-      expectedMenus = [
-        SideMenuModel(type: MenuType.about, actionType: MenuActionType.navigatable, isSelected: true),
-        SideMenuModel(type: MenuType.settings, actionType: MenuActionType.navigatable),
-      ];
     });
 
     MenuProviderImpl createUnit() => MenuProviderImpl();
@@ -58,7 +58,7 @@ void main() {
     test('currentMenu should return about menu as initial value when called', () {
       // Arrange
       final expectedCurrentMenu = SideMenuModel(
-        type: MenuType.about,
+        type: MenuType.posts,
         actionType: MenuActionType.navigatable,
         isSelected: true,
       );

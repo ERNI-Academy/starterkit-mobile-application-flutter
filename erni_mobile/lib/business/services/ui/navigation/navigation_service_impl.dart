@@ -5,6 +5,7 @@ import 'package:erni_mobile/common/constants/widget_keys.dart';
 import 'package:erni_mobile/domain/services/ui/navigation/navigation_service.dart';
 import 'package:erni_mobile/ui/views/main/about_view.dart';
 import 'package:erni_mobile/ui/views/main/dashboard_view.dart';
+import 'package:erni_mobile/ui/views/posts/posts_view.dart';
 import 'package:erni_mobile/ui/views/settings/settings_view.dart';
 import 'package:erni_mobile/ui/widgets/widgets.dart';
 import 'package:injectable/injectable.dart';
@@ -23,11 +24,17 @@ typedef ExplicitRoute<T extends Object> = CustomRoute<T>;
       page: DashboardView,
       initial: true,
       children: [
-        RedirectRoute(path: '', redirectTo: 'about'),
+        RedirectRoute(path: '', redirectTo: 'posts'),
+        ExplicitRoute(
+          path: 'posts',
+          page: PostsView,
+          initial: true,
+          transitionsBuilder: TransitionsBuilders.noTransition,
+          durationInMilliseconds: 0,
+        ),
         ExplicitRoute(
           path: 'about',
           page: AboutView,
-          initial: true,
           transitionsBuilder: TransitionsBuilders.noTransition,
           durationInMilliseconds: 0,
         ),
@@ -44,11 +51,19 @@ typedef ExplicitRoute<T extends Object> = CustomRoute<T>;
 class NavigationServiceImpl extends _$NavigationServiceImpl implements NavigationService {
   NavigationServiceImpl() : super(WidgetKeys.navigatorKey);
 
-  static Route<T> modalSheetBuilder<T>(BuildContext _, Widget child, CustomPage<T> page) {
+  static Route<T> bottomSheetRouteBuilder<T>(BuildContext _, Widget child, CustomPage<T> page) {
     return ModalBottomSheetRoute(
       settings: page,
       builder: (context) => child,
       isScrollControlled: true,
+    );
+  }
+
+  static Route<T> dialogRouteBuilder<T>(BuildContext context, Widget child, CustomPage<T> page) {
+    return DialogRoute(
+      context: context,
+      settings: page,
+      builder: (context) => child,
     );
   }
 

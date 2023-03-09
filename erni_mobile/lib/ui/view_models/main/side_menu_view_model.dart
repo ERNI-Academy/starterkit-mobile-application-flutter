@@ -32,6 +32,9 @@ class SideMenuViewModel extends ViewModel {
     _menuProvider.currentMenu.value = menu;
 
     switch (menu.type) {
+      case MenuType.posts:
+        await _navigationService.navigate(const PostsViewRoute());
+        break;
       case MenuType.about:
         await _navigationService.navigate(const AboutViewRoute());
         break;

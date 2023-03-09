@@ -5,7 +5,12 @@ import 'package:erni_mobile/domain/models/json/json_encodable_mixin.dart';
 
 class ApiException extends DioError with JsonEncodableMixin {
   ApiException({required DioError error, this.errorCode})
-      : super(requestOptions: error.requestOptions, response: error.response, error: error.error);
+      : super(
+          requestOptions: error.requestOptions,
+          response: error.response,
+          error: error.error,
+          message: error.message,
+        );
 
   final String? errorCode;
 

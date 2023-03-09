@@ -1,6 +1,5 @@
 // coverage:ignore-file
 
-import 'dart:async';
 import 'dart:convert';
 
 import 'package:dio/dio.dart';
@@ -21,9 +20,8 @@ class DioProviderImpl implements DioProvider {
   DioProviderImpl(this._logger);
 
   @override
-  Dio create(String apiName) {
-    final identityHash = describeIdentity(apiName).split('#').last;
-    _logger.logForNamed('$apiName#$identityHash');
+  Dio createFor<T>() {
+    _logger.logForNamed(T.toString());
 
     return Dio(
       BaseOptions(
@@ -58,10 +56,7 @@ class _DioLoggingInterceptor extends Interceptor {
     _logger.log(LogLevel.info, '$reqTag Scheme: ${reqUri.scheme.toUpperCase()}');
 
     if (options.headers.isNotEmpty) {
-      options.headers.cast<String, String>().forEach((key, value) {
-        final logLevel = key == 'Authorization' ? LogLevel.debug : LogLevel.info;
-        _logger.log(logLevel, '$reqTag ${key.capitalize()}: $value');
-      });
+      _logHeaders(reqTag, Headers.fromMap(options.headers.cast()));
     }
 
     _logBody(reqTag, options.data);
@@ -90,18 +85,22 @@ class _DioLoggingInterceptor extends Interceptor {
       case DioErrorType.connectionTimeout:
       case DioErrorType.receiveTimeout:
       case DioErrorType.sendTimeout:
-        final timeOutMessage = 'Failed: ${err.type.name.capitalize().split(RegExp('(?=[A-Z])')).join(' ')}';
+        final timeOutMessage = 'Failed: ${err.type.name.capitalize()}';
         _logger.log(LogLevel.error, '$resTag $timeOutMessage');
-        throw TimeoutException(timeOutMessage);
+        handler.next(err);
+        break;
+
       default:
         break;
     }
 
     final exception = DioErrorToApiExceptionMapper.map(err);
 
-    _logger.log(LogLevel.error, '$resTag ${exception.message}');
+    if (exception.message != null) {
+      _logger.log(LogLevel.error, '$resTag ${exception.message}');
+    }
 
-    throw exception;
+    handler.next(exception);
   }
 
   void _logResponse(Response response) {
@@ -119,9 +118,7 @@ class _DioLoggingInterceptor extends Interceptor {
     _logger.log(LogLevel.info, '$resTag Duration: ${_endTime.difference(_startTime)}');
 
     if (!response.headers.isEmpty) {
-      response.headers.forEach((key, value) {
-        _logger.log(LogLevel.info, '$resTag ${key.capitalize()}: ${value.join(',')}');
-      });
+      _logHeaders(resTag, response.headers);
     }
 
     _logBody(resTag, response.data);
@@ -133,6 +130,15 @@ class _DioLoggingInterceptor extends Interceptor {
       _logger.log(LogLevel.debug, '$tag Content:\r\n$json');
     } else if (body is String && body.isNotEmpty) {
       _logger.log(LogLevel.debug, '$tag Content: $body');
+    } else if (body != null) {
+      _logger.log(LogLevel.debug, '$tag Content: $body');
     }
+  }
+
+  void _logHeaders(String tag, Headers headers) {
+    headers.forEach((key, value) {
+      final logLevel = key == 'Authorization' ? LogLevel.debug : LogLevel.info;
+      _logger.log(logLevel, '$tag ${key.capitalize()}: ${value.join(',')}');
+    });
   }
 }

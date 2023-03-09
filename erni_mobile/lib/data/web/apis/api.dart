@@ -2,7 +2,6 @@ import 'package:injectable/injectable.dart';
 import 'package:retrofit/retrofit.dart';
 
 export 'package:dio/dio.dart' hide Headers;
-export 'package:erni_mobile/common/constants/api_endpoints.dart';
 export 'package:erni_mobile/data/web/apis/dio_provider_impl.dart';
 export 'package:retrofit/retrofit.dart';
 

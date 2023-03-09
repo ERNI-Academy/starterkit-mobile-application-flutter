@@ -1,5 +1,4 @@
 import 'package:erni_mobile/domain/ui/view_models/view_model.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
 
 mixin AppLifeCycleAwareMixin on ViewModel {

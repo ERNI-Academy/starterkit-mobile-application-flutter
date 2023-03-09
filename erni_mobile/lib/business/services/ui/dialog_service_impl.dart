@@ -62,28 +62,6 @@ class DialogServiceImpl implements DialogService {
   }
 
   @override
-  Future<T?> showBottomSheet<T extends Object>(String bottomSheetName, {Object? parameter}) async {
-    _isDialogShown = true;
-
-    final settings = RouteSettings(name: '/bottom-sheets/$bottomSheetName', arguments: parameter);
-    final result = await showModalBottomSheet<T>(
-      context: _context,
-      routeSettings: settings,
-      isScrollControlled: true,
-      builder: (context) {
-        return Padding(
-          padding: MediaQuery.of(context).viewInsets,
-          child: _getView(bottomSheetName),
-        );
-      },
-    );
-
-    _isDialogShown = false;
-
-    return result;
-  }
-
-  @override
   Future<void> showLoading([String? message]) async {
     if (_isLoadingShown) {
       return;
