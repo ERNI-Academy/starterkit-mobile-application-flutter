@@ -21,7 +21,7 @@ class UpdateAppSettingsView extends StatelessWidget with ViewMixin<UpdateAppSett
               return Text(currentLocale.languageCode.name.toUpperCase());
             },
           ),
-          onTap: viewModel.toggleLanguageCommand,
+          onTap: viewModel.onToggleLanguage,
         ),
         ValueListenableBuilder<ThemeMode>(
           valueListenable: viewModel.currentTheme,
@@ -31,7 +31,7 @@ class UpdateAppSettingsView extends StatelessWidget with ViewMixin<UpdateAppSett
             return SwitchListTile(
               title: Text(Il8n.of(context).settingsDarkTheme),
               value: isDarkTheme,
-              onChanged: (v) => viewModel.toggleDarkThemeCommand(),
+              onChanged: (v) => viewModel.onToggleDarkTheme,
             );
           },
         ),

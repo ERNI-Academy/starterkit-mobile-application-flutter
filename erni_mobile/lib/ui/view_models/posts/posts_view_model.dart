@@ -10,7 +10,7 @@ class PostsViewModel extends ViewModel {
 
   PostsViewModel(this._postsService);
 
-  Stream<PostsListState> get postsState => _postsState;
+  Stream<PostsListState> get postsState => _postsState.stream;
 
   @override
   Future<void> onInitialize() async {

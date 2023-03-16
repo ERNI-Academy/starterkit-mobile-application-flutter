@@ -31,7 +31,7 @@ class AppLogSentryExceptionWriterImpl implements AppLogSentryExceptionWriter {
         return Breadcrumb(
           message: e.message,
           timestamp: e.createdAt,
-          level: SentryLevel.fromName(e.level.name),
+          level: SentryLevel.fromName(e.level),
           category: e.owner,
         );
       },
@@ -54,7 +54,7 @@ class AppLogSentryExceptionWriterImpl implements AppLogSentryExceptionWriter {
 
   Future<List<AppLogObject>> _takeEventsBeforeThis(String eventId, String sessionId) async {
     final eventsForSession =
-        _appLogObjectBox.values.where((e) => e.sessionId == sessionId && e.level != LogLevel.debug).toList();
+        _appLogObjectBox.values.where((e) => e.sessionId == sessionId && e.level != LogLevel.debug.name).toList();
     final index = eventsForSession.indexWhere((e) => e.uid == eventId);
 
     return eventsForSession.sublist(0, index);

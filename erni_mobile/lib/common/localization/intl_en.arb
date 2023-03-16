@@ -8,6 +8,5 @@
     "menuSettings": "Settings",
     "settingsAppSectionTitle": "App",
     "settingsLanguage": "Language",
-    "settingsDarkTheme": "Dark Theme",
-    "validationRequiredField": "This field is required"
+    "settingsDarkTheme": "Dark Theme"
 }

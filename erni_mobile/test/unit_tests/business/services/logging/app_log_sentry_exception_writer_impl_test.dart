@@ -67,17 +67,6 @@ void main() {
       );
     }
 
-    AppLogObject fromEntity(AppLogEvent entity) {
-      return AppLogObject(
-        uid: entity.uid,
-        sessionId: entity.sessionId,
-        message: entity.message,
-        level: entity.level,
-        createdAt: entity.createdAt,
-        owner: entity.owner,
-      );
-    }
-
     test('write should capture event when event error is not null', () async {
       // Arrange
       final appLogEventEntityBeforeError = createLogEventEntity(
@@ -95,7 +84,7 @@ void main() {
         StackTrace.current,
       );
       final appLogEventEntities = [appLogEventEntityBeforeError, appLogEventEntityWithError];
-      final appLogEventObjects = appLogEventEntities.map(fromEntity).toList();
+      final appLogEventObjects = appLogEventEntities.map(AppLogObject.fromAppLogEvent).toList();
       setupAppLogObjectBox(appLogEventObjects);
       setupEnvironmentConfig();
 
@@ -129,7 +118,7 @@ void main() {
         appLogEventEntityBeforeError,
         appLogEventEntityWithError,
       ];
-      final appLogEventObjects = appLogEventEntities.map(fromEntity).toList();
+      final appLogEventObjects = appLogEventEntities.map(AppLogObject.fromAppLogEvent).toList();
       const actualAppEnvironment = AppEnvironment.dev;
       setupAppLogObjectBox(appLogEventObjects);
       setupEnvironmentConfig();

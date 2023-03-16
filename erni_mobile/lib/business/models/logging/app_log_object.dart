@@ -1,5 +1,5 @@
-import 'package:erni_mobile/business/models/hive_type_ids.dart';
-import 'package:erni_mobile/business/models/logging/log_level.dart';
+import 'package:erni_mobile/business/models/logging/app_log_event.dart';
+import 'package:erni_mobile/common/constants/hive_type_ids.dart';
 import 'package:hive/hive.dart';
 
 part 'app_log_object.g.dart';
@@ -15,6 +15,17 @@ class AppLogObject {
     required this.owner,
   });
 
+  factory AppLogObject.fromAppLogEvent(AppLogEvent event) {
+    return AppLogObject(
+      uid: event.uid,
+      sessionId: event.sessionId,
+      level: event.level.name,
+      message: event.message,
+      createdAt: event.createdAt,
+      owner: event.owner,
+    );
+  }
+
   @HiveField(0)
   final String uid;
 
@@ -22,7 +33,7 @@ class AppLogObject {
   final String sessionId;
 
   @HiveField(2)
-  final LogLevel level;
+  final String level;
 
   @HiveField(3)
   final String message;

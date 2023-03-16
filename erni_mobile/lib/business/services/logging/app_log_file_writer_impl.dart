@@ -12,7 +12,7 @@ class AppLogFileWriterImpl implements AppLogFileWriter {
 
   @override
   Future<void> write(AppLogEvent event) async {
-    final appLog = event.toObject();
-    await _appLogObjectBox.add(appLog);
+    final appLogObject = AppLogObject.fromAppLogEvent(event);
+    await _appLogObjectBox.add(appLogObject);
   }
 }

@@ -1,12 +1,14 @@
 // coverage:ignore-file
 
+// ignore_for_file: prefer_const_constructors
+
 import 'package:erni_mobile/business/models/ui/side_menu_model.dart';
 import 'package:erni_mobile/domain/ui/views/view_mixin.dart';
 import 'package:erni_mobile/ui/view_models/main/side_menu_view_model.dart';
 import 'package:erni_mobile/ui/widgets/widgets.dart';
 
 class SideMenuView extends StatelessWidget with ViewMixin<SideMenuViewModel> {
-  const SideMenuView({Key? key}) : super(key: key);
+  const SideMenuView({super.key});
 
   @override
   Widget buildView(BuildContext context, SideMenuViewModel viewModel) {
@@ -22,7 +24,7 @@ class SideMenuView extends StatelessWidget with ViewMixin<SideMenuViewModel> {
                     (m) {
                       return _MenuTile(
                         menu: m,
-                        onTap: viewModel.menuTapCommand,
+                        onTap: viewModel.onMenuTapped,
                       );
                     },
                   ),

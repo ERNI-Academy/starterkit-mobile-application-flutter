@@ -1,4 +1,4 @@
-import 'package:erni_mobile/business/models/hive_type_ids.dart';
+import 'package:erni_mobile/common/constants/hive_type_ids.dart';
 import 'package:hive/hive.dart';
 
 part 'log_level.g.dart';

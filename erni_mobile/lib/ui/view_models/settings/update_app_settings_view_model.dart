@@ -9,7 +9,6 @@ import 'package:erni_mobile/domain/services/logging/app_logger.dart';
 import 'package:erni_mobile/ui/view_models/settings/app_settings_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart';
-import 'package:simple_command/commands.dart';
 
 @injectable
 class UpdateAppSettingsViewModel extends AppSettingsViewModel {
@@ -19,10 +18,7 @@ class UpdateAppSettingsViewModel extends AppSettingsViewModel {
     _logger.logFor(this);
   }
 
-  late final AsyncRelayCommand<void> toggleLanguageCommand = AsyncRelayCommand.withoutParam(_onToggleLanguage);
-  late final AsyncRelayCommand<void> toggleDarkThemeCommand = AsyncRelayCommand.withoutParam(_onToggleDarkTheme);
-
-  Future<void> _onToggleLanguage() async {
+  Future<void> onToggleLanguage() async {
     Language newLanguage = const Language(LanguageCode.en);
 
     if (currentLanguage.value.languageCode == LanguageCode.en) {
@@ -38,7 +34,7 @@ class UpdateAppSettingsViewModel extends AppSettingsViewModel {
     _logger.log(LogLevel.info, 'Language changed to ${newLanguage.toLocale()}');
   }
 
-  Future<void> _onToggleDarkTheme() async {
+  Future<void> onToggleDarkTheme() async {
     ThemeMode newTheme;
 
     switch (currentTheme.value) {

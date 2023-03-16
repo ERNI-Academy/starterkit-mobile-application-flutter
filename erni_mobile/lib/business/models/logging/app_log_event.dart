@@ -1,4 +1,3 @@
-import 'package:erni_mobile/business/models/logging/app_log_object.dart';
 import 'package:erni_mobile/business/models/logging/log_level.dart';
 
 class AppLogEvent {
@@ -23,15 +22,4 @@ class AppLogEvent {
   final Object? error;
   final StackTrace? stackTrace;
   final Map<String, Object> extras;
-
-  AppLogObject toObject() {
-    return AppLogObject(
-      uid: uid,
-      sessionId: sessionId,
-      level: level,
-      message: message,
-      createdAt: createdAt,
-      owner: owner,
-    );
-  }
 }

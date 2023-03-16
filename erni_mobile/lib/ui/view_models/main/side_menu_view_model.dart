@@ -3,7 +3,6 @@ import 'package:erni_mobile/domain/services/ui/menu_provider.dart';
 import 'package:erni_mobile/domain/services/ui/navigation/navigation_service.dart';
 import 'package:erni_mobile/domain/ui/view_models/view_model.dart';
 import 'package:injectable/injectable.dart';
-import 'package:simple_command/commands.dart';
 
 @injectable
 class SideMenuViewModel extends ViewModel {
@@ -13,9 +12,8 @@ class SideMenuViewModel extends ViewModel {
   SideMenuViewModel(this._navigationService, this._menuProvider);
 
   late final Iterable<SideMenuModel> menus = _menuProvider.menus;
-  late final AsyncRelayCommand<SideMenuModel> menuTapCommand = AsyncRelayCommand.withParam(_onMenuTapped);
 
-  Future<void> _onMenuTapped(SideMenuModel menu) async {
+  Future<void> onMenuTapped(SideMenuModel menu) async {
     switch (menu.actionType) {
       case MenuActionType.navigatable:
         await _handleNavigatableMenu(menu);

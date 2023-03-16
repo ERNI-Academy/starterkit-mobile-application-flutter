@@ -23,8 +23,8 @@ environment:
 dependencies:
   auto_route: ^5.0.4
   collection: ^1.17.0
-  cupertino_icons: ^1.0.3
-  dio: ^5.0.0
+  cupertino_icons: ^1.0.5
+  dio: ^5.0.2
   equatable: ^2.0.5
   flutter:
     sdk: flutter
@@ -40,35 +40,32 @@ dependencies:
   meta: ^1.8.0
   package_info_plus: ^3.0.3
   path: ^1.8.2
-  path_provider: ^2.0.12
   reflectable: ^4.0.5
   responsive_framework: ^0.2.0
   retrofit: ^4.0.1
   rxdart: ^0.27.7
-  sentry: ^6.20.1
-  sentry_flutter: ^6.20.1
-  shared_preferences: ^2.0.17
-  simple_command: ^1.0.1
+  sentry: ^7.0.0
+  sentry_flutter: ^7.0.0
+  shared_preferences: ^2.0.18
   uuid: ^3.0.7
-  validation_notifier: ^1.4.6
 
 dev_dependencies:
   auto_route_generator: ^5.0.3
   build_runner: ^2.3.3
   dart_code_metrics: ^5.6.0
   flutter_gen_runner: ^5.2.0
-  flutter_launcher_icons: ^0.10.0
+  flutter_launcher_icons: ^0.12.0
   flutter_lints: ^2.0.1
-  flutter_native_splash: ^2.1.6
+  flutter_native_splash: ^2.2.19
   flutter_test:
     sdk: flutter
-  golden_toolkit: ^0.14.0
+  golden_toolkit: ^0.15.0
   hive_generator: ^2.0.0
   injectable_generator: ^2.1.4
   json_serializable: ^6.6.1
   mockito: ^5.3.2
-  msix: ^3.6.2
-  retrofit_generator: ^5.0.0
+  msix: ^3.9.1
+  retrofit_generator: ^6.0.0+1
 
 flutter_gen:
   output: lib/ui/resources
