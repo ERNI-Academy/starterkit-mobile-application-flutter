@@ -24,7 +24,7 @@ dependencies:
   auto_route: ^5.0.1
   connectivity_plus: ^2.3.6+1
   cupertino_icons: ^1.0.3
-  dio: ^4.0.6
+  dio: ^5.0.3
   drift: ^2.2.0
   flutter:
     sdk: flutter
@@ -41,7 +41,7 @@ dependencies:
   path_provider: ^2.0.11
   reflectable: ^4.0.2
   responsive_framework: ^0.2.0
-  retrofit: ^3.0.1
+  retrofit: ^4.0.1
   sentry: ^6.8.0
   sentry_flutter: ^6.8.0
   shared_preferences: ^2.0.15
@@ -74,7 +74,7 @@ dev_dependencies:
   json_serializable: ^6.2.0
   mockito: ^5.2.0
   msix: ^3.6.2
-  retrofit_generator: ^4.0.1
+  retrofit_generator: ^5.0.0+1
   # Override to use latest change from GitHub
   # Wait for PR to be merged https://github.com/smotastic/smartstruct/pull/75
   smartstruct_generator:
