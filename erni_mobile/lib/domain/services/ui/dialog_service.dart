@@ -10,6 +10,4 @@ abstract class DialogService {
   Future<void> showLoading([String? message]);
 
   void showSnackbar(String message, {Duration duration = const Duration(seconds: 2)});
-
-  Future<T?> show<T extends Object?>(String dialogName, {Object? parameter, bool dismissable = true});
 }
