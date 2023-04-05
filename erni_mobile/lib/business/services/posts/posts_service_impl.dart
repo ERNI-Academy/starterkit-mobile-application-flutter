@@ -1,5 +1,6 @@
 import 'package:erni_mobile/business/models/posts/post.dart';
 import 'package:erni_mobile/domain/apis/posts/posts_api.dart';
+import 'package:erni_mobile/domain/models/result.dart';
 import 'package:erni_mobile/domain/services/posts/posts_service.dart';
 import 'package:injectable/injectable.dart';
 
@@ -10,17 +11,21 @@ class PostsServiceImpl implements PostsService {
   PostsServiceImpl(this._postsApi);
 
   @override
-  Future<Iterable<Post>> getPosts() async {
-    final contracts = await _postsApi.getPosts();
-    final posts = contracts.map(
-      (c) => Post(
-        userId: c.userId,
-        id: c.id,
-        title: c.title,
-        body: c.body,
-      ),
-    );
+  Future<Result<Iterable<Post>>> getPosts() async {
+    try {
+      final contracts = await _postsApi.getPosts();
+      final posts = contracts.map(
+        (c) => Post(
+          userId: c.userId,
+          id: c.id,
+          title: c.title,
+          body: c.body,
+        ),
+      );
 
-    return posts;
+      return Result.succeeded(posts);
+    } catch (e) {
+      return Result.failed(e);
+    }
   }
 }
