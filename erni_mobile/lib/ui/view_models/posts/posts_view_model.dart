@@ -24,19 +24,17 @@ class PostsViewModel extends ViewModel {
   }
 
   Future<void> _onGetPosts() async {
-    _postsState.value = const PostsListLoadingState();
-
-    final getPostsResult = await _postsService.getPosts();
-
-    if (getPostsResult.isSuccess) {
-      _postsState.value = PostsListLoadedState(getPostsResult.value ?? []);
-    } else {
+    try {
+      _postsState.value = const PostsListLoadingState();
+      final posts = await _postsService.getPosts();
+      _postsState.value = PostsListLoadedState(posts);
+    } catch (e) {
       final previousLoadedState = _postsState.firstWhere(
         (s) => s is PostsListLoadedState,
         orElse: () => const PostsListLoadedState([]),
       ) as PostsListLoadedState;
 
-      _postsState.value = PostsListErrorState(getPostsResult.error!, previousLoadedState.posts);
+      _postsState.value = PostsListErrorState(e, previousLoadedState.posts);
     }
   }
 }
