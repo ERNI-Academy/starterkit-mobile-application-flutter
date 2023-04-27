@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class RouteNotFound extends StatelessWidget {
-  const RouteNotFound({Key? key}) : super(key: key);
+  const RouteNotFound({super.key});
 
   @override
   Widget build(BuildContext context) {

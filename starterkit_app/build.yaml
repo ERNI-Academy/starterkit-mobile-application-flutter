@@ -1,0 +1,19 @@
+targets:
+  $default:
+    builders:
+
+      reflectable:
+        generate_for:
+          - lib/main.dart
+
+      injectable_generator|injectable_config_builder:
+        enabled: true
+        generate_for:
+          include:
+            - lib/core/dependency_injection.dart
+
+      retrofit_generator|retrofit_config_builder:
+        enabled: true
+        generate_for:
+          include:
+            - lib/features/**/*_api.dart

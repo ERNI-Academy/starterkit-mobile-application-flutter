@@ -12,7 +12,7 @@
             "type": "dart",
             "args": [
                 "--dart-define-from-file",
-                ".secrets/${input:appEnvironment}.secrets",
+                ".env/${input:appEnvironment}.json",
             ]
         },
         {
@@ -58,7 +58,7 @@
                 "pickFile": {
                     "config": {
                         "description": "Select the environment to debug",
-                        "include": ".secrets/*.secrets",
+                        "include": ".env/*.json",
                         "keyRemember": "secretsFile"
                     }
                 }

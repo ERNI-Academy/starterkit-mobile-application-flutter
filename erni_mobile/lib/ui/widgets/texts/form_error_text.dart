@@ -4,7 +4,7 @@ import 'package:erni_mobile/ui/widgets/extensions/theme_extensions.dart';
 import 'package:flutter/material.dart';
 
 class FormErrorText extends StatelessWidget {
-  const FormErrorText(this.errorMessage, {Key? key}) : super(key: key);
+  const FormErrorText(this.errorMessage, {super.key});
 
   final String errorMessage;
 

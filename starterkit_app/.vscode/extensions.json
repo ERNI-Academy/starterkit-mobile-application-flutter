@@ -1,0 +1,15 @@
+{
+    "recommendations": [
+        "dart-code.flutter",
+        "dart-code.dart-code",
+        "nash.awesome-flutter-snippets",
+        "redhat.vscode-yaml",
+        "gaetschwartz.build-runner",
+        "rioj7.command-variable",
+        "localizely.flutter-intl",
+        "dotup.dart-data-class-generator",
+        "ryanluker.vscode-coverage-gutters",
+        "flutterando.flutter-coverage",
+        "usernamehw.errorlens"
+    ]
+}

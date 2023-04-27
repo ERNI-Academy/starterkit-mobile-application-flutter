@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 /// setting the [spacing] between each [children].
 class SpacedRow extends StatelessWidget {
   const SpacedRow({
-    Key? key,
+    super.key,
     this.mainAxisAlignment = MainAxisAlignment.start,
     this.mainAxisSize = MainAxisSize.max,
     this.crossAxisAlignment = CrossAxisAlignment.center,
@@ -15,8 +15,7 @@ class SpacedRow extends StatelessWidget {
     this.textBaseline,
     this.children = const <Widget>[],
     this.spacing = 4,
-  })  : assert(spacing > 0),
-        super(key: key);
+  }) : assert(spacing > 0);
 
   final double spacing;
   final MainAxisAlignment mainAxisAlignment;

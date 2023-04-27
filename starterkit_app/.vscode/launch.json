@@ -1,0 +1,68 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        // All device configuration
+        {
+            "name": "Run Current Device",
+            "program": "lib/main.dart",
+            "request": "launch",
+            "type": "dart",
+            "args": [
+                "--dart-define-from-file",
+                ".env/${input:appEnvironment}.json",
+            ]
+        },
+        {
+            "name": "Test Coverage",
+            "request": "launch",
+            "type": "dart",
+            "codeLens": {
+                "title": "Coverage",
+                "for": [
+                    "run-test",
+                    "run-test-file"
+                ],
+                "path": "test"
+            },
+            "args": [
+                "--coverage"
+            ]
+        },
+        {
+            "name": "Update Goldens",
+            "request": "launch",
+            "type": "dart",
+            "codeLens": {
+                "for": [
+                    "run-test",
+                    "run-test-file"
+                ],
+                "path": "test",
+            },
+            "args": [
+                "--update-goldens"
+            ]
+        },
+    ],
+    "inputs": [
+        {
+            "id": "appEnvironment",
+            "type": "command",
+            "command": "extension.commandvariable.file.content",
+            "args": {
+                "fileName": "${pickFile:config}",
+                "json": "content.appEnvironment",
+                "pickFile": {
+                    "config": {
+                        "description": "Select the environment to debug",
+                        "include": ".env/*.json",
+                        "keyRemember": "secretsFile"
+                    }
+                }
+            }
+        }
+    ],
+}

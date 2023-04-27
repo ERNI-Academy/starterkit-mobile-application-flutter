@@ -5,8 +5,8 @@ class AdaptiveStatusBar extends StatelessWidget {
   const AdaptiveStatusBar({
     required this.child,
     this.referenceColor,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   final Widget child;
   final Color? referenceColor;

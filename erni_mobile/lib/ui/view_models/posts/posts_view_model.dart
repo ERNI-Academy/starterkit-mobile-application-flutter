@@ -1,14 +1,17 @@
 import 'package:erni_mobile/business/models/posts/posts_list_state.dart';
+import 'package:erni_mobile/domain/services/async/rx_provider.dart';
 import 'package:erni_mobile/domain/services/posts/posts_service.dart';
 import 'package:erni_mobile/domain/ui/view_models/view_model.dart';
 import 'package:injectable/injectable.dart';
 
 @injectable
 class PostsViewModel extends ViewModel {
+  final RxProvider _rxProvider;
   final PostsService _postsService;
-  final BehaviorSubject<PostsListState> _postsState = BehaviorSubject.seeded(const PostsListLoadingState(), sync: true);
+  late final BehaviorSubject<PostsListState> _postsState =
+      _rxProvider.createSeededSubject(const PostsListLoadingState(), sync: true);
 
-  PostsViewModel(this._postsService);
+  PostsViewModel(this._rxProvider, this._postsService);
 
   Stream<PostsListState> get postsState => _postsState.stream;
 

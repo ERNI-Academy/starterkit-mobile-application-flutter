@@ -18,7 +18,7 @@ import 'package:responsive_framework/utils/responsive_utils.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 
 class App extends StatelessWidget with ViewMixin<AppViewModel> {
-  const App({Key? key, this.home}) : super(key: key);
+  const App({super.key, this.home});
 
   final Widget? home;
 

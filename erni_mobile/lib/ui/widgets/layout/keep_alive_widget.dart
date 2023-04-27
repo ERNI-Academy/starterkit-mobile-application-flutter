@@ -1,7 +1,7 @@
 import 'package:flutter/widgets.dart';
 
 class KeepAliveWidget extends StatefulWidget {
-  const KeepAliveWidget({required this.child, Key? key}) : super(key: key);
+  const KeepAliveWidget({required this.child, super.key});
 
   final Widget child;
 

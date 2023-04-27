@@ -7,7 +7,7 @@ import 'package:erni_mobile/ui/view_models/settings/update_app_settings_view_mod
 import 'package:erni_mobile/ui/widgets/widgets.dart';
 
 class UpdateAppSettingsView extends StatelessWidget with ViewMixin<UpdateAppSettingsViewModel> {
-  const UpdateAppSettingsView({Key? key}) : super(key: key);
+  const UpdateAppSettingsView({super.key});
 
   @override
   Widget buildView(BuildContext context, UpdateAppSettingsViewModel viewModel) {
