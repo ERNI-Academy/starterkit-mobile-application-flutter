@@ -1,9 +1,9 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:starterkit_app/core/app.dart';
 import 'package:starterkit_app/core/dependency_injection.dart';
 import 'package:starterkit_app/core/infrastructure/logging/logger.dart';
+import 'package:starterkit_app/features/app/presentation/views/app.dart';
 import 'package:starterkit_app/main.reflectable.dart';
 import 'package:starterkit_app/shared/localization/localization.dart';
 

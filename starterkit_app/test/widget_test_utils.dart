@@ -8,11 +8,13 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:golden_toolkit/golden_toolkit.dart';
 import 'package:path/path.dart';
 import 'package:starterkit_app/core/dependency_injection.dart';
+import 'package:starterkit_app/main.reflectable.dart';
 
 import 'test_utils.dart';
 
 Future<void> setupWidgetTest() async {
   ServiceLocator.registerDependencies();
+  initializeReflectable();
   await setupLocale();
   await loadAppFonts();
 }

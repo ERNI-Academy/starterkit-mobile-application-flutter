@@ -1,5 +1,5 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:injectable/injectable.dart';
-import 'package:starterkit_app/core/infrastructure/navigation/navigation_parameter.dart';
 import 'package:starterkit_app/core/presentation/view_models/view_model.dart';
 import 'package:starterkit_app/core/reflection.dart';
 import 'package:starterkit_app/features/posts/domain/entities/post_entity.dart';
@@ -11,4 +11,4 @@ class PostDetailsViewModel extends ViewModel {
   PostEntity post = PostEntity.empty;
 }
 
-const NavigationQueryParam postParam = NavigationQueryParam('post');
+const QueryParam postParam = QueryParam('post');

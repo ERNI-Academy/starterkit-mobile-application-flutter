@@ -3,10 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart';
 import 'package:starterkit_app/core/infrastructure/logging/logger.dart';
 
-abstract class NavigationLogger extends RouteObserver<ModalRoute> {}
+abstract class NavigationLogger implements NavigatorObserver {}
 
 @LazySingleton(as: NavigationLogger)
-class NavigationLoggerImpl extends NavigationLogger {
+class NavigationLoggerImpl extends RouteObserver<ModalRoute> implements NavigationLogger {
   final Logger _logger;
 
   NavigationLoggerImpl(this._logger) {

@@ -1,4 +1,4 @@
-import 'dart:developer' as developer;
+import 'dart:developer' as dev;
 
 import 'package:injectable/injectable.dart';
 import 'package:starterkit_app/core/infrastructure/logging/log_level.dart';
@@ -22,7 +22,7 @@ class LoggerImpl implements Logger {
 
   @override
   void log(LogLevel level, String message, [Object? error, StackTrace? stackTrace]) {
-    developer.log(
+    dev.log(
       _formatMessage(level, message, error, stackTrace),
       name: _owner,
       level: level.value,

@@ -11,6 +11,8 @@ mixin AppLifeCycleAwareMixin on ViewModel {
   Future<void> onAppResumed() => Future.value();
 
   Future<void> onAppInactive() => Future.value();
+
+  Future<void> onAppDetached() => Future.value();
 }
 
 class _WidgetsBindingObserverImpl extends WidgetsBindingObserver {
@@ -31,6 +33,9 @@ class _WidgetsBindingObserverImpl extends WidgetsBindingObserver {
         break;
       case AppLifecycleState.inactive:
         unawaited(_delegate.onAppInactive());
+        break;
+      case AppLifecycleState.detached:
+        unawaited(_delegate.onAppDetached());
         break;
       default:
         break;

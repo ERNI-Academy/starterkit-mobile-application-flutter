@@ -5,6 +5,6 @@ import 'package:starterkit_app/core/infrastructure/platform/environment_variable
 @module
 abstract class PlatformModule {
   @lazySingleton
-  @apiBaseUrl
+  @appServerUrl
   String getAppServerUrl(EnvironmentVariables environmentVariables) => environmentVariables.appServerUrl;
 }

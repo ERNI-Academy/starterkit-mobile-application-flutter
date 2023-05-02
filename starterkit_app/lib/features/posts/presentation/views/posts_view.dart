@@ -49,6 +49,7 @@ class _PostsListView extends StatelessWidget {
         final post = posts[index];
 
         return ListTile(
+          key: Key(post.id.toString()),
           title: Text(post.title),
           subtitle: Text(post.body),
           onTap: () => onTap(post),

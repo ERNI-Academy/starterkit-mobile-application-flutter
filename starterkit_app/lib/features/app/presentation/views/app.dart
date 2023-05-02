@@ -5,6 +5,8 @@ import 'package:starterkit_app/core/dependency_injection.dart';
 import 'package:starterkit_app/core/infrastructure/logging/navigation_logger.dart';
 import 'package:starterkit_app/core/infrastructure/navigation/navigation_observer.dart';
 import 'package:starterkit_app/core/infrastructure/navigation/navigation_service.dart';
+import 'package:starterkit_app/core/presentation/views/view_mixin.dart';
+import 'package:starterkit_app/features/app/presentation/view_models/app_view_model.dart';
 import 'package:starterkit_app/shared/localization/localization.dart';
 
 class App extends StatefulWidget {
@@ -16,12 +18,12 @@ class App extends StatefulWidget {
   State<App> createState() => _AppState();
 }
 
-class _AppState extends State<App> {
+class _AppState extends State<App> with ViewMixin<AppViewModel> {
   late final NavigationService _navigationService = ServiceLocator.instance<NavigationService>();
   late final NavigationLogger _navigationLogger = ServiceLocator.instance<NavigationLogger>();
 
   @override
-  Widget build(BuildContext context) {
+  Widget buildView(BuildContext context, AppViewModel viewModel) {
     return MaterialApp.router(
       routerDelegate: AutoRouterDelegate(
         _navigationService,

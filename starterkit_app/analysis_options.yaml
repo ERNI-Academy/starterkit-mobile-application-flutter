@@ -70,7 +70,7 @@ dart_code_metrics:
           - Environment
           - (.*)Param
           - reflectable
-          - apiBaseUrl
+          - appServerUrl
           - navigatable
 
     # Flutter
@@ -98,6 +98,8 @@ analyzer:
     - lib/**/generated/**
     - test/**/*.config.dart
     - test/**/*.mocks.dart
+  errors:
+    invalid_annotation_target: ignore
   strong-mode:
     implicit-casts: false
     implicit-dynamic: false

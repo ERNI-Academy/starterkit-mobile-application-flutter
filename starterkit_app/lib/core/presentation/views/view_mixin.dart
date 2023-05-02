@@ -45,7 +45,7 @@ mixin ViewRouteMixin<TViewModel extends ViewModel> implements View<TViewModel> {
       create: () => onCreateViewModel(context),
       dispose: onDisposeViewModel,
       builder: (context, viewModel) {
-        _ViewLifeCycleHandler._tryGetQueryParams(context, viewModel);
+        _ViewLifeCycleHandler._tryGetNavigationParams(context, viewModel);
 
         return buildView(context, viewModel);
       },
@@ -56,7 +56,7 @@ mixin ViewRouteMixin<TViewModel extends ViewModel> implements View<TViewModel> {
   @override
   @mustCallSuper
   TViewModel onCreateViewModel(BuildContext context) {
-    return _ViewLifeCycleHandler._onCreateViewModel<TViewModel>(context, getQueryParams: true);
+    return _ViewLifeCycleHandler._onCreateViewModel<TViewModel>(context, getNavigationParams: true);
   }
 
   @protected
@@ -91,7 +91,7 @@ mixin ChildViewMixin<TViewModel extends ViewModel> implements View<TViewModel> {
 abstract class _ViewLifeCycleHandler {
   static TViewModel _onCreateViewModel<TViewModel extends ViewModel>(
     BuildContext context, {
-    bool getQueryParams = false,
+    bool getNavigationParams = false,
   }) {
     final viewModel = ServiceLocator.instance<TViewModel>();
     final route = ModalRoute.of(context);
@@ -104,7 +104,7 @@ abstract class _ViewLifeCycleHandler {
       WidgetsBinding.instance.addObserver(viewModel.appLifeCycleObserver);
     }
 
-    _initializeViewModel(context, viewModel, getQueryParams);
+    _initializeViewModel(context, viewModel, getNavigationParams);
 
     return viewModel;
   }
@@ -124,17 +124,17 @@ abstract class _ViewLifeCycleHandler {
   static void _initializeViewModel<TViewModel extends ViewModel>(
     BuildContext context,
     TViewModel viewModel,
-    bool getQueryParams,
+    bool getNavigationParams,
   ) {
-    if (getQueryParams) {
-      _tryGetQueryParams(context, viewModel);
+    if (getNavigationParams) {
+      _tryGetNavigationParams(context, viewModel);
     }
 
     WidgetsBinding.instance.addPostFrameCallback((_) => unawaited(viewModel.onFirstRender()));
     unawaited(viewModel.onInitialize());
   }
 
-  static void _tryGetQueryParams<TViewModel extends ViewModel>(BuildContext context, TViewModel viewModel) {
+  static void _tryGetNavigationParams<TViewModel extends ViewModel>(BuildContext context, TViewModel viewModel) {
     if (navigatable.canReflect(viewModel) && navigatable.canReflectType(TViewModel)) {
       final route = context.routeData;
       final instanceMirror = navigatable.reflect(viewModel);

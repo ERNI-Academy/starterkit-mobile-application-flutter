@@ -48,7 +48,6 @@ class PostsViewModel extends ViewModel {
       _logger.log(LogLevel.info, '${postEntities.length} posts loaded');
     } catch (e, st) {
       _logger.log(LogLevel.error, 'Failed to get posts', e, st);
-
       _postsState.value = PostsListErrorState(Il8n.current.failedToGetPosts);
     }
   }
