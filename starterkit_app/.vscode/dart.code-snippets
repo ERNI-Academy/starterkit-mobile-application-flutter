@@ -12,7 +12,6 @@
     "Creates a ViewModel class": {
         "prefix": "vm",
         "body": [
-            "import 'package:erni_mobile/domain/ui/view_models/view_model.dart';",
             "import 'package:injectable/injectable.dart';",
             "",
             "@injectable",
@@ -67,9 +66,6 @@
         "body": [
             "// coverage:ignore-file",
             "",
-            "import 'package:erni_mobile/domain/ui/views/view_mixin.dart';",
-            "import 'package:erni_mobile/ui/widgets/widgets.dart';",
-            "",
             "class ${1}View extends StatelessWidget with ViewRouteMixin<${1}ViewModel> {",
             "  const ${1}View() : super(key: const Key(${1}ViewRoute.name));",
             "",
@@ -89,9 +85,6 @@
         "prefix": "vrsf",
         "body": [
             "// coverage:ignore-file",
-            "",
-            "import 'package:erni_mobile/domain/ui/views/view_mixin.dart';",
-            "import 'package:erni_mobile/ui/widgets/widgets.dart';",
             "",
             "class ${1}View extends StatefulWidget {",
             "  const ${1}View() : super(key: const Key(${1}ViewRoute.name));",
@@ -119,9 +112,6 @@
         "body": [
             "// coverage:ignore-file",
             "",
-            "import 'package:erni_mobile/domain/ui/views/view_mixin.dart';",
-            "import 'package:erni_mobile/ui/widgets/widgets.dart';",
-            "",
             "class ${1}View extends StatelessWidget with ViewMixin<${1}ViewModel> {",
             "  const ${1}View({super.key});",
             "",
@@ -141,9 +131,6 @@
         "prefix": "vsf",
         "body": [
             "// coverage:ignore-file",
-            "",
-            "import 'package:erni_mobile/domain/ui/views/view_mixin.dart';",
-            "import 'package:erni_mobile/ui/widgets/widgets.dart';",
             "",
             "class ${1}View extends StatefulWidget {",
             "  const ${1}View({super.key});",
@@ -224,8 +211,6 @@
     "Creates a Data Contract class": {
         "prefix": "dataC",
         "body": [
-            "import 'package:erni_mobile/domain/models/data_contracts/data_contract.dart';",
-            "",
             "part '${TM_FILENAME_BASE}.g.dart';",
             "",
             "@JsonSerializable()",
@@ -243,15 +228,11 @@
     "Creates a JSON class": {
         "prefix": "jsonC",
         "body": [
-            "",
-            "import 'package:erni_mobile/domain/models/data_contract.dart';",
-            "import 'package:meta/meta.dart';",
-            "",
             "part '${TM_FILENAME_BASE}.g.dart';",
             "",
             "@immutable",
             "@JsonSerializable()",
-            "class ${name} extends JsonEncodable {",
+            "class ${name} extends JsonSerializableObject {",
             "  const ${name}();",
             "",
             "  factory ${name}.fromJson(Map<String, dynamic> json) => _$${name}FromJson(json);",
@@ -293,20 +274,15 @@
     "Creates an retrofit API": {
         "prefix": "api",
         "body": [
-            "import 'package:erni_mobile/data/web/apis/api.dart';",
-            "import 'package:erni_mobile/domain/apis/dio_provider.dart';",
             "import 'package:injectable/injectable.dart';",
             "",
             "part '${TM_FILENAME_BASE}.g.dart';",
-            "",
-            "abstract class ${ApiName}Api {",
-            "}",
             "",
             "@LazySingleton(as: ${ApiName}Api)",
             "@RestApi()",
             "abstract class ${ApiName}ApiImpl implements ${ApiName}Api{",
             "  @factoryMethod",
-            "  factory ${ApiName}ApiImpl(DioProvider dioProvider, @apiBaseUrl String baseUrl) => _${ApiName}ApiImpl(dioProvider.createFor<${ApiName}ApiImpl>(), baseUrl: baseUrl);",
+            "  factory ${ApiName}ApiImpl(DioProvider dioProvider) => _${ApiName}ApiImpl(dioProvider.create<${ApiName}ApiImpl>());",
             "}"
         ],
         "description": "Creates an retrofit API"
