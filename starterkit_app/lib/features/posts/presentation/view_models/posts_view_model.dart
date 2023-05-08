@@ -15,9 +15,9 @@ class PostsViewModel extends ViewModel {
   final NavigationService _navigationService;
   final PostsService _postsService;
 
-  final BehaviorSubject<PostsListState> _postsState = BehaviorSubject.seeded(const PostsListLoadingState(), sync: true);
+  final ValueNotifier<PostsListState> _postsState = ValueNotifier(const PostsListLoadingState());
 
-  Stream<PostsListState> get postsState => _postsState.stream;
+  ValueListenable<PostsListState> get postsState => _postsState;
 
   PostsViewModel(this._logger, this._navigationService, this._postsService) {
     _logger.logFor<PostsViewModel>();
@@ -30,13 +30,6 @@ class PostsViewModel extends ViewModel {
   @override
   Future<void> onInitialize() async {
     await _onGetPosts();
-  }
-
-  @override
-  Future<void> dispose() async {
-    await _postsState.close();
-
-    super.dispose();
   }
 
   Future<void> _onGetPosts() async {

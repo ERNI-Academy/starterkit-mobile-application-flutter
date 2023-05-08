@@ -17,11 +17,9 @@ class PostsView extends StatelessWidget with ViewMixin<PostsViewModel> {
       appBar: AppBar(
         title: Text(Il8n.of(context).posts),
       ),
-      body: StreamBuilder<PostsListState>(
-        stream: viewModel.postsState,
-        builder: (context, postsStateSnapshot) {
-          final postsState = postsStateSnapshot.data;
-
+      body: ValueListenableBuilder<PostsListState>(
+        valueListenable: viewModel.postsState,
+        builder: (context, postsState, _) {
           if (postsState is PostsListLoadedState) {
             return _PostsListView(postsState.posts.toList(), viewModel.onPostSelected);
           } else if (postsState is PostsListErrorState) {

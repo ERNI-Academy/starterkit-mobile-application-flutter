@@ -26,7 +26,7 @@ mixin ViewMixin<TViewModel extends ViewModel> implements View<TViewModel> {
   @override
   @mustCallSuper
   TViewModel onCreateViewModel(BuildContext context) {
-    return _ViewLifeCycleHandler._onCreateViewModel<TViewModel>(context);
+    return _ViewLifeCycleHandler._onCreateViewModel<TViewModel>(context, getNavigationParams: false);
   }
 
   @protected
@@ -81,7 +81,7 @@ mixin ChildViewMixin<TViewModel extends ViewModel> implements View<TViewModel> {
   @protected
   @override
   @mustCallSuper
-  TViewModel onCreateViewModel(BuildContext context) => ViewModel.of<TViewModel>(context);
+  TViewModel onCreateViewModel(BuildContext context) => context.viewModelOf<TViewModel>();
 
   @protected
   @override
@@ -91,7 +91,7 @@ mixin ChildViewMixin<TViewModel extends ViewModel> implements View<TViewModel> {
 abstract class _ViewLifeCycleHandler {
   static TViewModel _onCreateViewModel<TViewModel extends ViewModel>(
     BuildContext context, {
-    bool getNavigationParams = false,
+    required bool getNavigationParams,
   }) {
     final viewModel = ServiceLocator.instance<TViewModel>();
     final route = ModalRoute.of(context);
@@ -174,21 +174,6 @@ abstract class _ViewLifeCycleHandler {
   }
 }
 
-class ViewModelHolder<T extends ViewModel> extends InheritedWidget {
-  static ViewModelHolder<T>? of<T extends ViewModel>(BuildContext context) {
-    return context.dependOnInheritedWidgetOfExactType<ViewModelHolder<T>>();
-  }
-
-  final T viewModel;
-
-  const ViewModelHolder({required super.child, required this.viewModel, super.key});
-
-  @override
-  bool updateShouldNotify(ViewModelHolder<T> oldWidget) {
-    return false;
-  }
-}
-
 class _ViewModelBuilder<TViewModel extends ViewModel> extends StatefulWidget {
   const _ViewModelBuilder({required this.create, required this.builder, this.dispose, super.key});
 
@@ -221,11 +206,38 @@ class _ViewModelBuilderState<TViewModel extends ViewModel> extends State<_ViewMo
     return AnimatedBuilder(
       animation: _currentViewModel,
       builder: (context, child) {
-        return ViewModelHolder<TViewModel>(
+        return _ViewModelHolder<TViewModel>(
           viewModel: _currentViewModel,
           child: widget.builder(context, _currentViewModel),
         );
       },
     );
+  }
+}
+
+class _ViewModelHolder<T extends ViewModel> extends InheritedWidget {
+  static _ViewModelHolder<T>? of<T extends ViewModel>(BuildContext context) {
+    return context.dependOnInheritedWidgetOfExactType<_ViewModelHolder<T>>();
+  }
+
+  final T viewModel;
+
+  const _ViewModelHolder({required super.child, required this.viewModel, super.key});
+
+  @override
+  bool updateShouldNotify(_ViewModelHolder<T> oldWidget) {
+    return false;
+  }
+}
+
+extension ViewExtensions on BuildContext {
+  T viewModelOf<T extends ViewModel>() {
+    final viewModel = _ViewModelHolder.of<T>(this)?.viewModel;
+
+    if (viewModel == null) {
+      throw StateError('Could not locate viewmodel $T');
+    }
+
+    return viewModel;
   }
 }

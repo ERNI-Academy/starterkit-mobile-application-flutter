@@ -37,52 +37,36 @@ void main() {
 
     test('initialize should get posts when called', () async {
       const expectedPostEntities = [PostEntity.empty];
+      const expectedPostState = PostsListLoadedState(expectedPostEntities);
       when(mockPostsService.getPosts()).thenAnswer((_) async => expectedPostEntities);
-      final unit = createUnitToTest();
 
+      final unit = createUnitToTest();
       await unit.onInitialize();
 
       verify(mockPostsService.getPosts()).called(1);
-      await expectLater(
-        unit.postsState,
-        emitsInOrder(<PostsListState>[
-          const PostsListLoadedState(expectedPostEntities),
-        ]),
-      );
+      await expectLater(unit.postsState.value, expectedPostState);
     });
 
     test('initialize should log error when get posts fails', () async {
       final expectedException = Exception();
+      final expectedPostState = PostsListErrorState(il8n.failedToGetPosts);
       when(mockPostsService.getPosts()).thenThrow(expectedException);
-      final unit = createUnitToTest();
 
+      final unit = createUnitToTest();
       await unit.onInitialize();
 
       verify(mockPostsService.getPosts()).called(1);
       verify(mockLogger.log(LogLevel.error, 'Failed to get posts', expectedException, any)).called(1);
-      await expectLater(
-        unit.postsState,
-        emitsInOrder(<PostsListErrorState>[
-          PostsListErrorState(il8n.failedToGetPosts),
-        ]),
-      );
+      await expectLater(unit.postsState.value, expectedPostState);
     });
 
     test('onPostSelected should push post details view when called', () async {
       const expectedPostEntity = PostEntity.empty;
-      final unit = createUnitToTest();
 
+      final unit = createUnitToTest();
       await unit.onPostSelected(expectedPostEntity);
 
       verify(mockNavigationService.push(PostDetailsViewRoute(post: expectedPostEntity))).called(1);
-    });
-
-    test('dispose should close posts state when called', () async {
-      final unit = createUnitToTest();
-
-      await unit.dispose();
-
-      expect(unit.onInitialize, throwsStateError);
     });
   });
 }
