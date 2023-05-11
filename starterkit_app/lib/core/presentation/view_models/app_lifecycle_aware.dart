@@ -1,4 +1,4 @@
-abstract class AppLifeCycleAware {
+abstract interface class AppLifeCycleAware {
   Future<void> onAppPaused();
 
   Future<void> onAppResumed();

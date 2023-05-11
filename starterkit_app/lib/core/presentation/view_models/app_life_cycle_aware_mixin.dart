@@ -40,8 +40,6 @@ class _WidgetsBindingObserverImpl extends WidgetsBindingObserver {
       case AppLifecycleState.detached:
         unawaited(_appLifeCycleAware.onAppDetached());
         break;
-      default:
-        break;
     }
   }
 }

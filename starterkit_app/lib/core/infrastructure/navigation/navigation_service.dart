@@ -6,7 +6,7 @@ import 'package:starterkit_app/core/infrastructure/navigation/navigation_service
 
 export 'package:starterkit_app/core/infrastructure/navigation/navigation_service.gr.dart';
 
-abstract class NavigationService implements RootStackRouter {
+abstract interface class NavigationService implements RootStackRouter {
   Future<void> pushToNewRoot(PageRouteInfo route, {OnNavigationFailure? onFailure});
 }
 

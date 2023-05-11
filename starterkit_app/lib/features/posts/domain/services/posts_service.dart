@@ -2,7 +2,7 @@ import 'package:injectable/injectable.dart';
 import 'package:starterkit_app/features/posts/data/api/posts_api.dart';
 import 'package:starterkit_app/features/posts/domain/entities/post_entity.dart';
 
-abstract class PostsService {
+abstract interface class PostsService {
   Future<Iterable<PostEntity>> getPosts();
 }
 

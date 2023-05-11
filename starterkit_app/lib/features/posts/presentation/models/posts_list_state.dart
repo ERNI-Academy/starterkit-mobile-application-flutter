@@ -1,7 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:starterkit_app/features/posts/domain/entities/post_entity.dart';
 
-abstract class PostsListState {
+sealed class PostsListState {
   const PostsListState();
 }
 

@@ -4,7 +4,8 @@ targets:
 
       reflectable:
         generate_for:
-          - lib/main.dart
+          include:
+            - lib/main.dart
 
       injectable_generator|injectable_config_builder:
         enabled: true

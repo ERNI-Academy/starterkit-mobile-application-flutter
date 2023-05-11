@@ -100,9 +100,6 @@ analyzer:
     - test/**/*.mocks.dart
   errors:
     invalid_annotation_target: ignore
-  strong-mode:
-    implicit-casts: false
-    implicit-dynamic: false
   language:
     strict-casts: true
     strict-inference: true
@@ -195,6 +192,7 @@ linter:
     - hash_and_equals
     - implementation_imports
     - implicit_call_tearoffs
+    - invalid_case_patterns
     - iterable_contains_unrelated_type
     - join_return_with_assignment
     - leading_newlines_in_multiline_strings

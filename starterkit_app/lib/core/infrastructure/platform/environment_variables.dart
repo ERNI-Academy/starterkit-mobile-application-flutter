@@ -1,6 +1,6 @@
 import 'package:injectable/injectable.dart';
 
-abstract class EnvironmentVariables {
+abstract interface class EnvironmentVariables {
   String get appEnvironment;
 
   String get appServerUrl;

@@ -4,7 +4,7 @@ import 'package:starterkit_app/core/data/api/dio_logging_interceptor.dart';
 import 'package:starterkit_app/core/dependency_injection.dart';
 import 'package:starterkit_app/core/infrastructure/logging/logger.dart';
 
-abstract class DioProvider {
+abstract interface class DioProvider {
   Dio create<T>();
 }
 

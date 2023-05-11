@@ -1,13 +1,13 @@
 // Workspace-specific code snippets
 {
-    "Concrete/abstract class": {
+    "Concrete/abstract interface class": {
         "prefix": "cac",
         "body": [
-            "abstract class $className {}",
+            "abstract interface class $className {}",
             "",
             "class ${className}Impl implements $className {}",
         ],
-        "description": "Creates an abstract class and a class to implement it"
+        "description": "Creates an abstract interface class and a class to implement it"
     },
     "Creates a ViewModel class": {
         "prefix": "vm",
@@ -32,14 +32,14 @@
             "\t}",
             "}",
         ],
-        "description": "Creates a Change Notifier property"
+        "description": "Creates a ChangeNotifier property"
     },
     "Value Notifier Property": {
         "prefix": "propv",
         "body": [
             "final $name = ValueNotifier($type(data: $initialValue));",
         ],
-        "description": "Creates an abstract class and a class to implement it"
+        "description": "Creates a ValueNotifier property"
     },
     "Getter Property with Field": {
         "prefix": "propgf",
@@ -47,7 +47,7 @@
             "$type _$prop;",
             "$type get $prop => _$prop;",
         ],
-        "description": "Creates an abstract class and a class to implement it"
+        "description": "Creates a getter property with field"
     },
     "Value Listenable Builder": {
         "prefix": "valb",
@@ -59,7 +59,7 @@
             "  },",
             ")"
         ],
-        "description": "Creates an abstract class and a class to implement it"
+        "description": "Creates a ValueListenableBuilder"
     },
     "Creates a navigatable view using a stateless widget": {
         "prefix": "vrsl",
@@ -191,7 +191,7 @@
         "body": [
             "import 'package:injectable/injectable.dart';",
             "",
-            "abstract class ${name} {}",
+            "abstract interface class ${name} {}",
             "",
             "@LazySingleton(as: ${name})",
             "class ${name}Impl implements ${name} {}"
@@ -280,7 +280,7 @@
             "",
             "@LazySingleton(as: ${ApiName}Api)",
             "@RestApi()",
-            "abstract class ${ApiName}ApiImpl implements ${ApiName}Api{",
+            "abstract interface class ${ApiName}ApiImpl implements ${ApiName}Api{",
             "  @factoryMethod",
             "  factory ${ApiName}ApiImpl(DioProvider dioProvider) => _${ApiName}ApiImpl(dioProvider.create<${ApiName}ApiImpl>());",
             "}"

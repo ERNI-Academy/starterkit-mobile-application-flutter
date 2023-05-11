@@ -20,7 +20,7 @@ class PostsViewModel extends ViewModel {
   ValueListenable<PostsListState> get postsState => _postsState;
 
   PostsViewModel(this._logger, this._navigationService, this._postsService) {
-    _logger.logFor<PostsViewModel>();
+    _logger.logFor(this);
   }
 
   Future<void> onPostSelected(PostEntity post) async {

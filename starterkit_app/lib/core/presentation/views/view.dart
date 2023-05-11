@@ -1,7 +1,7 @@
 import 'package:flutter/widgets.dart';
 import 'package:starterkit_app/core/presentation/view_models/view_model.dart';
 
-abstract class View<TViewModel extends ViewModel> {
+abstract interface class View<TViewModel extends ViewModel> {
   Widget build(BuildContext context);
 
   Widget buildView(BuildContext context, TViewModel viewModel);

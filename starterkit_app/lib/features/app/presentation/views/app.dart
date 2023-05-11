@@ -33,6 +33,10 @@ class _AppState extends State<App> with ViewMixin<AppViewModel> {
         ],
         initialRoutes: widget.initialRoute != null ? [widget.initialRoute!] : null,
       ),
+      theme: ThemeData(
+        useMaterial3: true,
+        colorSchemeSeed: Colors.blue,
+      ),
       routeInformationParser: _navigationService.defaultRouteParser(),
       localizationsDelegates: const [
         Il8n.delegate,

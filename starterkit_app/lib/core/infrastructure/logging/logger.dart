@@ -1,12 +1,13 @@
 import 'dart:developer' as dev;
 
+import 'package:flutter/foundation.dart';
 import 'package:injectable/injectable.dart';
 import 'package:starterkit_app/core/infrastructure/logging/log_level.dart';
 
 export 'log_level.dart';
 
-abstract class Logger {
-  void logFor<T>();
+abstract interface class Logger {
+  void logFor<T>([T? object]);
 
   void log(LogLevel level, String message, [Object? error, StackTrace? stackTrace]);
 }
@@ -16,8 +17,8 @@ class LoggerImpl implements Logger {
   String _owner = '';
 
   @override
-  void logFor<T>() {
-    _owner = T.toString();
+  void logFor<T>([T? object]) {
+    _owner = object != null ? describeIdentity(object) : '$T';
   }
 
   @override

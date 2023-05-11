@@ -10,7 +10,7 @@ part 'posts_api.g.dart';
 
 @lazySingleton
 @RestApi()
-abstract class PostsApi {
+abstract interface class PostsApi {
   @factoryMethod
   factory PostsApi(DioProvider dioProvider) => _PostsApi(dioProvider.create<PostsApi>());
 

@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:auto_route/auto_route.dart';
-import 'package:flutter/widgets.dart';
+import 'package:flutter/widgets.dart' hide View;
 import 'package:reflectable/reflectable.dart';
 import 'package:starterkit_app/core/dependency_injection.dart';
 import 'package:starterkit_app/core/infrastructure/navigation/navigation_observer.dart';
@@ -88,7 +88,7 @@ mixin ChildViewMixin<TViewModel extends ViewModel> implements View<TViewModel> {
   void onDisposeViewModel(BuildContext context, TViewModel viewModel) {}
 }
 
-abstract class _ViewLifeCycleHandler {
+abstract final class _ViewLifeCycleHandler {
   static TViewModel _onCreateViewModel<TViewModel extends ViewModel>(
     BuildContext context, {
     required bool getNavigationParams,
