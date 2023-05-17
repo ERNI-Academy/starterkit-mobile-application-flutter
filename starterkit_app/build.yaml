@@ -6,6 +6,13 @@ targets:
         generate_for:
           include:
             - lib/main.dart
+        options:
+          formatted: true
+          terse_output: true
+          auto_apply: false
+          link_to_reflectable: true
+          entry_points:
+            - lib/main.dart
 
       injectable_generator|injectable_config_builder:
         enabled: true
