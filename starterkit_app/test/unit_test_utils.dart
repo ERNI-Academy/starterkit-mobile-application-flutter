@@ -4,6 +4,18 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 
-Null anyInstanceOf<T>({String? named}) => argThat(isA<T>(), named: named);
+typedef Having<T> = ({Object? Function(T) feature, String description, Object matcher});
+
+Null anyInstanceOf<T>({String? named, List<Having<T>> conditions = const []}) {
+  var matcher = isA<T>();
+
+  if (conditions.isNotEmpty) {
+    for (final condition in conditions) {
+      matcher = matcher.having(condition.feature, condition.description, condition.matcher);
+    }
+  }
+
+  return argThat(matcher, named: named);
+}
 
 Null captureAnyInstanceOf<T>({String? named}) => captureThat(isA<T>(), named: named);

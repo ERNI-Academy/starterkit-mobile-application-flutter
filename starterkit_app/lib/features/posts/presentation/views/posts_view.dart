@@ -20,14 +20,11 @@ class PostsView extends StatelessWidget with ViewMixin<PostsViewModel> {
       body: ValueListenableBuilder<PostsListState>(
         valueListenable: viewModel.postsState,
         builder: (context, postsState, _) {
-          switch (postsState) {
-            case PostsListLoadingState _:
-              return const Center(child: CircularProgressIndicator());
-            case PostsListLoadedState _:
-              return _PostsListView(postsState.posts.toList(), viewModel.onPostSelected);
-            case PostsListErrorState _:
-              return Center(child: Text(postsState.message));
-          }
+          return switch (postsState) {
+            PostsListLoadingState _ => const Center(child: CircularProgressIndicator()),
+            PostsListLoadedState _ => _PostsListView(postsState.posts.toList(), viewModel.onPostSelected),
+            PostsListErrorState _ => Center(child: Text(postsState.message))
+          };
         },
       ),
     );

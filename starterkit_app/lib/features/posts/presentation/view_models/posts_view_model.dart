@@ -4,12 +4,14 @@ import 'package:injectable/injectable.dart';
 import 'package:starterkit_app/core/infrastructure/logging/logger.dart';
 import 'package:starterkit_app/core/infrastructure/navigation/navigation_service.dart';
 import 'package:starterkit_app/core/presentation/view_models/view_model.dart';
+import 'package:starterkit_app/core/reflection.dart';
 import 'package:starterkit_app/features/posts/domain/entities/post_entity.dart';
 import 'package:starterkit_app/features/posts/domain/services/posts_service.dart';
 import 'package:starterkit_app/features/posts/presentation/models/posts_list_state.dart';
 import 'package:starterkit_app/shared/localization/localization.dart';
 
 @injectable
+@navigatable
 class PostsViewModel extends ViewModel {
   final Logger _logger;
   final NavigationService _navigationService;
