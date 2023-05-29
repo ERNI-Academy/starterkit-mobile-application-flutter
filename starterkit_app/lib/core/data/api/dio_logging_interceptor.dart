@@ -23,7 +23,7 @@ class DioLoggingInterceptor extends Interceptor {
   }
 
   @override
-  void onResponse(Response response, ResponseInterceptorHandler handler) {
+  void onResponse(Response<dynamic> response, ResponseInterceptorHandler handler) {
     final tag = '[RES#${shortHash(response.requestOptions)}]';
     _logger.log(LogLevel.debug, '$tag Success: ${response.statusCode} ${response.statusMessage}');
     _logBody(tag, response.data);

@@ -6,7 +6,7 @@ import 'package:starterkit_app/core/infrastructure/logging/logger.dart';
 abstract interface class NavigationLogger implements NavigatorObserver {}
 
 @LazySingleton(as: NavigationLogger)
-class NavigationLoggerImpl extends RouteObserver<ModalRoute> implements NavigationLogger {
+class NavigationLoggerImpl extends RouteObserver<ModalRoute<dynamic>> implements NavigationLogger {
   final Logger _logger;
 
   NavigationLoggerImpl(this._logger) {
@@ -14,24 +14,24 @@ class NavigationLoggerImpl extends RouteObserver<ModalRoute> implements Navigati
   }
 
   @override
-  void didPush(Route route, Route? previousRoute) {
+  void didPush(Route<dynamic> route, Route<dynamic>? previousRoute) {
     super.didPush(route, previousRoute);
     _logger.log(LogLevel.info, '${_getRoutePath(previousRoute)} === PUSHED ==> ${_getRoutePath(route)}');
   }
 
   @override
-  void didPop(Route route, Route? previousRoute) {
+  void didPop(Route<dynamic> route, Route<dynamic>? previousRoute) {
     super.didPop(route, previousRoute);
     _logger.log(LogLevel.info, '${_getRoutePath(previousRoute)} <== POPPED === ${_getRoutePath(route)}');
   }
 
   @override
-  void didReplace({Route? newRoute, Route? oldRoute}) {
+  void didReplace({Route<dynamic>? newRoute, Route<dynamic>? oldRoute}) {
     super.didReplace(newRoute: newRoute, oldRoute: oldRoute);
     _logger.log(LogLevel.info, '${_getRoutePath(oldRoute)} === REPLACED ==> ${_getRoutePath(newRoute)}');
   }
 
-  static String _getRoutePath(Route? route) {
+  static String _getRoutePath(Route<dynamic>? route) {
     final routeSettings = route?.settings;
 
     if (routeSettings is AutoRoutePage) {

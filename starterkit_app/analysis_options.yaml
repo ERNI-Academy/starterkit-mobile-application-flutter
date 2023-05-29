@@ -35,7 +35,6 @@ dart_code_metrics:
     - lib/**/widgets/**
     - lib/**/views/**
     - lib/**/dialog_service.dart
-    - lib/**/messaging_center.dart
     - lib/**/navigation_service.dart
     - lib/common/exceptions/**
     - test/**/*.config.dart
@@ -43,7 +42,8 @@ dart_code_metrics:
   rules:
     # Common
     - avoid-duplicate-exports
-    - avoid-dynamic
+    # Needed for strict-raw-types
+    # - avoid-dynamic
     - avoid-global-state
     - avoid-missing-enum-constant-in-map
     - avoid-nested-conditional-expressions
@@ -103,7 +103,7 @@ analyzer:
   language:
     strict-casts: true
     strict-inference: true
-    strict-raw-types: false
+    strict-raw-types: true
   plugins:
     - dart_code_metrics
 
