@@ -1,6 +1,6 @@
 import 'package:auto_mappr_annotation/auto_mappr_annotation.dart';
 import 'package:injectable/injectable.dart';
-import 'package:starterkit_app/core/infrastructure/mapping/modules/posts/posts_mapper.dart';
+import 'package:starterkit_app/core/infrastructure/mapping/modules/posts/post_mapper.dart';
 
 part 'object_mapper.g.dart';
 
@@ -14,7 +14,7 @@ abstract interface class ObjectMapper {
 @AutoMappr(
   [],
   modules: [
-    PostsMapper(),
+    PostMapper(),
   ],
 )
 class ObjectMapperImpl extends $ObjectMapperImpl implements ObjectMapper {}
