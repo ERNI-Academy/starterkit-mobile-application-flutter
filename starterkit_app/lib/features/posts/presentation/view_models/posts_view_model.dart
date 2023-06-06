@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:injectable/injectable.dart';
+import 'package:starterkit_app/core/domain/result.dart';
 import 'package:starterkit_app/core/infrastructure/logging/logger.dart';
 import 'package:starterkit_app/core/infrastructure/navigation/navigation_service.dart';
 import 'package:starterkit_app/core/presentation/view_models/view_model.dart';
@@ -33,15 +34,20 @@ class PostsViewModel extends ViewModel {
   }
 
   Future<void> _onGetPosts() async {
-    try {
-      _logger.log(LogLevel.info, 'Getting posts');
-      _postsState.value = const PostsListLoadingState();
-      final postEntities = await _postsService.getPosts();
-      _postsState.value = PostsListLoadedState(postEntities);
-      _logger.log(LogLevel.info, '${postEntities.length} posts loaded');
-    } catch (e, st) {
-      _logger.log(LogLevel.error, 'Failed to get posts', e, st);
-      _postsState.value = PostsListErrorState(Il8n.current.failedToGetPosts);
+    _logger.log(LogLevel.info, 'Getting posts');
+    _postsState.value = const PostsListLoadingState();
+
+    final getPostsResult = await _postsService.getPosts();
+
+    switch (getPostsResult) {
+      case Success(:final value):
+        _postsState.value = PostsListLoadedState(value);
+        _logger.log(LogLevel.info, '${value.length} posts loaded');
+        break;
+      case Failure(:final error):
+        _logger.log(LogLevel.error, 'Failed to get posts', error);
+        _postsState.value = PostsListErrorState(Il8n.current.failedToGetPosts);
+        break;
     }
   }
 }
