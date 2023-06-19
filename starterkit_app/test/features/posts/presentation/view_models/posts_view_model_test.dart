@@ -28,7 +28,7 @@ void main() {
     });
 
     PostsViewModel createUnitToTest() {
-      return PostsViewModelImpl(mockLogger, mockNavigationService, mockPostsService);
+      return PostsViewModel(mockLogger, mockNavigationService, mockPostsService);
     }
 
     test('initialize should get posts when called', () async {

@@ -10,28 +10,17 @@ import 'package:starterkit_app/features/posts/domain/services/posts_service.dart
 import 'package:starterkit_app/features/posts/presentation/models/posts_list_state.dart';
 import 'package:starterkit_app/shared/localization/localization.dart';
 
-abstract interface class PostsViewModel implements ViewModel {
-  ValueListenable<PostsListState> get postsState;
-
-  Future<void> onPostSelected(PostEntity post);
-}
-
-@Injectable(as: PostsViewModel)
-class PostsViewModelImpl extends ViewModel implements PostsViewModel {
-  @override
-  final ValueNotifier<PostsListState> postsState = ValueNotifier(const PostsListLoadingState());
-
+@injectable
+class PostsViewModel extends ViewModel {
   final Logger _logger;
   final NavigationService _navigationService;
   final PostsService _postsService;
 
-  PostsViewModelImpl(this._logger, this._navigationService, this._postsService) {
-    _logger.logFor(this);
-  }
+  final ValueNotifier<PostsListState> _postsState = ValueNotifier(const PostsListLoadingState());
+  ValueListenable<PostsListState> get postsState => _postsState;
 
-  @override
-  Future<void> onPostSelected(PostEntity post) async {
-    await _navigationService.push(PostDetailsViewRoute(post: post));
+  PostsViewModel(this._logger, this._navigationService, this._postsService) {
+    _logger.logFor(this);
   }
 
   @override
@@ -39,20 +28,24 @@ class PostsViewModelImpl extends ViewModel implements PostsViewModel {
     await _onGetPosts();
   }
 
+  Future<void> onPostSelected(PostEntity post) async {
+    await _navigationService.push(PostDetailsViewRoute(post: post));
+  }
+
   Future<void> _onGetPosts() async {
     _logger.log(LogLevel.info, 'Getting posts');
-    postsState.value = const PostsListLoadingState();
+    _postsState.value = const PostsListLoadingState();
 
     final getPostsResult = await _postsService.getPosts();
 
     switch (getPostsResult) {
       case Success(:final value):
-        postsState.value = PostsListLoadedState(value);
+        _postsState.value = PostsListLoadedState(value);
         _logger.log(LogLevel.info, '${value.length} posts loaded');
         break;
       case Failure(:final error, :final stackTrace):
         _logger.log(LogLevel.error, 'Failed to get posts', error, stackTrace);
-        postsState.value = PostsListErrorState(Il8n.current.failedToGetPosts);
+        _postsState.value = PostsListErrorState(Il8n.current.failedToGetPosts);
         break;
     }
   }
