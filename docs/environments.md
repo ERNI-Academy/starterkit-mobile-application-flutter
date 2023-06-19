@@ -20,7 +20,7 @@ There is a written [article](https://medium.com/@dustincatap/app-environments-in
 
 ## Secrets File
 
-These `.secrets` files are formatted as JSON, and each key are passed to Flutter's build arguments as [Dart defines](https://dartcode.org/docs/using-dart-define-in-flutter/). Checkout our [launch.json](../erni_mobile/.vscode/launch.json) on how these are passed.
+These `.secrets` files are formatted as JSON, and each key are passed to Flutter's build arguments as [Dart defines](https://dartcode.org/docs/using-dart-define-in-flutter/). Checkout our [launch.json](../starterkit_app/.vscode/launch.json) on how these are passed.
 
 Below is a sample of a `.secrets` file for the development environment:
 
@@ -43,7 +43,7 @@ Below is a sample of a `.secrets` file for the development environment:
 
 :exclamation: **<span style="color: red">IMPORTANT</span>**
 
-The folder `.secrets` is committed to git by default (for testing purposes), you should uncomment last part of the [.gitignore](../erni_mobile/.gitignore) file to remove it from git.
+The folder `.secrets` is committed to git by default (for testing purposes), you should uncomment last part of the [.gitignore](../starterkit_app/.gitignore) file to remove it from git.
 
 ### Accessing Dart Defines in the Platforms
 

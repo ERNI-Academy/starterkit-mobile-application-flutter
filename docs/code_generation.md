@@ -44,7 +44,7 @@ A sample of a class using [`json_serializable`](https://pub.dev/packages/json_se
 ```dart
 // user_login_request_contract.dart
 
-import 'package:erni_mobile/web/contracts/data_contract.dart';
+import 'package:starterkit_app/web/contracts/data_contract.dart';
 
 part 'user_login_request_contract.g.dart';
 

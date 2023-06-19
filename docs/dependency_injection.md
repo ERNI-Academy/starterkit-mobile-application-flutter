@@ -10,10 +10,10 @@ Since Flutter does not support reflection (`dart:mirrors`), the project uses [`i
 
 ## Registration
 
-Registration is called before running the application, as show here in our [`main.dart`](../../../erni_mobile/lib/main.dart):
+Registration is called before running the application, as show here in our [`main.dart`](../../../starterkit_app/lib/main.dart):
 
 ```dart
-import 'package:erni_mobile/dependency_injection.dart';
+import 'package:starterkit_app/dependency_injection.dart';
 
 Future<void> main() async {
   ...
@@ -143,7 +143,7 @@ class AppLoggerImpl implements AppLogger {
 You can resolve a dependency using the `ServiceLocator.instance`:
 
 ```dart
-import 'package:erni_mobile/dependency_injection.dart';
+import 'package:starterkit_app/dependency_injection.dart';
 
 Future<void> main() async {
   // register first

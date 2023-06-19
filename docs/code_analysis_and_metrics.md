@@ -1,6 +1,6 @@
 # Code Analysis
 
-We use a custom [`analysis_options.yaml`](../erni_mobile/analysis_options.yaml). sCombined with [flutter_lints](https://pub.dev/packages/flutter_lints) and additional rules, it enforces a strict and type-safe development.
+We use a custom [`analysis_options.yaml`](../starterkit_app/analysis_options.yaml). sCombined with [flutter_lints](https://pub.dev/packages/flutter_lints) and additional rules, it enforces a strict and type-safe development.
 
 # Code Metrics
 

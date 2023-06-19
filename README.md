@@ -27,7 +27,7 @@ ERNI Academy mobile boilerplate to start a cross-platform Flutter mobile applica
 
 **Visual Studio Code**
 - [Download Visual Studio Code](https://code.visualstudio.com/download)
-- A [list of extensions](erni_mobile/.vscode/extensions.json) are required to be installed in order to properly run the project
+- A [list of extensions](starterkit_app/.vscode/extensions.json) are required to be installed in order to properly run the project
 
 **Android**
 - [Download Android Studio](https://developer.android.com/studio)
@@ -57,7 +57,7 @@ Clone the repo.
 git clone https://github.com/ERNI-Academy/starterkit-mobile-application-flutter.git
 ```
 
-Untrack the files under the folder `.environment` by adding it in your [.gitignore](erni_mobile/.gitignore)
+Untrack the files under the folder `.environment` by adding it in your [.gitignore](starterkit_app/.gitignore)
 
 ```sh
 .environment/**

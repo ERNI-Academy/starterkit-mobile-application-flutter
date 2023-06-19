@@ -1,7 +1,7 @@
 # Resource Management
 
 ```dart
-import 'package:erni_mobile/core/resources/assets.gen.dart';
+import 'package:starterkit_app/core/resources/assets.gen.dart';
 
 @override
 Widget buildView(BuildContext context, SplashViewModel viewModel) {

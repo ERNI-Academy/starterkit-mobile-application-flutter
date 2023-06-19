@@ -23,7 +23,7 @@ concurrency:
   cancel-in-progress: true
 
 env:
-  PROJECT_WORKING_DIRECTORY: "erni_mobile"
+  PROJECT_WORKING_DIRECTORY: "starterkit_app"
 
 jobs:
   build-ios:

@@ -1,6 +1,6 @@
 # Code Style
 
-We use a custom [`analysis_options.yaml`](../erni_mobile/analysis_options.yaml).
+We use a custom [`analysis_options.yaml`](../starterkit_app/analysis_options.yaml).
 
 The default line length of the project is `120`, versus Dart's recommended `80`.
 
