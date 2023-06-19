@@ -37,7 +37,7 @@ Checking is part of the project's CI workflow (see [azure-pipelines.yml](../ci/a
 [Dart Code Metrics](https://dartcodemetrics.dev)' analysis can be run locally using the following commands:
 
 ```sh
-flutter pub run dart_code_metrics:metrics analyze lib --fatal-style --fatal-warnings --fatal-performance
-flutter pub run dart_code_metrics:metrics check-unused-files lib --fatal-unused
-flutter pub run dart_code_metrics:metrics check-unused-code lib --fatal-unused
+dart run dart_code_metrics:metrics analyze lib --fatal-style --fatal-warnings --fatal-performance
+dart run dart_code_metrics:metrics check-unused-files lib --fatal-unused
+dart run dart_code_metrics:metrics check-unused-code lib --fatal-unused
 ```

@@ -85,7 +85,7 @@ flutter pub global activate intl_utils
 flutter pub global run intl_utils:generate
 
 # Run this command whenever you use build_runner
-flutter pub run build_runner build --delete-conflicting-outputs
+dart run build_runner build --delete-conflicting-outputs
 ```
 
 Read more about code generation [here](docs/code_generation.md).

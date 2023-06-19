@@ -35,7 +35,7 @@ jobs:
         uses: ./.github/workflows/steps/install-flutter
 
       - name: Check formatting
-        run: flutter format --line-length=120 --dry-run --set-exit-if-changed .
+        run: dart format --line-length=120 --dry-run --set-exit-if-changed .
         working-directory: ${{ env.PROJECT_WORKING_DIRECTORY }}
 
       - name: Check for duplicate lines of code
@@ -57,19 +57,19 @@ jobs:
           flutter analyze .
 
           # Running checks for code metrics
-          flutter pub run dart_code_metrics:metrics analyze lib --fatal-style --fatal-warnings --fatal-performance
+          dart run dart_code_metrics:metrics analyze lib --fatal-style --fatal-warnings --fatal-performance
 
           # Running checks for unused files
           # Add `--fatal-unused` if you want to fail this step if there are unused files
-          flutter pub run dart_code_metrics:metrics check-unused-files lib --no-fatal-unused
+          dart run dart_code_metrics:metrics check-unused-files lib --no-fatal-unused
 
           # Running checks for unused code
           # Add `--fatal-unused` if you want to fail this step if there are unused code
-          flutter pub run dart_code_metrics:metrics check-unused-code lib --no-fatal-unused
+          dart run dart_code_metrics:metrics check-unused-code lib --no-fatal-unused
 
           # Running checks for unused localizations
           # Add `--fatal-unused` if you want to fail this step if there are unused localizations
-          flutter pub run dart_code_metrics:metrics check-unused-l10n -p Il8n lib
+          dart run dart_code_metrics:metrics check-unused-l10n -p Il8n lib
         working-directory: ${{ env.PROJECT_WORKING_DIRECTORY }}
 
       - name: Add ignore-coverage to generated files
