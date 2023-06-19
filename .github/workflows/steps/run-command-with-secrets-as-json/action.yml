@@ -16,7 +16,7 @@ runs:
   using: composite
   steps:
     - run: |
-        $SecretsJson = Get-Content ".secrets/${{ inputs.app_environment }}.secrets" | Out-String | ConvertFrom-Json
+        $SecretsJson = Get-Content ".environment/${{ inputs.app_environment }}.json" | Out-String | ConvertFrom-Json
         ${{ inputs.command }}
       shell: powershell
       working-directory: ${{ inputs.working_directory }}

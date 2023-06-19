@@ -57,15 +57,15 @@ Clone the repo.
 git clone https://github.com/ERNI-Academy/starterkit-mobile-application-flutter.git
 ```
 
-Untrack the files under the folder `lib/.secrets` by adding it in your [.gitignore](erni_mobile/.gitignore)
+Untrack the files under the folder `.environment` by adding it in your [.gitignore](erni_mobile/.gitignore)
 
 ```sh
-.secrets/**
+.environment/**
 ```
 
 **Setup your secrets**
 
-Update the contents of `.secrets/dev.secrets`, and add the other `.secrets` file for each of your environment.
+Update the contents of `.environment/dev.json`, and add the other `.json` file for each of your environment.
 
 Read more about setting up your environments [here](docs/environments.md).
 
