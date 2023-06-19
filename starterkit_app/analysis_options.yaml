@@ -36,7 +36,6 @@ dart_code_metrics:
     - lib/**/views/**
     - lib/**/dialog_service.dart
     - lib/**/navigation_service.dart
-    - lib/common/exceptions/**
     - test/**/*.config.dart
     - test/**/*.mocks.dart
   rules:

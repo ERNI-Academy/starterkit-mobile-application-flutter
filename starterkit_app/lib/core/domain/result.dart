@@ -1,20 +1,18 @@
-typedef Result<T> = _Result<T, Exception>;
-
-sealed class _Result<T, E extends Exception> {
+sealed class Result<T> {
   final bool isSuccess;
 
-  _Result({required this.isSuccess});
+  const Result({required this.isSuccess});
 }
 
-final class Success<T, E extends Exception> extends _Result<T, E> {
+final class Success<T> extends Result<T> {
   final T value;
 
-  Success(this.value) : super(isSuccess: true);
+  const Success(this.value) : super(isSuccess: true);
 }
 
-final class Failure<T, E extends Exception> extends _Result<T, E> {
-  final E error;
+final class Failure<T> extends Result<T> {
+  final Exception error;
   final StackTrace? stackTrace;
 
-  Failure(this.error, [this.stackTrace]) : super(isSuccess: false);
+  const Failure(this.error, [this.stackTrace]) : super(isSuccess: false);
 }

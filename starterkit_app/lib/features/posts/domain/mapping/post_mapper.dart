@@ -6,7 +6,7 @@ import 'package:starterkit_app/features/posts/domain/entities/post_entity.dart';
 
 part 'post_mapper.g.dart';
 
-abstract class PostMapper implements ObjectMapper {}
+abstract interface class PostMapper implements ObjectMapper {}
 
 @AutoMappr([
   MapType<PostContract, PostEntity>(),

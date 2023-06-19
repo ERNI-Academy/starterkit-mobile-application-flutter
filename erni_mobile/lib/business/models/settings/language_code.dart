@@ -1,1 +1,0 @@
-enum LanguageCode { en, de }

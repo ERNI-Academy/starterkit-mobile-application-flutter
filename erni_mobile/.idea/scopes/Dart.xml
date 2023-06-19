@@ -1,3 +1,0 @@
-<component name="DependencyValidationManager">
-  <scope name="Dart" pattern="(file[erni_mobile]:lib/**||file[erni_mobile]:lib/**/*.*||file[erni_mobile]:test/**||file[erni_mobile]:test/**/*.*||file:analysis_options.yaml||file:build.yaml||file:dart_test.yaml||file:pubspec.yaml||file:.gitignore)&amp;&amp;!file[erni_mobile]:*.config.dart&amp;&amp;!file[erni_mobile]:*.reflectable.dart&amp;&amp;!file[erni_mobile]:lib/**/*.g.dart&amp;&amp;!file[erni_mobile]:lib/**/*.gr.dart&amp;&amp;!file[erni_mobile]:lib/**/*.gen.dart&amp;&amp;!file[erni_mobile]:test/**/*.mocks.dart&amp;&amp;!file[erni_mobile]:lib/**/generated/**||file[erni_mobile]:.secrets/*" />
-</component>
