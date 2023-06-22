@@ -1,18 +1,24 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:starterkit_app/core/domain/result.dart';
 import 'package:starterkit_app/core/infrastructure/logging/logger.dart';
 import 'package:starterkit_app/core/infrastructure/navigation/navigation_service.dart';
 import 'package:starterkit_app/features/posts/domain/entities/post_entity.dart';
+import 'package:starterkit_app/features/posts/domain/services/posts_service.dart';
 import 'package:starterkit_app/features/posts/presentation/models/posts_list_state.dart';
 import 'package:starterkit_app/features/posts/presentation/view_models/posts_view_model.dart';
 import 'package:starterkit_app/shared/localization/localization.dart';
 
-import '../../../../core/infrastructure/mocks.mocks.dart';
 import '../../../../test_utils.dart';
 import '../../../../unit_test_utils.dart';
-import '../../domain/mocks.mocks.dart';
+import 'posts_view_model_test.mocks.dart';
 
+@GenerateNiceMocks([
+  MockSpec<Logger>(),
+  MockSpec<NavigationService>(),
+  MockSpec<PostsService>(),
+])
 void main() {
   group(PostsViewModel, () {
     late MockLogger mockLogger;
@@ -25,6 +31,8 @@ void main() {
       mockNavigationService = MockNavigationService();
       mockPostsService = MockPostsService();
       il8n = await setupLocale();
+
+      provideDummy<Result<Iterable<PostEntity>>>(const Success([]));
     });
 
     PostsViewModel createUnitToTest() {

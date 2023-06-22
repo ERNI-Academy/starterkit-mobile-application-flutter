@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:golden_toolkit/golden_toolkit.dart';
+import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:starterkit_app/core/dependency_injection.dart';
 import 'package:starterkit_app/core/domain/result.dart';
@@ -14,8 +15,11 @@ import 'package:starterkit_app/shared/localization/localization.dart';
 
 import '../../../../test_utils.dart';
 import '../../../../widget_test_utils.dart';
-import '../../domain/mocks.mocks.dart';
+import 'posts_view_test.mocks.dart';
 
+@GenerateNiceMocks([
+  MockSpec<PostsService>(),
+])
 void main() {
   group(PostsView, () {
     late Il8n il8n;
@@ -27,13 +31,14 @@ void main() {
       mockPostsService = MockPostsService();
 
       ServiceLocator.instance.registerSingleton<PostsService>(mockPostsService);
+      provideDummy<Result<Iterable<PostEntity>>>(const Success([]));
     });
 
     testGoldens('should show correct app bar title when shown', (tester) async {
       await tester.pumpWidget(const App(initialRoute: PostsViewRoute()));
       await tester.pumpAndSettle();
 
-      await matchGolden(tester, 'posts_view_app_bar_title');
+      await tester.matchGolden('posts_view_app_bar_title');
       expect(find.text(il8n.posts), findsOneWidget);
     });
 
@@ -44,7 +49,7 @@ void main() {
       await tester.pumpWidget(const App(initialRoute: PostsViewRoute()));
       await tester.pumpAndSettle();
 
-      await matchGolden(tester, 'posts_view_loaded');
+      await tester.matchGolden('posts_view_loaded');
       expect(find.byType(ListView), findsOneWidget);
       expect(find.byType(ListTile), findsOneWidget);
       expect(find.text(expectedPost.title), findsOneWidget);
@@ -60,7 +65,7 @@ void main() {
       await tester.tap(find.byKey(Key(expectedPost.id.toString())));
       await tester.pumpAndSettle(const Duration(milliseconds: 500));
 
-      await matchGolden(tester, 'posts_view_navigate_to_post_details_view');
+      await tester.matchGolden('posts_view_navigate_to_post_details_view');
       expect(find.byType(PostsView), findsNothing);
       expect(find.byType(PostDetailsView), findsOneWidget);
     });

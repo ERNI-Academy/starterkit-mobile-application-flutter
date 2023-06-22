@@ -19,13 +19,6 @@ Future<void> setupWidgetTest() async {
   await loadAppFonts();
 }
 
-Future<void> matchGolden(WidgetTester tester, String name) async {
-  // Specify golden files to match depending on platform OS that rendered them
-  // See https://github.com/flutter/flutter/issues/56383
-  final platformGolden = join(Platform.operatingSystem, name);
-  await multiScreenGolden(tester, platformGolden, devices: Devices.all);
-}
-
 abstract final class Devices {
   // Computed according to https://material.io/blog/device-metrics
   static const pixel6 = Device(size: Size(420.56, 934.58), name: 'pixel6_portrait');
@@ -46,6 +39,13 @@ extension WidgetTesterExtension on WidgetTester {
       }
     }
     timer.cancel();
+  }
+
+  Future<void> matchGolden(String name) async {
+    // Specify golden files to match depending on platform OS that rendered them
+    // See https://github.com/flutter/flutter/issues/56383
+    final platformGolden = join(Platform.operatingSystem, name);
+    await multiScreenGolden(this, platformGolden, devices: Devices.all);
   }
 }
 
