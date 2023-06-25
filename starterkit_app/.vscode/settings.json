@@ -55,5 +55,12 @@
         // strings. This setting will prevent that.
         "editor.wordBasedSuggestions": false,
     },
-    "flutter-coverage.sufficientCoverageThreshold": 80
+    "flutter-coverage.sufficientCoverageThreshold": 80,
+    "dart.flutterSdkPath": ".fvm/flutter_sdk",
+    "search.exclude": {
+        "**/.fvm": true
+    },
+    "files.watcherExclude": {
+        "**/.fvm": true
+    }
 }

@@ -14,7 +14,7 @@ before_all do
 
   puts "Loading variables and secrets for `#{app_environment}`"
 
-  secrets = read_json(json_path: ".environment/#{app_environment}.json")
+  secrets = read_json(json_path: ".secrets/#{app_environment}.json")
   secrets.each { |k, v| dart_defines << "--dart-define \"#{k}=#{v}\" " }
 end
 

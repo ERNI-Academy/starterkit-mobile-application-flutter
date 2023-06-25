@@ -43,6 +43,7 @@ migrate_working_dir/
 **/generated/**
 full_coverage_test.dart
 metrics
+.fvm/flutter_sdk
 
 # Web related
 
@@ -94,4 +95,4 @@ google-services.json
 GoogleService-Info.plist
 
 # Comment this out after setting the correct secrets file
-# .environment/**
+# .secrets/**

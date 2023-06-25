@@ -38,6 +38,8 @@ jobs:
 
       - name: Install Flutter
         uses: ./.github/workflows/steps/install-flutter
+        with:
+          working-directory: ${{ env.PROJECT_WORKING_DIRECTORY }}
 
       - name: Set java version
         uses: actions/setup-java@v2

@@ -1,13 +1,25 @@
 name: Install Flutter
-description: Installs the latest Flutter SDK
+description: Installs the specific Flutter SDK version configured in the project
+
+inputs:
+  working_directory:
+    description: 'The working directory'
+    required: true
 
 runs:
   using: composite
   steps:
-    - uses: subosito/flutter-action@v2.6.2
-      with:
-        flutter-version: '3.10.5'
-        channel: 'stable'
+    - run: |
+        brew install fvm
+        fvm install
+      working-directory: ${{ inputs.working_directory }}
+
+    - run: |
+        touch $HOME/.temprc
+        echo "alias flutter='fvm flutter'" >> $HOME/.temprc
+        echo "alias dart='fvm dart'" >> $HOME/.temprc
+        source $HOME/.temprc
+      shell: bash
 
     - run: flutter --version
       shell: bash
