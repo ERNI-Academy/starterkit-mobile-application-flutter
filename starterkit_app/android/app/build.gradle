@@ -25,6 +25,36 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
 
+// Check keystore file
+def keystoreProperties = new Properties()
+def keyStorePropertiesFileName = 'Distribution.keystore.properties'
+def keystorePropertiesFile = file(keyStorePropertiesFileName)
+def keystorePropertiesFileExists = keystorePropertiesFile.exists()
+def keystoreFileExists = false
+
+if (keystorePropertiesFileExists) {
+    keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+    def keystoreFile = file(keystoreProperties['storeFile'])
+    keystoreFileExists = keystoreFile.exists()
+    if (keystoreFileExists) {
+        println 'Signing with provided keystore'
+    } else {
+        println 'Could not find signing keystore, using debug'
+    }
+} else {
+    println 'Could not find signing keystore, using debug'
+}
+
+
+// Uncomment this line if using google-services.json
+// Decode provided base64 google-services.json
+// if (androidGoogleServicesJson?.trim()) {
+//     def encoded = androidGoogleServicesJson
+//     def decoded = new String(encoded.decodeBase64())
+//     def googleServicesJsonFile = new File("app/google-services.json")
+//     googleServicesJsonFile.write(decoded)
+// }
+
 android {
     namespace 'com.example.starterkit_app'
     compileSdkVersion 33
@@ -44,24 +74,42 @@ android {
     }
 
     defaultConfig {
-        // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
-        applicationId "com.example.starterkit_app"
-        // You can update the following values to match your application needs.
-        // For more information, see: https://docs.flutter.dev/deployment/android#reviewing-the-gradle-build-configuration.
-        minSdkVersion 29
+        println "Building $appId$appIdSuffix"
+
+        applicationId appId
+        applicationIdSuffix appIdSuffix
+        minSdkVersion 30
         targetSdkVersion 33
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
+
+        resValue "string", "app_name", appName
+    }
+
+    signingConfigs {
+        if (keystoreFileExists) {
+            release {
+                keyAlias keystoreProperties['keyAlias']
+                keyPassword keystoreProperties['keyPassword']
+                storeFile file(keystoreProperties['storeFile'])
+                storePassword keystoreProperties['storePassword']
+            }
+        }
     }
 
     buildTypes {
         release {
-            // TODO: Add your own signing config for the release build.
-            // Signing with the debug keys for now, so `flutter run --release` works.
-            signingConfig signingConfigs.debug
+            multiDexEnabled true
+            minifyEnabled true
+            shrinkResources true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig keystoreFileExists ? signingConfigs.release : signingConfigs.debug
+        }
+
+        debug {
+            signingConfig keystoreFileExists ? signingConfigs.release : signingConfigs.debug
         }
     }
-    namespace 'com.example.starterkit_app'
 }
 
 flutter {

@@ -5,7 +5,7 @@ ERNI Academy mobile boilerplate to start a cross-platform Flutter mobile applica
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
-[![Code Validation](https://github.com/ERNI-Academy/starterkit-mobile-application-flutter/actions/workflows/ci-code-validation.yml/badge.svg)](https://github.com/ERNI-Academy/starterkit-mobile-application-flutter/actions/workflows/ci-code-validation.yml) [![Android Build](https://github.com/ERNI-Academy/starterkit-mobile-application-flutter/actions/workflows/ci-android.yml/badge.svg)](https://github.com/ERNI-Academy/starterkit-mobile-application-flutter/actions/workflows/ci-android.yml) [![iOS Build](https://github.com/ERNI-Academy/starterkit-mobile-application-flutter/actions/workflows/ci-ios.yml/badge.svg)](https://github.com/ERNI-Academy/starterkit-mobile-application-flutter/actions/workflows/ci-ios.yml) [![Web Build](https://github.com/ERNI-Academy/starterkit-mobile-application-flutter/actions/workflows/ci-web.yml/badge.svg)](https://github.com/ERNI-Academy/starterkit-mobile-application-flutter/actions/workflows/ci-web.yml) [![Windows Build](https://github.com/ERNI-Academy/starterkit-mobile-application-flutter/actions/workflows/ci-windows.yml/badge.svg)](https://github.com/ERNI-Academy/starterkit-mobile-application-flutter/actions/workflows/ci-windows.yml)
+[![Code Validation](https://github.com/ERNI-Academy/starterkit-mobile-application-flutter/actions/workflows/ci-code-validation.yml/badge.svg)](https://github.com/ERNI-Academy/starterkit-mobile-application-flutter/actions/workflows/ci-code-validation.yml) [![Android Build](https://github.com/ERNI-Academy/starterkit-mobile-application-flutter/actions/workflows/ci-android.yml/badge.svg)](https://github.com/ERNI-Academy/starterkit-mobile-application-flutter/actions/workflows/ci-android.yml) [![iOS Build](https://github.com/ERNI-Academy/starterkit-mobile-application-flutter/actions/workflows/ci-ios.yml/badge.svg)](https://github.com/ERNI-Academy/starterkit-mobile-application-flutter/actions/workflows/ci-ios.yml)
 
 ## Built With
 
@@ -20,10 +20,10 @@ ERNI Academy mobile boilerplate to start a cross-platform Flutter mobile applica
 ## Prerequisites
 
 **Flutter**
-- v3.3.10+ on stable channel
+- v3.10.5+ on stable channel
 
 **Dart**
-- v2.18.0+
+- v3.0.0+
 
 **Visual Studio Code**
 - [Download Visual Studio Code](https://code.visualstudio.com/download)
@@ -31,21 +31,13 @@ ERNI Academy mobile boilerplate to start a cross-platform Flutter mobile applica
 
 **Android**
 - [Download Android Studio](https://developer.android.com/studio)
+- Java 17
 - Android 30 (minimum), Android 33 (target)
 
-**iOS and macOS**
-- [Download Xcode 13](https://developer.apple.com/download/all/)
+**iOS**
+- [Download Xcode 14](https://developer.apple.com/download/all/)
 - iOS 13 (minimum), iOS 16 (target)
 - Requires macOS 11 (Big Sur) or higher
-
-**Windows**
-- [Download Visual Studio 2022](https://visualstudio.microsoft.com/vs/)
-- Windows 10 or later (64-bit), x86-64 based
-- Additional Windows requirements [here](https://docs.flutter.dev/development/platform-integration/desktop#additional-windows-requirements)
-- Note that **Visual Studio** is different from **Visual Studio *Code***
-  
-**Web**
-- Any browser capable of debugging, but preferably chrome-based browsers
 
 ## Project Setup
 
@@ -127,7 +119,7 @@ Please see our [Contribution Guide](CONTRIBUTING.md) to learn how to contribute.
 
 ![MIT](https://img.shields.io/badge/License-MIT-blue.svg)
 
-Copyright © 2022 [ERNI - Swiss Software Engineering](https://www.betterask.erni)
+Copyright © 2023 [ERNI - Swiss Software Engineering](https://www.betterask.erni)
 
 ## Code of conduct
 

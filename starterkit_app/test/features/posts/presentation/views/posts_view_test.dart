@@ -31,7 +31,7 @@ void main() {
       mockPostsService = MockPostsService();
 
       ServiceLocator.instance.registerSingleton<PostsService>(mockPostsService);
-      provideDummy<Result<Iterable<PostEntity>>>(const Success([]));
+      provideDummy<Result<Iterable<PostEntity>>>(Failure(Exception()));
     });
 
     testGoldens('should show correct app bar title when shown', (tester) async {

@@ -32,7 +32,7 @@ void main() {
       mockPostsService = MockPostsService();
       il8n = await setupLocale();
 
-      provideDummy<Result<Iterable<PostEntity>>>(const Success([]));
+      provideDummy<Result<Iterable<PostEntity>>>(Failure(Exception()));
     });
 
     PostsViewModel createUnitToTest() {

@@ -1,7 +1,7 @@
 {
-    "appEnvironment": "dev",
+    "appEnvironment": "prod",
     "appServerUrl": "https://jsonplaceholder.typicode.com/",
     "appId": "com.mycompany.starterkit.app",
-    "appIdSuffix": ".dev",
-    "appName": "Sample App (Dev)"
+    "appIdSuffix": "",
+    "appName": "Sample App"
 }
