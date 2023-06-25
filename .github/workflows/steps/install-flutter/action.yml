@@ -12,6 +12,7 @@ runs:
     - run: |
         brew install fvm
         fvm install
+      shell: bash
       working-directory: ${{ inputs.working_directory }}
 
     - run: |
