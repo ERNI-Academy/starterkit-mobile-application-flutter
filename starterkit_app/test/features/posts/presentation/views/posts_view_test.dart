@@ -35,6 +35,8 @@ void main() {
     });
 
     testGoldens('should show correct app bar title when shown', (tester) async {
+      when(mockPostsService.getPosts()).thenAnswer((_) async => const Success([]));
+
       await tester.pumpWidget(const App(initialRoute: PostsViewRoute()));
       await tester.pumpAndSettle();
 
