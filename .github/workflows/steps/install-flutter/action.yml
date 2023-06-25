@@ -9,19 +9,14 @@ inputs:
 runs:
   using: composite
   steps:
-    - run: |
-        brew tap leoafarias/fvm
-        brew install fvm
-        fvm install
-      shell: bash
-      working-directory: ${{ inputs.working_directory }}
+    - uses: kuhnroyal/flutter-fvm-config-action@v1
+      with:
+        path: ${{ inputs.working_directory }}/.fvm/fvm_config.json
 
-    - run: |
-        touch $HOME/.temprc
-        echo "alias flutter='fvm flutter'" >> $HOME/.temprc
-        echo "alias dart='fvm dart'" >> $HOME/.temprc
-        source $HOME/.temprc
-      shell: bash
+    - uses: subosito/flutter-action@v2
+      with:
+        flutter-version: ${{ env.FLUTTER_VERSION }}
+        channel: ${{ env.FLUTTER_CHANNEL }}
 
     - run: flutter --version
       shell: bash
