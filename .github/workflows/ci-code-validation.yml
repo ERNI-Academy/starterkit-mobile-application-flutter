@@ -34,7 +34,7 @@ jobs:
       - name: Install Flutter
         uses: ./.github/workflows/steps/install-flutter
         with:
-          working-directory: ${{ env.PROJECT_WORKING_DIRECTORY }}
+          working_directory: ${{ env.PROJECT_WORKING_DIRECTORY }}
 
       - name: Check formatting
         run: dart format --line-length=120 --set-exit-if-changed .

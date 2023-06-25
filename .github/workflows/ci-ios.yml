@@ -39,7 +39,7 @@ jobs:
       - name: Install Flutter
         uses: ./.github/workflows/steps/install-flutter
         with:
-          working-directory: ${{ env.PROJECT_WORKING_DIRECTORY }}
+          working_directory: ${{ env.PROJECT_WORKING_DIRECTORY }}
 
       - name: Run code generation
         uses: ./.github/workflows/steps/run-pub-get-and-code-generation
