@@ -4,13 +4,16 @@
 
 This package provides support for reflection which may be tailored to cover certain reflective features and omit others, thus reducing the resource requirements at run time.
 
-## Scenario
+## Scenarios
+
+
+### Navigation
 
 The project uses `reflectable` on the view models. It extracts the query parameters from the current route and assigns the value to matchning annotated members.
 
 ```dart
 @injectable
-@reflectable
+@navigatable
 class MyViewModel extends ViewModel {
   @QueryParam('id')
   String? id;

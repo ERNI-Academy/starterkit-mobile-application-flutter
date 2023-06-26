@@ -2,7 +2,9 @@
 
 ## State Management using Model-View-View Model (MVVM)
 
-A software architecture pattern to separate concerns and improve code maintainability. It aims to provide a clear separation between the user interface (View), the data and business logic (ViewModel), and the underlying data models (Model). While MVVM typically uses Observables or Reactive programming libraries, such as streams or Rx, in Flutter, you can also implement MVVM using [`ValueListenable`](https://api.flutter.dev/flutter/foundation/ValueListenable-class.html) for data binding.
+A software architecture pattern to separate concerns and improve code maintainability. It aims to provide a clear separation between the user interface (View), the data and business logic (ViewModel), and the underlying data models (Model).
+
+While MVVM typically uses Observables or Reactive programming libraries, such as streams or Rx, in Flutter, you can also implement MVVM using [`ValueListenable`](https://api.flutter.dev/flutter/foundation/ValueListenable-class.html) for data binding.
 
 Read more about it [here](ui/state_management.md).
 
@@ -31,6 +33,18 @@ The Presentation layer is responsible for the user interface (UI) and user inter
 ### Data Flow
 
 The flow of data and dependencies in Clean Architecture follows a unidirectional pattern:
+
+```
++------------------------+       +------------------------+       +------------------------+
+| Presentation Layer     | ----> | Domain Layer           | ----> | Data Layer             |
++------------------------+       +------------------------+       +------------------------+
+|                        |       |                        |       |                        |
+|  Widgets               |       |  Services              |       |  Repositories          |
+|  Views                 |       |  Entities              |       |  APIs                  |
+|  View Models           |       |  Mappers               |       |  Databases             |
+|  Models                |       |  Validators            |       |  Data Contracts        |
++------------------------+       +------------------------+       +------------------------+
+```
 
 - The Presentation layer depends on the Domain layer and uses interfaces or abstract classes defined in the Domain layer to retrieve data and execute business logic operations.
 - The Domain layer depends on the Data layer through interfaces or abstract classes defined in the Domain layer. It uses repositories to retrieve and store data without being aware of the specific data sources or implementation details.

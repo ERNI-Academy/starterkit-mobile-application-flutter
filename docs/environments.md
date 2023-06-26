@@ -20,7 +20,7 @@ Read more about this setup in [this article](https://itnext.io/flutter-3-7-and-a
 
 ## Secrets File
 
-A specific `.json` file is passed to Flutter's build arguments as [Dart defines](https://dartcode.org/docs/using-dart-define-in-flutter/). Checkout our [launch.json](../starterkit_app/.vscode/launch.json) on how these are passed.
+A specific `.json` file per environment is passed to Flutter's build arguments as [Dart defines](https://dartcode.org/docs/using-dart-define-in-flutter/). Checkout our [launch.json](../starterkit_app/.vscode/launch.json) on how these are passed.
 
 Below is a sample of a secret file for the development environment:
 
@@ -34,9 +34,8 @@ Below is a sample of a secret file for the development environment:
 }
 ```
 
-:exclamation: **<span style="color: red">IMPORTANT</span>**
-
-The folder `.secrets` is committed to git by default (for testing purposes), you should uncomment last part of the [.gitignore](../starterkit_app/.gitignore) file to remove it from git.
+>:exclamation: **<span style="color: red">IMPORTANT</span>**
+>The folder `.secrets` is committed to git by default (for testing purposes), you should uncomment last part of the [.gitignore](../starterkit_app/.gitignore) file to remove it from git.
 
 ### Accessing Dart Defines in the Platforms
 

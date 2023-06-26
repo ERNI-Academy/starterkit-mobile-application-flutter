@@ -34,42 +34,48 @@ void main() {
       provideDummy<Result<Iterable<PostEntity>>>(Failure(Exception()));
     });
 
-    testGoldens('should show correct app bar title when shown', (tester) async {
-      when(mockPostsService.getPosts()).thenAnswer((_) async => const Success([]));
+    group('AppBar', () {
+      testGoldens('should show correct title when shown', (tester) async {
+        when(mockPostsService.getPosts()).thenAnswer((_) async => const Success([]));
 
-      await tester.pumpWidget(const App(initialRoute: PostsViewRoute()));
-      await tester.pumpAndSettle();
+        await tester.pumpWidget(const App(initialRoute: PostsViewRoute()));
+        await tester.pumpAndSettle();
 
-      await tester.matchGolden('posts_view_app_bar_title');
-      expect(find.text(il8n.posts), findsOneWidget);
+        await tester.matchGolden('posts_view_app_bar_title');
+        expect(find.text(il8n.posts), findsOneWidget);
+      });
     });
 
-    testGoldens('should show list view when posts are loaded', (tester) async {
-      const expectedPost = PostEntity(userId: 0, id: 0, title: 'Lorem Ipsum', body: 'Dolor sit amet');
-      when(mockPostsService.getPosts()).thenAnswer((_) async => const Success([expectedPost]));
+    group('ListView', () {
+      testGoldens('should show posts when loaded', (tester) async {
+        const expectedPost = PostEntity(userId: 0, id: 0, title: 'Lorem Ipsum', body: 'Dolor sit amet');
+        when(mockPostsService.getPosts()).thenAnswer((_) async => const Success([expectedPost]));
 
-      await tester.pumpWidget(const App(initialRoute: PostsViewRoute()));
-      await tester.pumpAndSettle();
+        await tester.pumpWidget(const App(initialRoute: PostsViewRoute()));
+        await tester.pumpAndSettle();
 
-      await tester.matchGolden('posts_view_loaded');
-      expect(find.byType(ListView), findsOneWidget);
-      expect(find.byType(ListTile), findsOneWidget);
-      expect(find.text(expectedPost.title), findsOneWidget);
-      expect(find.text(expectedPost.body), findsOneWidget);
+        await tester.matchGolden('posts_view_loaded');
+        expect(find.byType(ListView), findsOneWidget);
+        expect(find.byType(ListTile), findsOneWidget);
+        expect(find.text(expectedPost.title), findsOneWidget);
+        expect(find.text(expectedPost.body), findsOneWidget);
+      });
     });
 
-    testGoldens('should navigate to PostDetailsView when post tapped', (tester) async {
-      const expectedPost = PostEntity(userId: 0, id: 0, title: 'Lorem Ipsum', body: 'Dolor sit amet');
-      when(mockPostsService.getPosts()).thenAnswer((_) async => const Success([expectedPost]));
+    group('ListTile', () {
+      testGoldens('should navigate to PostDetailsView when post tapped', (tester) async {
+        const expectedPost = PostEntity(userId: 0, id: 0, title: 'Lorem Ipsum', body: 'Dolor sit amet');
+        when(mockPostsService.getPosts()).thenAnswer((_) async => const Success([expectedPost]));
 
-      await tester.pumpWidget(const App(initialRoute: PostsViewRoute()));
-      await tester.pumpAndSettle();
-      await tester.tap(find.byKey(Key(expectedPost.id.toString())));
-      await tester.pumpAndSettle(const Duration(milliseconds: 500));
+        await tester.pumpWidget(const App(initialRoute: PostsViewRoute()));
+        await tester.pumpAndSettle();
+        await tester.tap(find.byKey(Key(expectedPost.id.toString())));
+        await tester.pumpAndSettle(const Duration(milliseconds: 500));
 
-      await tester.matchGolden('posts_view_navigate_to_post_details_view');
-      expect(find.byType(PostsView), findsNothing);
-      expect(find.byType(PostDetailsView), findsOneWidget);
+        await tester.matchGolden('posts_view_navigate_to_post_details_view');
+        expect(find.byType(PostsView), findsNothing);
+        expect(find.byType(PostDetailsView), findsOneWidget);
+      });
     });
   });
 }

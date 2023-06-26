@@ -81,7 +81,7 @@ mixin ChildViewMixin<TViewModel extends ViewModel> implements View<TViewModel> {
   @protected
   @override
   @mustCallSuper
-  TViewModel onCreateViewModel(BuildContext context) => context.viewModelOf<TViewModel>();
+  TViewModel onCreateViewModel(BuildContext context) => context.viewModel<TViewModel>();
 
   @protected
   @override
@@ -231,7 +231,7 @@ class _ViewModelHolder<T extends ViewModel> extends InheritedWidget {
 }
 
 extension ViewExtensions on BuildContext {
-  T viewModelOf<T extends ViewModel>() {
+  T viewModel<T extends ViewModel>() {
     final viewModel = _ViewModelHolder.of<T>(this)?.viewModel;
 
     if (viewModel == null) {

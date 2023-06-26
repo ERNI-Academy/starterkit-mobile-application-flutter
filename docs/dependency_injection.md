@@ -33,11 +33,9 @@ abstract class MyService{}
 class MyServiceImpl implements MyService {}
 ```
 
-:bulb: **<span style="color: green">TIP</span>**
-
-Use the snippet shortcut `dep` to create an abstract and concrete classes similar above.
-
-Read more about it [here](https://pub.dev/packages/injectable#register-under-different-environments).
+>:bulb: **<span style="color: green">TIP</span>**
+>
+>Use the snippet shortcut `dep` to create an abstract and concrete classes similar above.
 
 ## Registration for different platforms
 
