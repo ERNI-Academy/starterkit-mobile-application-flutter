@@ -22,7 +22,6 @@
 Below is an example of a unit test code for the class `MainViewModel`:
 
 ```dart
-
 import 'package:test/test.dart';
 
 import '../main_view_model.dart';
@@ -58,6 +57,6 @@ void main() {
 - Create a seperate method to create the unit to be tested.
 - Seperate each part (arrange, act, assert) of the test code with a blank line.
 
->:bulb: **<span style="color: green">TIP</span>**
->
->Use the snippet shortcut `gtest` to create a test file similar above.
+:bulb: **<span style="color: green">TIP</span>**
+
+- Use the snippet shortcut `gtest` to create a test file similar above.

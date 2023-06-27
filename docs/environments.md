@@ -1,6 +1,7 @@
 # Multiple Environments
 
-As required by ERNI standards, each project should have the following environments:
+Each project should have the following environments:
+
 - **Development** is used by the developers. Testing should not be done in this environment since it is always changing.
 - **Test** will be used by your testers to ensure that the software is error free.
 - **UAT** ensures that your software is working as expected in the hands of your intended users.
@@ -34,8 +35,9 @@ Below is a sample of a secret file for the development environment:
 }
 ```
 
->:exclamation: **<span style="color: red">IMPORTANT</span>**
->The folder `.secrets` is committed to git by default (for testing purposes), you should uncomment last part of the [.gitignore](../starterkit_app/.gitignore) file to remove it from git.
+:exclamation: **<span style="color: red">IMPORTANT</span>**
+
+- The folder `.secrets` is committed to git by default (for testing purposes), you should uncomment last part of the [.gitignore](../starterkit_app/.gitignore) file to remove it from git.
 
 ### Accessing Dart Defines in the Platforms
 

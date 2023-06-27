@@ -50,3 +50,32 @@ The flow of data and dependencies in Clean Architecture follows a unidirectional
 - The Domain layer depends on the Data layer through interfaces or abstract classes defined in the Domain layer. It uses repositories to retrieve and store data without being aware of the specific data sources or implementation details.
 - The Data layer interacts with external data sources and provides the necessary data access and management methods to the Domain layer.
 
+## Project Structure
+
+```
+├── core
+│   ├── data
+│   ├── domain
+│   ├── infrastructure
+│   └── presentation
+├── features
+│   └── feature1
+│       ├── data
+│       ├── domain
+│       └── presentation
+└── shared
+    ├── localization
+    └── resources
+```
+
+### Core
+
+Typically contains the foundational components and common utilities that are shared across the application.
+
+### Features
+
+Represents different functional modules or features of the application. Each feature can have its own self-contained set of packages.
+
+### Shared
+
+ Holds components or resources that are shared across multiple features or modules.
