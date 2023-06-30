@@ -61,6 +61,14 @@
         ],
         "description": "Creates a ValueListenableBuilder"
     },
+    "Value Listenable/Notifier" : {
+        "prefix": "valn",
+        "body": [
+            "final ValueNotifier<$type> _$name = ValueNotifier($initialValue);",
+            "ValueListenable<$type> get $name => _$name;",
+        ],
+        "description": "Creates a ValueListenable/ValueNotifier"
+    },
     "Creates a navigatable view using a stateless widget": {
         "prefix": "vrsl",
         "body": [

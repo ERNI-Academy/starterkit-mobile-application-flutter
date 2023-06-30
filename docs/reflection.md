@@ -20,4 +20,4 @@ class MyViewModel extends ViewModel {
 }
 ```
 
-Read more about passing parameters through navigation [here](ui/navigation.md#passing-parameter).
+Read more about passing parameters through navigation [here](presentation/navigation.md#passing-parameter).

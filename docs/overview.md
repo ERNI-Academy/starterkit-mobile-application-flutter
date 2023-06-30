@@ -6,7 +6,7 @@ A software architecture pattern to separate concerns and improve code maintainab
 
 While MVVM typically uses Observables or Reactive programming libraries, such as streams or Rx, in Flutter, you can also implement MVVM using [`ValueListenable`](https://api.flutter.dev/flutter/foundation/ValueListenable-class.html) for data binding.
 
-Read more about it [here](ui/state_management.md).
+Read more about it [here](presentation/state_management.md).
 
 ## Clean Architecture
 

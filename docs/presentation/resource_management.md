@@ -21,4 +21,4 @@ Widget buildView(BuildContext context, SplashViewModel viewModel) {
 
 The project uses [`flutter_gen`](https://pub.dev/packages/flutter_gen) package that generates files under `resources` folder.  This will map to the files we added in the project's `assets` folder.
 
-The package uses `build_runner`, read more about code generation [here](../../code_generation.md).
+The package uses `build_runner`, read more about code generation [here](../code_generation.md).
