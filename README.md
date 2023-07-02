@@ -92,16 +92,14 @@ To know more about this project, you can read the following:
 - [Reflection](docs/reflection.md)
 - [Code Generation](docs/code_generation.md)
 - [Code Style](docs/code_style.md)
-- [Code Analysis and Metrics](docs/code_analysis_and_metrics.md)
 - [Unit Testing](docs/unit_testing.md)
 
 **User Interface**
-- [Views](docs/ui/views.md)
-- [View Models](docs/ui/view_models.md)
-- [State Management](docs/ui/state_management.md)
-- [Resource Management](docs/ui/resource_management.md)
-- [Navigation](docs/ui/navigation.md)
-- [Validation Rules](docs/ui/validation_rules.md)
+- [Views](docs/presentation/views.md)
+- [View Models](docs/presentation/view_models.md)
+- [State Management](docs/presentation/state_management.md)
+- [Resource Management](docs/presentation/resource_management.md)
+- [Navigation](docs/presentation/navigation.md)
 
 **Models**
 - [Data Contracts](docs/business/models/data_contracts.md)

@@ -25,13 +25,13 @@ class SplashViewModel extends ViewModel {
 
 :bulb: **<span style="color: green">TIP</span>**
 
-Use the snippet shortcut `vm` to create a view model class.
+- Use the snippet shortcut `vm` to create a view model class.
 
 </div>
 
 :warning: **<span style="color: orange">AVOID</span>**
 
-You can call `notifyListeners` and this will trigger a rebuild of the whole UI. This is equivalent of calling `setState` when using a `StatefulWidget`.
+- You can call `notifyListeners` and this will trigger a rebuild of the whole UI. This is equivalent of calling `setState` when using a `StatefulWidget`.
 
 Use `notifyListeners` sparingly and only in situations where you really need it.
 
@@ -58,8 +58,7 @@ Read more about the project's state management approach [here](state_management.
 
 :bulb: **<span style="color: green">TIP</span>**
 
-Use the snippet shortcut `initVm` for overriding `onInitialize`, and `dis` for `dispose`.
-
+- Use the snippet shortcut `initVm` for overriding `onInitialize`, and `dis` for `dispose`.
 
 ### Observing App Lifecycle
 

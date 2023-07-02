@@ -7,9 +7,8 @@ Since Flutter [does not allow the use of reflection](https://github.com/flutter/
 
 Other uses of `build_runner` are:
 - Asset files using [`flutter_gen`](https://pub.dev/packages/flutter_gen)
-- Mapper classes using [`smartstruct`](https://pub.dev/packages/smartstruct)
+- Mapper classes using [`auto_mappr`](https://pub.dev/packages/auto_mappr)
 - Localization files using [`intl_utils`](https://pub.dev/packages/intl_utils)
-- Native launcher icons using [`flutter_launcher_icons`](https://pub.dev/packages/flutter_launcher_icons)
 
 Run the command in the project directory to run the generator once:
 
@@ -92,4 +91,4 @@ Map<String, dynamic> _$UserLoginRequestContractToJson(
 
 :exclamation: **<span style="color: red">IMPORTANT</span>**
 
-These generated files are **not** commited to git. Code eneration should be part of your CI workflow.
+- These generated files are **not** commited to git. Code eneration should be part of your CI workflow.

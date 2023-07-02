@@ -6,7 +6,7 @@ A software architecture pattern to separate concerns and improve code maintainab
 
 While MVVM typically uses Observables or Reactive programming libraries, such as streams or Rx, in Flutter, you can also implement MVVM using [`ValueListenable`](https://api.flutter.dev/flutter/foundation/ValueListenable-class.html) for data binding.
 
-Read more about it [here](ui/state_management.md).
+Read more about it [here](presentation/state_management.md).
 
 ## Clean Architecture
 
@@ -50,3 +50,32 @@ The flow of data and dependencies in Clean Architecture follows a unidirectional
 - The Domain layer depends on the Data layer through interfaces or abstract classes defined in the Domain layer. It uses repositories to retrieve and store data without being aware of the specific data sources or implementation details.
 - The Data layer interacts with external data sources and provides the necessary data access and management methods to the Domain layer.
 
+## Project Structure
+
+```
+├── core
+│   ├── data
+│   ├── domain
+│   ├── infrastructure
+│   └── presentation
+├── features
+│   └── feature1
+│       ├── data
+│       ├── domain
+│       └── presentation
+└── shared
+    ├── localization
+    └── resources
+```
+
+### Core
+
+Typically contains the foundational components and common utilities that are shared across the application.
+
+### Features
+
+Represents different functional modules or features of the application. Each feature can have its own self-contained set of packages.
+
+### Shared
+
+ Holds components or resources that are shared across multiple features or modules.

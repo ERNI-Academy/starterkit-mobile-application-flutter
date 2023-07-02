@@ -7,7 +7,7 @@ The project uses [auto_route](https://pub.dev/packages/auto_route) as the naviga
 - Nested navigation
 - Similar API compared to Flutter's Navigator 1.0, including as passing argument and result
 
-See [`NavigationService`](../../mobii/lib/domain/services/ui/navigation/navigation_service.dart) and its implementing class for more details.
+See [`NavigationService`](../../mobii/lib/domain/services/presentation/navigation/navigation_service.dart) and its implementing class for more details.
 
 ## Push Navigation
 
@@ -21,12 +21,12 @@ For example, you want to pass `userId` to `UserVerificationView`.
 
 **Updating a route to receive parameter**
 
-In your view model, annotate it with `@reflectable` and add your parameter:
+In your view model, annotate it with `@navigatable` and add your parameter:
 
 ```dart
 const userIdParam = QueryParam('userId');
 
-@reflectable // be sure to annotate your view model using this
+@navigatable // be sure to annotate your view model using this
 class UserVerificationViewModel extends ViewModel {
   @userIdParam
   String? userId;
@@ -59,5 +59,5 @@ await navigation.pop(true);
 
 :bulb: **<span style="color: red">IMPORTANT</span>**
 
-- Be sure to annotate your view model with `@reflectable`
+- Be sure to annotate your view model with `@navigatable`
 - Be sure to annotate your expected parameter with `@QueryParam('name')` or a custom one

@@ -35,6 +35,7 @@ class SplashView extends StatelessWidget with ViewRouteMixin<SplashViewModel> {
 
 - Use the snippet shortcut `vrsl` to create a navigatable view using a `StatelessWidget`. 
 - Use the snippet shortcut `vsl` to create a view using a `StatelessWidget`, and `vsf` to use `StatefulWidget`.
+- Use the snippet shortcut `cvsl` to create a child view using a `StatelessWidget`.
 
 :exclamation: **<span style="color: red">DON'T</span>**
 
