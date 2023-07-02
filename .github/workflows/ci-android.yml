@@ -12,10 +12,18 @@ on:
         - dev
 
   push:
+    paths:
+      - .github/**/*.yml
+      - scripts/**
+      - starterkit_app/**
     branches:
       - main
 
   pull_request:
+    paths:
+      - .github/**/*.yml
+      - scripts/**
+      - starterkit_app/**
     types: [opened, synchronize, reopened]
       
 concurrency: 
