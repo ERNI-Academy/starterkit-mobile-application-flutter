@@ -5,7 +5,7 @@ import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:starterkit_app/core/dependency_injection.dart';
 import 'package:starterkit_app/core/domain/result.dart';
-import 'package:starterkit_app/core/infrastructure/navigation/navigation_service.dart';
+import 'package:starterkit_app/core/infrastructure/navigation/root_auto_router.gr.dart';
 import 'package:starterkit_app/features/app/presentation/views/app.dart';
 import 'package:starterkit_app/features/posts/domain/entities/post_entity.dart';
 import 'package:starterkit_app/features/posts/domain/services/posts_service.dart';

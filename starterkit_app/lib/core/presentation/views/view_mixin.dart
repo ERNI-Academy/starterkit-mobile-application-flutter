@@ -6,6 +6,8 @@ import 'package:reflectable/reflectable.dart';
 import 'package:starterkit_app/core/dependency_injection.dart';
 import 'package:starterkit_app/core/infrastructure/navigation/navigation_observer.dart';
 import 'package:starterkit_app/core/presentation/view_models/app_life_cycle_aware_mixin.dart';
+import 'package:starterkit_app/core/presentation/view_models/first_renderable.dart';
+import 'package:starterkit_app/core/presentation/view_models/initializable.dart';
 import 'package:starterkit_app/core/presentation/view_models/route_aware_mixin.dart';
 import 'package:starterkit_app/core/presentation/view_models/view_model.dart';
 import 'package:starterkit_app/core/presentation/views/view.dart';
@@ -130,45 +132,58 @@ abstract final class _ViewLifeCycleHandler {
       _tryGetNavigationParams(context, viewModel);
     }
 
-    WidgetsBinding.instance.addPostFrameCallback((_) => unawaited(viewModel.onFirstRender()));
-    unawaited(viewModel.onInitialize());
+    if (viewModel is FirstRenderable) {
+      final firstRenderable = viewModel as FirstRenderable;
+      WidgetsBinding.instance.addPostFrameCallback((_) => unawaited(firstRenderable.onFirstRender()));
+    }
+
+    if (viewModel is Initializable) {
+      final initializable = viewModel as Initializable;
+      unawaited(initializable.onInitialize());
+    }
   }
 
   static void _tryGetNavigationParams<TViewModel extends ViewModel>(BuildContext context, TViewModel viewModel) {
-    if (navigatable.canReflect(viewModel) && navigatable.canReflectType(TViewModel)) {
-      final route = context.routeData;
-      final instanceMirror = navigatable.reflect(viewModel);
-      final typeMirror = navigatable.reflectType(TViewModel) as ClassMirror?;
+    final routeData = context.routeData;
+    final queryParams = Map<String, Object?>.from(routeData.queryParams.rawMap);
+    final pathParams = Map<String, Object?>.from(routeData.pathParams.rawMap);
+    final hasParams = queryParams.isNotEmpty || pathParams.isNotEmpty;
+    final canReflect = navigatable.canReflect(viewModel) || navigatable.canReflectType(TViewModel);
 
-      if (typeMirror == null) {
-        return;
+    if (hasParams && !canReflect) {
+      throw StateError('ViewModel $TViewModel with navigation parameters must be annotated with @navigatable');
+    }
+
+    final instanceMirror = navigatable.reflect(viewModel);
+    final typeMirror = navigatable.reflectType(TViewModel) as ClassMirror;
+
+    for (final entry in queryParams.entries) {
+      if (entry.value == null) {
+        continue;
       }
 
-      Map<String, Object?>.from(route.queryParams.rawMap).forEach((key, value) {
-        bool predicate(DeclarationMirror element) => element.metadata.any((m) => m is QueryParam && m.name == key);
-        _setValue(instanceMirror, typeMirror, predicate, value);
-      });
+      bool predicate(DeclarationMirror element) => element.metadata.any((m) => m is QueryParam && m.name == entry.key);
+      _setValue(instanceMirror, typeMirror, predicate, entry.value!);
+    }
 
-      Map<String, Object?>.from(route.pathParams.rawMap).forEach((key, value) {
-        bool predicate(DeclarationMirror element) => element.metadata.any((m) => m is PathParam && m.name == key);
-        _setValue(instanceMirror, typeMirror, predicate, value);
-      });
+    for (final entry in pathParams.entries) {
+      if (entry.value == null) {
+        continue;
+      }
+
+      bool predicate(DeclarationMirror element) => element.metadata.any((m) => m is PathParam && m.name == entry.key);
+      _setValue(instanceMirror, typeMirror, predicate, entry.value!);
     }
   }
 
   static void _setValue(
     InstanceMirror instanceMirror,
-    ClassMirror typeMirror,
+    ClassMirror classMirror,
     bool Function(DeclarationMirror element) predicate,
-    Object? value,
+    Object value,
   ) {
-    if (typeMirror.declarations.values.any(predicate)) {
-      final matchingDeclaration = typeMirror.declarations.values.firstWhere(predicate) as VariableMirror;
-
-      if (value == null) {
-        return;
-      }
-
+    if (classMirror.declarations.values.any(predicate)) {
+      final matchingDeclaration = classMirror.declarations.values.firstWhere(predicate) as VariableMirror;
       instanceMirror.invokeSetter(matchingDeclaration.simpleName, value);
     }
   }

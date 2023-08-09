@@ -1,6 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
-import 'package:starterkit_app/core/data/api/dio_logging_interceptor.dart';
+import 'package:starterkit_app/core/data/api/debug_logging_interceptor.dart';
 import 'package:starterkit_app/core/dependency_injection.dart';
 import 'package:starterkit_app/core/infrastructure/logging/logger.dart';
 
@@ -28,6 +28,6 @@ class DioProviderImpl implements DioProvider {
         sendTimeout: _requestTimeOut,
         receiveTimeout: _requestTimeOut,
       ),
-    )..interceptors.add(DioLoggingInterceptor(_logger));
+    )..interceptors.add(DebugLoggingInterceptor(_logger));
   }
 }

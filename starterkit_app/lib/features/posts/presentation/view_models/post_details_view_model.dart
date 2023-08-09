@@ -8,7 +8,7 @@ import 'package:starterkit_app/features/posts/domain/entities/post_entity.dart';
 @navigatable
 class PostDetailsViewModel extends ViewModel {
   @postParam
-  PostEntity post = PostEntity.empty;
+  PostEntity post = const PostEntity.empty();
 }
 
 const QueryParam postParam = QueryParam('post');

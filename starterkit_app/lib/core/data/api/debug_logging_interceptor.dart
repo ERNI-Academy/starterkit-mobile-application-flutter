@@ -4,10 +4,10 @@ import 'package:dio/dio.dart';
 import 'package:starterkit_app/core/infrastructure/logging/logger.dart';
 import 'package:starterkit_app/core/presentation/view_models/view_model.dart';
 
-class DioLoggingInterceptor extends Interceptor {
+class DebugLoggingInterceptor extends Interceptor {
   final Logger _logger;
 
-  DioLoggingInterceptor(this._logger);
+  DebugLoggingInterceptor(this._logger);
 
   @override
   void onRequest(RequestOptions options, RequestInterceptorHandler handler) {

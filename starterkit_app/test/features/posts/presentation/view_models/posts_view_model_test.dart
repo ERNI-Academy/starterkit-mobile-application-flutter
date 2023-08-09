@@ -4,6 +4,7 @@ import 'package:mockito/mockito.dart';
 import 'package:starterkit_app/core/domain/result.dart';
 import 'package:starterkit_app/core/infrastructure/logging/logger.dart';
 import 'package:starterkit_app/core/infrastructure/navigation/navigation_service.dart';
+import 'package:starterkit_app/core/infrastructure/navigation/root_auto_router.dart';
 import 'package:starterkit_app/features/posts/domain/entities/post_entity.dart';
 import 'package:starterkit_app/features/posts/domain/services/posts_service.dart';
 import 'package:starterkit_app/features/posts/presentation/models/posts_list_state.dart';
@@ -39,9 +40,9 @@ void main() {
       return PostsViewModel(mockLogger, mockNavigationService, mockPostsService);
     }
 
-    group('initialize', () {
+    group('onInitialize', () {
       test('should get posts when called', () async {
-        const expectedPostEntities = [PostEntity.empty];
+        const expectedPostEntities = [PostEntity.empty()];
         const expectedPostState = PostsListLoadedState(expectedPostEntities);
         when(mockPostsService.getPosts()).thenAnswer((_) async => const Success(expectedPostEntities));
 
@@ -70,7 +71,7 @@ void main() {
 
     group('onPostSelected', () {
       test('should push post details view when called', () async {
-        const expectedPostEntity = PostEntity.empty;
+        const expectedPostEntity = PostEntity.empty();
 
         final unit = createUnitToTest();
         await unit.onPostSelected(expectedPostEntity);

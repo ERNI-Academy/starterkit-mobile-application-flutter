@@ -4,7 +4,6 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:starterkit_app/core/dependency_injection.dart';
 import 'package:starterkit_app/core/infrastructure/logging/navigation_logger.dart';
 import 'package:starterkit_app/core/infrastructure/navigation/navigation_observer.dart';
-import 'package:starterkit_app/core/infrastructure/navigation/navigation_service.dart';
 import 'package:starterkit_app/core/presentation/views/view_mixin.dart';
 import 'package:starterkit_app/features/app/presentation/view_models/app_view_model.dart';
 import 'package:starterkit_app/shared/localization/localization.dart';
@@ -19,7 +18,7 @@ class App extends StatefulWidget {
 }
 
 class _AppState extends State<App> with ViewMixin<AppViewModel> {
-  late final NavigationService _navigationService = ServiceLocator.instance<NavigationService>();
+  late final RootStackRouter _navigationService = ServiceLocator.instance<RootStackRouter>();
   late final NavigationLogger _navigationLogger = ServiceLocator.instance<NavigationLogger>();
 
   @override

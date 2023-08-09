@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/widgets.dart';
-import 'package:starterkit_app/core/presentation/view_models/app_lifecycle_aware.dart';
+import 'package:starterkit_app/core/presentation/view_models/app_life_cycle_aware.dart';
 import 'package:starterkit_app/core/presentation/view_models/view_model.dart';
 
 mixin AppLifeCycleAwareMixin on ViewModel implements AppLifeCycleAware {

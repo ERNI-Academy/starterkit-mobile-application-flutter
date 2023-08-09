@@ -4,6 +4,8 @@ import 'package:injectable/injectable.dart';
 import 'package:starterkit_app/core/domain/result.dart';
 import 'package:starterkit_app/core/infrastructure/logging/logger.dart';
 import 'package:starterkit_app/core/infrastructure/navigation/navigation_service.dart';
+import 'package:starterkit_app/core/infrastructure/navigation/root_auto_router.gr.dart';
+import 'package:starterkit_app/core/presentation/view_models/initializable.dart';
 import 'package:starterkit_app/core/presentation/view_models/view_model.dart';
 import 'package:starterkit_app/features/posts/domain/entities/post_entity.dart';
 import 'package:starterkit_app/features/posts/domain/services/posts_service.dart';
@@ -11,7 +13,7 @@ import 'package:starterkit_app/features/posts/presentation/models/posts_list_sta
 import 'package:starterkit_app/shared/localization/localization.dart';
 
 @injectable
-class PostsViewModel extends ViewModel {
+class PostsViewModel extends ViewModel implements Initializable {
   final Logger _logger;
   final NavigationService _navigationService;
   final PostsService _postsService;
