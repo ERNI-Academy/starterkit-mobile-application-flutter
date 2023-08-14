@@ -6,7 +6,7 @@ The blueprint uses [`retrofit`](https://pub.dev/packages/retrofit) to generate t
 
 ```dart
 abstract class PostApi {
-  Future<List<PostContract>> getAllPosts(String authToken);
+  Future<Iterable<PostContract>> getAllPosts(String authToken);
 
   Future<void> createPost(CreateOrUpdatePostContract contract, String authToken);
 }
@@ -35,4 +35,4 @@ abstract class PostApiImpl implements PostApi {
 
 :bulb: **<span style="color: green">TIP</span>**
 
-Use the code snippet shortcut `api` to create an API class.
+- Use the code snippet shortcut `api` to create an API class.

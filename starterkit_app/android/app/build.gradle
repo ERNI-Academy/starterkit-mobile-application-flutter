@@ -1,0 +1,121 @@
+def localProperties = new Properties()
+def localPropertiesFile = rootProject.file('local.properties')
+if (localPropertiesFile.exists()) {
+    localPropertiesFile.withReader('UTF-8') { reader ->
+        localProperties.load(reader)
+    }
+}
+
+def flutterRoot = localProperties.getProperty('flutter.sdk')
+if (flutterRoot == null) {
+    throw new GradleException("Flutter SDK not found. Define location with flutter.sdk in the local.properties file.")
+}
+
+def flutterVersionCode = localProperties.getProperty('flutter.versionCode')
+if (flutterVersionCode == null) {
+    flutterVersionCode = '1'
+}
+
+def flutterVersionName = localProperties.getProperty('flutter.versionName')
+if (flutterVersionName == null) {
+    flutterVersionName = '1.0'
+}
+
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
+
+// Check keystore file
+def keystoreProperties = new Properties()
+def keyStorePropertiesFileName = 'Distribution.keystore.properties'
+def keystorePropertiesFile = file(keyStorePropertiesFileName)
+def keystorePropertiesFileExists = keystorePropertiesFile.exists()
+def keystoreFileExists = false
+
+if (keystorePropertiesFileExists) {
+    keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+    def keystoreFile = file(keystoreProperties['storeFile'])
+    keystoreFileExists = keystoreFile.exists()
+    if (keystoreFileExists) {
+        println 'Signing with provided keystore'
+    } else {
+        println 'Could not find signing keystore, using debug'
+    }
+} else {
+    println 'Could not find signing keystore, using debug'
+}
+
+
+// Uncomment this line if using google-services.json
+// Decode provided base64 google-services.json
+// if (androidGoogleServicesJson?.trim()) {
+//     def encoded = androidGoogleServicesJson
+//     def decoded = new String(encoded.decodeBase64())
+//     def googleServicesJsonFile = new File("app/google-services.json")
+//     googleServicesJsonFile.write(decoded)
+// }
+
+android {
+    namespace 'com.example.starterkit_app'
+    compileSdkVersion 33
+    ndkVersion flutter.ndkVersion
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+
+    sourceSets {
+        main.java.srcDirs += 'src/main/kotlin'
+    }
+
+    defaultConfig {
+        println "Building $appId$appIdSuffix"
+
+        applicationId appId
+        applicationIdSuffix appIdSuffix
+        minSdkVersion 30
+        targetSdkVersion 33
+        versionCode flutterVersionCode.toInteger()
+        versionName flutterVersionName
+
+        resValue "string", "app_name", appName
+    }
+
+    signingConfigs {
+        if (keystoreFileExists) {
+            release {
+                keyAlias keystoreProperties['keyAlias']
+                keyPassword keystoreProperties['keyPassword']
+                storeFile file(keystoreProperties['storeFile'])
+                storePassword keystoreProperties['storePassword']
+            }
+        }
+    }
+
+    buildTypes {
+        release {
+            multiDexEnabled true
+            minifyEnabled true
+            shrinkResources true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig keystoreFileExists ? signingConfigs.release : signingConfigs.debug
+        }
+
+        debug {
+            signingConfig keystoreFileExists ? signingConfigs.release : signingConfigs.debug
+        }
+    }
+}
+
+flutter {
+    source '../..'
+}
+
+dependencies {
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+}

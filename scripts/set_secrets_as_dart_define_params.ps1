@@ -2,7 +2,7 @@
 
 $env = $args[0]
 
-$secrets = Get-Content ".secrets/$env.secrets" | out-string | ConvertFrom-Json
+$secrets = Get-Content ".secrets/$env.json" | out-string | ConvertFrom-Json
 $dartDefines = ""
 
 foreach ($info in $secrets.PSObject.Properties) {

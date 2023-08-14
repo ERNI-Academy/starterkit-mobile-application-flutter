@@ -1,0 +1,88 @@
+fastlane_require 'dotenv'
+
+dart_fine_file = ""
+dart_defines = ""
+secrets = {}
+app_environment = ""
+
+before_all do
+  # `APP_ENVIRONMENT` must be set in your CI server, or export it before running fastlane
+  app_environment = ENV["APP_ENVIRONMENT"]
+  dart_fine_file = ".secrets/#{app_environment}.json"
+
+  if app_environment.nil? || app_environment.empty?
+    UI.user_error! "Please provide an environment using `export APP_ENVIRONMENT=YourEnv`"
+  end
+
+  puts "Loading variables and secrets for `#{app_environment}`"
+
+  secrets = read_json(json_path: dart_fine_file)
+  secrets.each { |k, v| dart_defines << "--dart-define \"#{k}=#{v}\" " }
+end
+
+desc "Build Android release"
+lane :"build_android_release" do |options|
+  output = options[:output]
+  task = ""
+
+  case output
+    when "appbundle"
+      task = "appbundle"
+    else
+      task = "apk"
+  end
+
+  if is_number?(options[:version_number]) && !options[:version_name].nil?
+    version_number = options[:version_number]
+    version_name = options[:version_name]
+
+    puts "Building #{version_name} (#{version_number})"
+
+    sh "flutter build #{task} --target-platform android-arm64 --build-number #{version_number} --build-name #{version_name} --dart-define-from-file #{dart_fine_file}"
+  else
+    sh "flutter build #{task} --target-platform android-arm64 --dart-define-from-file #{dart_fine_file}"
+  end
+
+  if task == "appbundle"
+    "build/app/outputs/bundle/release/app-release.aab"
+  else
+    "build/app/outputs/apk/release/app-release.apk"
+  end
+end
+
+desc "Build iOS release"
+lane :"build_ios_release" do |options|
+  if is_number?(options[:version_number]) && !options[:version_name].nil?
+    version_number = options[:version_number]
+    version_name = options[:version_name]
+
+    puts "Building #{version_name} (#{version_number})"
+
+    sh "flutter build ios --no-codesign --build-number #{version_number} --build-name #{version_name} --dart-define-from-file #{dart_fine_file}"
+  else
+    sh "flutter build ios --no-codesign --dart-define-from-file #{dart_fine_file}"
+  end
+
+# Enable this if you want to build an IPA
+#   build_app(
+#     workspace: "ios/Runner.xcworkspace",
+#     scheme: "Runner",
+#     configuration: "Release",
+#     output_directory: "build/ios/ipa",
+#     output_name: "app-release.ipa",
+#     export_options: {
+#       signingStyle: "manual",
+#       teamID: "#{secrets[:iOSDevelopmentTeam]}",
+#       method: "#{secrets[:iOSExportMethod]}",
+#       provisioningProfiles: { 
+#         "#{secrets[:appId]}#{secrets[:appIdSuffix]}" => "#{secrets[:iOSDistributionProfile]}",
+#       }
+#     }
+#   )
+
+#   "build/ios/ipa/app-release.ipa"
+end
+
+def is_number? string
+  true if Float(string) rescue false
+end

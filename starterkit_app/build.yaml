@@ -1,0 +1,31 @@
+targets:
+  $default:
+    builders:
+      injectable_generator|injectable_config_builder:
+        generate_for:
+          include:
+            - lib/core/dependency_injection.dart
+
+      reflectable:
+        enabled: false # Disable reflectable builder and run it after injectable_generator
+
+      retrofit_generator|retrofit_builder:
+        generate_for:
+          include:
+            - lib/features/**/*_api.dart
+
+# Run reflectable after injectable_generator
+# See https://github.com/dart-lang/build/issues/2701#issuecomment-1424669567 
+# for more info on how to run builders in specific order
+builders:
+  customReflectable:
+    import: "package:reflectable/reflectable_builder.dart"
+    required_inputs: [".config.dart"] # The generated file of injectable_generator
+    builder_factories: ["reflectableBuilder"]
+    build_extensions: { ".dart": [".reflectable.dart"] }
+    auto_apply: root_package
+    build_to: source
+    defaults:
+      generate_for:
+        include:
+          - lib/main.dart

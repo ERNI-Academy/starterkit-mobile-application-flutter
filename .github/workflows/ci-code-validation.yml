@@ -9,33 +9,43 @@ on:
         description: Select environment
         default: dev
         options:
-        - dev
+          - dev
 
   push:
+    paths:
+      - .github/**/*.yml
+      - scripts/**
+      - starterkit_app/**
     branches:
       - main
 
   pull_request:
+    paths:
+      - .github/**/*.yml
+      - scripts/**
+      - starterkit_app/**
     types: [opened, synchronize, reopened]
 
-concurrency: 
+concurrency:
   group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
   cancel-in-progress: true
 
 env:
-  PROJECT_WORKING_DIRECTORY: "erni_mobile"
+  PROJECT_WORKING_DIRECTORY: "starterkit_app"
 
 jobs:
   code-analysis-and-test:
-    runs-on: ubuntu-latest
+    runs-on: macos-latest
     steps:
       - uses: actions/checkout@v3
 
       - name: Install Flutter
         uses: ./.github/workflows/steps/install-flutter
+        with:
+          working_directory: ${{ env.PROJECT_WORKING_DIRECTORY }}
 
       - name: Check formatting
-        run: flutter format --line-length=120 --dry-run --set-exit-if-changed .
+        run: dart format --line-length=120 --set-exit-if-changed .
         working-directory: ${{ env.PROJECT_WORKING_DIRECTORY }}
 
       - name: Check for duplicate lines of code
@@ -44,14 +54,6 @@ jobs:
           npx jscpd lib --reporters consoleFull --threshold 5
         working-directory: ${{ env.PROJECT_WORKING_DIRECTORY }}
         if: github.event_name != 'pull_request'
-
-      - name: Check for duplicate lines of code and comment on PR
-        uses: Pposong-Hantaihe/dry-code@v1.0.2
-        with:
-          token: "${{ secrets.GITHUB_TOKEN }}"
-          arguments: ${{ env.PROJECT_WORKING_DIRECTORY }}/lib
-          options: --threshold 5
-        if: github.event_name == 'pull_request'
 
       - name: Run code generation
         uses: ./.github/workflows/steps/run-pub-get-and-code-generation
@@ -65,36 +67,31 @@ jobs:
           flutter analyze .
 
           # Running checks for code metrics
-          flutter pub run dart_code_metrics:metrics analyze lib --fatal-style --fatal-warnings --fatal-performance
+          dart run dart_code_metrics:metrics analyze lib --fatal-style --fatal-warnings --fatal-performance
 
           # Running checks for unused files
           # Add `--fatal-unused` if you want to fail this step if there are unused files
-          flutter pub run dart_code_metrics:metrics check-unused-files lib --no-fatal-unused
+          dart run dart_code_metrics:metrics check-unused-files lib --no-fatal-unused
 
           # Running checks for unused code
           # Add `--fatal-unused` if you want to fail this step if there are unused code
-          flutter pub run dart_code_metrics:metrics check-unused-code lib --no-fatal-unused
+          dart run dart_code_metrics:metrics check-unused-code lib --no-fatal-unused
 
           # Running checks for unused localizations
           # Add `--fatal-unused` if you want to fail this step if there are unused localizations
-          flutter pub run dart_code_metrics:metrics check-unused-l10n -p Il8n lib
+          dart run dart_code_metrics:metrics check-unused-l10n -p Il8n lib
         working-directory: ${{ env.PROJECT_WORKING_DIRECTORY }}
 
       - name: Add ignore-coverage to generated files
         run: |
-          find . -type f -name "*.gen.dart" -exec sh -c 'sed -i "" -e "1s/^/\/\/\ coverage:ignore-file\r\n/" "$1"' -- {} \;
-          find . -type f -name "*.config.dart" -exec sh -c 'sed -i "" -e "1s/^/\/\/\ coverage:ignore-file\r\n/" "$1"' -- {} \;
-          find . -type f -name "*.g.dart" -exec sh -c 'sed -i "" -e "1s/^/\/\/\ coverage:ignore-file\r\n/" "$1"' -- {} \;
-          find . -type f -name "*.gr.dart" -exec sh -c 'sed -i "" -e "1s/^/\/\/\ coverage:ignore-file\r\n/" "$1"' -- {} \;
-          find . -type f -name "*.reflectable.dart" -exec sh -c 'sed -i "" -e "1s/^/\/\/\ coverage:ignore-file\r\n/" "$1"' -- {} \;
-          find . -type f -name "messages_*.dart" -exec sh -c 'sed -i "" -e "1s/^/\/\/\ coverage:ignore-file\r\n/" "$1"' -- {} \;
-          find . -type f -name "l10n.dart" -exec sh -c 'sed -i "" -e "1s/^/\/\/\ coverage:ignore-file\r\n/" "$1"' -- {} \;
+          bash ../scripts/ignore_coverage.sh
         working-directory: ${{ env.PROJECT_WORKING_DIRECTORY }}
 
       - name: Run tests
         run: |
           mkdir coverage
           touch coverage/results.json
+          dart run full_coverage
           flutter test --coverage --machine >> coverage/results.json
           cd coverage
           python ../../scripts/cobertura.py lcov.info
@@ -104,28 +101,8 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: golden_test_failures
-          path: ${{ env.PROJECT_WORKING_DIRECTORY }}/test/widget_tests/**/failures/**
+          path: ${{ env.PROJECT_WORKING_DIRECTORY }}/test/**/failures/**
         continue-on-error: true
-
-      - name: Code Coverage Report
-        uses: irongut/CodeCoverageSummary@v1.3.0
-        with:
-          filename: ${{ env.PROJECT_WORKING_DIRECTORY }}/coverage/coverage.xml
-          badge: true
-          fail_below_min: false
-          format: markdown
-          hide_branch_rate: false
-          hide_complexity: true
-          indicators: true
-          output: both
-          thresholds: '60 80'
-
-      - name: Add Coverage PR Comment
-        uses: marocchino/sticky-pull-request-comment@v2
-        with:
-          recreate: true
-          path: code-coverage-results.md
-        if: github.event_name == 'pull_request'
 
       - name: Report test results
         uses: dorny/test-reporter@v1

@@ -12,10 +12,18 @@ on:
         - dev
 
   push:
+    paths:
+      - .github/**/*.yml
+      - scripts/**
+      - starterkit_app/**
     branches:
       - main
 
   pull_request:
+    paths:
+      - .github/**/*.yml
+      - scripts/**
+      - starterkit_app/**
     types: [opened, synchronize, reopened]
       
 concurrency: 
@@ -23,9 +31,7 @@ concurrency:
   cancel-in-progress: true
 
 env:
-  PROJECT_WORKING_DIRECTORY: "erni_mobile"
-  ANDROID_KEYSTORE_FILE_NAME: "ERNI Mobile Generic Keystore.keystore"
-  ANDROID_KEYSTORE_PROPERTIES_FILE_NAME: "ERNI Mobile Generic Keystore.keystore.properties"
+  PROJECT_WORKING_DIRECTORY: "starterkit_app"
 
 jobs:
   build-apk:
@@ -37,28 +43,17 @@ jobs:
         uses: ./.github/workflows/steps/set-app-environment
         with:
           target_environment: ${{ github.event.inputs.target_environment }}
-      
-      - name: Set secrets file
-        uses: ./.github/workflows/steps/set-secrets-file
-        with:
-          secrets_file_value: ${{ secrets[env.SECRETS_FILE_KEY] }}
-          app_environment: ${{ env.APP_ENVIRONMENT }}
-          working_directory: ${{ env.PROJECT_WORKING_DIRECTORY }}
-
-      - name: Set keystore file
-        run: |
-          echo -n "${{ secrets.ANDROID_KEYSTORE_FILE }}" | base64 --decode > "${{ env.ANDROID_KEYSTORE_FILE_NAME }}"
-          echo -n "${{ secrets.ANDROID_KEYSTORE_PROPERTIES_FILE }}" | base64 --decode > "${{ env.ANDROID_KEYSTORE_PROPERTIES_FILE_NAME }}"
-        working-directory: ${{ env.PROJECT_WORKING_DIRECTORY }}/android/app
 
       - name: Install Flutter
         uses: ./.github/workflows/steps/install-flutter
+        with:
+          working_directory: ${{ env.PROJECT_WORKING_DIRECTORY }}
 
       - name: Set java version
         uses: actions/setup-java@v2
         with:
           distribution: 'adopt'
-          java-version: "11"
+          java-version: "17"
 
       - name: Run code generation
         uses: ./.github/workflows/steps/run-pub-get-and-code-generation
