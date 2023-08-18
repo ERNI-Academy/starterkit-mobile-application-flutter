@@ -57,7 +57,7 @@ if (keystorePropertiesFileExists) {
 
 android {
     namespace 'com.example.starterkit_app'
-    compileSdkVersion 33
+    compileSdkVersion 34
     ndkVersion flutter.ndkVersion
 
     compileOptions {
@@ -78,8 +78,8 @@ android {
 
         applicationId appId
         applicationIdSuffix appIdSuffix
-        minSdkVersion 30
-        targetSdkVersion 33
+        minSdkVersion 31
+        targetSdkVersion 34
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
 
