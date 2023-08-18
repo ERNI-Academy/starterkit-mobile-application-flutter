@@ -92,14 +92,6 @@ jobs:
           dart run full_coverage
           flutter test --coverage
         working-directory: ${{ env.PROJECT_WORKING_DIRECTORY }}
-        continue-on-error: true
-
-      - name: Publish golden test failures
-        uses: actions/upload-artifact@v3
-        with:
-          name: golden_test_failures
-          path: ${{ env.PROJECT_WORKING_DIRECTORY }}/test/**/failures/**
-        continue-on-error: true
 
       - uses: codecov/codecov-action@v3
         with:
@@ -107,4 +99,3 @@ jobs:
           files: ${{ env.PROJECT_WORKING_DIRECTORY }}/coverage/lcov.info
           fail_ci_if_error: true
           verbose: true
-        if: success()
