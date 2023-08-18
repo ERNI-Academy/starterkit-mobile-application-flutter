@@ -32,7 +32,7 @@ ERNI Academy mobile boilerplate to start a cross-platform Flutter mobile applica
 **Android**
 - [Download Android Studio](https://developer.android.com/studio)
 - Java 17
-- Android 30 (minimum), Android 33 (target)
+- Android 30 (minimum), Android 34 (target)
 
 **iOS**
 - [Download Xcode 14](https://developer.apple.com/download/all/)
@@ -64,20 +64,20 @@ Read more about setting up your environments [here](docs/environments.md).
 
 **Generate code**
 
-Run the following commands to generate code.
+Run the following commands to generate code. Note that this project uses [FVM](https://fvm.app) to manage Flutter SDK versions.
 
 ```sh
 # Run this command if appropriate
-flutter pub get
+fvm flutter pub get
 
 # Run this command one time
-flutter pub global activate intl_utils
+fvm flutter pub global activate intl_utils
 
 # Run this command to generate localization files
-flutter pub global run intl_utils:generate
+fvm flutter pub global run intl_utils:generate
 
 # Run this command whenever you use build_runner
-dart run build_runner build --delete-conflicting-outputs
+fvm dart run build_runner build --delete-conflicting-outputs
 ```
 
 Read more about code generation [here](docs/code_generation.md).
