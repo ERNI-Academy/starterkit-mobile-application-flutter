@@ -53,6 +53,7 @@ jobs:
       - uses: stefanzweifel/git-auto-commit-action@v4
         with:
           file_pattern: "jscpd-badge.svg"
+          commit_message: "Update jscpd-badge.svg"
 
       - name: Run code generation
         uses: ./.github/workflows/steps/run-pub-get-and-code-generation
