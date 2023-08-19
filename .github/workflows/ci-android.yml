@@ -44,6 +44,14 @@ jobs:
         with:
           target_environment: ${{ github.event.inputs.target_environment }}
 
+      # Uncomment this step if you already added your secrets file in your repository's secrets
+      # - name: Set secrets file
+      #   uses: ./.github/workflows/steps/set-secrets-file
+      #   with:
+      #     secrets_file_value: ${{ secrets[env.SECRETS_FILE_KEY] }}
+      #     app_environment: ${{ env.APP_ENVIRONMENT }}
+      #     working_directory: ${{ env.PROJECT_WORKING_DIRECTORY }}
+
       - name: Install Flutter
         uses: ./.github/workflows/steps/install-flutter
         with:

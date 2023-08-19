@@ -1,16 +1,6 @@
-name: Code Validation
+name: Code Analysis
 
 on:
-  workflow_dispatch:
-    inputs:
-      choice:
-        required: false
-        type: choice
-        description: Select environment
-        default: dev
-        options:
-          - dev
-
   push:
     paths:
       - .github/**/*.yml
@@ -34,8 +24,10 @@ env:
   PROJECT_WORKING_DIRECTORY: "starterkit_app"
 
 jobs:
-  code-analysis-and-test:
-    runs-on: macos-latest
+  run-code-analysis:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
       - uses: actions/checkout@v3
 
@@ -48,12 +40,20 @@ jobs:
         run: dart format --line-length=120 --set-exit-if-changed .
         working-directory: ${{ env.PROJECT_WORKING_DIRECTORY }}
 
-      - name: Check for duplicate lines of code
+      - name: Check for duplicate lines of code and generate badge
         run: |
           npm install -g jscpd
-          npx jscpd lib --reporters consoleFull --threshold 5
+          npm install -g jscpd-badge-reporter
+          npx jscpd lib --reporters badge,consoleFull --threshold 5
+          cp report/jscpd-badge.svg ../jscpd-badge.svg
+          git status
         working-directory: ${{ env.PROJECT_WORKING_DIRECTORY }}
-        if: github.event_name != 'pull_request'
+
+      # Needs to be run on ubuntu-latest
+      - uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          file_pattern: "jscpd-badge.svg"
+          commit_message: "Update jscpd-badge.svg"
 
       - name: Run code generation
         uses: ./.github/workflows/steps/run-pub-get-and-code-generation
@@ -81,33 +81,3 @@ jobs:
           # Add `--fatal-unused` if you want to fail this step if there are unused localizations
           dart run dart_code_metrics:metrics check-unused-l10n -p Il8n lib
         working-directory: ${{ env.PROJECT_WORKING_DIRECTORY }}
-
-      - name: Add ignore-coverage to generated files
-        run: |
-          bash ../scripts/ignore_coverage.sh
-        working-directory: ${{ env.PROJECT_WORKING_DIRECTORY }}
-
-      - name: Run tests
-        run: |
-          mkdir coverage
-          touch coverage/results.json
-          dart run full_coverage
-          flutter test --coverage --machine >> coverage/results.json
-          cd coverage
-          python ../../scripts/cobertura.py lcov.info
-        working-directory: ${{ env.PROJECT_WORKING_DIRECTORY }}
-
-      - name: Publish golden test failures
-        uses: actions/upload-artifact@v3
-        with:
-          name: golden_test_failures
-          path: ${{ env.PROJECT_WORKING_DIRECTORY }}/test/**/failures/**
-        continue-on-error: true
-
-      - name: Report test results
-        uses: dorny/test-reporter@v1
-        with:
-          name: ${{ env.PROJECT_WORKING_DIRECTORY }} Tests
-          path: coverage/results.json
-          reporter: flutter-json
-          working-directory: ${{ env.PROJECT_WORKING_DIRECTORY }}

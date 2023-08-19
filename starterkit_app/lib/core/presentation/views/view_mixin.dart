@@ -231,13 +231,13 @@ class _ViewModelBuilderState<TViewModel extends ViewModel> extends State<_ViewMo
 }
 
 class _ViewModelHolder<T extends ViewModel> extends InheritedWidget {
+  const _ViewModelHolder({required super.child, required this.viewModel, super.key});
+
   static _ViewModelHolder<T>? of<T extends ViewModel>(BuildContext context) {
     return context.dependOnInheritedWidgetOfExactType<_ViewModelHolder<T>>();
   }
 
   final T viewModel;
-
-  const _ViewModelHolder({required super.child, required this.viewModel, super.key});
 
   @override
   bool updateShouldNotify(_ViewModelHolder<T> oldWidget) {

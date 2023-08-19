@@ -5,7 +5,7 @@ ERNI Academy mobile boilerplate to start a cross-platform Flutter mobile applica
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
-[![Code Validation](https://github.com/ERNI-Academy/starterkit-mobile-application-flutter/actions/workflows/ci-code-validation.yml/badge.svg)](https://github.com/ERNI-Academy/starterkit-mobile-application-flutter/actions/workflows/ci-code-validation.yml) [![Android Build](https://github.com/ERNI-Academy/starterkit-mobile-application-flutter/actions/workflows/ci-android.yml/badge.svg)](https://github.com/ERNI-Academy/starterkit-mobile-application-flutter/actions/workflows/ci-android.yml) [![iOS Build](https://github.com/ERNI-Academy/starterkit-mobile-application-flutter/actions/workflows/ci-ios.yml/badge.svg)](https://github.com/ERNI-Academy/starterkit-mobile-application-flutter/actions/workflows/ci-ios.yml)
+[![Code Analysis](https://github.com/ERNI-Academy/starterkit-mobile-application-flutter/actions/workflows/ci-code-analysis.yml/badge.svg)](https://github.com/ERNI-Academy/starterkit-mobile-application-flutter/actions/workflows/ci-code-analysis.yml) [![Tests](https://github.com/ERNI-Academy/starterkit-mobile-application-flutter/actions/workflows/ci-tests.yml/badge.svg)](https://github.com/ERNI-Academy/starterkit-mobile-application-flutter/actions/workflows/ci-tests.yml) [![codecov](https://codecov.io/gh/ERNI-Academy/starterkit-mobile-application-flutter/graph/badge.svg?token=IQPAQ95HC6)](https://codecov.io/gh/ERNI-Academy/starterkit-mobile-application-flutter) ![](https://raw.githubusercontent.com/ERNI-Academy/starterkit-mobile-application-flutter/main/jscpd-badge.svg) [![Android Build](https://github.com/ERNI-Academy/starterkit-mobile-application-flutter/actions/workflows/ci-android.yml/badge.svg)](https://github.com/ERNI-Academy/starterkit-mobile-application-flutter/actions/workflows/ci-android.yml) [![iOS Build](https://github.com/ERNI-Academy/starterkit-mobile-application-flutter/actions/workflows/ci-ios.yml/badge.svg)](https://github.com/ERNI-Academy/starterkit-mobile-application-flutter/actions/workflows/ci-ios.yml)
 
 ## Built With
 
@@ -20,7 +20,7 @@ ERNI Academy mobile boilerplate to start a cross-platform Flutter mobile applica
 ## Prerequisites
 
 **Flutter**
-- v3.10.5+ on stable channel
+- v3.13.0+ on stable channel
 
 **Dart**
 - v3.0.0+
@@ -32,7 +32,7 @@ ERNI Academy mobile boilerplate to start a cross-platform Flutter mobile applica
 **Android**
 - [Download Android Studio](https://developer.android.com/studio)
 - Java 17
-- Android 30 (minimum), Android 33 (target)
+- Android 30 (minimum), Android 34 (target)
 
 **iOS**
 - [Download Xcode 14](https://developer.apple.com/download/all/)
@@ -64,20 +64,20 @@ Read more about setting up your environments [here](docs/environments.md).
 
 **Generate code**
 
-Run the following commands to generate code.
+Run the following commands to generate code. Note that this project uses [FVM](https://fvm.app) to manage its Flutter SDK versions.
 
 ```sh
 # Run this command if appropriate
-flutter pub get
+fvm flutter pub get
 
 # Run this command one time
-flutter pub global activate intl_utils
+fvm flutter pub global activate intl_utils
 
 # Run this command to generate localization files
-flutter pub global run intl_utils:generate
+fvm flutter pub global run intl_utils:generate
 
 # Run this command whenever you use build_runner
-dart run build_runner build --delete-conflicting-outputs
+fvm dart run build_runner build --delete-conflicting-outputs
 ```
 
 Read more about code generation [here](docs/code_generation.md).

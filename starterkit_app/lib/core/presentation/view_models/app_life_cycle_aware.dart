@@ -6,4 +6,6 @@ abstract interface class AppLifeCycleAware {
   Future<void> onAppInactive();
 
   Future<void> onAppDetached();
+
+  Future<void> onAppHidden();
 }
