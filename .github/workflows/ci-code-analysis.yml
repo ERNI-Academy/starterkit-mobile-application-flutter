@@ -49,7 +49,7 @@ jobs:
 
       - name: Copy jscpd-badge.svg to root
         run: |
-          cp ${{ env.PROJECT_WORKING_DIRECTORY }}/report/jscpd-badge.svg ../jscpd-badge.svg
+          cp ${{ env.PROJECT_WORKING_DIRECTORY }}/lib/report/jscpd-badge.svg ../jscpd-badge.svg
           git status
         working-directory: ${{ env.PROJECT_WORKING_DIRECTORY }}
 
