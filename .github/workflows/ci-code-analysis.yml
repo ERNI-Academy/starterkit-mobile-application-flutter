@@ -1,16 +1,6 @@
-name: Code Validation
+name: Code Analysis
 
 on:
-  workflow_dispatch:
-    inputs:
-      choice:
-        required: false
-        type: choice
-        description: Select environment
-        default: dev
-        options:
-          - dev
-
   push:
     paths:
       - .github/**/*.yml
@@ -53,7 +43,6 @@ jobs:
           npm install -g jscpd
           npx jscpd lib --reporters consoleFull --threshold 5
         working-directory: ${{ env.PROJECT_WORKING_DIRECTORY }}
-        if: github.event_name != 'pull_request'
 
       - name: Run code generation
         uses: ./.github/workflows/steps/run-pub-get-and-code-generation
@@ -81,21 +70,3 @@ jobs:
           # Add `--fatal-unused` if you want to fail this step if there are unused localizations
           dart run dart_code_metrics:metrics check-unused-l10n -p Il8n lib
         working-directory: ${{ env.PROJECT_WORKING_DIRECTORY }}
-
-      - name: Add ignore-coverage to generated files
-        run: |
-          bash ../scripts/ignore_coverage.sh
-        working-directory: ${{ env.PROJECT_WORKING_DIRECTORY }}
-
-      - name: Run tests
-        run: |
-          dart run full_coverage
-          flutter test --coverage
-        working-directory: ${{ env.PROJECT_WORKING_DIRECTORY }}
-
-      - uses: codecov/codecov-action@v3
-        with:
-          token: ${{ secrets.CODECOV_TOKEN }}
-          files: ${{ env.PROJECT_WORKING_DIRECTORY }}/coverage/lcov.info
-          fail_ci_if_error: true
-          verbose: true
