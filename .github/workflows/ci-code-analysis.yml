@@ -45,12 +45,8 @@ jobs:
           npm install -g jscpd
           npm install -g jscpd-badge-reporter
           npx jscpd lib --reporters badge,consoleFull --threshold 5
-        working-directory: ${{ env.PROJECT_WORKING_DIRECTORY }}
-
-      - name: Copy jscpd-badge.svg to root
-        run: |
+          cp report/jscpd-badge.svg ../jscpd-badge.svg
           git status
-          cp ${{ env.PROJECT_WORKING_DIRECTORY }}/report/jscpd-badge.svg ../jscpd-badge.svg
         working-directory: ${{ env.PROJECT_WORKING_DIRECTORY }}
 
       # Needs to be run on ubuntu-latest
