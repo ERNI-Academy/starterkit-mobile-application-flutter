@@ -66,13 +66,18 @@ jobs:
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Run DCM
+        uses: CQLabs/dcm-action@v1
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          ci_key: ${{ secrets.DCM_CI_KEY }}
+          email: ${{ secrets.DCM_CI_EMAIL }}
+          folders: ${{ env.PROJECT_WORKING_DIRECTORY }}/lib
+
       - name: Run code analysis
         run: |
           # Running static code analysis
           flutter analyze .
-
-          # Running checks for code metrics
-          dcm calculate-metrics lib --ci-key ${{ secrets.DCM_CI_KEY }} --email ${{ secrets.DCM_CI_EMAIL }}
 
           # Running checks for unused files
           # Add `--fatal-unused` if you want to fail this step if there are unused files
