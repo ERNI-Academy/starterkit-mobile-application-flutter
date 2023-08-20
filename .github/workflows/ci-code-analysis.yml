@@ -49,7 +49,7 @@ jobs:
           git status
         working-directory: ${{ env.PROJECT_WORKING_DIRECTORY }}
 
-      # Needs to be run on ubuntu-latest
+      # Needs to be ran on ubuntu-latest
       - uses: stefanzweifel/git-auto-commit-action@v4
         with:
           file_pattern: "jscpd-badge.svg"
@@ -61,23 +61,28 @@ jobs:
           generate_intl: "true"
           working_directory: ${{ env.PROJECT_WORKING_DIRECTORY }}
 
+      - name: Install DCM
+        uses: CQLabs/setup-dcm@v1
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+
       - name: Run code analysis
         run: |
           # Running static code analysis
           flutter analyze .
 
           # Running checks for code metrics
-          dart run dart_code_metrics:metrics analyze lib --fatal-style --fatal-warnings --fatal-performance
+          dcm calculate-metrics lib --ci-key ${{ secrets.DCM_CI_KEY }} --email ${{ secrets.DCM_CI_EMAIL }}
 
           # Running checks for unused files
           # Add `--fatal-unused` if you want to fail this step if there are unused files
-          dart run dart_code_metrics:metrics check-unused-files lib --no-fatal-unused
+          dcm check-unused-files lib --ci-key ${{ secrets.DCM_CI_KEY }} --email ${{ secrets.DCM_CI_EMAIL }} --no-fatal-unused
 
           # Running checks for unused code
           # Add `--fatal-unused` if you want to fail this step if there are unused code
-          dart run dart_code_metrics:metrics check-unused-code lib --no-fatal-unused
+          dcm check-unused-code lib --ci-key ${{ secrets.DCM_CI_KEY }} --email ${{ secrets.DCM_CI_EMAIL }} --no-fatal-unused
 
           # Running checks for unused localizations
           # Add `--fatal-unused` if you want to fail this step if there are unused localizations
-          dart run dart_code_metrics:metrics check-unused-l10n -p Il8n lib
+          dcm check-unused-l10n lib --ci-key ${{ secrets.DCM_CI_KEY }} --email ${{ secrets.DCM_CI_EMAIL }} --no-fatal-unused
         working-directory: ${{ env.PROJECT_WORKING_DIRECTORY }}
