@@ -27,7 +27,8 @@ jobs:
   run-code-analysis:
     runs-on: ubuntu-latest
     permissions:
-      contents: write
+      contents: read
+      pull-requests: write
     steps:
       - uses: actions/checkout@v3
 
