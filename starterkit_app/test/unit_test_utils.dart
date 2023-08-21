@@ -8,11 +8,11 @@ import 'package:mockito/mockito.dart';
 // ignore: avoid-function-type-in-records
 typedef Having<T> = ({Object? Function(T expected) feature, String description, Object matcher});
 
-Null anyInstanceOf<T>({String? named, List<Having<T>> conditions = const []}) {
-  var matcher = isA<T>();
+Null anyInstanceOf<T>({String? named, List<Having<T>>? conditions}) {
+  TypeMatcher<T> matcher = isA<T>();
 
-  if (conditions.isNotEmpty) {
-    for (final condition in conditions) {
+  if (conditions != null && conditions.isNotEmpty) {
+    for (final Having<T> condition in conditions) {
       matcher = matcher.having(condition.feature, condition.description, condition.matcher);
     }
   }

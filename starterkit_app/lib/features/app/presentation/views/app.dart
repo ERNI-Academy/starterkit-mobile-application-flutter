@@ -34,7 +34,7 @@ class _AppState extends State<App> with ViewMixin<AppViewModel> {
       routerDelegate: AutoRouterDelegate(
         _navigationService,
         initialRoutes: _getInitialRoutes(),
-        navigatorObservers: () => [
+        navigatorObservers: () => <NavigatorObserver>[
           _navigationLogger,
           NavigationObserver.instance,
         ],
@@ -43,7 +43,7 @@ class _AppState extends State<App> with ViewMixin<AppViewModel> {
         useMaterial3: true,
         colorSchemeSeed: Colors.blue,
       ),
-      localizationsDelegates: const [
+      localizationsDelegates: const <LocalizationsDelegate<Object>>[
         Il8n.delegate,
         GlobalMaterialLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate,
@@ -54,8 +54,8 @@ class _AppState extends State<App> with ViewMixin<AppViewModel> {
   }
 
   List<PageRouteInfo>? _getInitialRoutes() {
-    final initialRoutes = <PageRouteInfo>[];
-    final appInitialRoute = widget.initialRoute;
+    final List<PageRouteInfo> initialRoutes = <PageRouteInfo>[];
+    final PageRouteInfo? appInitialRoute = widget.initialRoute;
 
     if (appInitialRoute != null) {
       initialRoutes.add(appInitialRoute);

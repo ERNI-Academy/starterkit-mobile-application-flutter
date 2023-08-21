@@ -19,7 +19,7 @@ class PostsView extends StatelessWidget with ViewMixin<PostsViewModel> {
       ),
       body: ValueListenableBuilder<PostsListState>(
         valueListenable: viewModel.postsState,
-        builder: (context, postsState, _) {
+        builder: (BuildContext context, PostsListState postsState, _) {
           return switch (postsState) {
             PostsListLoadingState _ => const Center(child: CircularProgressIndicator()),
             PostsListLoadedState _ => _PostsListView(postsState.posts.toList(), viewModel.onPostSelected),
@@ -40,9 +40,9 @@ class _PostsListView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
-      itemBuilder: (context, index) {
+      itemBuilder: (BuildContext context, int index) {
         Widget? listWidget;
-        final post = posts.elementAtOrNull(index);
+        final PostEntity? post = posts.elementAtOrNull(index);
 
         if (post != null) {
           listWidget = ListTile(

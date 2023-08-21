@@ -25,7 +25,7 @@ abstract class ServiceLocator {
   }
 
   static void registerDependencies() {
-    final getIt = GetIt.instance..allowReassignment = true;
+    final GetIt getIt = GetIt.instance..allowReassignment = true;
     _instance = $register(getIt);
   }
 }

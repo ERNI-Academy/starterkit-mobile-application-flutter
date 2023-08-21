@@ -11,13 +11,13 @@ Future<void> main() async {
   initializeReflectable();
   ServiceLocator.registerDependencies();
 
-  final zoneLogger = ServiceLocator.instance<Logger>();
+  final Logger zoneLogger = ServiceLocator.instance<Logger>();
   await runZonedGuarded(
     () async {
       WidgetsFlutterBinding.ensureInitialized();
       await Il8n.load(const Locale('en'));
       runApp(const App());
     },
-    (ex, st) => zoneLogger.log(LogLevel.error, 'Unhandled error', ex, st),
+    (Object ex, StackTrace st) => zoneLogger.log(LogLevel.error, 'Unhandled error', ex, st),
   );
 }

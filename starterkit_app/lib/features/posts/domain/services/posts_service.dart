@@ -19,12 +19,12 @@ class PostsServiceImpl implements PostsService {
   @override
   Future<Result<Iterable<PostEntity>>> getPosts() async {
     try {
-      final contracts = await _postsApi.getPosts();
-      final posts = contracts.map(_postMapper.convert<PostContract, PostEntity>);
+      final List<PostContract> contracts = await _postsApi.getPosts();
+      final Iterable<PostEntity> posts = contracts.map(_postMapper.convert<PostContract, PostEntity>);
 
-      return Success(posts);
+      return Success<Iterable<PostEntity>>(posts);
     } on Exception catch (err, st) {
-      return Failure(err, st);
+      return Failure<Iterable<PostEntity>>(err, st);
     }
   }
 }

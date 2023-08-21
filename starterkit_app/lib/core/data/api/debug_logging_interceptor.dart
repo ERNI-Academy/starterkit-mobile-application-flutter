@@ -11,8 +11,8 @@ class DebugLoggingInterceptor extends Interceptor {
 
   @override
   void onRequest(RequestOptions options, RequestInterceptorHandler handler) {
-    final tag = '[REQ#${shortHash(options)}]';
-    final reqUri = options.uri;
+    final String tag = '[REQ#${shortHash(options)}]';
+    final Uri reqUri = options.uri;
     _logger
       ..log(LogLevel.debug, '$tag Sending ${options.method.toUpperCase()} ${reqUri.path + reqUri.query}')
       ..log(LogLevel.debug, '$tag Host: ${reqUri.host}')
@@ -26,7 +26,7 @@ class DebugLoggingInterceptor extends Interceptor {
   // Ignored since we cannot change the override the signature of the method using `covariant`
   // ignore: avoid-dynamic
   void onResponse(Response<dynamic> response, ResponseInterceptorHandler handler) {
-    final tag = '[RES#${shortHash(response.requestOptions)}]';
+    final String tag = '[RES#${shortHash(response.requestOptions)}]';
 
     if (response.statusCode != null && response.statusMessage != null) {
       _logger.log(LogLevel.debug, '$tag Success: ${response.statusCode} ${response.statusMessage}');
@@ -39,7 +39,7 @@ class DebugLoggingInterceptor extends Interceptor {
 
   @override
   void onError(DioException err, ErrorInterceptorHandler handler) {
-    final tag = '[RES#${shortHash(err.requestOptions)}]';
+    final String tag = '[RES#${shortHash(err.requestOptions)}]';
     if (err.response?.statusCode != null && err.response?.statusMessage != null) {
       _logger.log(LogLevel.error, '$tag Failed: ${err.response?.statusCode} ${err.response?.statusMessage}');
     }
@@ -48,7 +48,7 @@ class DebugLoggingInterceptor extends Interceptor {
   }
 
   void _logBody(String tag, Object? body) {
-    const encoder = JsonEncoder.withIndent('    ');
+    const JsonEncoder encoder = JsonEncoder.withIndent('    ');
 
     if (body is Map || body is List) {
       _logger.log(LogLevel.debug, '$tag Body: ${encoder.convert(body)}');

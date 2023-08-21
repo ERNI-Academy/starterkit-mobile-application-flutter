@@ -10,9 +10,9 @@ abstract interface class DioProvider {
 
 @Injectable(as: DioProvider)
 class DioProviderImpl implements DioProvider {
-  static const _connectionTimeOut = Duration(seconds: 10);
-  static const _requestTimeOut = Duration(seconds: 30);
-  static const _sendTimeout = Duration(seconds: 10);
+  static const Duration _connectionTimeOut = Duration(seconds: 10);
+  static const Duration _requestTimeOut = Duration(seconds: 30);
+  static const Duration _sendTimeout = Duration(seconds: 10);
 
   final Logger _logger;
   final String _baseUrl;

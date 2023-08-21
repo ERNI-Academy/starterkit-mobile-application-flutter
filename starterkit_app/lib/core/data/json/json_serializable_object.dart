@@ -8,7 +8,7 @@ export 'package:json_annotation/json_annotation.dart';
 
 @immutable
 abstract class JsonSerializableObject {
-  static const _encoder = JsonEncoder.withIndent('    ');
+  static const JsonEncoder _encoder = JsonEncoder.withIndent('    ');
 
   const JsonSerializableObject();
 

@@ -21,21 +21,19 @@ class NavigationServiceImpl implements NavigationService {
 
   @override
   Future<T?> push<T extends Object?>(PageRouteInfo route, {OnNavigationFailure? onFailure}) async {
-    final result = await _router.push(route, onFailure: onFailure);
-
-    return result as T?;
+    return await _router.push(route, onFailure: onFailure) as T?;
   }
 
   @override
   Future<void> pushToNewRoot(PageRouteInfo route, {OnNavigationFailure? onFailure}) async {
     _router.popUntilRoot();
-    final _ = await replace(route, onFailure: onFailure);
+    final Object? _ = await replace(route, onFailure: onFailure);
   }
 
   @override
   Future<T?> replace<T extends Object?>(PageRouteInfo route, {OnNavigationFailure? onFailure}) {
     unawaited(_router.replace(route, onFailure: onFailure)); // This future does not complete
 
-    return Future.value();
+    return Future<T?>.value();
   }
 }

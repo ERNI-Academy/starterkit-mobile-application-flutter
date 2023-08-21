@@ -32,10 +32,10 @@ class NavigationLoggerImpl extends RouteObserver<ModalRoute<Object?>> implements
   }
 
   static String _getRoutePath(Route<Object?>? route) {
-    final routeSettings = route?.settings;
+    final RouteSettings? routeSettings = route?.settings;
 
     if (routeSettings is AutoRoutePage) {
-      final routeData = routeSettings.routeData;
+      final RouteData routeData = routeSettings.routeData;
 
       return routeData.path;
     }

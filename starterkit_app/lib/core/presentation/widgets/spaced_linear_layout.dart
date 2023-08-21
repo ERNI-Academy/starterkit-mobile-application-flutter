@@ -28,9 +28,9 @@ abstract class SpacedLinearLayout extends StatelessWidget {
 
   @protected
   List<Widget> getChildren() {
-    final newChildren = <Widget>[];
+    final List<Widget> newChildren = <Widget>[];
 
-    for (final child in children) {
+    for (final Widget child in children) {
       newChildren.add(child);
 
       if (children.lastOrNull != child) {

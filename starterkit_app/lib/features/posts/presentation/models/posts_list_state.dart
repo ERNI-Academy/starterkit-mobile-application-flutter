@@ -15,7 +15,7 @@ class PostsListLoadedState extends PostsListState with EquatableMixin {
   final Iterable<PostEntity> posts;
 
   @override
-  List<Object?> get props => [posts];
+  List<Object?> get props => <Object?>[posts];
 }
 
 class PostsListErrorState extends PostsListState with EquatableMixin {
@@ -24,5 +24,5 @@ class PostsListErrorState extends PostsListState with EquatableMixin {
   final String message;
 
   @override
-  List<Object?> get props => [message];
+  List<Object?> get props => <Object?>[message];
 }

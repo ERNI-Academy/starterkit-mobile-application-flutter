@@ -34,8 +34,8 @@ class LoggerImpl implements Logger {
   }
 
   static String _formatMessage(LogLevel level, String message, Object? error, StackTrace? stackTrace) {
-    final tag = '[${level.name.toUpperCase()}]';
-    var formattedMessage = '$tag $message';
+    final String tag = '[${level.name.toUpperCase()}]';
+    String formattedMessage = '$tag $message';
 
     if (level == LogLevel.error && error != null) {
       formattedMessage += '\r\n${error.runtimeType} $error';

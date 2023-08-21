@@ -10,19 +10,19 @@ mixin AppLifeCycleAwareMixin on ViewModel implements AppLifeCycleAware {
   WidgetsBindingObserver get appLifeCycleObserver => _appLifeCycleObserver ?? _WidgetsBindingObserverImpl(this);
 
   @override
-  Future<void> onAppPaused() => Future.value();
+  Future<void> onAppPaused() => Future<void>.value();
 
   @override
-  Future<void> onAppResumed() => Future.value();
+  Future<void> onAppResumed() => Future<void>.value();
 
   @override
-  Future<void> onAppInactive() => Future.value();
+  Future<void> onAppInactive() => Future<void>.value();
 
   @override
-  Future<void> onAppDetached() => Future.value();
+  Future<void> onAppDetached() => Future<void>.value();
 
   @override
-  Future<void> onAppHidden() => Future.value();
+  Future<void> onAppHidden() => Future<void>.value();
 }
 
 class _WidgetsBindingObserverImpl extends WidgetsBindingObserver {

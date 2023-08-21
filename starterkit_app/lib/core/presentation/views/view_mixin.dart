@@ -46,7 +46,7 @@ mixin ViewRouteMixin<TViewModel extends ViewModel> implements View<TViewModel> {
   Widget build(BuildContext context) {
     return _ViewModelBuilder<TViewModel>(
       create: () => onCreateViewModel(context),
-      builder: (context, viewModel) {
+      builder: (BuildContext context, TViewModel viewModel) {
         _ViewLifeCycleHandler._tryGetNavigationParams(context, viewModel);
 
         return buildView(context, viewModel);
@@ -98,8 +98,8 @@ abstract final class _ViewLifeCycleHandler {
     BuildContext context, {
     required bool getNavigationParams,
   }) {
-    final viewModel = ServiceLocator.instance<TViewModel>();
-    final route = ModalRoute.of(context);
+    final TViewModel viewModel = ServiceLocator.instance<TViewModel>();
+    final ModalRoute<Object?>? route = ModalRoute.of(context);
 
     if (route != null && viewModel is RouteAwareMixin) {
       NavigationObserver.instance.subscribe(viewModel, route);
@@ -136,52 +136,52 @@ abstract final class _ViewLifeCycleHandler {
     }
 
     if (viewModel is FirstRenderable) {
-      final firstRenderable = viewModel as FirstRenderable;
+      final FirstRenderable firstRenderable = viewModel as FirstRenderable;
       WidgetsBinding.instance.addPostFrameCallback((_) => unawaited(firstRenderable.onFirstRender()));
     }
 
     if (viewModel is Initializable) {
-      final initializable = viewModel as Initializable;
+      final Initializable initializable = viewModel as Initializable;
       unawaited(initializable.onInitialize());
     }
   }
 
   static void _tryGetNavigationParams<TViewModel extends ViewModel>(BuildContext context, TViewModel viewModel) {
-    final routeData = context.routeData;
-    final queryParams = Map<String, Object?>.from(routeData.queryParams.rawMap);
-    final pathParams = Map<String, Object?>.from(routeData.pathParams.rawMap);
-    final hasParams = queryParams.isNotEmpty || pathParams.isNotEmpty;
-    final canReflect = navigatable.canReflect(viewModel) || navigatable.canReflectType(TViewModel);
+    final RouteData routeData = context.routeData;
+    final Map<String, Object?> queryParams = Map<String, Object?>.from(routeData.queryParams.rawMap);
+    final Map<String, Object?> pathParams = Map<String, Object?>.from(routeData.pathParams.rawMap);
+    final bool hasParams = queryParams.isNotEmpty || pathParams.isNotEmpty;
+    final bool canReflect = navigatable.canReflect(viewModel) || navigatable.canReflectType(TViewModel);
 
     if (hasParams && !canReflect) {
       throw StateError('ViewModel $TViewModel with navigation parameters must be annotated with @navigatable');
     }
 
     if (hasParams && canReflect) {
-      final instanceMirror = navigatable.reflect(viewModel);
-      final typeMirror = navigatable.reflectType(TViewModel) as ClassMirror;
+      final InstanceMirror instanceMirror = navigatable.reflect(viewModel);
+      final ClassMirror typeMirror = navigatable.reflectType(TViewModel) as ClassMirror;
 
-      for (final queryParam in queryParams.entries) {
-        final value = queryParam.value;
+      for (final MapEntry<String, Object?> queryParam in queryParams.entries) {
+        final Object? value = queryParam.value;
 
         if (value == null) {
           continue;
         }
 
         bool predicate(DeclarationMirror element) =>
-            element.metadata.any((m) => m is QueryParam && m.name == queryParam.key);
+            element.metadata.any((Object m) => m is QueryParam && m.name == queryParam.key);
         _setValue(instanceMirror, typeMirror, predicate, value);
       }
 
-      for (final pathParam in pathParams.entries) {
-        final value = pathParam.value;
+      for (final MapEntry<String, Object?> pathParam in pathParams.entries) {
+        final Object? value = pathParam.value;
 
         if (value == null) {
           continue;
         }
 
         bool predicate(DeclarationMirror element) =>
-            element.metadata.any((m) => m is PathParam && m.name == pathParam.key);
+            element.metadata.any((Object m) => m is PathParam && m.name == pathParam.key);
         _setValue(instanceMirror, typeMirror, predicate, value);
       }
     }
@@ -193,10 +193,10 @@ abstract final class _ViewLifeCycleHandler {
     bool Function(DeclarationMirror element) predicate,
     Object value,
   ) {
-    final declarationValues = classMirror.declarations.values;
+    final Iterable<DeclarationMirror> declarationValues = classMirror.declarations.values;
 
     if (declarationValues.any(predicate)) {
-      final matchingDeclaration = declarationValues.firstWhereOrNull(predicate);
+      final DeclarationMirror? matchingDeclaration = declarationValues.firstWhereOrNull(predicate);
 
       if (matchingDeclaration == null) {
         throw StateError('Could not find matching declaration for $value');
@@ -248,7 +248,7 @@ class _ViewModelBuilderState<TViewModel extends ViewModel> extends State<_ViewMo
   Widget build(BuildContext context) {
     return AnimatedBuilder(
       animation: _viewModel,
-      builder: (context, child) {
+      builder: (BuildContext context, Widget? child) {
         return _ViewModelHolder<TViewModel>(
           viewModel: _viewModel,
           child: widget.builder(context, _viewModel),
@@ -275,7 +275,7 @@ class _ViewModelHolder<T extends ViewModel> extends InheritedWidget {
 
 extension ViewExtensions on BuildContext {
   T viewModel<T extends ViewModel>() {
-    final viewModel = _ViewModelHolder._of<T>(this)?.viewModel;
+    final T? viewModel = _ViewModelHolder._of<T>(this)?.viewModel;
 
     if (viewModel == null) {
       throw StateError('Could not locate viewmodel $T');

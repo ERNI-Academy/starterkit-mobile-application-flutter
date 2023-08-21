@@ -15,7 +15,7 @@ import '../../../../test_utils.dart';
 import '../../../../unit_test_utils.dart';
 import 'posts_view_model_test.mocks.dart';
 
-@GenerateNiceMocks([
+@GenerateNiceMocks(<MockSpec<Object>>[
   MockSpec<Logger>(),
   MockSpec<NavigationService>(),
   MockSpec<PostsService>(),
@@ -33,7 +33,7 @@ void main() {
       mockPostsService = MockPostsService();
       il8n = await setupLocale();
 
-      provideDummy<Result<Iterable<PostEntity>>>(Failure(Exception()));
+      provideDummy<Result<Iterable<PostEntity>>>(Failure<Iterable<PostEntity>>(Exception()));
     });
 
     PostsViewModel createUnitToTest() {
@@ -42,11 +42,12 @@ void main() {
 
     group('onInitialize', () {
       test('should get posts when called', () async {
-        const expectedPostEntities = [PostEntity.empty()];
-        const expectedPostState = PostsListLoadedState(expectedPostEntities);
-        when(mockPostsService.getPosts()).thenAnswer((_) async => const Success(expectedPostEntities));
+        const List<PostEntity> expectedPostEntities = <PostEntity>[PostEntity.empty()];
+        const PostsListLoadedState expectedPostState = PostsListLoadedState(expectedPostEntities);
+        when(mockPostsService.getPosts())
+            .thenAnswer((_) async => const Success<List<PostEntity>>(expectedPostEntities));
 
-        final unit = createUnitToTest();
+        final PostsViewModel unit = createUnitToTest();
         await unit.onInitialize();
 
         verify(mockPostsService.getPosts()).called(1);
@@ -54,12 +55,13 @@ void main() {
       });
 
       test('should log error when get posts fails', () async {
-        final expectedException = Exception();
-        const expectedStackTrace = StackTrace.empty;
-        final expectedPostState = PostsListErrorState(il8n.failedToGetPosts);
-        when(mockPostsService.getPosts()).thenAnswer((_) async => Failure(expectedException, expectedStackTrace));
+        final Exception expectedException = Exception();
+        const StackTrace expectedStackTrace = StackTrace.empty;
+        final PostsListErrorState expectedPostState = PostsListErrorState(il8n.failedToGetPosts);
+        when(mockPostsService.getPosts())
+            .thenAnswer((_) async => Failure<List<PostEntity>>(expectedException, expectedStackTrace));
 
-        final unit = createUnitToTest();
+        final PostsViewModel unit = createUnitToTest();
         await unit.onInitialize();
 
         verify(mockPostsService.getPosts()).called(1);
@@ -71,20 +73,9 @@ void main() {
 
     group('onPostSelected', () {
       test('should push post details view when called', () async {
-        const expectedPostEntity = PostEntity.empty();
+        const PostEntity expectedPostEntity = PostEntity.empty();
 
-        final unit = createUnitToTest();
-        await unit.onPostSelected(expectedPostEntity);
-
-        verify(mockNavigationService.push(PostDetailsViewRoute(post: expectedPostEntity))).called(1);
-      });
-    });
-
-    group('onPostSelected', () {
-      test('should push post details view when called', () async {
-        const expectedPostEntity = PostEntity.empty();
-
-        final unit = createUnitToTest();
+        final PostsViewModel unit = createUnitToTest();
         await unit.onPostSelected(expectedPostEntity);
 
         verify(mockNavigationService.push(PostDetailsViewRoute(post: expectedPostEntity))).called(1);

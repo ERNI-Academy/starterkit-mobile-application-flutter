@@ -57,6 +57,9 @@ dart_code_metrics:
     # Not always true for enums that are ordered by values
     - enum-constants-ordering: false
 
+    # Object as type is not always a bad practice
+    - no-object-declaration: false
+
     - avoid-late-keyword:
         exclude:
           - test/**
@@ -251,7 +254,7 @@ linter:
     # Lint           disabled : https://pub.dev/packages/lint
     # VG Analysis    disabled : https://pub.dev/packages/very_good_analysis
     # RydMike        enabled  : https://gist.github.com/rydmike/fdb53ddd933c37d20e6f3188a936cd4c
-    always_specify_types: false
+    always_specify_types: true
 
     # Enforce consistency in package imports
     prefer_relative_imports: false
@@ -560,29 +563,6 @@ linter:
     #   APPLICATION: disabled : With false value. (When/if short lines become problematic. We sometimes like 100 chars.)
     lines_longer_than_80_chars: false
 
-    # DO define default behavior outside switch statements.
-    #
-    # https://dart-lang.github.io/linter/lints/no_default_cases.html
-    #
-    # An experimental lint rule maturity wise. I enabled it, it seems to work well.
-    # Remove the comment below if it is causing issues.
-    #
-    # Other known linters use:
-    #
-    # Core           disabled : https://pub.dev/packages/lints
-    # Recommended    disabled : https://pub.dev/packages/lints
-    # Flutter Lints  disabled : https://pub.dev/packages/flutter_lints
-    # Pedantic       disabled : https://pub.dev/packages/pedantic
-    # Effective Dart disabled : https://pub.dev/packages/effective_dart
-    # Flutter repo   enabled  : https://github.com/flutter/flutter/blob/master/analysis_options.yaml
-    # Lint           disabled : https://pub.dev/packages/lint
-    # VG Analysis    enabled  : https://pub.dev/packages/very_good_analysis
-    # RydMike        enabled  : https://gist.github.com/rydmike/fdb53ddd933c37d20e6f3188a936cd4c
-    #no_default_cases: false
-
-    # Defining interfaces (abstract classes), with only one method, makes sense architecture wise
-    one_member_abstracts: false
-
     # CONSIDER omitting type annotations for local variables.
     #
     # https://dart-lang.github.io/linter/lints/omit_local_variable_types.html
@@ -603,6 +583,9 @@ linter:
     # VG Analysis    enabled  : https://pub.dev/packages/very_good_analysis
     # RydMike        disabled : https://gist.github.com/rydmike/fdb53ddd933c37d20e6f3188a936cd4c
     omit_local_variable_types: false
+
+    # Defining interfaces (abstract classes), with only one method, makes sense architecture wise
+    one_member_abstracts: false
 
     # PREFER asserts with a message string.
     #

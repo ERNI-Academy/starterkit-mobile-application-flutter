@@ -12,7 +12,7 @@ class RootAutoRouter extends $RootAutoRouter implements RootStackRouter {
 
   @override
   List<AutoRoute> get routes {
-    return [
+    return <AutoRoute>[
       AutoRoute(page: PostsViewRoute.page, path: '/'),
       AutoRoute(page: PostDetailsViewRoute.page, path: '/posts/:post'),
     ];

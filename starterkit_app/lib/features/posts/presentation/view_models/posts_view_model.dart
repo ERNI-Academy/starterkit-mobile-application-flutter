@@ -18,7 +18,7 @@ class PostsViewModel extends ViewModel implements Initializable {
   final NavigationService _navigationService;
   final PostsService _postsService;
 
-  final ValueNotifier<PostsListState> _postsState = ValueNotifier(const PostsListLoadingState());
+  final ValueNotifier<PostsListState> _postsState = ValueNotifier<PostsListState>(const PostsListLoadingState());
 
   PostsViewModel(this._logger, this._navigationService, this._postsService) {
     _logger.logFor(this);
@@ -39,14 +39,14 @@ class PostsViewModel extends ViewModel implements Initializable {
     _logger.log(LogLevel.info, 'Getting posts');
     _postsState.value = const PostsListLoadingState();
 
-    final getPostsResult = await _postsService.getPosts();
+    final Result<Iterable<PostEntity>> getPostsResult = await _postsService.getPosts();
 
     switch (getPostsResult) {
-      case Success(:final value):
+      case Success<Iterable<PostEntity>>(:final Iterable<PostEntity> value):
         _postsState.value = PostsListLoadedState(value);
         _logger.log(LogLevel.info, '${value.length} posts loaded');
 
-      case Failure(:final error, :final stackTrace):
+      case Failure<Iterable<PostEntity>>(:final Exception error, :final StackTrace? stackTrace):
         _logger.log(LogLevel.error, 'Failed to get posts', error, stackTrace);
         _postsState.value = PostsListErrorState(Il8n.current.failedToGetPosts);
     }
