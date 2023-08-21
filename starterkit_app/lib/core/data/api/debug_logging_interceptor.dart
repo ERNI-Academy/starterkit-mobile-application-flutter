@@ -7,7 +7,7 @@ import 'package:starterkit_app/core/presentation/view_models/view_model.dart';
 class DebugLoggingInterceptor extends Interceptor {
   final Logger _logger;
 
-  DebugLoggingInterceptor(this._logger);
+  const DebugLoggingInterceptor(this._logger);
 
   @override
   void onRequest(RequestOptions options, RequestInterceptorHandler handler) {
@@ -23,9 +23,15 @@ class DebugLoggingInterceptor extends Interceptor {
   }
 
   @override
+  // Ignored since we cannot change the override the signature of the method using `covariant`
+  // ignore: avoid-dynamic
   void onResponse(Response<dynamic> response, ResponseInterceptorHandler handler) {
     final tag = '[RES#${shortHash(response.requestOptions)}]';
-    _logger.log(LogLevel.debug, '$tag Success: ${response.statusCode} ${response.statusMessage}');
+
+    if (response.statusCode != null && response.statusMessage != null) {
+      _logger.log(LogLevel.debug, '$tag Success: ${response.statusCode} ${response.statusMessage}');
+    }
+
     _logBody(tag, response.data);
 
     super.onResponse(response, handler);
@@ -34,7 +40,9 @@ class DebugLoggingInterceptor extends Interceptor {
   @override
   void onError(DioException err, ErrorInterceptorHandler handler) {
     final tag = '[RES#${shortHash(err.requestOptions)}]';
-    _logger.log(LogLevel.error, '$tag Failed: ${err.response?.statusCode} ${err.response?.statusMessage}');
+    if (err.response?.statusCode != null && err.response?.statusMessage != null) {
+      _logger.log(LogLevel.error, '$tag Failed: ${err.response?.statusCode} ${err.response?.statusMessage}');
+    }
 
     super.onError(err, handler);
   }

@@ -3,15 +3,15 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:golden_toolkit/golden_toolkit.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
-import 'package:starterkit_app/core/dependency_injection.dart';
 import 'package:starterkit_app/core/domain/result.dart';
 import 'package:starterkit_app/core/infrastructure/navigation/root_auto_router.gr.dart';
+import 'package:starterkit_app/core/service_locator.dart';
 import 'package:starterkit_app/features/app/presentation/views/app.dart';
 import 'package:starterkit_app/features/posts/domain/entities/post_entity.dart';
 import 'package:starterkit_app/features/posts/domain/services/posts_service.dart';
 import 'package:starterkit_app/features/posts/presentation/views/post_details_view.dart';
 import 'package:starterkit_app/features/posts/presentation/views/posts_view.dart';
-import 'package:starterkit_app/shared/localization/localization.dart';
+import 'package:starterkit_app/shared/localization/generated/l10n.dart';
 
 import '../../../../test_utils.dart';
 import '../../../../widget_test_utils.dart';

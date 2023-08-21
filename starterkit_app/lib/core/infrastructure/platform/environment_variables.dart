@@ -8,6 +8,8 @@ abstract interface class EnvironmentVariables {
 
 @LazySingleton(as: EnvironmentVariables)
 class EnvironmentVariablesImpl implements EnvironmentVariables {
+  const EnvironmentVariablesImpl();
+
   @override
   String get appEnvironment => const String.fromEnvironment('appEnvironment');
 

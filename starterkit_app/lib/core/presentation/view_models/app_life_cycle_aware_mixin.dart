@@ -1,9 +1,13 @@
+import 'dart:async';
+
 import 'package:flutter/widgets.dart';
 import 'package:starterkit_app/core/presentation/view_models/app_life_cycle_aware.dart';
 import 'package:starterkit_app/core/presentation/view_models/view_model.dart';
 
 mixin AppLifeCycleAwareMixin on ViewModel implements AppLifeCycleAware {
-  late final WidgetsBindingObserver appLifeCycleObserver = _WidgetsBindingObserverImpl(this);
+  WidgetsBindingObserver? _appLifeCycleObserver;
+
+  WidgetsBindingObserver get appLifeCycleObserver => _appLifeCycleObserver ?? _WidgetsBindingObserverImpl(this);
 
   @override
   Future<void> onAppPaused() => Future.value();
@@ -30,20 +34,19 @@ class _WidgetsBindingObserverImpl extends WidgetsBindingObserver {
   void didChangeAppLifecycleState(AppLifecycleState state) {
     switch (state) {
       case AppLifecycleState.paused:
-        _appLifeCycleAware.onAppPaused();
-        break;
+        unawaited(_appLifeCycleAware.onAppPaused());
+
       case AppLifecycleState.resumed:
-        _appLifeCycleAware.onAppResumed();
-        break;
+        unawaited(_appLifeCycleAware.onAppResumed());
+
       case AppLifecycleState.inactive:
-        _appLifeCycleAware.onAppInactive();
-        break;
+        unawaited(_appLifeCycleAware.onAppInactive());
+
       case AppLifecycleState.detached:
-        _appLifeCycleAware.onAppDetached();
-        break;
+        unawaited(_appLifeCycleAware.onAppDetached());
+
       case AppLifecycleState.hidden:
-        _appLifeCycleAware.onAppHidden();
-        break;
+        unawaited(_appLifeCycleAware.onAppHidden());
     }
   }
 }

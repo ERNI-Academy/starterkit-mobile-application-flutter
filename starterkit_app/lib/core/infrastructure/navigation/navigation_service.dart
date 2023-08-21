@@ -17,7 +17,7 @@ abstract interface class NavigationService {
 class NavigationServiceImpl implements NavigationService {
   final RootStackRouter _router;
 
-  NavigationServiceImpl(this._router);
+  const NavigationServiceImpl(this._router);
 
   @override
   Future<T?> push<T extends Object?>(PageRouteInfo route, {OnNavigationFailure? onFailure}) async {
@@ -29,7 +29,7 @@ class NavigationServiceImpl implements NavigationService {
   @override
   Future<void> pushToNewRoot(PageRouteInfo route, {OnNavigationFailure? onFailure}) async {
     _router.popUntilRoot();
-    await replace(route, onFailure: onFailure);
+    final _ = await replace(route, onFailure: onFailure);
   }
 
   @override

@@ -10,19 +10,19 @@ class PostsListLoadingState extends PostsListState {
 }
 
 class PostsListLoadedState extends PostsListState with EquatableMixin {
+  const PostsListLoadedState(this.posts);
+
   final Iterable<PostEntity> posts;
 
   @override
   List<Object?> get props => [posts];
-
-  const PostsListLoadedState(this.posts);
 }
 
 class PostsListErrorState extends PostsListState with EquatableMixin {
+  const PostsListErrorState(this.message);
+
   final String message;
 
   @override
   List<Object?> get props => [message];
-
-  const PostsListErrorState(this.message);
 }

@@ -9,7 +9,7 @@ import 'package:starterkit_app/features/posts/domain/entities/post_entity.dart';
 import 'package:starterkit_app/features/posts/domain/services/posts_service.dart';
 import 'package:starterkit_app/features/posts/presentation/models/posts_list_state.dart';
 import 'package:starterkit_app/features/posts/presentation/view_models/posts_view_model.dart';
-import 'package:starterkit_app/shared/localization/localization.dart';
+import 'package:starterkit_app/shared/localization/generated/l10n.dart';
 
 import '../../../../test_utils.dart';
 import '../../../../unit_test_utils.dart';
@@ -50,7 +50,7 @@ void main() {
         await unit.onInitialize();
 
         verify(mockPostsService.getPosts()).called(1);
-        await expectLater(unit.postsState.value, expectedPostState);
+        await expectLater(unit.postsState.value, equals(expectedPostState));
       });
 
       test('should log error when get posts fails', () async {
@@ -65,7 +65,18 @@ void main() {
         verify(mockPostsService.getPosts()).called(1);
         verify(mockLogger.log(LogLevel.error, anyInstanceOf<String>(), expectedException, expectedStackTrace))
             .called(1);
-        await expectLater(unit.postsState.value, expectedPostState);
+        await expectLater(unit.postsState.value, equals(expectedPostState));
+      });
+    });
+
+    group('onPostSelected', () {
+      test('should push post details view when called', () async {
+        const expectedPostEntity = PostEntity.empty();
+
+        final unit = createUnitToTest();
+        await unit.onPostSelected(expectedPostEntity);
+
+        verify(mockNavigationService.push(PostDetailsViewRoute(post: expectedPostEntity))).called(1);
       });
     });
 

@@ -4,7 +4,9 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 
-typedef Having<T> = ({Object? Function(T) feature, String description, Object matcher});
+// Ignored for this case
+// ignore: avoid-function-type-in-records
+typedef Having<T> = ({Object? Function(T expected) feature, String description, Object matcher});
 
 Null anyInstanceOf<T>({String? named, List<Having<T>> conditions = const []}) {
   var matcher = isA<T>();

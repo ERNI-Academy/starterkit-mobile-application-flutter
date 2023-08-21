@@ -1,9 +1,9 @@
 import 'dart:async';
 
 import 'package:auto_route/auto_route.dart';
+import 'package:collection/collection.dart';
 import 'package:flutter/widgets.dart' hide View;
 import 'package:reflectable/reflectable.dart';
-import 'package:starterkit_app/core/dependency_injection.dart';
 import 'package:starterkit_app/core/infrastructure/navigation/navigation_observer.dart';
 import 'package:starterkit_app/core/presentation/view_models/app_life_cycle_aware_mixin.dart';
 import 'package:starterkit_app/core/presentation/view_models/first_renderable.dart';
@@ -12,6 +12,7 @@ import 'package:starterkit_app/core/presentation/view_models/route_aware_mixin.d
 import 'package:starterkit_app/core/presentation/view_models/view_model.dart';
 import 'package:starterkit_app/core/presentation/views/view.dart';
 import 'package:starterkit_app/core/reflection.dart';
+import 'package:starterkit_app/core/service_locator.dart';
 
 mixin ViewMixin<TViewModel extends ViewModel> implements View<TViewModel> {
   @override
@@ -19,8 +20,8 @@ mixin ViewMixin<TViewModel extends ViewModel> implements View<TViewModel> {
   Widget build(BuildContext context) {
     return _ViewModelBuilder<TViewModel>(
       create: () => onCreateViewModel(context),
-      dispose: onDisposeViewModel,
       builder: buildView,
+      dispose: onDisposeViewModel,
     );
   }
 
@@ -45,12 +46,12 @@ mixin ViewRouteMixin<TViewModel extends ViewModel> implements View<TViewModel> {
   Widget build(BuildContext context) {
     return _ViewModelBuilder<TViewModel>(
       create: () => onCreateViewModel(context),
-      dispose: onDisposeViewModel,
       builder: (context, viewModel) {
         _ViewLifeCycleHandler._tryGetNavigationParams(context, viewModel);
 
         return buildView(context, viewModel);
       },
+      dispose: onDisposeViewModel,
     );
   }
 
@@ -75,8 +76,8 @@ mixin ChildViewMixin<TViewModel extends ViewModel> implements View<TViewModel> {
   Widget build(BuildContext context) {
     return _ViewModelBuilder<TViewModel>(
       create: () => onCreateViewModel(context),
-      dispose: onDisposeViewModel,
       builder: buildView,
+      dispose: onDisposeViewModel,
     );
   }
 
@@ -87,6 +88,8 @@ mixin ChildViewMixin<TViewModel extends ViewModel> implements View<TViewModel> {
 
   @protected
   @override
+  // Ignored because of satisfying an interface contract
+  // ignore: no-empty-block
   void onDisposeViewModel(BuildContext context, TViewModel viewModel) {}
 }
 
@@ -154,25 +157,33 @@ abstract final class _ViewLifeCycleHandler {
       throw StateError('ViewModel $TViewModel with navigation parameters must be annotated with @navigatable');
     }
 
-    final instanceMirror = navigatable.reflect(viewModel);
-    final typeMirror = navigatable.reflectType(TViewModel) as ClassMirror;
+    if (hasParams && canReflect) {
+      final instanceMirror = navigatable.reflect(viewModel);
+      final typeMirror = navigatable.reflectType(TViewModel) as ClassMirror;
 
-    for (final entry in queryParams.entries) {
-      if (entry.value == null) {
-        continue;
+      for (final queryParam in queryParams.entries) {
+        final value = queryParam.value;
+
+        if (value == null) {
+          continue;
+        }
+
+        bool predicate(DeclarationMirror element) =>
+            element.metadata.any((m) => m is QueryParam && m.name == queryParam.key);
+        _setValue(instanceMirror, typeMirror, predicate, value);
       }
 
-      bool predicate(DeclarationMirror element) => element.metadata.any((m) => m is QueryParam && m.name == entry.key);
-      _setValue(instanceMirror, typeMirror, predicate, entry.value!);
-    }
+      for (final pathParam in pathParams.entries) {
+        final value = pathParam.value;
 
-    for (final entry in pathParams.entries) {
-      if (entry.value == null) {
-        continue;
+        if (value == null) {
+          continue;
+        }
+
+        bool predicate(DeclarationMirror element) =>
+            element.metadata.any((m) => m is PathParam && m.name == pathParam.key);
+        _setValue(instanceMirror, typeMirror, predicate, value);
       }
-
-      bool predicate(DeclarationMirror element) => element.metadata.any((m) => m is PathParam && m.name == entry.key);
-      _setValue(instanceMirror, typeMirror, predicate, entry.value!);
     }
   }
 
@@ -182,8 +193,15 @@ abstract final class _ViewLifeCycleHandler {
     bool Function(DeclarationMirror element) predicate,
     Object value,
   ) {
-    if (classMirror.declarations.values.any(predicate)) {
-      final matchingDeclaration = classMirror.declarations.values.firstWhere(predicate) as VariableMirror;
+    final declarationValues = classMirror.declarations.values;
+
+    if (declarationValues.any(predicate)) {
+      final matchingDeclaration = declarationValues.firstWhereOrNull(predicate);
+
+      if (matchingDeclaration == null) {
+        throw StateError('Could not find matching declaration for $value');
+      }
+
       instanceMirror.invokeSetter(matchingDeclaration.simpleName, value);
     }
   }
@@ -193,15 +211,25 @@ class _ViewModelBuilder<TViewModel extends ViewModel> extends StatefulWidget {
   const _ViewModelBuilder({required this.create, required this.builder, this.dispose, super.key});
 
   final TViewModel Function() create;
-  final Widget Function(BuildContext, TViewModel) builder;
-  final void Function(BuildContext, TViewModel)? dispose;
+  final Widget Function(BuildContext context, TViewModel viewModel) builder;
+  final void Function(BuildContext context, TViewModel viewModel)? dispose;
 
   @override
   State<StatefulWidget> createState() => _ViewModelBuilderState<TViewModel>();
 }
 
 class _ViewModelBuilderState<TViewModel extends ViewModel> extends State<_ViewModelBuilder<TViewModel>> {
-  late final TViewModel _currentViewModel;
+  TViewModel? _currentViewModel;
+
+  TViewModel get _viewModel {
+    if (_currentViewModel == null) {
+      throw StateError('ViewModel is not initialized');
+    }
+
+    // Ignored since the value is guaranteed to be non-null
+    // ignore: avoid-non-null-assertion
+    return _currentViewModel!;
+  }
 
   @override
   void initState() {
@@ -212,18 +240,18 @@ class _ViewModelBuilderState<TViewModel extends ViewModel> extends State<_ViewMo
 
   @override
   void dispose() {
-    widget.dispose?.call(context, _currentViewModel);
+    widget.dispose?.call(context, _viewModel);
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return AnimatedBuilder(
-      animation: _currentViewModel,
+      animation: _viewModel,
       builder: (context, child) {
         return _ViewModelHolder<TViewModel>(
-          viewModel: _currentViewModel,
-          child: widget.builder(context, _currentViewModel),
+          viewModel: _viewModel,
+          child: widget.builder(context, _viewModel),
         );
       },
     );
@@ -233,21 +261,21 @@ class _ViewModelBuilderState<TViewModel extends ViewModel> extends State<_ViewMo
 class _ViewModelHolder<T extends ViewModel> extends InheritedWidget {
   const _ViewModelHolder({required super.child, required this.viewModel, super.key});
 
-  static _ViewModelHolder<T>? of<T extends ViewModel>(BuildContext context) {
-    return context.dependOnInheritedWidgetOfExactType<_ViewModelHolder<T>>();
-  }
-
   final T viewModel;
 
   @override
   bool updateShouldNotify(_ViewModelHolder<T> oldWidget) {
     return false;
   }
+
+  static _ViewModelHolder<T>? _of<T extends ViewModel>(BuildContext context) {
+    return context.dependOnInheritedWidgetOfExactType<_ViewModelHolder<T>>();
+  }
 }
 
 extension ViewExtensions on BuildContext {
   T viewModel<T extends ViewModel>() {
-    final viewModel = _ViewModelHolder.of<T>(this)?.viewModel;
+    final viewModel = _ViewModelHolder._of<T>(this)?.viewModel;
 
     if (viewModel == null) {
       throw StateError('Could not locate viewmodel $T');

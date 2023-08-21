@@ -65,7 +65,7 @@ jobs:
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Run DCM
+      - name: Run DCM code analysis
         uses: CQLabs/dcm-action@v1
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
@@ -73,10 +73,15 @@ jobs:
           email: ${{ secrets.DCM_CI_EMAIL }}
           folders: ${{ env.PROJECT_WORKING_DIRECTORY }}/lib
 
-      - name: Run code analysis
+      - name: Run Dart code analysis
         run: |
-          # Running static code analysis
-          flutter analyze .
+          dart analyze .
+        working-directory: ${{ env.PROJECT_WORKING_DIRECTORY }}
+
+      - name: Run DCM code checks
+        run: |
+          # Running checks for unnecessary nullable parameters
+          dcm check-unnecessary-nullable lib --ci-key ${{ secrets.DCM_CI_KEY }} --email ${{ secrets.DCM_CI_EMAIL }}
 
           # Running checks for unused files
           # Add `--fatal-unused` if you want to fail this step if there are unused files
@@ -87,6 +92,5 @@ jobs:
           dcm check-unused-code lib --ci-key ${{ secrets.DCM_CI_KEY }} --email ${{ secrets.DCM_CI_EMAIL }} --no-fatal-unused
 
           # Running checks for unused localizations
-          # Add `--fatal-unused` if you want to fail this step if there are unused localizations
-          dcm check-unused-l10n lib --ci-key ${{ secrets.DCM_CI_KEY }} --email ${{ secrets.DCM_CI_EMAIL }} --no-fatal-unused
+          dcm check-unused-l10n lib --ci-key ${{ secrets.DCM_CI_KEY }} --email ${{ secrets.DCM_CI_EMAIL }}
         working-directory: ${{ env.PROJECT_WORKING_DIRECTORY }}

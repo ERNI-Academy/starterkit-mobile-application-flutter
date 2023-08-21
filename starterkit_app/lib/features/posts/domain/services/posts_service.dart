@@ -14,7 +14,7 @@ class PostsServiceImpl implements PostsService {
   final PostsApi _postsApi;
   final PostMapper _postMapper;
 
-  PostsServiceImpl(this._postsApi, this._postMapper);
+  const PostsServiceImpl(this._postsApi, this._postMapper);
 
   @override
   Future<Result<Iterable<PostEntity>>> getPosts() async {
@@ -23,8 +23,8 @@ class PostsServiceImpl implements PostsService {
       final posts = contracts.map(_postMapper.convert<PostContract, PostEntity>);
 
       return Success(posts);
-    } on Exception catch (e, st) {
-      return Failure(e, st);
+    } on Exception catch (err, st) {
+      return Failure(err, st);
     }
   }
 }
