@@ -204,47 +204,6 @@ analyzer:
     strict-raw-types: true
 linter:
   rules:
-    # ALWAYS separate the control structure expression from its statement.
-    #
-    # https://dart-lang.github.io/linter/lints/always_put_control_body_on_new_line.html
-    #
-    # This sometimes makes things more unclear when one line is enough. Also, single line if:s are
-    # fine and also recommended in Effective Dart "DO format your code using dartfmt".
-    # 
-    # Enabled to be consistent with curly_braces_in_flow_control_structures.
-    #
-    # Other known linters use:
-    #
-    # Core           disabled : https://pub.dev/packages/lints
-    # Recommended    disabled : https://pub.dev/packages/lints
-    # Flutter Lints  disabled : https://pub.dev/packages/flutter_lints
-    # Pedantic       disabled : https://pub.dev/packages/pedantic
-    # Effective Dart disabled : https://pub.dev/packages/effective_dart
-    # Flutter repo   enabled  : https://github.com/flutter/flutter/blob/master/analysis_options.yaml
-    # Lint           disabled : https://pub.dev/packages/lint
-    # VG Analysis    disabled : https://pub.dev/packages/very_good_analysis
-    # RydMike        disabled : https://gist.github.com/rydmike/fdb53ddd933c37d20e6f3188a936cd4c
-    always_put_control_body_on_new_line: true
-
-    # ALWAYS specify @required on named parameter before other named parameters.
-    #
-    # https://dart-lang.github.io/linter/lints/always_put_required_named_parameters_first.html
-    #
-    # Conflicts with the convention used by Flutter, which puts `Key key` first
-    # and `@required Widget child` last.
-    #
-    # Other known linters use:
-    # Core           disabled : https://pub.dev/packages/lints
-    # Recommended    disabled : https://pub.dev/packages/lints
-    # Flutter Lints  disabled : https://pub.dev/packages/flutter_lints
-    # Pedantic       disabled : https://pub.dev/packages/pedantic
-    # Effective Dart disabled : https://pub.dev/packages/effective_dart
-    # Flutter repo   disabled : https://github.com/flutter/flutter/blob/master/analysis_options.yaml
-    # Lint           disabled : https://pub.dev/packages/lint
-    # VG Analysis    disabled : https://pub.dev/packages/very_good_analysis
-    # RydMike        disabled : https://gist.github.com/rydmike/fdb53ddd933c37d20e6f3188a936cd4c
-    always_put_required_named_parameters_first: true
-
     # ALWAYS specify type annotations.
     #
     # https://dart-lang.github.io/linter/lints/always_specify_types.html
@@ -294,8 +253,7 @@ linter:
     # RydMike        enabled  : https://gist.github.com/rydmike/fdb53ddd933c37d20e6f3188a936cd4c
     always_specify_types: false
 
-    always_use_package_imports: true
-
+    # Enforce consistency in package imports
     prefer_relative_imports: false
 
     # AVOID annotating with dynamic when not required.
@@ -429,34 +387,6 @@ linter:
     # VG Analysis    enabled  : https://pub.dev/packages/very_good_analysis
     # RydMike        disabled : https://gist.github.com/rydmike/fdb53ddd933c37d20e6f3188a936cd4c
     avoid_positional_boolean_parameters: false
-
-    # AVOID print calls in production code.
-    #
-    # https://dart-lang.github.io/linter/lints/avoid_print.html
-    #
-    # Our default is to have this rule enabled.
-    #
-    # In example apps you may want to print to the console. You may want to do so during development
-    # too. We keep the rule here, to handily disable/enable as and when needed. This lint rule is
-    # a good way to find print statements that you may have used during development in code that
-    # should not have them in production, so at least before committing the code in such
-    # projects, make sure to keep this rule enabled by commenting it out here.
-    #
-    # Other known linters use:
-    #
-    # Core           disabled : https://pub.dev/packages/lints
-    # Recommended    disabled : https://pub.dev/packages/lints
-    # Flutter Lints  enabled  : https://pub.dev/packages/flutter_lints
-    # Pedantic       disabled : https://pub.dev/packages/pedantic
-    # Effective Dart disabled : https://pub.dev/packages/effective_dart
-    # Flutter repo   enabled  : https://github.com/flutter/flutter/blob/master/analysis_options.yaml
-    # Lint           enabled  : https://pub.dev/packages/lint
-    # VG Analysis    enabled  : https://pub.dev/packages/very_good_analysis
-    # RydMike                 : https://gist.github.com/rydmike/fdb53ddd933c37d20e6f3188a936cd4c
-    #   RELEASE:     enabled  : By commenting it out. (default)
-    #   DEVELOPMENT: disabled : Uncomment below if the warnings bother you during dev or making a console app.
-    #
-    avoid_print: true
 
     # AVOID redundant argument values.
     #
