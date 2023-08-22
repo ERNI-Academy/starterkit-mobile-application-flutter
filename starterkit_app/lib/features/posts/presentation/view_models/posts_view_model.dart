@@ -46,8 +46,8 @@ class PostsViewModel extends ViewModel implements Initializable {
         _postsState.value = PostsListLoadedState(value);
         _logger.log(LogLevel.info, '${value.length} posts loaded');
 
-      case Failure<Iterable<PostEntity>>(:final Exception error, :final StackTrace? stackTrace):
-        _logger.log(LogLevel.error, 'Failed to get posts', error, stackTrace);
+      case Failure<Iterable<PostEntity>>(exception: final Exception ex, stackTrace: final StackTrace? st):
+        _logger.log(LogLevel.error, 'Failed to get posts', ex, st);
         _postsState.value = PostsListErrorState(Il8n.current.failedToGetPosts);
     }
   }

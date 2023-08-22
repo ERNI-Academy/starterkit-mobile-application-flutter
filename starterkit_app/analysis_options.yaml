@@ -54,6 +54,9 @@ dart_code_metrics:
     # Mutliple classes can be grouped in one file if those classes fulfill a single responsibility
     - prefer-match-file-name: false
 
+    # Sometimes it is better to assign the value to a variable, helps with debugging using breakpoints
+    - prefer-immediate-return: false
+
     # Not always true for enums that are ordered by values
     - enum-constants-ordering: false
 
@@ -72,41 +75,23 @@ dart_code_metrics:
         exclude:
           - test/**
     - prefer-correct-identifier-length:
-        exceptions: ["id"]
+        exceptions: ["id", "ex", "st"]
     - prefer-correct-error-name:
         allowed-names:
           - e
           - ex
           - err
+          - error
     - member-ordering:
         widgets-order:
           - public-static-const-fields
           - public-static-fields
+          - public-static-getters
+          - public-static-getters-setters
           - private-static-const-fields
           - private-static-fields
-          - private-final-fields
-          - private-late-final-fields
-          - private-late-fields
-          - private-fields
-          - constructors
-          - factory-constructors
-          - public-final-fields
-          - public-late-final-fields
-          - public-late-fields
-          - public-fields
-          - public-getter-setters
-          - public-static-methods
-          - overriden-public-methods
-          - public-methods
-          - overriden-protected-methods
-          - protected-methods
-          - private-static-methods
-          - private-methods
-        order:
-          - public-static-const-fields
-          - public-static-fields
-          - private-static-const-fields
-          - private-static-fields
+          - private-static-getters
+          - private-static-getters-setters
           - private-final-fields
           - private-late-final-fields
           - private-late-fields
@@ -123,10 +108,39 @@ dart_code_metrics:
           - public-static-methods
           - overriden-public-methods
           - public-methods
+          - overridden-public-methods
+          - protected-methods
+          - private-methods
+          - private-static-methods
+        order:
+          - public-static-const-fields
+          - public-static-fields
+          - public-static-getters
+          - public-static-getters-setters
+          - private-static-const-fields
+          - private-static-fields
+          - private-static-getters
+          - private-static-getters-setters
+          - private-final-fields
+          - private-late-final-fields
+          - private-late-fields
+          - private-fields
+          - constructors
+          - factory-constructors
+          - public-final-fields
+          - public-late-final-fields
+          - public-late-fields
+          - public-fields
+          - private-fields-public-getters
+          - public-getters
+          - public-getter-setters
+          - public-static-methods
+          - overridden-public-methods
+          - public-methods
           - overriden-protected-methods
           - protected-methods
-          - private-static-methods
           - private-methods
+          - private-static-methods
     - avoid-shadowing:
         ignored-names:
           - context
@@ -219,21 +233,11 @@ linter:
     # This makes most code intent very explicit, sometimes this may help you
     # reason about unfamiliar libs, but it might get tedious when dealing with very familiar ones.
     # For devs used to more relaxed or no type declaration, it is probably the other way around.
-    # This rule is, of course, also in conflict with some other lint rules. Most notably, it
-    # violates Effective Dart "AVOID type annotating initialized local variables".
-    # https://dart-lang.github.io/linter/lints/omit_local_variable_types.html
-    # Which we find to be a strange rule, the package lint agrees with the statement that
-    # "Types for local variables may improve readability" and keeps that avoid rule disabled.
+    # This rule is, of course, also in conflict with some other lint rules.
     #
     # Turning always_specify_types lint rule on in a project at a later stage is very tedious,
     # fixing all the analyzer warnings will take quite some time. Having it on as you write new code
     # is not so bad though, the IDE will handle it most of the time.
-    #
-    # Most people probably want this lint rule OFF, but for now we keep it on in our projects.
-    # We might reconsider this choice later. For example, this issue has requested
-    # a new softer related lint rule that could be used only for declarations:
-    # https://github.com/dart-lang/linter/issues/1620
-    # If such a lint rule materializes, we might switch to using it instead and turn off this lint.
     #
     # Using always_specify_type ON lint like Flutter repo does, makes it easier to reason about
     # unfamiliar codebases, especially when you read it on GitHub where the IDE cannot be used to
@@ -242,18 +246,6 @@ linter:
     # We felt the above long explanation was warranted as a reminder. Keeping the rule listed here
     # and the setting below, in order to easily turn it OFF permanently some day, or in some
     # projects.
-    #
-    # Other known linters use:
-    #
-    # Core           disabled : https://pub.dev/packages/lints
-    # Recommended    disabled : https://pub.dev/packages/lints
-    # Flutter Lints  disabled : https://pub.dev/packages/flutter_lints
-    # Pedantic       disabled : https://pub.dev/packages/pedantic
-    # Effective Dart disabled : https://pub.dev/packages/effective_dart
-    # Flutter repo   enabled  : https://github.com/flutter/flutter/blob/master/analysis_options.yaml
-    # Lint           disabled : https://pub.dev/packages/lint
-    # VG Analysis    disabled : https://pub.dev/packages/very_good_analysis
-    # RydMike        enabled  : https://gist.github.com/rydmike/fdb53ddd933c37d20e6f3188a936cd4c
     always_specify_types: true
 
     # Enforce consistency in package imports

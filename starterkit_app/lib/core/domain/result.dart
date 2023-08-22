@@ -11,8 +11,8 @@ final class Success<T> extends Result<T> {
 }
 
 final class Failure<T> extends Result<T> {
-  const Failure(this.error, [this.stackTrace]) : super(isSuccess: false);
+  const Failure(this.exception, [this.stackTrace]) : super(isSuccess: false);
 
-  final Exception error;
+  final Exception exception;
   final StackTrace? stackTrace;
 }

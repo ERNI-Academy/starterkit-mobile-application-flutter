@@ -10,8 +10,6 @@ const Named appServerUrl = Named('apiBaseUrl');
   asExtension: false,
 )
 abstract class ServiceLocator {
-  static GetIt? _instance;
-
   static GetIt get instance {
     if (_instance == null) {
       throw UnsupportedError(
@@ -23,6 +21,8 @@ abstract class ServiceLocator {
     // ignore: avoid-non-null-assertion
     return _instance!;
   }
+
+  static GetIt? _instance;
 
   static void registerDependencies() {
     final GetIt getIt = GetIt.instance..allowReassignment = true;

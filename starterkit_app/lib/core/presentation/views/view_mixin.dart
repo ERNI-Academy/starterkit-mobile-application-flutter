@@ -157,6 +157,10 @@ abstract final class _ViewLifeCycleHandler {
       throw StateError('ViewModel $TViewModel with navigation parameters must be annotated with @navigatable');
     }
 
+    if (!hasParams && canReflect) {
+      throw StateError('ViewModel $TViewModel was annotated with @navigatable but has no navigation parameters');
+    }
+
     if (hasParams && canReflect) {
       final InstanceMirror instanceMirror = navigatable.reflect(viewModel);
       final ClassMirror typeMirror = navigatable.reflectType(TViewModel) as ClassMirror;
