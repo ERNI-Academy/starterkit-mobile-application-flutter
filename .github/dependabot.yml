@@ -9,3 +9,13 @@ updates:
     directory: "starterkit_app"
     schedule:
       interval: "weekly"
+
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: daily
+
+  - package-ecosystem: bundler
+    directory: /starterkit_app
+    schedule:
+      interval: daily
