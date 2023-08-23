@@ -3,14 +3,14 @@ import 'package:starterkit_app/core/presentation/view_models/view_model.dart';
 
 mixin RouteAwareMixin on ViewModel implements RouteAware {
   @override
-  Future<void> didPop() => Future.value();
+  Future<void> didPop() => Future<void>.value();
 
   @override
-  Future<void> didPush() => Future.value();
+  Future<void> didPush() => Future<void>.value();
 
   @override
-  Future<void> didPushNext() => Future.value();
+  Future<void> didPushNext() => Future<void>.value();
 
   @override
-  Future<void> didPopNext() => Future.value();
+  Future<void> didPopNext() => Future<void>.value();
 }

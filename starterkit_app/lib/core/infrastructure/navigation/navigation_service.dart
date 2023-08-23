@@ -6,24 +6,24 @@ import 'package:auto_route/auto_route.dart';
 import 'package:injectable/injectable.dart';
 
 abstract interface class NavigationService {
-  Future<T?> push<T extends Object?>(PageRouteInfo route, {OnNavigationFailure? onFailure});
+  Future<T?> push<T extends Object>(PageRouteInfo route, {OnNavigationFailure? onFailure});
 
   Future<void> pushToNewRoot(PageRouteInfo route, {OnNavigationFailure? onFailure});
 
-  Future<T?> replace<T extends Object?>(PageRouteInfo route, {OnNavigationFailure? onFailure});
+  Future<T?> replace<T extends Object>(PageRouteInfo route, {OnNavigationFailure? onFailure});
 }
 
 @LazySingleton(as: NavigationService)
 class NavigationServiceImpl implements NavigationService {
   final RootStackRouter _router;
 
-  NavigationServiceImpl(this._router);
+  const NavigationServiceImpl(this._router);
 
   @override
-  Future<T?> push<T extends Object?>(PageRouteInfo route, {OnNavigationFailure? onFailure}) async {
-    final result = await _router.push(route, onFailure: onFailure);
+  Future<T?> push<T extends Object>(PageRouteInfo route, {OnNavigationFailure? onFailure}) async {
+    final T? result = await _router.push(route, onFailure: onFailure) as T?;
 
-    return result as T?;
+    return result;
   }
 
   @override
@@ -33,9 +33,9 @@ class NavigationServiceImpl implements NavigationService {
   }
 
   @override
-  Future<T?> replace<T extends Object?>(PageRouteInfo route, {OnNavigationFailure? onFailure}) {
+  Future<T?> replace<T extends Object>(PageRouteInfo route, {OnNavigationFailure? onFailure}) {
     unawaited(_router.replace(route, onFailure: onFailure)); // This future does not complete
 
-    return Future.value();
+    return Future<T?>.value();
   }
 }

@@ -26,8 +26,7 @@ env:
 jobs:
   run-code-analysis:
     runs-on: ubuntu-latest
-    permissions:
-      contents: write
+    permissions: write-all
     steps:
       - uses: actions/checkout@v3
 
@@ -43,17 +42,8 @@ jobs:
       - name: Check for duplicate lines of code and generate badge
         run: |
           npm install -g jscpd
-          npm install -g jscpd-badge-reporter
-          npx jscpd lib --reporters badge,consoleFull --threshold 5
-          cp report/jscpd-badge.svg ../jscpd-badge.svg
-          git status
+          npx jscpd lib --reporters consoleFull --threshold 5
         working-directory: ${{ env.PROJECT_WORKING_DIRECTORY }}
-
-      # Needs to be run on ubuntu-latest
-      - uses: stefanzweifel/git-auto-commit-action@v4
-        with:
-          file_pattern: "jscpd-badge.svg"
-          commit_message: "Update jscpd-badge.svg"
 
       - name: Run code generation
         uses: ./.github/workflows/steps/run-pub-get-and-code-generation
@@ -61,23 +51,37 @@ jobs:
           generate_intl: "true"
           working_directory: ${{ env.PROJECT_WORKING_DIRECTORY }}
 
-      - name: Run code analysis
+      - name: Run Dart code analysis
         run: |
-          # Running static code analysis
-          flutter analyze .
+          dart analyze .
+        working-directory: ${{ env.PROJECT_WORKING_DIRECTORY }}
 
-          # Running checks for code metrics
-          dart run dart_code_metrics:metrics analyze lib --fatal-style --fatal-warnings --fatal-performance
+      - name: Install DCM
+        uses: CQLabs/setup-dcm@v1
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Run DCM code analysis
+        uses: CQLabs/dcm-action@v1
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          ci_key: ${{ secrets.DCM_CI_KEY }}
+          email: ${{ secrets.DCM_CI_EMAIL }}
+          folders: ${{ env.PROJECT_WORKING_DIRECTORY }}/lib
+
+      - name: Run DCM code checks
+        run: |
+          # Running checks for unnecessary nullable parameters
+          dcm check-unnecessary-nullable lib --ci-key ${{ secrets.DCM_CI_KEY }} --email ${{ secrets.DCM_CI_EMAIL }}
 
           # Running checks for unused files
           # Add `--fatal-unused` if you want to fail this step if there are unused files
-          dart run dart_code_metrics:metrics check-unused-files lib --no-fatal-unused
+          dcm check-unused-files lib --ci-key ${{ secrets.DCM_CI_KEY }} --email ${{ secrets.DCM_CI_EMAIL }} --no-fatal-unused
 
           # Running checks for unused code
           # Add `--fatal-unused` if you want to fail this step if there are unused code
-          dart run dart_code_metrics:metrics check-unused-code lib --no-fatal-unused
+          dcm check-unused-code lib --ci-key ${{ secrets.DCM_CI_KEY }} --email ${{ secrets.DCM_CI_EMAIL }} --no-fatal-unused
 
           # Running checks for unused localizations
-          # Add `--fatal-unused` if you want to fail this step if there are unused localizations
-          dart run dart_code_metrics:metrics check-unused-l10n -p Il8n lib
+          dcm check-unused-l10n lib --ci-key ${{ secrets.DCM_CI_KEY }} --email ${{ secrets.DCM_CI_EMAIL }}
         working-directory: ${{ env.PROJECT_WORKING_DIRECTORY }}

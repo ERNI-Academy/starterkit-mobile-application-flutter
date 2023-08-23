@@ -1,7 +1,7 @@
 import 'package:reflectable/reflectable.dart';
 
-const Reflectable navigatable = DefaultReflector();
+const Reflectable navigatable = Reflection();
 
-class DefaultReflector extends Reflectable {
-  const DefaultReflector() : super(declarationsCapability, metadataCapability, invokingCapability);
+class Reflection extends Reflectable {
+  const Reflection() : super(declarationsCapability, metadataCapability, invokingCapability);
 }

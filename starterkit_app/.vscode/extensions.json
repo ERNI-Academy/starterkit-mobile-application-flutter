@@ -10,6 +10,7 @@
         "dotup.dart-data-class-generator",
         "ryanluker.vscode-coverage-gutters",
         "flutterando.flutter-coverage",
-        "usernamehw.errorlens"
+        "usernamehw.errorlens",
+        "dcmdev.dcm-vscode-extension"
     ]
 }

@@ -1,12 +1,12 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:starterkit_app/core/dependency_injection.dart';
 import 'package:starterkit_app/core/infrastructure/logging/navigation_logger.dart';
 import 'package:starterkit_app/core/infrastructure/navigation/navigation_observer.dart';
 import 'package:starterkit_app/core/presentation/views/view_mixin.dart';
+import 'package:starterkit_app/core/service_locator.dart';
 import 'package:starterkit_app/features/app/presentation/view_models/app_view_model.dart';
-import 'package:starterkit_app/shared/localization/localization.dart';
+import 'package:starterkit_app/shared/localization/generated/l10n.dart';
 
 class App extends StatefulWidget {
   const App({super.key, this.initialRoute});
@@ -18,26 +18,32 @@ class App extends StatefulWidget {
 }
 
 class _AppState extends State<App> with ViewMixin<AppViewModel> {
-  late final RootStackRouter _navigationService = ServiceLocator.instance<RootStackRouter>();
-  late final NavigationLogger _navigationLogger = ServiceLocator.instance<NavigationLogger>();
+  final RootStackRouter _navigationService = ServiceLocator.instance<RootStackRouter>();
+  final NavigationLogger _navigationLogger = ServiceLocator.instance<NavigationLogger>();
+
+  @override
+  void dispose() {
+    _navigationService.dispose();
+    super.dispose();
+  }
 
   @override
   Widget buildView(BuildContext context, AppViewModel viewModel) {
     return MaterialApp.router(
+      routeInformationParser: _navigationService.defaultRouteParser(),
       routerDelegate: AutoRouterDelegate(
         _navigationService,
-        navigatorObservers: () => [
+        initialRoutes: _getInitialRoutes(),
+        navigatorObservers: () => <NavigatorObserver>[
           _navigationLogger,
           NavigationObserver.instance,
         ],
-        initialRoutes: widget.initialRoute != null ? [widget.initialRoute!] : null,
       ),
       theme: ThemeData(
         useMaterial3: true,
         colorSchemeSeed: Colors.blue,
       ),
-      routeInformationParser: _navigationService.defaultRouteParser(),
-      localizationsDelegates: const [
+      localizationsDelegates: const <LocalizationsDelegate<Object>>[
         Il8n.delegate,
         GlobalMaterialLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate,
@@ -45,5 +51,16 @@ class _AppState extends State<App> with ViewMixin<AppViewModel> {
       ],
       supportedLocales: Il8n.delegate.supportedLocales,
     );
+  }
+
+  List<PageRouteInfo>? _getInitialRoutes() {
+    final List<PageRouteInfo> initialRoutes = <PageRouteInfo>[];
+    final PageRouteInfo? appInitialRoute = widget.initialRoute;
+
+    if (appInitialRoute != null) {
+      initialRoutes.add(appInitialRoute);
+    }
+
+    return initialRoutes.isEmpty ? null : initialRoutes;
   }
 }

@@ -6,7 +6,7 @@ import 'package:starterkit_app/core/infrastructure/logging/logger.dart';
 abstract interface class NavigationLogger implements NavigatorObserver {}
 
 @LazySingleton(as: NavigationLogger)
-class NavigationLoggerImpl extends RouteObserver<ModalRoute<dynamic>> implements NavigationLogger {
+class NavigationLoggerImpl extends RouteObserver<ModalRoute<Object?>> implements NavigationLogger {
   final Logger _logger;
 
   NavigationLoggerImpl(this._logger) {
@@ -14,32 +14,32 @@ class NavigationLoggerImpl extends RouteObserver<ModalRoute<dynamic>> implements
   }
 
   @override
-  void didPush(Route<dynamic> route, Route<dynamic>? previousRoute) {
+  void didPush(covariant Route<Object?> route, covariant Route<Object?>? previousRoute) {
     super.didPush(route, previousRoute);
     _logger.log(LogLevel.info, '${_getRoutePath(previousRoute)} === PUSHED ==> ${_getRoutePath(route)}');
   }
 
   @override
-  void didPop(Route<dynamic> route, Route<dynamic>? previousRoute) {
+  void didPop(covariant Route<Object?> route, covariant Route<Object?>? previousRoute) {
     super.didPop(route, previousRoute);
     _logger.log(LogLevel.info, '${_getRoutePath(previousRoute)} <== POPPED === ${_getRoutePath(route)}');
   }
 
   @override
-  void didReplace({Route<dynamic>? newRoute, Route<dynamic>? oldRoute}) {
+  void didReplace({covariant Route<Object?>? newRoute, covariant Route<Object?>? oldRoute}) {
     super.didReplace(newRoute: newRoute, oldRoute: oldRoute);
     _logger.log(LogLevel.info, '${_getRoutePath(oldRoute)} === REPLACED ==> ${_getRoutePath(newRoute)}');
   }
 
-  static String _getRoutePath(Route<dynamic>? route) {
-    final routeSettings = route?.settings;
+  static String _getRoutePath(Route<Object?>? route) {
+    final RouteSettings? routeSettings = route?.settings;
 
     if (routeSettings is AutoRoutePage) {
-      final routeData = routeSettings.routeData;
+      final RouteData routeData = routeSettings.routeData;
 
       return routeData.path;
-    } else {
-      return routeSettings?.name ?? '';
     }
+
+    return routeSettings?.name ?? '';
   }
 }

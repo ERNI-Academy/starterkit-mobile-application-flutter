@@ -2,7 +2,7 @@
 
 import 'dart:ui';
 
-import 'package:starterkit_app/shared/localization/localization.dart';
+import 'package:starterkit_app/shared/localization/generated/l10n.dart';
 
 Future<Il8n> setupLocale([String langCode = 'en']) {
   return Il8n.load(Locale(langCode));

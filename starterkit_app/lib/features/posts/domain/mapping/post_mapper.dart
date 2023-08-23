@@ -8,7 +8,7 @@ part 'post_mapper.g.dart';
 
 abstract interface class PostMapper implements ObjectMapper {}
 
-@AutoMappr([
+@AutoMappr(<MapType<Object?, Object?>>[
   MapType<PostContract, PostEntity>(),
   MapType<PostEntity, PostContract>(),
 ])

@@ -7,12 +7,12 @@ import 'package:starterkit_app/core/presentation/view_models/view_model.dart';
 class DebugLoggingInterceptor extends Interceptor {
   final Logger _logger;
 
-  DebugLoggingInterceptor(this._logger);
+  const DebugLoggingInterceptor(this._logger);
 
   @override
   void onRequest(RequestOptions options, RequestInterceptorHandler handler) {
-    final tag = '[REQ#${shortHash(options)}]';
-    final reqUri = options.uri;
+    final String tag = '[REQ#${shortHash(options)}]';
+    final Uri reqUri = options.uri;
     _logger
       ..log(LogLevel.debug, '$tag Sending ${options.method.toUpperCase()} ${reqUri.path + reqUri.query}')
       ..log(LogLevel.debug, '$tag Host: ${reqUri.host}')
@@ -23,9 +23,15 @@ class DebugLoggingInterceptor extends Interceptor {
   }
 
   @override
+  // Ignored since we cannot change the override the signature of the method using `covariant`
+  // ignore: avoid-dynamic
   void onResponse(Response<dynamic> response, ResponseInterceptorHandler handler) {
-    final tag = '[RES#${shortHash(response.requestOptions)}]';
-    _logger.log(LogLevel.debug, '$tag Success: ${response.statusCode} ${response.statusMessage}');
+    final String tag = '[RES#${shortHash(response.requestOptions)}]';
+
+    if (response.statusCode != null && response.statusMessage != null) {
+      _logger.log(LogLevel.debug, '$tag Success: ${response.statusCode} ${response.statusMessage}');
+    }
+
     _logBody(tag, response.data);
 
     super.onResponse(response, handler);
@@ -33,14 +39,16 @@ class DebugLoggingInterceptor extends Interceptor {
 
   @override
   void onError(DioException err, ErrorInterceptorHandler handler) {
-    final tag = '[RES#${shortHash(err.requestOptions)}]';
-    _logger.log(LogLevel.error, '$tag Failed: ${err.response?.statusCode} ${err.response?.statusMessage}');
+    final String tag = '[RES#${shortHash(err.requestOptions)}]';
+    if (err.response?.statusCode != null && err.response?.statusMessage != null) {
+      _logger.log(LogLevel.error, '$tag Failed: ${err.response?.statusCode} ${err.response?.statusMessage}');
+    }
 
     super.onError(err, handler);
   }
 
   void _logBody(String tag, Object? body) {
-    const encoder = JsonEncoder.withIndent('    ');
+    const JsonEncoder encoder = JsonEncoder.withIndent('    ');
 
     if (body is Map || body is List) {
       _logger.log(LogLevel.debug, '$tag Body: ${encoder.convert(body)}');

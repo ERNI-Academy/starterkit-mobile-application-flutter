@@ -4,7 +4,7 @@ targets:
       injectable_generator|injectable_config_builder:
         generate_for:
           include:
-            - lib/core/dependency_injection.dart
+            - lib/core/service_locator.dart
 
       reflectable:
         enabled: false # Disable reflectable builder and run it after injectable_generator

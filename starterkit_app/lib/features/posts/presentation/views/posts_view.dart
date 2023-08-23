@@ -5,7 +5,7 @@ import 'package:starterkit_app/core/presentation/views/view_mixin.dart';
 import 'package:starterkit_app/features/posts/domain/entities/post_entity.dart';
 import 'package:starterkit_app/features/posts/presentation/models/posts_list_state.dart';
 import 'package:starterkit_app/features/posts/presentation/view_models/posts_view_model.dart';
-import 'package:starterkit_app/shared/localization/localization.dart';
+import 'package:starterkit_app/shared/localization/generated/l10n.dart';
 
 @RoutePage()
 class PostsView extends StatelessWidget with ViewMixin<PostsViewModel> {
@@ -19,11 +19,11 @@ class PostsView extends StatelessWidget with ViewMixin<PostsViewModel> {
       ),
       body: ValueListenableBuilder<PostsListState>(
         valueListenable: viewModel.postsState,
-        builder: (context, postsState, _) {
+        builder: (BuildContext context, PostsListState postsState, _) {
           return switch (postsState) {
             PostsListLoadingState _ => const Center(child: CircularProgressIndicator()),
             PostsListLoadedState _ => _PostsListView(postsState.posts.toList(), viewModel.onPostSelected),
-            PostsListErrorState _ => Center(child: Text(postsState.message))
+            PostsListErrorState _ => Center(child: Text(postsState.message)),
           };
         },
       ),
@@ -35,22 +35,27 @@ class _PostsListView extends StatelessWidget {
   const _PostsListView(this.posts, this.onTap);
 
   final List<PostEntity> posts;
-  final void Function(PostEntity) onTap;
+  final void Function(PostEntity entity) onTap;
 
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
-      itemCount: posts.length,
-      itemBuilder: (context, index) {
-        final post = posts[index];
+      itemBuilder: (BuildContext context, int index) {
+        Widget? listWidget;
+        final PostEntity? post = posts.elementAtOrNull(index);
 
-        return ListTile(
-          key: Key(post.id.toString()),
-          title: Text(post.title),
-          subtitle: Text(post.body),
-          onTap: () => onTap(post),
-        );
+        if (post != null) {
+          listWidget = ListTile(
+            key: Key(post.id.toString()),
+            title: Text(post.title),
+            subtitle: Text(post.body),
+            onTap: () => onTap(post),
+          );
+        }
+
+        return listWidget;
       },
+      itemCount: posts.length,
     );
   }
 }
