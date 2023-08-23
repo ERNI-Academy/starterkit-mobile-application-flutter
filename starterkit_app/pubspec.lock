@@ -61,10 +61,10 @@ packages:
     dependency: "direct main"
     description:
       name: auto_route
-      sha256: afa2e3a038efdd9b70478c597161e4c6549a73cd2f5957077d4b311f71104671
+      sha256: "60ad6fd755c88bbd949912f9848d6a745a41bc6a6e44588a4ba36019068dd3b9"
       url: "https://pub.dev"
     source: hosted
-    version: "7.8.0"
+    version: "7.8.2"
   auto_route_generator:
     dependency: "direct dev"
     description:
