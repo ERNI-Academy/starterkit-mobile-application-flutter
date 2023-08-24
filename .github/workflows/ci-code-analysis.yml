@@ -23,8 +23,7 @@ concurrency:
 env:
   PROJECT_WORKING_DIRECTORY: "starterkit_app"
 
-permissions:
-  contents: read
+permissions: {}
 
 jobs:
   run-code-analysis:

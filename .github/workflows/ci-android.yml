@@ -9,7 +9,7 @@ on:
         description: Select environment
         default: dev
         options:
-        - dev
+          - dev
 
   push:
     paths:
@@ -25,19 +25,20 @@ on:
       - scripts/**
       - starterkit_app/**
     types: [opened, synchronize, reopened]
-      
-concurrency: 
+
+concurrency:
   group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
   cancel-in-progress: true
 
 env:
   PROJECT_WORKING_DIRECTORY: "starterkit_app"
 
+permissions: {}
+
 jobs:
   build-apk:
     runs-on: ubuntu-latest
-    permissions:
-      contents: read
+    permissions: {}
     steps:
       - name: Harden Runner
         uses: step-security/harden-runner@8ca2b8b2ece13480cda6dacd3511b49857a23c09 # v2.5.1
@@ -74,7 +75,7 @@ jobs:
       - name: Set java version
         uses: actions/setup-java@cd89f46ac9d01407894225f350157564c9c7cee2 # v3.12.0
         with:
-          distribution: 'adopt'
+          distribution: "adopt"
           java-version: "17"
 
       - name: Run code generation
