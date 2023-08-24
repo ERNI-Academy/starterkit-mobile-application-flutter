@@ -46,6 +46,13 @@ jobs:
 
       - uses: actions/checkout@c85c95e3d7251135ab7dc9ce3241c5835cc595a9 # v3.5.3
 
+      - uses: ruby/setup-ruby@250fcd6a742febb1123a77a841497ccaa8b9e939 # v1
+        with:
+          ruby-version: 2.7
+
+      - run: bundle install
+        working-directory: ${{ env.PROJECT_WORKING_DIRECTORY }}
+
       - name: Set app environment
         uses: ./.github/workflows/steps/set-app-environment
         with:
@@ -72,7 +79,7 @@ jobs:
 
       - name: Build iOS App
         run: |
-          fastlane build_ios_release
+          bundle exec fastlane build_ios_release
         working-directory: ${{ env.PROJECT_WORKING_DIRECTORY }}
 
       # Enable this if you want to publish the IPA file as an artifact
