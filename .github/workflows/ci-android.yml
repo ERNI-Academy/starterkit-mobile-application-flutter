@@ -35,7 +35,9 @@ env:
 
 jobs:
   build-apk:
-    runs-on: macos-latest
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
     steps:
       - name: Harden Runner
         uses: step-security/harden-runner@8ca2b8b2ece13480cda6dacd3511b49857a23c09 # v2.5.1
@@ -43,6 +45,13 @@ jobs:
           egress-policy: audit
 
       - uses: actions/checkout@c85c95e3d7251135ab7dc9ce3241c5835cc595a9 # v3.5.3
+
+      - uses: ruby/setup-ruby@250fcd6a742febb1123a77a841497ccaa8b9e939 # v1
+        with:
+          ruby-version: 2.7
+
+      - run: bundle install
+        working-directory: ${{ env.PROJECT_WORKING_DIRECTORY }}
 
       - name: Set app environment
         uses: ./.github/workflows/steps/set-app-environment
@@ -76,7 +85,7 @@ jobs:
 
       - name: Build Android APK
         run: |
-          fastlane build_android_release
+          bundle exec fastlane build_android_release
         working-directory: ${{ env.PROJECT_WORKING_DIRECTORY }}
 
       - name: Publish Android APK

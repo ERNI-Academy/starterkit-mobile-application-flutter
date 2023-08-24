@@ -29,7 +29,9 @@ permissions:
 jobs:
   run-code-analysis:
     runs-on: ubuntu-latest
-    permissions: write-all
+    permissions:
+      contents: read
+      checks: write
     steps:
       - name: Harden Runner
         uses: step-security/harden-runner@8ca2b8b2ece13480cda6dacd3511b49857a23c09 # v2.5.1
@@ -47,7 +49,7 @@ jobs:
         run: dart format --line-length=120 --set-exit-if-changed .
         working-directory: ${{ env.PROJECT_WORKING_DIRECTORY }}
 
-      - name: Check for duplicate lines of code and generate badge
+      - name: Check for duplicate lines of code
         run: |
           npm install -g jscpd
           npx jscpd lib --reporters consoleFull --threshold 5
