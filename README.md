@@ -2,10 +2,7 @@
 
 ERNI Academy mobile boilerplate to start a cross-platform Flutter mobile application.
 
-<!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-<!-- ALL-CONTRIBUTORS-BADGE:END -->
-
- [![codecov](https://codecov.io/gh/ERNI-Academy/starterkit-mobile-application-flutter/graph/badge.svg?token=IQPAQ95HC6)](https://codecov.io/gh/ERNI-Academy/starterkit-mobile-application-flutter) [![OpenSSF Scorecard](https://api.securityscorecards.dev/projects/github.com/ERNI-Academy/starterkit-mobile-application-flutter/badge)](https://securityscorecards.dev/viewer/?uri=github.com/ERNI-Academy/starterkit-mobile-application-flutter) [![Code Analysis](https://github.com/ERNI-Academy/starterkit-mobile-application-flutter/actions/workflows/ci-code-analysis.yml/badge.svg)](https://github.com/ERNI-Academy/starterkit-mobile-application-flutter/actions/workflows/ci-code-analysis.yml) [![Android Build](https://github.com/ERNI-Academy/starterkit-mobile-application-flutter/actions/workflows/ci-android.yml/badge.svg)](https://github.com/ERNI-Academy/starterkit-mobile-application-flutter/actions/workflows/ci-android.yml) [![iOS Build](https://github.com/ERNI-Academy/starterkit-mobile-application-flutter/actions/workflows/ci-ios.yml/badge.svg)](https://github.com/ERNI-Academy/starterkit-mobile-application-flutter/actions/workflows/ci-ios.yml)
+ [![OpenSSF Scorecard](https://api.securityscorecards.dev/projects/github.com/ERNI-Academy/starterkit-mobile-application-flutter/badge)](https://securityscorecards.dev/viewer/?uri=github.com/ERNI-Academy/starterkit-mobile-application-flutter) [![codecov](https://codecov.io/gh/ERNI-Academy/starterkit-mobile-application-flutter/graph/badge.svg?token=IQPAQ95HC6)](https://codecov.io/gh/ERNI-Academy/starterkit-mobile-application-flutter) [![Code Analysis](https://github.com/ERNI-Academy/starterkit-mobile-application-flutter/actions/workflows/ci-code-analysis.yml/badge.svg)](https://github.com/ERNI-Academy/starterkit-mobile-application-flutter/actions/workflows/ci-code-analysis.yml) [![Android Build](https://github.com/ERNI-Academy/starterkit-mobile-application-flutter/actions/workflows/ci-android.yml/badge.svg)](https://github.com/ERNI-Academy/starterkit-mobile-application-flutter/actions/workflows/ci-android.yml) [![iOS Build](https://github.com/ERNI-Academy/starterkit-mobile-application-flutter/actions/workflows/ci-ios.yml/badge.svg)](https://github.com/ERNI-Academy/starterkit-mobile-application-flutter/actions/workflows/ci-ios.yml)
 
 ## Built With
 
@@ -137,11 +134,3 @@ Please see our [Code of Conduct](CODE_OF_CONDUCT.md)
 ## Contact
 
 📧 [esp-services@betterask.erni](mailto:esp-services@betterask.erni)
-
-## Contributors ✨
-
-Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/docs/en/emoji-key)):
-
-<!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
-<!-- ALL-CONTRIBUTORS-LIST:END -->
-This project follows the [all-contributors](https://github.com/all-contributors/all-contributors) specification. Contributions of any kind welcome!
