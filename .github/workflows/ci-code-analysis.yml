@@ -29,7 +29,8 @@ permissions:
 jobs:
   run-code-analysis:
     runs-on: ubuntu-latest
-    permissions: write-all
+    permissions:
+      contents: read
     steps:
       - name: Harden Runner
         uses: step-security/harden-runner@8ca2b8b2ece13480cda6dacd3511b49857a23c09 # v2.5.1
@@ -70,12 +71,9 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Run DCM code analysis
-        uses: CQLabs/dcm-action@2e4824ceb01e79a65334c66deb665093c7b68d38 # v1
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          ci_key: ${{ secrets.DCM_CI_KEY }}
-          email: ${{ secrets.DCM_CI_EMAIL }}
-          folders: ${{ env.PROJECT_WORKING_DIRECTORY }}/lib
+        run: |
+          dcm analyze --reporter=github lib --ci-key ${{ secrets.DCM_CI_KEY }} --email ${{ secrets.DCM_CI_EMAIL }}
+        working-directory: ${{ env.PROJECT_WORKING_DIRECTORY }}
 
       - name: Run DCM code checks
         run: |
