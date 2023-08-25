@@ -37,7 +37,7 @@ jobs:
         with:
           egress-policy: audit
 
-      - uses: actions/checkout@f43a0e5ff2bd294095638e18286ca9a3d1956744 # v3.6.0
+      - uses: actions/checkout@c85c95e3d7251135ab7dc9ce3241c5835cc595a9 # v3.5.3
 
       - name: Install Flutter
         uses: ./.github/workflows/steps/install-flutter
@@ -71,7 +71,7 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Run DCM code analysis
-        uses: CQLabs/dcm-action@2e4824ceb01e79a65334c66deb665093c7b68d38 # v1
+        uses: CQLabs/dcm-action@b55273ad11b1f7f9e5714e774572f4e846300288 # v1.0.1
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           ci_key: ${{ secrets.DCM_CI_KEY }}
