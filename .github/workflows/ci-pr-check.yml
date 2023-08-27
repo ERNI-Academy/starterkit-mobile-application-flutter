@@ -1,6 +1,6 @@
 # See https://github.com/dependabot/dependabot-core/issues/3253#issuecomment-852541544
 
-name: Dependabot PR Check
+name: CI PR Check
 on:
   pull_request:
     paths:
@@ -10,8 +10,8 @@ on:
     types: [opened, synchronize, reopened]
 
 jobs:
-  run-dcm-for-dependabot:
+  run-dcm:
     runs-on: ubuntu-latest
-    if: ${{ github.actor == 'dependabot[bot]' }}
+    if: ${{ github.actor != 'dependabot[bot]' }}
     steps:
-      - run: echo "PR created by Dependabot"
+      - run: echo "PR created by ${{ github.actor }}"
