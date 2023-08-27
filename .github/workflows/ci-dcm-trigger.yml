@@ -1,6 +1,6 @@
 # See https://github.com/dependabot/dependabot-core/issues/3253#issuecomment-852541544
 
-name: DCM-Trigger
+name: DCM
 on:
   pull_request:
     paths:
