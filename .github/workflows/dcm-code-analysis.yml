@@ -10,9 +10,7 @@ on:
       - main
 
   workflow_run:
-    workflows:
-      - Dependabot PR Check
-      - CI PR Check
+    workflows: [DCM Trigger]
     types:
       - completed
 
@@ -27,6 +25,7 @@ permissions: {}
 
 jobs:
   run-code-analysis:
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
     runs-on: ubuntu-latest
     permissions:
       contents: read

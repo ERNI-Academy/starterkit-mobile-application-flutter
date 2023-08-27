@@ -1,6 +1,6 @@
 # See https://github.com/dependabot/dependabot-core/issues/3253#issuecomment-852541544
 
-name: CI PR Check
+name: DCM Trigger
 on:
   pull_request:
     paths:
@@ -12,6 +12,5 @@ on:
 jobs:
   run-dcm:
     runs-on: ubuntu-latest
-    if: ${{ github.actor != 'dependabot[bot]' }}
     steps:
       - run: echo "PR created by ${{ github.actor }}"
