@@ -44,6 +44,12 @@ jobs:
         with:
           working_directory: ${{ env.PROJECT_WORKING_DIRECTORY }}
 
+      - name: Run code generation
+        uses: ./.github/workflows/steps/run-pub-get-and-code-generation
+        with:
+          generate_intl: "true"
+          working_directory: ${{ env.PROJECT_WORKING_DIRECTORY }}
+
       - name: Run DCM code analysis
         uses: ./.github/workflows/steps/dcm-code-analysis
         with:
