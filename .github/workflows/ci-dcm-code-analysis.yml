@@ -1,4 +1,4 @@
-name: Code Analysis
+name: DCM Code Analysis
 
 on:
   push:
@@ -28,7 +28,9 @@ permissions: {}
 jobs:
   run-code-analysis:
     runs-on: ubuntu-latest
-    permissions: {}
+    permissions:
+      contents: read
+      checks: write
     steps:
       - name: Harden Runner
         uses: step-security/harden-runner@8ca2b8b2ece13480cda6dacd3511b49857a23c09 # v2.5.1
@@ -42,23 +44,10 @@ jobs:
         with:
           working_directory: ${{ env.PROJECT_WORKING_DIRECTORY }}
 
-      - name: Check formatting
-        run: dart format --line-length=120 --set-exit-if-changed .
-        working-directory: ${{ env.PROJECT_WORKING_DIRECTORY }}
-
-      - name: Check for duplicate lines of code
-        run: |
-          npm install -g jscpd
-          npx jscpd lib --reporters consoleFull --threshold 5
-        working-directory: ${{ env.PROJECT_WORKING_DIRECTORY }}
-
-      - name: Run code generation
-        uses: ./.github/workflows/steps/run-pub-get-and-code-generation
+      - name: Run DCM code analysis
+        uses: ./.github/workflows/steps/run-dcm-code-analysis
         with:
-          generate_intl: "true"
           working_directory: ${{ env.PROJECT_WORKING_DIRECTORY }}
-
-      - name: Run Dart code analysis
-        run: |
-          dart analyze .
-        working-directory: ${{ env.PROJECT_WORKING_DIRECTORY }}
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          dcm_ci_key: ${{ secrets.DCM_CI_KEY }}
+          dcm_ci_email: ${{ secrets.DCM_CI_EMAIL }}

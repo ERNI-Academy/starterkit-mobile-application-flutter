@@ -1,0 +1,41 @@
+# See https://github.com/dependabot/dependabot-core/issues/3253#issuecomment-852541544
+
+name: Dependabot DCM Code Analysis
+
+on:
+  workflow_run:
+    workflows: ["Dependabot PR Check"]
+    types:
+      - completed
+
+env:
+  PROJECT_WORKING_DIRECTORY: "starterkit_app"
+
+permissions: {}
+
+jobs:
+  run-code-analysis:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      checks: write
+    steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@8ca2b8b2ece13480cda6dacd3511b49857a23c09 # v2.5.1
+        with:
+          egress-policy: audit
+
+      - uses: actions/checkout@f43a0e5ff2bd294095638e18286ca9a3d1956744 # v3.6.0
+
+      - name: Install Flutter
+        uses: ./.github/workflows/steps/install-flutter
+        with:
+          working_directory: ${{ env.PROJECT_WORKING_DIRECTORY }}
+
+      - name: Run DCM code analysis
+        uses: ./.github/workflows/steps/run-dcm-code-analysis
+        with:
+          working_directory: ${{ env.PROJECT_WORKING_DIRECTORY }}
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          dcm_ci_key: ${{ secrets.DCM_CI_KEY }}
+          dcm_ci_email: ${{ secrets.DCM_CI_EMAIL }}
