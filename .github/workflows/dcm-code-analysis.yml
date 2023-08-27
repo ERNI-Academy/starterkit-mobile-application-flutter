@@ -11,8 +11,7 @@ on:
 
   workflow_run:
     workflows: [DCM]
-    types:
-      - completed
+    types: [completed]
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
