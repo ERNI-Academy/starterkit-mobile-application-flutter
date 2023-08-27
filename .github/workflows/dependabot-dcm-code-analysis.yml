@@ -33,7 +33,7 @@ jobs:
           working_directory: ${{ env.PROJECT_WORKING_DIRECTORY }}
 
       - name: Run DCM code analysis
-        uses: ./.github/workflows/steps/run-dcm-code-analysis
+        uses: ./.github/workflows/steps/dcm-code-analysis
         with:
           working_directory: ${{ env.PROJECT_WORKING_DIRECTORY }}
           github_token: ${{ secrets.GITHUB_TOKEN }}
