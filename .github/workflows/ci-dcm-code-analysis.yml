@@ -28,6 +28,7 @@ permissions: {}
 jobs:
   run-code-analysis:
     runs-on: ubuntu-latest
+    if: ${{ github.actor != 'dependabot[bot]' }}
     permissions:
       contents: read
       checks: write
