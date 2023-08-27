@@ -1,14 +1,18 @@
 name: DCM Code Analysis
 
 on:
+  push:
+    paths:
+      - .github/**/*.yml
+      - scripts/**
+      - starterkit_app/**
+    branches:
+      - main
+      
   workflow_run:
     workflows: ["Dependabot PR Check", "CI PR Check"]
     types:
       - completed
-
-concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: true
 
 env:
   PROJECT_WORKING_DIRECTORY: "starterkit_app"
