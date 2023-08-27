@@ -1,5 +1,5 @@
-name: Install Flutter
-description: Installs the specific Flutter SDK version configured in the project
+name: Runs DCM code analysis
+description: Runs Dart Code Metrics code analysis and checks for the project
 
 inputs:
     working_directory:
@@ -19,12 +19,12 @@ runs:
   using: composite
   steps:
     - name: Install DCM
-        uses: CQLabs/setup-dcm@276868e2e47402b2a14a252afa353602d41f06ae # v1
+        uses: CQLabs/setup-dcm@v1
         with:
           github_token: ${{ inputs.github_token }}
 
       - name: Run DCM code analysis
-        uses: CQLabs/dcm-action@b55273ad11b1f7f9e5714e774572f4e846300288 # v1.0.1
+        uses: CQLabs/dcm-action@v1.0.1
         with:
           github_token: ${{ inputs.github_token }}
           ci_key: ${{ inputs.dcm_ci_key }}
