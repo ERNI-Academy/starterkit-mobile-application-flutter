@@ -56,5 +56,5 @@ flutter_gen:
 flutter_intl:
   enabled: true
   class_name: Il8n
-  arb_dir: lib/shared/localization
-  output_dir: lib/shared/localization/generated
+  arb_dir: lib/common/localization
+  output_dir: lib/common/localization/generated

@@ -1,11 +1,11 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:starterkit_app/common/localization/generated/l10n.dart';
 import 'package:starterkit_app/core/infrastructure/logging/logger.dart';
 import 'package:starterkit_app/core/service_locator.dart';
 import 'package:starterkit_app/features/app/presentation/views/app.dart';
 import 'package:starterkit_app/main.reflectable.dart';
-import 'package:starterkit_app/shared/localization/generated/l10n.dart';
 
 Future<void> main() async {
   initializeReflectable();

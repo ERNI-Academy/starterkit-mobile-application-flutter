@@ -1,12 +1,12 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:starterkit_app/common/localization/generated/l10n.dart';
 import 'package:starterkit_app/core/infrastructure/logging/navigation_logger.dart';
 import 'package:starterkit_app/core/infrastructure/navigation/navigation_observer.dart';
 import 'package:starterkit_app/core/presentation/views/view_mixin.dart';
 import 'package:starterkit_app/core/service_locator.dart';
 import 'package:starterkit_app/features/app/presentation/view_models/app_view_model.dart';
-import 'package:starterkit_app/shared/localization/generated/l10n.dart';
 
 class App extends StatefulWidget {
   const App({super.key, this.initialRoute});

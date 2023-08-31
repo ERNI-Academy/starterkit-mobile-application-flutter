@@ -1,11 +1,11 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:starterkit_app/common/localization/generated/l10n.dart';
 import 'package:starterkit_app/core/infrastructure/navigation/root_auto_router.gr.dart';
 import 'package:starterkit_app/core/presentation/views/view_mixin.dart';
 import 'package:starterkit_app/features/posts/domain/entities/post_entity.dart';
 import 'package:starterkit_app/features/posts/presentation/models/posts_list_state.dart';
 import 'package:starterkit_app/features/posts/presentation/view_models/posts_view_model.dart';
-import 'package:starterkit_app/shared/localization/generated/l10n.dart';
 
 @RoutePage()
 class PostsView extends StatelessWidget with ViewMixin<PostsViewModel> {
