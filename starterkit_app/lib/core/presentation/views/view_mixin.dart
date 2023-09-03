@@ -4,7 +4,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/widgets.dart' hide View;
 import 'package:reflectable/reflectable.dart';
-import 'package:starterkit_app/core/infrastructure/navigation/navigation_observer.dart';
+import 'package:starterkit_app/core/presentation/navigation/navigation_observer.dart';
 import 'package:starterkit_app/core/presentation/view_models/app_life_cycle_aware_mixin.dart';
 import 'package:starterkit_app/core/presentation/view_models/first_renderable.dart';
 import 'package:starterkit_app/core/presentation/view_models/initializable.dart';
@@ -94,6 +94,8 @@ mixin ChildViewMixin<TViewModel extends ViewModel> implements View<TViewModel> {
 }
 
 abstract final class _ViewLifeCycleHandler {
+  static NavigationObserver get _navigationObserver => ServiceLocator.instance<NavigationObserver>();
+
   static TViewModel _onCreateViewModel<TViewModel extends ViewModel>(
     BuildContext context, {
     required bool getNavigationParams,
@@ -102,7 +104,7 @@ abstract final class _ViewLifeCycleHandler {
     final ModalRoute<Object?>? route = ModalRoute.of(context);
 
     if (route != null && viewModel is RouteAwareMixin) {
-      NavigationObserver.instance.subscribe(viewModel, route);
+      _navigationObserver.subscribe(viewModel, route);
     }
 
     if (viewModel is AppLifeCycleAwareMixin) {
@@ -118,7 +120,7 @@ abstract final class _ViewLifeCycleHandler {
     viewModel.dispose();
 
     if (viewModel is RouteAwareMixin) {
-      NavigationObserver.instance.unsubscribe(viewModel);
+      _navigationObserver.unsubscribe(viewModel);
     }
 
     if (viewModel is AppLifeCycleAwareMixin) {

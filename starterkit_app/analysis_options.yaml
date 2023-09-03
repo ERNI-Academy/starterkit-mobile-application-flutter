@@ -28,8 +28,6 @@ dart_code_metrics:
     - test/full_coverage.dart
 
   rules:
-    # Common
-
     # Useful for utility methods in tests.
     - avoid-top-level-members-in-tests: false
 
@@ -62,6 +60,25 @@ dart_code_metrics:
 
     # Object as type is not always a bad practice.
     - no-object-declaration: false
+
+    # Not always true, sometimes it is more readable using if-else.
+    - prefer-conditional-expressions: false
+
+    - avoid-banned-imports:
+        entries:
+          - paths: ["domain", "data", "common"]
+            deny:
+              [
+                "package:flutter/material.dart",
+                "package:flutter/cupertino.dart",
+                "package:flutter/widgets.dart",
+                "presentation",
+              ]
+            message: "Do not import any related to presentation in this layer."
+
+          - paths: ["presentation"]
+            deny: ["data"]
+            message: "Do not import data layer in this layer. Use domain layer instead."
 
     - avoid-late-keyword:
         # Excluded for late initialization of mocks in tests.
@@ -234,6 +251,9 @@ linter:
     # Not always true. There are some cases that we need to catch everything.
     avoid_catches_without_on_clauses: false
 
+    # Errors are thrown by other libraries.
+    avoid_catching_errors: false
+
     # Useful for utility classes. Also provides additional context.
     avoid_classes_with_only_static_members: false
 
@@ -270,8 +290,8 @@ linter:
     one_member_abstracts: false
 
     # This rule is mostly about what style you want to use and enforce, if any.
-    # It of course conflicts with rule prefer_single_quotes. Single quotes are easier to type. 
-    # On our ISO keyboards it is next to Enter key, and we don't need the Shift plus the far to 
+    # It of course conflicts with rule prefer_single_quotes. Single quotes are easier to type.
+    # On our ISO keyboards it is next to Enter key, and we don't need the Shift plus the far to
     # reach nr 2 key on R1 to type it. Also, we don't think they compromise on readability.
     prefer_double_quotes: false
 

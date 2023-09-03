@@ -1,3 +1,5 @@
+// coverage:ignore-file
+
 import 'package:flutter/widgets.dart';
 
 abstract class SpacedLinearLayout extends StatelessWidget {
