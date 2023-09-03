@@ -45,10 +45,10 @@ packages:
     dependency: "direct dev"
     description:
       name: auto_mappr
-      sha256: "14aea297271dd8fd1056afa6b5f435c8f8c88e8eaf691fdce7ff3d97141a61df"
+      sha256: "089696d5a22c1a17ba59de99bb40fa87dcfd218bd72358e46525e58f77a45894"
       url: "https://pub.dev"
     source: hosted
-    version: "1.6.0"
+    version: "1.7.0"
   auto_mappr_annotation:
     dependency: "direct main"
     description:
@@ -61,10 +61,10 @@ packages:
     dependency: "direct main"
     description:
       name: auto_route
-      sha256: "60ad6fd755c88bbd949912f9848d6a745a41bc6a6e44588a4ba36019068dd3b9"
+      sha256: "72f21e8b6cbbe25f02ea69183e024996530bf495cc1b077a49e0ec6726f0c271"
       url: "https://pub.dev"
     source: hosted
-    version: "7.8.2"
+    version: "7.8.3"
   auto_route_generator:
     dependency: "direct dev"
     description:
