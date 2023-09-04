@@ -6,6 +6,8 @@ import 'package:starterkit_app/core/data/database/isar_database_factory.dart';
 import 'package:starterkit_app/core/data/database/local_data_source.dart';
 import 'package:starterkit_app/core/domain/models/data_object.dart';
 
+typedef IsarTxnCallback<T, TResult> = TResult Function(IsarCollection<int, T> collection);
+
 abstract class IsarLocalDataSource<T extends DataObject> implements LocalDataSource<T> {
   final IsarDatabaseFactory _isarDatabaseFactory;
 
@@ -16,40 +18,40 @@ abstract class IsarLocalDataSource<T extends DataObject> implements LocalDataSou
 
   @override
   Future<T?> get(int id) async {
-    final T? item = await readUsing((IsarCollection<int, T?> collection) {
+    final T? object = await readUsing((IsarCollection<int, T?> collection) {
       return collection.get(id);
     });
 
-    return item;
+    return object;
   }
 
   @override
   Future<Iterable<T>> getAll() async {
-    final Iterable<T> items = await readUsing((IsarCollection<int, T> collection) {
+    final Iterable<T> objects = await readUsing((IsarCollection<int, T> collection) {
       return collection.where().findAll();
     });
 
-    return items;
+    return objects;
   }
 
   @override
-  Future<void> addOrUpdate(T item) async {
+  Future<void> addOrUpdate(T object) async {
     await writeUsing((IsarCollection<int, T> collection) {
-      collection.put(item);
+      collection.put(object);
     });
   }
 
   @override
-  Future<void> addOrUpdateAll(Iterable<T> items) async {
+  Future<void> addOrUpdateAll(Iterable<T> objects) async {
     await writeUsing((IsarCollection<int, T> collection) {
-      collection.putAll(items.toList());
+      collection.putAll(objects.toList());
     });
   }
 
   @override
-  Future<void> delete(int id) async {
+  Future<void> delete(T object) async {
     await writeUsing((IsarCollection<int, T> collection) {
-      collection.delete(id);
+      collection.delete(object.id);
     });
   }
 
@@ -62,7 +64,7 @@ abstract class IsarLocalDataSource<T extends DataObject> implements LocalDataSou
 
   @protected
   @nonVirtual
-  Future<TResult> readUsing<TResult>(TResult Function(IsarCollection<int, T> collection) callback) async {
+  Future<TResult> readUsing<TResult>(IsarTxnCallback<T, TResult> callback) async {
     final Isar isar = await _getIsar();
     final TResult result = await isar.readAsync((Isar isar) => callback(isar.collection<int, T>()));
     isar.close();
@@ -72,9 +74,9 @@ abstract class IsarLocalDataSource<T extends DataObject> implements LocalDataSou
 
   @protected
   @nonVirtual
-  Future<void> writeUsing(void Function(IsarCollection<int, T> collection) callback) async {
+  Future<void> writeUsing(IsarTxnCallback<T, void> callback) async {
     final Isar isar = await _getIsar();
-    await isar.writeAsync((Isar isar) => callback(isar.collection<int, T>()));
+    await isar.writeAsync<void>((Isar isar) => callback(isar.collection<int, T>()));
     isar.close();
   }
 

@@ -5,11 +5,11 @@ abstract interface class LocalDataSource<T extends DataObject> {
 
   Future<Iterable<T>> getAll();
 
-  Future<void> addOrUpdate(T item);
+  Future<void> addOrUpdate(T object);
 
-  Future<void> addOrUpdateAll(Iterable<T> items);
+  Future<void> addOrUpdateAll(Iterable<T> objects);
 
-  Future<void> delete(int id);
+  Future<void> delete(T object);
 
   Future<void> deleteAll();
 }

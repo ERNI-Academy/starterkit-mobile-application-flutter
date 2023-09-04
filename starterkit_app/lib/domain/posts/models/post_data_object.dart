@@ -13,7 +13,7 @@ class PostDataObject implements DataObject {
   });
 
   @override
-  int id;
+  final int id;
 
   int userId;
   String title;
