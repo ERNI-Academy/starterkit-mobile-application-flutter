@@ -1,5 +1,3 @@
-// coverage:ignore-file
-
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:injectable/injectable.dart';
 
@@ -9,7 +7,9 @@ abstract interface class ConnectivityService {
 
 @LazySingleton(as: ConnectivityService)
 class ConnectivityServiceImpl implements ConnectivityService {
-  final Connectivity _connectivity = Connectivity();
+  final Connectivity _connectivity;
+
+  const ConnectivityServiceImpl(this._connectivity);
 
   @override
   Future<bool> isConnected() async {

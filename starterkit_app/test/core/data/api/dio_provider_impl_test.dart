@@ -6,7 +6,7 @@ import 'package:starterkit_app/core/data/api/debug_logging_interceptor.dart';
 import 'package:starterkit_app/core/data/api/dio_provider.dart';
 import 'package:starterkit_app/core/infrastructure/logging/logger.dart';
 
-import 'dio_provider_test.mocks.dart';
+import 'dio_provider_impl_test.mocks.dart';
 
 @GenerateNiceMocks(<MockSpec<Object>>[
   MockSpec<Logger>(),

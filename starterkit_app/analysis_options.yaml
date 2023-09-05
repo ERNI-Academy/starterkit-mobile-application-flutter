@@ -80,6 +80,10 @@ dart_code_metrics:
             deny: ["data"]
             message: "Do not import data layer in this layer. Use domain layer instead."
 
+          - paths: ["common", "core", "domain", "data", "presentation"]
+            deny: ["^.+impl.dart$"]
+            message: "Do not import implementation files in this layer."
+
     - avoid-late-keyword:
         # Excluded for late initialization of mocks in tests.
         exclude:
