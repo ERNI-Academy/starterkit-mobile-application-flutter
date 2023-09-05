@@ -324,3 +324,6 @@ linter:
     # Incompatible with `prefer_final_locals` that we want because having immutable local variables when
     # applicable makes larger functions more predictable and easier to reason about.
     unnecessary_final: false
+
+    # Not generally true when you intend to seperate the your code using a line break.
+    cascade_invocations: false
