@@ -64,6 +64,9 @@ dart_code_metrics:
     # Not always true, sometimes it is more readable using if-else.
     - prefer-conditional-expressions: false
 
+    # Not always true. Sometimes we need to split the code into multiple lines for readability.
+    - prefer-getter-over-method: false
+
     - avoid-banned-imports:
         entries:
           - paths: ["domain", "data", "common"]
