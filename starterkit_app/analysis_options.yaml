@@ -67,6 +67,12 @@ dart_code_metrics:
     # Not always true. Sometimes we need to split the code into multiple lines for readability.
     - prefer-getter-over-method: false
 
+    # We arrange parameters by their importance or type.
+    - parameters-ordering: false
+
+    # Improves readability of parameter values, rather than implicitly using the default value.
+    - avoid-passing-default-values: false
+
     - avoid-banned-imports:
         entries:
           - paths: ["domain", "data", "common"]
