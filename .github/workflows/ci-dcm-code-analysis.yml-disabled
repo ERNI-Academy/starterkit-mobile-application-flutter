@@ -27,7 +27,7 @@ env:
 permissions: {}
 
 jobs:
-  run-code-analysis:
+  run-dcm-code-analysis:
     runs-on: ubuntu-latest
     permissions:
       contents: read

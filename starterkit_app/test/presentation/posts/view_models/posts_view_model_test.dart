@@ -42,7 +42,7 @@ void main() {
 
     group('onInitialize', () {
       test('should get posts when called', () async {
-        const List<PostEntity> expectedPostEntities = <PostEntity>[PostEntity.empty()];
+        const List<PostEntity> expectedPostEntities = <PostEntity>[PostEntity.empty];
         const PostsListLoadedState expectedPostState = PostsListLoadedState(expectedPostEntities);
         when(mockGetPostsUseCase.getAll())
             .thenAnswer((_) async => const Success<List<PostEntity>>(expectedPostEntities));
@@ -73,7 +73,7 @@ void main() {
 
     group('onPostSelected', () {
       test('should push post details view when called', () async {
-        const PostEntity expectedPostEntity = PostEntity.empty();
+        const PostEntity expectedPostEntity = PostEntity.empty;
 
         final PostsViewModel unit = createUnitToTest();
         await unit.onPostSelected(expectedPostEntity);

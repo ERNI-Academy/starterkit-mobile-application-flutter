@@ -29,7 +29,7 @@ class PostRepositoryImpl implements PostRepository {
 
     if (isConnected) {
       final Iterable<PostDataContract> contracts = await _postRemoteDataSource.getPosts();
-      final Iterable<PostDataObject> dataObjects = _postMapper.mapObjects(contracts);
+      final Iterable<PostDataObject> dataObjects = _postMapper.mapObjects<PostDataContract, PostDataObject>(contracts);
       await _postLocalDataSource.deleteAll();
       await _postLocalDataSource.addOrUpdateAll(dataObjects);
       postEntities = _postMapper.mapObjects<PostDataContract, PostEntity>(contracts);

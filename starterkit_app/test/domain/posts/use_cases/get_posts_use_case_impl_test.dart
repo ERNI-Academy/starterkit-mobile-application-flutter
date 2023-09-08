@@ -25,7 +25,7 @@ void main() {
 
     group('getAll', () {
       test('should return successful result when called', () async {
-        const List<PostEntity> expectedPosts = <PostEntity>[PostEntity.empty()];
+        const List<PostEntity> expectedPosts = <PostEntity>[PostEntity.empty];
         const Success<Iterable<PostEntity>> expectedPostsResult = Success<Iterable<PostEntity>>(expectedPosts);
         when(mockPostRepository.getPosts()).thenAnswer((_) async => expectedPosts);
         final GetPostsUseCase unit = createUnitToTest();

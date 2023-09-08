@@ -1,4 +1,4 @@
-// coverage: ignore-file
+// coverage:ignore-file
 
 import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
