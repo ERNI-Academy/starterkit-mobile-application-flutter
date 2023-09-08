@@ -7,10 +7,7 @@
         "**/*.reflectable.dart": true,
         "**/*.config.dart": true,
         "**/*.mocks.dart": true,
-        "**/generated_plugin_registrant.dart": true,
-        "**/Gemfile": true,
-        "**/Gemfile.lock": true,
-        "**/pubspec.lock": true,
+        "**/generated_plugin_registrant.dart": true
     }, // Causes the debug view to automatically appear when a breakpoint is hit. This
     // setting is global and not configurable per-language.
     "debug.openDebug": "openOnDebugBreak",
