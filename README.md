@@ -17,7 +17,7 @@ ERNI Academy mobile boilerplate to start a cross-platform Flutter mobile applica
 ## Prerequisites
 
 **Flutter**
-- v3.13.0+ on stable channel
+- v3.13.2+ on stable channel
 
 **Dart**
 - v3.0.0+

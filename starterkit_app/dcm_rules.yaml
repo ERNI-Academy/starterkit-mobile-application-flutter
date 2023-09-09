@@ -1,0 +1,215 @@
+dart_code_metrics:
+  extends:
+    - package:dart_code_metrics_presets/all.yaml
+    - package:dart_code_metrics_presets/equatable.yaml
+    - package:dart_code_metrics_presets/pub.yaml
+
+  metrics:
+    cyclomatic-complexity: 20
+    maintainability-index: 50
+    maximum-nesting: 5
+    number-of-parameters: 5
+    source-lines-of-code: 50
+
+  metrics-exclude:
+    - lib/generated_plugin_registrant.dart
+    - lib/*.config.dart
+    - lib/*.config.dart
+    - lib/**/*.config.dart
+    - lib/**/*.g.dart
+    - lib/**/*.freezed.dart
+    - lib/**/*.gr.dart
+    - lib/main.reflectable.dart
+    - lib/**/generated/**
+    - lib/**/theme.dart
+    - lib/**/widgets/**
+    - lib/**/views/**
+    - test/**/*.config.dart
+    - test/**/*.mocks.dart
+    - test/full_coverage.dart
+    - test/**/*.gr.dart
+
+  rules:
+    # Useful for utility methods in tests.
+    - avoid-top-level-members-in-tests: false
+
+    # Not always true (i.e. button callbacks, background calls).
+    - avoid-passing-async-when-sync-expected: false
+
+    # Promotes readability.
+    - avoid-explicit-type-declaration: false
+
+    # Not always true, sometimes we just need the method's execution.
+    - avoid-ignoring-return-values: false
+
+    # False positive for interfaces.
+    - avoid-unused-generics: false
+
+    # Conflicts with prefer-trailing-comma and require_trailing_commas.
+    - unnecessary-trailing-comma: false
+
+    # Conflicts with local_variable_types.
+    - prefer-type-over-var: false
+
+    # Mutliple classes can be grouped in one file if those classes fulfill a single responsibility.
+    - prefer-match-file-name: false
+
+    # Sometimes it is better to assign the value to a variable, helps with debugging using breakpoints.
+    - prefer-immediate-return: false
+
+    # Not always true for enums that are ordered by values.
+    - enum-constants-ordering: false
+
+    # Object as type is not always a bad practice.
+    - no-object-declaration: false
+
+    # Not always true, sometimes it is more readable using if-else.
+    - prefer-conditional-expressions: false
+
+    # Not always true. Sometimes we need to split the code into multiple lines for readability.
+    - prefer-getter-over-method: false
+
+    # We arrange parameters by their importance or type.
+    - parameters-ordering: false
+
+    # Improves readability of parameter values, rather than implicitly using the default value.
+    - avoid-passing-default-values: false
+
+    - prefer-widget-private-members:
+        ignore-static: true
+
+    - avoid-banned-imports:
+        exclude:
+          - test/**
+        entries:
+          - paths: ["domain", "data", "common"]
+            deny:
+              [
+                "package:flutter/material.dart",
+                "package:flutter/cupertino.dart",
+                "package:flutter/widgets.dart",
+                "presentation",
+              ]
+            message: "Do not import any related to presentation in this layer."
+
+          - paths: ["presentation"]
+            deny: ["data"]
+            message: "Do not import data layer in this layer. Use domain layer instead."
+
+          - paths: ["common", "core", "domain", "data", "presentation"]
+            deny: ["^.+impl.dart$"]
+            message: "Do not import implementation files in this layer."
+
+    - avoid-late-keyword:
+        # Excluded for late initialization of mocks in tests.
+        exclude:
+          - test/**
+    - arguments-ordering:
+        child-last: true
+    - avoid-similar-names:
+        show-similarity: true
+        similarity-threshold: 0.9
+    - avoid-long-functions:
+        exclude:
+          - test/**
+    - prefer-correct-identifier-length:
+        exceptions: ["id", "ex", "st"]
+    - prefer-correct-error-name:
+        allowed-names:
+          - e
+          - ex
+          - err
+          - error
+    - member-ordering:
+        widgets-order:
+          - public-static-const-fields
+          - public-static-fields
+          - public-static-getters
+          - public-static-getters-setters
+          - private-static-const-fields
+          - private-static-fields
+          - private-static-getters
+          - private-static-getters-setters
+          - private-final-fields
+          - private-late-final-fields
+          - private-late-fields
+          - private-fields
+          - constructors
+          - factory-constructors
+          - public-final-fields
+          - public-late-final-fields
+          - public-late-fields
+          - public-fields
+          - private-fields-public-getters
+          - public-getters
+          - public-getter-setters
+          - public-static-methods
+          - overriden-public-methods
+          - public-methods
+          - overridden-public-methods
+          - protected-methods
+          - private-methods
+          - private-static-methods
+        order:
+          - public-static-const-fields
+          - public-static-fields
+          - public-static-getters
+          - public-static-getters-setters
+          - private-static-const-fields
+          - private-static-fields
+          - private-static-getters
+          - private-static-getters-setters
+          - private-final-fields
+          - private-late-final-fields
+          - private-late-fields
+          - private-fields
+          - constructors
+          - factory-constructors
+          - public-final-fields
+          - public-late-final-fields
+          - public-late-fields
+          - public-fields
+          - private-fields-public-getters
+          - public-getters
+          - public-getter-setters
+          - public-static-methods
+          - overridden-public-methods
+          - public-methods
+          - overriden-protected-methods
+          - protected-methods
+          - private-methods
+          - private-static-methods
+    - avoid-shadowing:
+        ignored-names:
+          - context
+    - format-comment:
+        only-doc-comments: true
+    - prefer-correct-switch-length:
+        min-length: 2
+    - prefer-static-class:
+        ignore-private: true
+        ignore-names:
+          - Environment
+          - (.*)Param
+          - reflectable
+          - appServerUrl
+          - navigatable
+    - no-empty-block:
+        exclude:
+          - test/full_coverage_test.dart
+    - missing-test-assertion:
+        include-assertions:
+          - verify
+
+    # Flutter
+    - prefer-single-widget-per-file:
+        ignore-private-widgets: true
+
+  assists:
+    wrap-with:
+      - SpacedColumn:
+          prop: children
+          list: true
+      - SpacedRow:
+          prop: children
+          list: true

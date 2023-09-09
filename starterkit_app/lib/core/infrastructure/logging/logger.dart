@@ -1,7 +1,10 @@
+// coverage:ignore-file
+
 import 'dart:developer' as dev;
 
 import 'package:flutter/foundation.dart';
 import 'package:injectable/injectable.dart';
+import 'package:starterkit_app/common/utils/date_time_util.dart';
 import 'package:starterkit_app/core/infrastructure/logging/log_level.dart';
 
 export 'log_level.dart';
@@ -14,7 +17,11 @@ abstract interface class Logger {
 
 @Injectable(as: Logger)
 class LoggerImpl implements Logger {
+  final DateTimeUtil _dateTimeUtil;
+
   String _owner = '';
+
+  LoggerImpl(this._dateTimeUtil);
 
   @override
   void logFor<T>([T? object]) {
@@ -25,7 +32,7 @@ class LoggerImpl implements Logger {
   void log(LogLevel level, String message, [Object? error, StackTrace? stackTrace]) {
     dev.log(
       _formatMessage(level, message, error, stackTrace),
-      time: DateTime.now(),
+      time: _dateTimeUtil.now,
       level: level.value,
       name: _owner,
       error: error,

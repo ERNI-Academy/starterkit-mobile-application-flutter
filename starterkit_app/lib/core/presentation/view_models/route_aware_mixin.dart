@@ -1,3 +1,5 @@
+// coverage:ignore-file
+
 import 'package:flutter/widgets.dart';
 import 'package:starterkit_app/core/presentation/view_models/view_model.dart';
 

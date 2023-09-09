@@ -1,3 +1,5 @@
+// coverage:ignore-file
+
 import 'package:flutter/material.dart';
 import 'package:starterkit_app/core/presentation/widgets/spaced_linear_layout.dart';
 

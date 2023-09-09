@@ -16,6 +16,40 @@
             ]
         },
         {
+            "name": "Run",
+            "request": "launch",
+            "type": "dart",
+            "codeLens": {
+                "title": "Run",
+                "for": [
+                    "run-test",
+                    "run-test-file"
+                ],
+                "path": "test"
+            },
+            "args": [
+                "--dart-define-from-file",
+                ".secrets/${input:appEnvironment}.json",
+            ]
+        },
+        {
+            "name": "Debug",
+            "request": "launch",
+            "type": "dart",
+            "codeLens": {
+                "title": "Debug",
+                "for": [
+                    "debug-test",
+                    "debug-test-file"
+                ],
+                "path": "test"
+            },
+            "args": [
+                "--dart-define-from-file",
+                ".secrets/${input:appEnvironment}.json",
+            ]
+        },
+        {
             "name": "Test Coverage",
             "request": "launch",
             "type": "dart",
@@ -28,7 +62,9 @@
                 "path": "test"
             },
             "args": [
-                "--coverage"
+                "--coverage",
+                "--dart-define-from-file",
+                ".secrets/${input:appEnvironment}.json",
             ]
         },
         {
@@ -43,7 +79,9 @@
                 "path": "test",
             },
             "args": [
-                "--update-goldens"
+                "--update-goldens",
+                "--dart-define-from-file",
+                ".secrets/${input:appEnvironment}.json",
             ]
         },
     ],

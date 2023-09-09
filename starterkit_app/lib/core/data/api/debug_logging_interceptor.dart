@@ -1,8 +1,10 @@
+// coverage:ignore-file
+
 import 'dart:convert';
 
 import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart';
 import 'package:starterkit_app/core/infrastructure/logging/logger.dart';
-import 'package:starterkit_app/core/presentation/view_models/view_model.dart';
 
 class DebugLoggingInterceptor extends Interceptor {
   final Logger _logger;
@@ -39,8 +41,8 @@ class DebugLoggingInterceptor extends Interceptor {
 
   @override
   void onError(DioException err, ErrorInterceptorHandler handler) {
-    final String tag = '[RES#${shortHash(err.requestOptions)}]';
     if (err.response?.statusCode != null && err.response?.statusMessage != null) {
+      final String tag = '[RES#${shortHash(err.requestOptions)}]';
       _logger.log(LogLevel.error, '$tag Failed: ${err.response?.statusCode} ${err.response?.statusMessage}');
     }
 
@@ -48,10 +50,11 @@ class DebugLoggingInterceptor extends Interceptor {
   }
 
   void _logBody(String tag, Object? body) {
-    const JsonEncoder encoder = JsonEncoder.withIndent('    ');
-
-    if (body is Map || body is List) {
-      _logger.log(LogLevel.debug, '$tag Body: ${encoder.convert(body)}');
+    if (body is Map || body is! List) {
+      return;
     }
+
+    const JsonEncoder encoder = JsonEncoder.withIndent('    ');
+    _logger.log(LogLevel.debug, '$tag Body: ${encoder.convert(body)}');
   }
 }
