@@ -27,6 +27,7 @@ dart_code_metrics:
     - test/**/*.config.dart
     - test/**/*.mocks.dart
     - test/full_coverage.dart
+    - test/**/*.gr.dart
 
   rules:
     # Useful for utility methods in tests.
@@ -73,6 +74,9 @@ dart_code_metrics:
 
     # Improves readability of parameter values, rather than implicitly using the default value.
     - avoid-passing-default-values: false
+
+    - prefer-widget-private-members:
+        ignore-static: true
 
     - avoid-banned-imports:
         exclude:

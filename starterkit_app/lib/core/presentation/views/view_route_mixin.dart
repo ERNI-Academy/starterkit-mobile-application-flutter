@@ -4,13 +4,17 @@ import 'package:starterkit_app/core/presentation/views/view.dart';
 import 'package:starterkit_app/core/presentation/views/view_life_cycle_handler.dart';
 import 'package:starterkit_app/core/presentation/views/view_model_builder.dart';
 
-mixin ViewMixin<TViewModel extends ViewModel> implements View<TViewModel> {
+mixin ViewRouteMixin<TViewModel extends ViewModel> implements View<TViewModel> {
   @override
   @mustCallSuper
   Widget build(BuildContext context) {
     return ViewModelBuilder<TViewModel>(
       create: () => onCreateViewModel(context),
-      builder: buildView,
+      builder: (BuildContext context, TViewModel viewModel) {
+        ViewLifeCycleHandler.tryGetNavigationParams(context, viewModel);
+
+        return buildView(context, viewModel);
+      },
       dispose: onDisposeViewModel,
     );
   }
@@ -19,7 +23,7 @@ mixin ViewMixin<TViewModel extends ViewModel> implements View<TViewModel> {
   @override
   @mustCallSuper
   TViewModel onCreateViewModel(BuildContext context) {
-    return ViewLifeCycleHandler.onCreateViewModel<TViewModel>(context, getNavigationParams: false);
+    return ViewLifeCycleHandler.onCreateViewModel<TViewModel>(context, getNavigationParams: true);
   }
 
   @protected

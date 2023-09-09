@@ -19,7 +19,12 @@ class IsarDatabaseFactoryImpl implements IsarDatabaseFactory {
   @override
   Future<Isar> getIsar(IsarGeneratedSchema schema) async {
     final Directory cacheDirectory = await _directoryService.getCacheDirectory();
-    final Isar isar = await Isar.openAsync(schemas: <IsarGeneratedSchema>[schema], directory: cacheDirectory.path);
+    final Isar isar = await Isar.openAsync(
+      schemas: <IsarGeneratedSchema>[schema],
+      directory: cacheDirectory.path,
+      engine: IsarEngine.sqlite,
+      inspector: true,
+    );
 
     return isar;
   }

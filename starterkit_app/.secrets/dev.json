@@ -3,5 +3,5 @@
     "appServerUrl": "https://jsonplaceholder.typicode.com/",
     "appId": "com.mycompany.starterkit.app",
     "appIdSuffix": ".dev",
-    "appName": "Sample App (Dev)"
+    "appName": "Starterkit App (Dev)"
 }
