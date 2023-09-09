@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:starterkit_app/core/presentation/views/view_model_holder.dart';
 import 'package:starterkit_app/core/service_locator.dart';
 
 import '../view_models/test_view_model.dart';
@@ -11,8 +12,8 @@ void main() {
     late TestViewModel viewModel;
 
     setUp(() {
-      ServiceLocator.registerDependencies();
       viewModel = TestViewModel();
+      ServiceLocator.registerDependencies();
       ServiceLocator.instance.registerSingleton(viewModel);
     });
 
@@ -33,19 +34,27 @@ void main() {
     });
 
     group('onCreateViewModel', () {
-      testWidgets('should return create view model when called', (WidgetTester tester) async {
-        final TestView unit = createUnitToTest('Test');
+      testWidgets(
+        'should be called from ListenableBuilder with ViewModelHolder when built',
+        (WidgetTester tester) async {
+          final TestView unit = createUnitToTest('Test');
 
-        await tester.pumpWidget(MaterialApp(home: unit));
-        final Finder listenableBuilderFinder = find.byWidgetPredicate((Widget widget) {
-          return widget is ListenableBuilder && widget.listenable == viewModel;
-        });
-        final Finder viewListenableBuilderFinder =
-            find.ancestor(of: find.byType(TestChildView), matching: listenableBuilderFinder);
-        final ListenableBuilder actualViewListenableBuilder = tester.widget(viewListenableBuilderFinder);
+          await tester.pumpWidget(MaterialApp(home: unit));
+          final Finder listenableBuilderFinder = find.byWidgetPredicate((Widget widget) {
+            return widget is ListenableBuilder && widget.listenable == viewModel;
+          });
+          final Finder viewModelHolderFinder = find.byWidgetPredicate((Widget widget) {
+            return widget is ViewModelHolder<TestViewModel> && widget.viewModel == viewModel;
+          });
+          final Finder viewMixinListenableBuilderFinder =
+              find.ancestor(of: find.byType(TestChildView), matching: listenableBuilderFinder);
+          final Finder viewMixinViewModelHolderFinder =
+              find.ancestor(of: find.byType(TestChildView), matching: viewModelHolderFinder);
 
-        expect(actualViewListenableBuilder.listenable, equals(viewModel));
-      });
+          expect(viewMixinListenableBuilderFinder, findsOneWidget);
+          expect(viewMixinViewModelHolderFinder, findsOneWidget);
+        },
+      );
     });
 
     group('onDisposeViewModel', () {
