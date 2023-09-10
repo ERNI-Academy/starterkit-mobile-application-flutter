@@ -13,6 +13,7 @@
 [navigation]: https://github.com/ERNI-Academy/starterkit-mobile-application-flutter/wiki/navigation
 [state-management]: https://github.com/ERNI-Academy/starterkit-mobile-application-flutter/wiki/state-management
 [view-models]: https://github.com/ERNI-Academy/starterkit-mobile-application-flutter/wiki/view-models
+[views]: https://github.com/ERNI-Academy/starterkit-mobile-application-flutter/wiki/view
 
 - [Home][home]
 - [Project Setup](project-setup)
@@ -24,6 +25,7 @@
 - [Architecture Overview][architecture-overview]
 - [Presentation][view-models]
   - [View Models][view-models]
+  - [Views][views]
   - [State Management][state-management]
   - [Navigation][navigation]
 - [Resource Management][resource-management]
