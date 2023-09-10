@@ -1,3 +1,5 @@
+# Navigation
+
 The project uses [auto_route](https://pub.dev/packages/auto_route) as the navigation solution. It is based on Flutter's Navigator 2.0 and provides the following feature:
 
 - Declarative routing
@@ -5,12 +7,12 @@ The project uses [auto_route](https://pub.dev/packages/auto_route) as the naviga
 - Nested navigation
 - Similar API compared to Flutter's Navigator 1.0, including as passing argument and result
 
-See `NavigationService` and its implementing class for more details.
+See [`NavigationService`](../../mobii/lib/domain/services/presentation/navigation/navigation_service.dart) and its implementing class for more details.
 
 ## Push Navigation
 
 ```dart
-final isUserVerified = await _navigationService.push<bool>(const UserVerificationViewRoute());
+final isUserVerified = await navigation.push<bool>(const UserVerificationViewRoute());
 ```
 
 ## Passing Parameter

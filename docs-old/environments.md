@@ -1,4 +1,4 @@
-## Multiple Environments
+# Multiple Environments
 
 Each project should have the following environments:
 
@@ -21,7 +21,7 @@ Read more about this setup in [this article](https://itnext.io/flutter-3-7-and-a
 
 ## Secrets File
 
-A specific `.json` file per environment is passed to Flutter's build arguments as [Dart defines](https://dartcode.org/docs/using-dart-define-in-flutter/). Checkout our `.vscode/launch.json` file to see how we pass the environment file to the build arguments.
+A specific `.json` file per environment is passed to Flutter's build arguments as [Dart defines](https://dartcode.org/docs/using-dart-define-in-flutter/). Checkout our [launch.json](../starterkit_app/.vscode/launch.json) on how these are passed.
 
 Below is a sample of a secret file for the development environment:
 
@@ -37,46 +37,10 @@ Below is a sample of a secret file for the development environment:
 
 :exclamation: **<span style="color: red">IMPORTANT</span>**
 
-- The folder `.secrets` is committed to git by default (for testing purposes). You should **delete** the `.secrets` folder and  **uncomment** last part of the **.gitignore** file to remove it from git. Once you have done this, you can start adding your secrets files locally.
+- The folder `.secrets` is committed to git by default (for testing purposes), you should uncomment last part of the [.gitignore](../starterkit_app/.gitignore) file to remove it from git.
 
 ### Accessing Dart Defines in the Platforms
 
 The Android and iOS native projects are already configured to update their current configurations based on the environment file we will use. For example, the provisioning profile used for running the app on an iPhone device are automatically selected (given that the profile is available in your local machine).
 
-You can access other Dart defines in the native projects by referencing the key directly. 
-
-An example of this can be found in `ios/Runner/Info.plist`:
-
-```xml
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
-<plist version="1.0">
-<dict>
-    ...
-	<key>CFBundleName</key>
-	<string>$(appName)</string>
-    ...
-</dict>
-</plist>
-```
-
-and in `android/app/build.gradle`:
-
-```groovy
-android {
-    ...
-
-    defaultConfig {
-        println "Building $appId$appIdSuffix"
-
-        applicationId appId
-        applicationIdSuffix appIdSuffix
-        minSdkVersion 31
-        targetSdkVersion 34
-        versionCode flutterVersionCode.toInteger()
-        versionName flutterVersionName
-
-        resValue "string", "app_name", appName
-    }
-}
-```
+You can access other Dart defines in the native projects by referencing the key directly.

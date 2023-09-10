@@ -4,31 +4,34 @@ ERNI Academy mobile boilerplate to start a cross-platform Flutter mobile applica
 
  [![OpenSSF Scorecard](https://api.securityscorecards.dev/projects/github.com/ERNI-Academy/starterkit-mobile-application-flutter/badge)](https://securityscorecards.dev/viewer/?uri=github.com/ERNI-Academy/starterkit-mobile-application-flutter) [![codecov](https://codecov.io/gh/ERNI-Academy/starterkit-mobile-application-flutter/graph/badge.svg?token=IQPAQ95HC6)](https://codecov.io/gh/ERNI-Academy/starterkit-mobile-application-flutter) [![Code Analysis](https://github.com/ERNI-Academy/starterkit-mobile-application-flutter/actions/workflows/ci-code-analysis.yml/badge.svg)](https://github.com/ERNI-Academy/starterkit-mobile-application-flutter/actions/workflows/ci-code-analysis.yml) [![Android Build](https://github.com/ERNI-Academy/starterkit-mobile-application-flutter/actions/workflows/ci-android.yml/badge.svg)](https://github.com/ERNI-Academy/starterkit-mobile-application-flutter/actions/workflows/ci-android.yml) [![iOS Build](https://github.com/ERNI-Academy/starterkit-mobile-application-flutter/actions/workflows/ci-ios.yml/badge.svg)](https://github.com/ERNI-Academy/starterkit-mobile-application-flutter/actions/workflows/ci-ios.yml)
 
-## Contributing
+## Built With
 
-Please see our [Contribution Guide](CONTRIBUTING.md) to learn how to contribute.
+- [Flutter](https://flutter.dev)
 
-## License
+## Getting Started
 
-![MIT](https://img.shields.io/badge/License-MIT-blue.svg)
+- [Install Flutter](https://docs.flutter.dev/get-started/install)
+- [Introduction to Dart Language](https://dart.dev/guides/language/language-tour)
+- [Flutter Documentation](https://docs.flutter.dev/)
 
-Copyright © 2023 [ERNI - Swiss Software Engineering](https://www.betterask.erni)
+## Prerequisites
 
-## Code of conduct
+**Flutter**
+- v3.13.3+ on stable channel
 
-Please see our [Code of Conduct](CODE_OF_CONDUCT.md)
+**Dart**
+- v3.0.0+
 
-## Stats
+**Visual Studio Code**
+- [Download Visual Studio Code](https://code.visualstudio.com/download)
+- A [list of extensions](starterkit_app/.vscode/extensions.json) are required to be installed in order to properly run the project
 
-![Alt](https://repobeats.axiom.co/api/embed/0efcc903e049a8ee8086139e5a6b22e2504c1fa1.svg "Repobeats analytics image")
+**Android**
+- [Download Android Studio](https://developer.android.com/studio)
+- Java 17
+- Android 30 (minimum), Android 34 (target)
 
-## Follow us
-
-[![Twitter Follow](https://img.shields.io/twitter/follow/ERNI?style=social)](https://www.twitter.com/ERNI)
-[![Twitch Status](https://img.shields.io/twitch/status/erni_academy?label=Twitch%20Erni%20Academy&style=social)](https://www.twitch.tv/erni_academy)
-[![YouTube Channel Views](https://img.shields.io/youtube/channel/views/UCkdDcxjml85-Ydn7Dc577WQ?label=Youtube%20Erni%20Academy&style=social)](https://www.youtube.com/channel/UCkdDcxjml85-Ydn7Dc577WQ)
-[![Linkedin](https://img.shields.io/badge/linkedin-31k-green?style=social&logo=Linkedin)](https://www.linkedin.com/company/erni)
-
-## Contact
-
-📧 [esp-services@betterask.erni](mailto:esp-services@betterask.erni)
+**iOS**
+- [Download Xcode 14](https://developer.apple.com/download/all/)
+- iOS 13 (minimum), iOS 16 (target)
+- Requires macOS 11 (Big Sur) or higher

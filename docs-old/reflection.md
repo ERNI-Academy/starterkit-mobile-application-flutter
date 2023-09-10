@@ -1,3 +1,5 @@
+# Reflection
+
 `dart:mirrors` is disabled in Flutter (more info [here](https://docs.flutter.dev/resources/faq#does-flutter-come-with-a-reflection--mirrors-system)). To use reflection features, the project includes the package [reflectable](https://pub.dev/packages/reflectable).
 
 This package provides support for reflection which may be tailored to cover certain reflective features and omit others, thus reducing the resource requirements at run time.
@@ -18,4 +20,4 @@ class MyViewModel extends ViewModel {
 }
 ```
 
-Read more about passing parameters through navigation [here](navigation#passing-parameter).
+Read more about passing parameters through navigation [here](presentation/navigation.md#passing-parameter).

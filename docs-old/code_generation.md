@@ -8,6 +8,7 @@ Since Flutter [does not allow the use of reflection](https://github.com/flutter/
 Other uses of `build_runner` are:
 - Asset files using [`flutter_gen`](https://pub.dev/packages/flutter_gen)
 - Mapper classes using [`auto_mappr`](https://pub.dev/packages/auto_mappr)
+- Model classes using [`freezed`](https://pub.dev/packages/freezed)
 - Localization files using [`intl_utils`](https://pub.dev/packages/intl_utils)
 
 Run the command in the project directory to run the generator once:
@@ -42,8 +43,6 @@ A sample of a class using [`json_serializable`](https://pub.dev/packages/json_se
 
 ```dart
 // user_login_request_contract.dart
-
-import 'package:starterkit_app/web/contracts/data_contract.dart';
 
 part 'user_login_request_contract.g.dart';
 
