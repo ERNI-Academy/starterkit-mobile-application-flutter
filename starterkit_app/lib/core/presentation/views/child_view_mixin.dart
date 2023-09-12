@@ -5,7 +5,6 @@ import 'package:starterkit_app/core/presentation/views/view_extensions.dart';
 import 'package:starterkit_app/core/presentation/views/view_model_builder.dart';
 
 mixin ChildViewMixin<TViewModel extends ViewModel> implements View<TViewModel> {
-  @override
   @mustCallSuper
   Widget build(BuildContext context) {
     return ViewModelBuilder<TViewModel>(

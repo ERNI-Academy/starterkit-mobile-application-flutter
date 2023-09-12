@@ -24,7 +24,6 @@ class PostRepositoryImpl implements PostRepository {
 
   @override
   Future<Iterable<PostEntity>> getPosts() async {
-    final Iterable<PostEntity> postEntities;
     final bool isConnected = await _connectivityService.isConnected();
 
     if (isConnected) {
@@ -32,11 +31,10 @@ class PostRepositoryImpl implements PostRepository {
       final Iterable<PostDataObject> dataObjects = _postMapper.mapObjects<PostDataContract, PostDataObject>(contracts);
       await _postLocalDataSource.deleteAll();
       await _postLocalDataSource.addOrUpdateAll(dataObjects);
-      postEntities = _postMapper.mapObjects<PostDataContract, PostEntity>(contracts);
-    } else {
-      final Iterable<PostDataObject> dataObjects = await _postLocalDataSource.getAll();
-      postEntities = _postMapper.mapObjects<PostDataObject, PostEntity>(dataObjects);
     }
+
+    final Iterable<PostDataObject> dataObjects = await _postLocalDataSource.getAll();
+    final Iterable<PostEntity> postEntities = _postMapper.mapObjects<PostDataObject, PostEntity>(dataObjects);
 
     return postEntities;
   }

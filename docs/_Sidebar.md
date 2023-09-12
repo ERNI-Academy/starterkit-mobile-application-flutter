@@ -2,30 +2,35 @@
 [architecture-overview]: https://github.com/ERNI-Academy/starterkit-mobile-application-flutter/wiki/architecture-overview
 [code-generation]: https://github.com/ERNI-Academy/starterkit-mobile-application-flutter/wiki/code-generation
 [code-style]: https://github.com/ERNI-Academy/starterkit-mobile-application-flutter/wiki/code-style
-[dependency-injection]: https://github.com/ERNI-Academy/starterkit-mobile-application-flutter/wiki/dependency-injection
-[environments]: https://github.com/ERNI-Academy/starterkit-mobile-application-flutter/wiki/environments
 [home]: https://github.com/ERNI-Academy/starterkit-mobile-application-flutter/wiki
 [project-setup]: https://github.com/ERNI-Academy/starterkit-mobile-application-flutter/wiki/project-setup
-[reflection]: https://github.com/ERNI-Academy/starterkit-mobile-application-flutter/wiki/reflection
 [resource-management]: https://github.com/ERNI-Academy/starterkit-mobile-application-flutter/wiki/resource-management
+[unit-testing]: https://github.com/ERNI-Academy/starterkit-mobile-application-flutter/wiki/unit-testing
+
+<!-- CORE -->
+[dependency-injection]: https://github.com/ERNI-Academy/starterkit-mobile-application-flutter/wiki/dependency-injection
+[environments]: https://github.com/ERNI-Academy/starterkit-mobile-application-flutter/wiki/environments
+[navigation]: https://github.com/ERNI-Academy/starterkit-mobile-application-flutter/wiki/navigation
+[reflection]: https://github.com/ERNI-Academy/starterkit-mobile-application-flutter/wiki/reflection
 
 <!-- PRESENTATION -->
-[navigation]: https://github.com/ERNI-Academy/starterkit-mobile-application-flutter/wiki/navigation
 [state-management]: https://github.com/ERNI-Academy/starterkit-mobile-application-flutter/wiki/state-management
 [view-models]: https://github.com/ERNI-Academy/starterkit-mobile-application-flutter/wiki/view-models
-[views]: https://github.com/ERNI-Academy/starterkit-mobile-application-flutter/wiki/view
+[views]: https://github.com/ERNI-Academy/starterkit-mobile-application-flutter/wiki/views
 
 - [Home][home]
 - [Project Setup](project-setup)
 - [Code Generation](code-generation)
 - [Code Style][code-style]
-- [Environments](environments)
-- [Dependency Injection][dependency-injection]
-- [Reflection][reflection]
 - [Architecture Overview][architecture-overview]
+- [Core][dependency-injection]
+  - [Dependency Injection][dependency-injection]
+  - [Reflection][reflection]
+  - [Environments][environments]
+  - [Navigation][navigation]
 - [Presentation][view-models]
   - [View Models][view-models]
   - [Views][views]
   - [State Management][state-management]
-  - [Navigation][navigation]
 - [Resource Management][resource-management]
+- [Unit Testing][unit-testing]

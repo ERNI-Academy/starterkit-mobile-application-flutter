@@ -14,7 +14,7 @@ import 'package:starterkit_app/core/reflection.dart';
 import 'package:starterkit_app/core/service_locator.dart';
 
 abstract final class ViewLifeCycleHandler {
-  static NavigationObserver get _navigationObserver => ServiceLocator.instance<NavigationObserver>();
+  static final NavigationObserver _navigationObserver = ServiceLocator.instance<NavigationObserver>();
 
   static TViewModel onCreateViewModel<TViewModel extends ViewModel>(
     BuildContext context, {

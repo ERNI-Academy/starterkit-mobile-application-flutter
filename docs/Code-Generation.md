@@ -1,17 +1,20 @@
-Since Flutter [does not allow the use of reflection](https://github.com/flutter/flutter/issues/1150), we'll use [`build_runner`](https://pub.dev/packages/build_runner) to generate the code for:
+We'll use [`build_runner`](https://pub.dev/packages/build_runner) to generate the code for:
 
 - Dependency injection using [`injectable`](https://pub.dev/packages/injectable)
 - JSON serialization/deserialization using [`json_serializable`](https://pub.dev/packages/json_serializable)
-
-Other uses of `build_runner` are:
-- Asset files using [`flutter_gen`](https://pub.dev/packages/flutter_gen)
+- Resource management using [`flutter_gen`](https://pub.dev/packages/flutter_gen)
 - Mapper classes using [`auto_mappr`](https://pub.dev/packages/auto_mappr)
 - Model classes using [`freezed`](https://pub.dev/packages/freezed)
 - Localization files using [`intl_utils`](https://pub.dev/packages/intl_utils)
+- Mocks in tests using [`mockito`](https://pub.dev/packages/mockito)
+- Database schema using [`isar`](https://pub.dev/packages/isar)
+- API clients using [`retrofit``](https://pub.dev/packages/retrofit)
+- Reflection capabilities using [`reflectable`](https://pub.dev/packages/reflectable)
+- Routing and navigation using [`auto_route`](https://pub.dev/packages/auto_route)
 
 ## Setup FVM
 
-This project uses [FVM](https://fvm.app) to manage its Flutter SDK versions.
+This project uses [FVM](https://fvm.app) to manage its Flutter SDK versions. You need to install it first before you can run any `flutter` or `dart` commands.
 
 ```sh
 # Install the Flutter SDK version specified in .fvm/fvm_config.json
@@ -29,7 +32,7 @@ fvm dart run build_runner build
 or run the generator when necessary every time a file is edited:
 
 ```sh
-fvm dart run build_runner build --watch
+fvm dart run build_runner watch
 ```
 
 If there are errors, run this command:

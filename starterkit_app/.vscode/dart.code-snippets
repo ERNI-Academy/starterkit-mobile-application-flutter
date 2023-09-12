@@ -61,7 +61,7 @@
         ],
         "description": "Creates a ValueListenableBuilder"
     },
-    "Value Listenable/Notifier" : {
+    "Value Listenable/Notifier": {
         "prefix": "valn",
         "body": [
             "final ValueNotifier<$type> _$name = ValueNotifier($initialValue);",
@@ -297,4 +297,28 @@
         ],
         "description": "Creates an retrofit API"
     },
+    "Create a local data source": {
+        "prefix": "locd",
+        "body": [
+            "import 'package:injectable/injectable.dart';",
+            "import 'package:isar/isar.dart';",
+            "import 'package:meta/meta.dart';",
+            "import 'package:starterkit_app/core/data/database/isar_local_data_source.dart';",
+            "import 'package:starterkit_app/core/data/database/local_data_source.dart';",
+            "",
+            "abstract interface class ${Name}LocalDataSource implements LocalDataSource<${Name}DataObject> {}",
+            "",
+            "@LazySingleton(as: ${Name}LocalDataSource)",
+            "class ${Name}LocalDataSourceImpl extends IsarLocalDataSource<${Name}DataObject> implements ${Name}LocalDataSource {",
+            "  const ${Name}LocalDataSourceImpl(super._isarDatabaseFactory);",
+            "",
+            "  @protected",
+            "  @override",
+            "  @visibleForTesting",
+            "  IsarGeneratedSchema get schema => ${Name}DataObjectSchema;",
+            "}",
+            ""
+        ],
+        "description": "Create a local data source"
+    }
 }

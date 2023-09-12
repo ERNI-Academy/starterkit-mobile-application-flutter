@@ -5,7 +5,7 @@ The project uses [auto_route](https://pub.dev/packages/auto_route) as the naviga
 - Nested navigation
 - Similar API compared to Flutter's Navigator 1.0, including as passing argument and result
 
-See `NavigationService` and its implementing class for more details.
+See `NavigationService` and `RootAutoRouter` classes for more details.
 
 ## Push Navigation
 
@@ -22,8 +22,9 @@ For example, you want to pass `userId` to `UserVerificationView`.
 In your view model, annotate it with `@navigatable` and add your parameter:
 
 ```dart
-const userIdParam = QueryParam('userId');
+const QueryParam userIdParam = QueryParam('userId'); // or `PathParam`
 
+@injectable
 @navigatable // be sure to annotate your view model using this
 class UserVerificationViewModel extends ViewModel {
   @userIdParam
@@ -31,9 +32,10 @@ class UserVerificationViewModel extends ViewModel {
 }
 ```
 
-And in your view
+And in your view:
 
 ```dart
+@RoutePage()
 class UserVerificationView extends StatelessWidget with ViewRouteMixin<UserVerificationViewModel> {
   const UserVerificationView({@userIdParam String? userId}) : super(key: const Key(UserVerificationViewRoute.name));
 }
