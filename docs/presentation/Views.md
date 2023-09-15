@@ -48,14 +48,13 @@ class SplashView extends StatelessWidget with ViewRouteMixin<SplashViewModel> {
       body: Center(
         child: Assets.graphics.icAppLogo.image(width: 128),
       ),
-      extendBodyBehindAppBar: true,
     );
   }
 }
 ```
 
 - `buildView` is called whenever the view needs to be rebuilt. This is called inside the widget's `build` method. You need to override `buildView` rather than the `build` method.
-- `onCreateViewModel`, similar to `State.initState`, is called only once. Override this method in your view to do additional initialization logic that depends on the view model.
+- `onCreateViewModel` is called whenever the view model is first initialized. It is called only once. For `ViewRouteMixin`, this is where the navigation parameters are retrieved and assigned to the appropriate fields in your view model. Override this method in your view to do additional initialization logic that depends on the view model.
 - `onDisposeViewModel`, similar to `State.dispose`, is called when `ViewModel.dispose` was called, this happens when the view is removed from the tree. Override this method to do cleanup in your view.
 
 #### ViewRouteMixin
@@ -134,7 +133,7 @@ class LoginView extends StatelessWidget with ViewRouteMixin<LoginViewModel> {
   }
 }
 
-class _LoginFormSection extends StatelessWidget with ChildViewMixin<LoginViewModel> { // DO
+class _LoginFormSection extends StatelessWidget with ChildViewMixin<LoginViewModel> {
   const _LoginFormSection({super.key});
 
   @override

@@ -8,17 +8,12 @@ import 'package:starterkit_app/domain/posts/models/post_data_contract.dart';
 
 part 'post_api.g.dart';
 
-abstract interface class PostApi {
-  Future<Iterable<PostDataContract>> getPosts();
-}
-
-@LazySingleton(as: PostApi)
+@lazySingleton
 @RestApi()
-abstract interface class PostApiImpl implements PostApi {
+abstract interface class PostApi {
   @factoryMethod
-  factory PostApiImpl(DioProvider dioProvider) => _PostApiImpl(dioProvider.create<PostApi>());
+  factory PostApi(DioProvider dioProvider) => _PostApi(dioProvider.create<PostApi>());
 
-  @override
   @GET('/posts')
   Future<List<PostDataContract>> getPosts();
 }

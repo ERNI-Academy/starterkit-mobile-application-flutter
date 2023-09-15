@@ -49,14 +49,18 @@ void main() {
         const Iterable<PostEntity> expectedEntities = <PostEntity>[
           PostEntity(userId: 1, id: 1, title: '', body: ''),
         ];
+        const Iterable<PostDataObject> expectedObjects = <PostDataObject>[
+          PostDataObject(userId: 1, id: 1, title: '', body: ''),
+        ];
         final PostRepositoryImpl unit = createUnitToTest();
         when(mockConnectivityService.isConnected()).thenAnswer((_) async => true);
         when(mockPostRemoteDataSource.getPosts()).thenAnswer((_) async => expectedContracts);
         when(mockPostMapper.mapObjects<PostDataContract, PostDataObject>(expectedContracts)).thenAnswer((_) {
-          when(mockPostMapper.mapObjects<PostDataContract, PostEntity>(expectedContracts)).thenReturn(expectedEntities);
+          when(mockPostMapper.mapObjects<PostDataObject, PostEntity>(expectedObjects)).thenReturn(expectedEntities);
 
-          return <PostDataObject>[];
+          return expectedObjects;
         });
+        when(mockPostLocalDataSource.getAll()).thenAnswer((_) async => expectedObjects);
 
         final Iterable<PostEntity> actualPosts = await unit.getPosts();
 

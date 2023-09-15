@@ -1,4 +1,4 @@
-Database is one of the data sources of our application. It is responsible for persisting data on the device. This is important if you plan to support offline functionality in your application.
+Database is one of the (local) data sources of our application. It is responsible for persisting data on the device. This is important if you plan to support offline functionality in your application.
 
 The project is using [Isar](https://isar.dev/) as the database.
 

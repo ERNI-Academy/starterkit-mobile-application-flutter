@@ -284,15 +284,19 @@
     "Creates an retrofit API": {
         "prefix": "api",
         "body": [
+            "// coverage:ignore-file",
+            "",
+            "import 'package:retrofit/retrofit.dart';",
             "import 'package:injectable/injectable.dart';",
+            "import 'package:starterkit_app/core/data/api/dio_provider.dart';",
             "",
             "part '${TM_FILENAME_BASE}.g.dart';",
             "",
-            "@LazySingleton(as: ${ApiName}Api)",
+            "@lazySingleton",
             "@RestApi()",
-            "abstract interface class ${ApiName}ApiImpl implements ${ApiName}Api{",
+            "abstract interface class ${ApiName}Api {",
             "  @factoryMethod",
-            "  factory ${ApiName}ApiImpl(DioProvider dioProvider) => _${ApiName}ApiImpl(dioProvider.create<${ApiName}ApiImpl>());",
+            "  factory ${ApiName}Api(DioProvider dioProvider) => _${ApiName}Api(dioProvider.create<${ApiName}Api>());",
             "}"
         ],
         "description": "Creates an retrofit API"

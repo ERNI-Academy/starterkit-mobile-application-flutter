@@ -17,14 +17,14 @@ ERNI Academy mobile boilerplate to start a cross-platform Flutter mobile applica
 ## Prerequisites
 
 **Flutter**
-- v3.13.3+ on stable channel
+- v3.13.4+ on stable channel
 
 **Dart**
 - v3.0.0+
 
 **Visual Studio Code**
 - [Download Visual Studio Code](https://code.visualstudio.com/download)
-- A [list of extensions](starterkit_app/.vscode/extensions.json) are required to be installed in order to properly run the project
+- A [list of extensions](../starterkit_app/.vscode/extensions.json) are required to be installed in order to properly run the project
 
 **Android**
 - [Download Android Studio](https://developer.android.com/studio)
@@ -32,6 +32,6 @@ ERNI Academy mobile boilerplate to start a cross-platform Flutter mobile applica
 - Android 30 (minimum), Android 34 (target)
 
 **iOS**
-- [Download Xcode 14](https://developer.apple.com/download/all/)
-- iOS 13 (minimum), iOS 16 (target)
+- [Download Xcode 15](https://developer.apple.com/download/all/)
+- iOS 13 (minimum), iOS 17 (target)
 - Requires macOS 11 (Big Sur) or higher

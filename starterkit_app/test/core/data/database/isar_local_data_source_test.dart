@@ -51,21 +51,6 @@ void main() {
         verify(mockIsarCollection.get(expectedObject.id)).called(1);
         expect(actualObject?.id, equals(expectedObject.id));
       });
-
-      test('should close database connection when called', () async {
-        when(mockIsar.readAsync<TestDataObject?>(anyInstanceOf<_IsarCallback>())).thenAnswer((Invocation i) async {
-          final _IsarResultCallback<TestDataObject?> callback =
-              i.positionalArguments.elementAtOrNull(0) as _IsarResultCallback<TestDataObject?>;
-
-          return callback(mockIsar);
-        });
-        when(mockIsarCollection.get(any)).thenAnswer((_) => const TestDataObject(1));
-        final TestLocalDataSource unit = createUnitToTest();
-
-        await unit.get(1);
-
-        verify(mockIsar.close()).called(1);
-      });
     });
 
     group('getAll', () {
@@ -97,33 +82,6 @@ void main() {
         verify(mockIsarQuery.findAll(offset: anyNamed('offset'), limit: anyNamed('limit'))).called(1);
         expect(actualSavedObjects.firstOrNull?.id, equals(expectedSavedObjects.firstOrNull?.id));
       });
-
-      test('should close database connection when called', () async {
-        when(mockIsar.readAsync<Iterable<TestDataObject>>(
-          anyInstanceOf<_IsarResultCallback<Iterable<TestDataObject>>>(),
-        )).thenAnswer((Invocation i) async {
-          final _IsarResultCallback<Iterable<TestDataObject>> callback =
-              i.positionalArguments.elementAtOrNull(0) as _IsarResultCallback<Iterable<TestDataObject>>;
-
-          return callback(mockIsar);
-        });
-        final MockIsarQuery mockIsarQuery = MockIsarQuery();
-        final _MockQueryBuilder mockQueryBuilder = _MockQueryBuilder(collection: mockIsarCollection);
-        when(mockIsarCollection.buildQuery<TestDataObject>(
-          filter: anyNamed('filter'),
-          sortBy: anyNamed('sortBy'),
-          distinctBy: anyNamed('distinctBy'),
-          properties: anyNamed('properties'),
-        )).thenReturn(mockIsarQuery);
-        when(mockIsarCollection.where()).thenReturn(mockQueryBuilder);
-        when(mockIsarQuery.findAll(offset: anyNamed('offset'), limit: anyNamed('limit')))
-            .thenReturn(<TestDataObject>[const TestDataObject(1)]);
-        final TestLocalDataSource unit = createUnitToTest();
-
-        await unit.getAll();
-
-        verify(mockIsar.close()).called(1);
-      });
     });
 
     group('addOrUpdate', () {
@@ -142,18 +100,6 @@ void main() {
         final TestDataObject actualObject = putVerificationResult.captured.firstOrNull as TestDataObject;
         putVerificationResult.called(1);
         expect(actualObject.id, equals(expectedObject.id));
-      });
-
-      test('should close database connection when called', () async {
-        when(mockIsar.writeAsync<void>(anyInstanceOf<_IsarCallback>())).thenAnswer((Invocation i) async {
-          final _IsarCallback callback = i.positionalArguments.elementAtOrNull(0) as _IsarCallback;
-          callback(mockIsar);
-        });
-        final TestLocalDataSource unit = createUnitToTest();
-
-        await unit.addOrUpdate(const TestDataObject(1));
-
-        verify(mockIsar.close()).called(1);
       });
     });
 
@@ -175,18 +121,6 @@ void main() {
         putAllVerificationResult.called(1);
         expect(actualObject.firstOrNull?.id, equals(expectedObjectsToSave.firstOrNull?.id));
       });
-
-      test('should close database connection when called', () async {
-        when(mockIsar.writeAsync<void>(anyInstanceOf<_IsarCallback>())).thenAnswer((Invocation i) async {
-          final _IsarCallback callback = i.positionalArguments.elementAtOrNull(0) as _IsarCallback;
-          callback(mockIsar);
-        });
-        final TestLocalDataSource unit = createUnitToTest();
-
-        await unit.addOrUpdateAll(<TestDataObject>[const TestDataObject(1)]);
-
-        verify(mockIsar.close()).called(1);
-      });
     });
 
     group('delete', () {
@@ -202,18 +136,6 @@ void main() {
 
         verify(mockIsarCollection.delete(expectedObject.id)).called(1);
       });
-
-      test('should close database connection when called', () async {
-        when(mockIsar.writeAsync<void>(anyInstanceOf<_IsarCallback>())).thenAnswer((Invocation i) async {
-          final _IsarCallback callback = i.positionalArguments.elementAtOrNull(0) as _IsarCallback;
-          callback(mockIsar);
-        });
-        final TestLocalDataSource unit = createUnitToTest();
-
-        await unit.delete(const TestDataObject(1));
-
-        verify(mockIsar.close()).called(1);
-      });
     });
 
     group('deleteAll', () {
@@ -227,18 +149,6 @@ void main() {
         await unit.deleteAll();
 
         verify(mockIsarCollection.clear()).called(1);
-      });
-
-      test('should close database connection when called', () async {
-        when(mockIsar.writeAsync<void>(anyInstanceOf<_IsarCallback>())).thenAnswer((Invocation i) async {
-          final _IsarCallback callback = i.positionalArguments.elementAtOrNull(0) as _IsarCallback;
-          callback(mockIsar);
-        });
-        final TestLocalDataSource unit = createUnitToTest();
-
-        await unit.deleteAll();
-
-        verify(mockIsar.close()).called(1);
       });
     });
   });

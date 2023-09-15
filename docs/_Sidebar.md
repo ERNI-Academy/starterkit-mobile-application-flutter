@@ -18,6 +18,10 @@
 [view-models]: https://github.com/ERNI-Academy/starterkit-mobile-application-flutter/wiki/view-models
 [views]: https://github.com/ERNI-Academy/starterkit-mobile-application-flutter/wiki/views
 
+<!-- DATA -->
+[apis]: https://github.com/ERNI-Academy/starterkit-mobile-application-flutter/wiki/apis
+[database]: https://github.com/ERNI-Academy/starterkit-mobile-application-flutter/wiki/database
+
 - [Home][home]
 - [Project Setup](project-setup)
 - [Code Generation](code-generation)
@@ -32,5 +36,8 @@
   - [View Models][view-models]
   - [Views][views]
   - [State Management][state-management]
+- [Data][database]
+  - [Database][database]
+  - [APIs][apis]
 - [Resource Management][resource-management]
 - [Unit Testing][unit-testing]

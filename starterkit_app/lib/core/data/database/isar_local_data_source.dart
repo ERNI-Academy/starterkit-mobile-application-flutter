@@ -67,7 +67,6 @@ abstract class IsarLocalDataSource<T extends DataObject> implements LocalDataSou
   Future<TResult> readUsing<TResult>(IsarTxnCallback<T, TResult> callback) async {
     final Isar isar = await _getIsar();
     final TResult result = await isar.readAsync((Isar i) => callback(i.collection<int, T>()));
-    isar.close();
 
     return result;
   }
@@ -77,7 +76,6 @@ abstract class IsarLocalDataSource<T extends DataObject> implements LocalDataSou
   Future<void> writeUsing(IsarTxnCallback<T, void> callback) async {
     final Isar isar = await _getIsar();
     await isar.writeAsync<void>((Isar i) => callback(i.collection<int, T>()));
-    isar.close();
   }
 
   Future<Isar> _getIsar() async {
