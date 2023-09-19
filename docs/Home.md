@@ -34,4 +34,4 @@ ERNI Academy mobile boilerplate to start a cross-platform Flutter mobile applica
 **iOS**
 - [Download Xcode 15](https://developer.apple.com/download/all/)
 - iOS 13 (minimum), iOS 17 (target)
-- Requires macOS 11 (Big Sur) or higher
+- Requires macOS 13.5 (Ventura) or higher
