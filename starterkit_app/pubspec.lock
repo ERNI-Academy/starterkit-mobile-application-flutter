@@ -45,18 +45,18 @@ packages:
     dependency: "direct dev"
     description:
       name: auto_mappr
-      sha256: "089696d5a22c1a17ba59de99bb40fa87dcfd218bd72358e46525e58f77a45894"
+      sha256: a5969421bf40f14bce5d5048f07c83347da2caa6280fbc3ebd0ad3b5e1010f09
       url: "https://pub.dev"
     source: hosted
-    version: "1.7.0"
+    version: "2.0.0"
   auto_mappr_annotation:
     dependency: "direct main"
     description:
       name: auto_mappr_annotation
-      sha256: "87390acb8bb1480453f9b83ced1ea6fe8bbd3001d06bc948222210bdda174516"
+      sha256: "1e75a9ed88e6a163c27af1d9173419252f88e1661ab1171cd4b0c3af2c84e182"
       url: "https://pub.dev"
     source: hosted
-    version: "1.2.0"
+    version: "2.0.0"
   auto_route:
     dependency: "direct main"
     description:
