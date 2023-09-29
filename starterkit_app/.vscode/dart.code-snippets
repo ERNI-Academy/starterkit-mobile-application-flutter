@@ -216,23 +216,6 @@
         ],
         "description": "Override init view model"
     },
-    "Creates a Data Contract class": {
-        "prefix": "dataC",
-        "body": [
-            "part '${TM_FILENAME_BASE}.g.dart';",
-            "",
-            "@JsonSerializable()",
-            "class ${name}Contract extends DataContract {",
-            "  const ${name}Contract();",
-            "",
-            "  factory ${name}Contract.fromJson(Map<String, dynamic> json) => _$${name}ContractFromJson(json);",
-            "",
-            "  @override",
-            "  Map<String, dynamic> toJson() => _$${name}ContractToJson(this);",
-            "}"
-        ],
-        "description": "Creates a JSON class"
-    },
     "Creates a JSON class": {
         "prefix": "jsonC",
         "body": [
@@ -269,12 +252,7 @@
             "",
             "\tgroup('{methodToTest}', () {",
             "\ttest('should {expected} when {condition}', () {",
-            "\t  // Arrange",
             "\t  final unit = createUnitToTest();",
-            "",
-            "\t  // Act",
-            "",
-            "\t  // Assert",
             "\t});",
             "\t});",
             "  });",

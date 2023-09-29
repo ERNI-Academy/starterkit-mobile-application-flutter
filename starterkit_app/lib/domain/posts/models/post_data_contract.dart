@@ -1,18 +1,21 @@
-import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:starterkit_app/core/domain/models/json_serializable_object.dart';
 
-part 'post_data_contract.freezed.dart';
 part 'post_data_contract.g.dart';
 
-@freezed
-class PostDataContract with _$PostDataContract {
-  const factory PostDataContract({
-    required int userId,
-    required int id,
-    required String title,
-    required String body,
-  }) = _PostDataContract;
+@JsonSerializable()
+class PostDataContract extends JsonSerializableObject {
+  const PostDataContract({required this.userId, required this.id, required this.title, required this.body});
 
-  // coverage:ignore-start
   factory PostDataContract.fromJson(Map<String, dynamic> json) => _$PostDataContractFromJson(json);
-  // coverage:ignore-end
+
+  final int userId;
+
+  final int id;
+
+  final String title;
+
+  final String body;
+
+  @override
+  Map<String, dynamic> toJson() => _$PostDataContractToJson(this);
 }

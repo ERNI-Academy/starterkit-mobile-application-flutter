@@ -8,12 +8,13 @@ mixin ViewRouteMixin<TViewModel extends ViewModel> implements View<TViewModel> {
   @mustCallSuper
   Widget build(BuildContext context) {
     return ViewModelBuilder<TViewModel>(
-      create: () => onCreateViewModel(context),
-      builder: (BuildContext context, TViewModel viewModel) {
+      create: () {
+        final TViewModel viewModel = onCreateViewModel(context);
         ViewLifeCycleHandler.tryGetNavigationParams(context, viewModel);
 
-        return buildView(context, viewModel);
+        return viewModel;
       },
+      builder: buildView,
       dispose: onDisposeViewModel,
     );
   }

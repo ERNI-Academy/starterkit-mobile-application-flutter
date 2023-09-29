@@ -3,5 +3,8 @@
     "appServerUrl": "https://jsonplaceholder.typicode.com/",
     "appId": "com.mycompany.starterkit.app",
     "appIdSuffix": "",
-    "appName": "Starterkit App"
+    "appName": "Starterkit App",
+    "iOSDevelopmentTeam": "XXXXXXXXXX",
+    "iOSDevelopmentProfile": "Your Development Profile Name",
+    "iOSDistributionProfile": "Your Distribution Profile Name"
 }

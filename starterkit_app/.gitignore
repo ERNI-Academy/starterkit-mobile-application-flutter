@@ -36,12 +36,12 @@ migrate_working_dir/
 /build/
 **/*.g.dart
 **/*.gr.dart
-**/*.freezed.dart
 **/*.reflectable.dart
 **/*.config.dart
 **/*.gen.dart
 **/*.mocks.dart
 **/generated/**
+**/*.auto_mappr.dart
 full_coverage_test.dart
 metrics
 .fvm/flutter_sdk

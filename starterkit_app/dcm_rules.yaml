@@ -17,10 +17,10 @@ dart_code_metrics:
     - lib/*.config.dart
     - lib/**/*.config.dart
     - lib/**/*.g.dart
-    - lib/**/*.freezed.dart
     - lib/**/*.gr.dart
     - lib/main.reflectable.dart
     - lib/**/generated/**
+    - lib/**/*.auto_mappr.dart
     - lib/**/theme.dart
     - lib/**/widgets/**
     - lib/**/views/**
@@ -60,6 +60,9 @@ dart_code_metrics:
     # Not always true for enums that are ordered by values.
     - enum-constants-ordering: false
 
+    # This will have an issue in dependency injection when we register a class that is needed to be resolved as a new instance every time.
+    - prefer-declaring-const-constructor: false
+
     # Object as type is not always a bad practice.
     - no-object-declaration: false
 
@@ -74,6 +77,9 @@ dart_code_metrics:
 
     # Improves readability of parameter values, rather than implicitly using the default value.
     - avoid-passing-default-values: false
+
+    # Causes false postives. And not always true.
+    - avoid-similar-names: false
 
     - prefer-widget-private-members:
         ignore-static: true
@@ -106,9 +112,6 @@ dart_code_metrics:
           - test/**
     - arguments-ordering:
         child-last: true
-    - avoid-similar-names:
-        show-similarity: true
-        similarity-threshold: 0.9
     - avoid-long-functions:
         exclude:
           - test/**

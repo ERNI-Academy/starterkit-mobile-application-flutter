@@ -9,7 +9,7 @@ abstract interface class PostLocalDataSource implements LocalDataSource<PostData
 
 @LazySingleton(as: PostLocalDataSource)
 class PostLocalDataSourceImpl extends IsarLocalDataSource<PostDataObject> implements PostLocalDataSource {
-  const PostLocalDataSourceImpl(super._isarDatabaseFactory);
+  PostLocalDataSourceImpl(super._isarDatabaseFactory);
 
   @protected
   @override

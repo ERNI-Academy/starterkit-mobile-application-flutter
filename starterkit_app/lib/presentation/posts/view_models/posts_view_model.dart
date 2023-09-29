@@ -32,14 +32,14 @@ class PostsViewModel extends ViewModel implements Initializable {
   }
 
   Future<void> onPostSelected(PostEntity post) async {
-    await _navigationService.push(PostDetailsViewRoute(post: post));
+    await _navigationService.push(PostDetailsViewRoute(postId: post.id));
   }
 
   Future<void> _onGetPosts() async {
     _logger.log(LogLevel.info, 'Getting posts');
     _postsState.value = const PostsListLoadingState();
 
-    final Result<Iterable<PostEntity>> getPostsResult = await _getPostsUseCase.getAll();
+    final Result<Iterable<PostEntity>> getPostsResult = await _getPostsUseCase.execute();
 
     switch (getPostsResult) {
       case Success<Iterable<PostEntity>>(:final Iterable<PostEntity> value):

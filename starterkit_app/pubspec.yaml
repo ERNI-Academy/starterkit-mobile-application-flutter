@@ -7,7 +7,7 @@ environment:
   sdk: '>=3.0.0 <4.0.0'
 
 dependencies:
-  auto_mappr_annotation: ^1.2.0
+  auto_mappr_annotation: ^2.0.0
   auto_route: ^7.8.3
   collection: ^1.17.1
   connectivity_plus: ^4.0.2
@@ -18,7 +18,6 @@ dependencies:
     sdk: flutter
   flutter_localizations:
     sdk: flutter
-  freezed_annotation: ^2.4.1
   get_it: ^7.6.4
   injectable: ^2.1.2
   intl: ^0.18.1
@@ -33,14 +32,13 @@ dependencies:
   uuid: ^4.0.0
 
 dev_dependencies:
-  auto_mappr: ^1.7.0
+  auto_mappr: ^2.0.0
   auto_route_generator: ^7.3.0
   build_runner: ^2.4.6
   dart_code_metrics_presets: ^2.3.0
   flutter_gen_runner: ^5.3.1
   flutter_test:
     sdk: flutter
-  freezed: ^2.4.1
   full_coverage: ^1.0.0
   golden_toolkit: ^0.15.0
   injectable_generator: ^2.1.6
@@ -53,7 +51,7 @@ flutter:
   uses-material-design: true
 
 flutter_gen:
-  output: lib/shared/resources
+  output: lib/common/resources
   line_length: 120
   fonts:
     enabled: false

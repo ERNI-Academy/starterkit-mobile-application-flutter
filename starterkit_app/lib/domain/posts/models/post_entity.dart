@@ -1,20 +1,18 @@
-import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:equatable/equatable.dart';
 
-part 'post_entity.freezed.dart';
+class PostEntity with EquatableMixin {
+  static const PostEntity empty = PostEntity(userId: 0, id: 0, title: '', body: '');
 
-@freezed
-class PostEntity with _$PostEntity {
-  static const PostEntity empty = PostEntity(
-    userId: 0,
-    id: 0,
-    title: '',
-    body: '',
-  );
+  const PostEntity({required this.userId, required this.id, required this.title, required this.body});
 
-  const factory PostEntity({
-    required int userId,
-    required int id,
-    required String title,
-    required String body,
-  }) = _PostEntity;
+  final int userId;
+
+  final int id;
+
+  final String title;
+
+  final String body;
+
+  @override
+  List<Object> get props => <Object>[userId, id, title, body];
 }

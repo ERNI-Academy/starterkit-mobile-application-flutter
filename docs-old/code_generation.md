@@ -8,7 +8,6 @@ Since Flutter [does not allow the use of reflection](https://github.com/flutter/
 Other uses of `build_runner` are:
 - Asset files using [`flutter_gen`](https://pub.dev/packages/flutter_gen)
 - Mapper classes using [`auto_mappr`](https://pub.dev/packages/auto_mappr)
-- Model classes using [`freezed`](https://pub.dev/packages/freezed)
 - Localization files using [`intl_utils`](https://pub.dev/packages/intl_utils)
 
 Run the command in the project directory to run the generator once:

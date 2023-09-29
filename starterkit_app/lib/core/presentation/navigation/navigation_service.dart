@@ -16,7 +16,7 @@ abstract interface class NavigationService {
 class NavigationServiceImpl implements NavigationService {
   final RootAutoRouter _router;
 
-  const NavigationServiceImpl(this._router);
+  NavigationServiceImpl(this._router);
 
   @override
   Future<T?> push<T extends Object>(PageRouteInfo route, {OnNavigationFailure? onFailure}) async {

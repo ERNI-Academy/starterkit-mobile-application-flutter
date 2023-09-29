@@ -4,10 +4,10 @@
         "build": true,
         "**/*.g.dart": true,
         "**/*.gr.dart": true,
-        "**/*.freezed.dart": true,
         "**/*.reflectable.dart": true,
         "**/*.config.dart": true,
         "**/*.mocks.dart": true,
+        "**/*.auto_mappr.dart": true,
         "**/generated_plugin_registrant.dart": true
     }, // Causes the debug view to automatically appear when a breakpoint is hit. This
     // setting is global and not configurable per-language.

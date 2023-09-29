@@ -14,7 +14,7 @@ abstract interface class IsarDatabaseFactory {
 class IsarDatabaseFactoryImpl implements IsarDatabaseFactory {
   final DirectoryService _directoryService;
 
-  const IsarDatabaseFactoryImpl(this._directoryService);
+  IsarDatabaseFactoryImpl(this._directoryService);
 
   @override
   Future<Isar> getIsar(IsarGeneratedSchema schema) async {

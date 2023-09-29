@@ -8,8 +8,6 @@ abstract interface class DateTimeUtil {
 
 @LazySingleton(as: DateTimeUtil)
 class DateTimeUtilImpl implements DateTimeUtil {
-  const DateTimeUtilImpl();
-
   @override
   DateTime get now => DateTime.now();
 }

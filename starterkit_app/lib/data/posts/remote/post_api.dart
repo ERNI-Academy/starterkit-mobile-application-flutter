@@ -16,4 +16,7 @@ abstract interface class PostApi {
 
   @GET('/posts')
   Future<List<PostDataContract>> getPosts();
+
+  @GET('/posts/{id}')
+  Future<PostDataContract> getPost(@Path('id') int id);
 }

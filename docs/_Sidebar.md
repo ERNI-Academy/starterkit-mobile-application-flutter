@@ -1,7 +1,6 @@
 <!-- TOP LEVEL -->
 [architecture-overview]: https://github.com/ERNI-Academy/starterkit-mobile-application-flutter/wiki/architecture-overview
 [code-generation]: https://github.com/ERNI-Academy/starterkit-mobile-application-flutter/wiki/code-generation
-[code-style]: https://github.com/ERNI-Academy/starterkit-mobile-application-flutter/wiki/code-style
 [home]: https://github.com/ERNI-Academy/starterkit-mobile-application-flutter/wiki
 [project-setup]: https://github.com/ERNI-Academy/starterkit-mobile-application-flutter/wiki/project-setup
 [resource-management]: https://github.com/ERNI-Academy/starterkit-mobile-application-flutter/wiki/resource-management
@@ -18,6 +17,12 @@
 [view-models]: https://github.com/ERNI-Academy/starterkit-mobile-application-flutter/wiki/view-models
 [views]: https://github.com/ERNI-Academy/starterkit-mobile-application-flutter/wiki/views
 
+<!-- DOMAIN -->
+[domain]: https://github.com/ERNI-Academy/starterkit-mobile-application-flutter/wiki/data-objects
+[models]: https://github.com/ERNI-Academy/starterkit-mobile-application-flutter/wiki/data-objects
+[data-objects]: https://github.com/ERNI-Academy/starterkit-mobile-application-flutter/wiki/data-objects
+[data-contracts]: https://github.com/ERNI-Academy/starterkit-mobile-application-flutter/wiki/data-contracts
+
 <!-- DATA -->
 [apis]: https://github.com/ERNI-Academy/starterkit-mobile-application-flutter/wiki/apis
 [database]: https://github.com/ERNI-Academy/starterkit-mobile-application-flutter/wiki/database
@@ -25,7 +30,6 @@
 - [Home][home]
 - [Project Setup](project-setup)
 - [Code Generation](code-generation)
-- [Code Style][code-style]
 - [Architecture Overview][architecture-overview]
 - [Core][dependency-injection]
   - [Dependency Injection][dependency-injection]
@@ -36,6 +40,10 @@
   - [View Models][view-models]
   - [Views][views]
   - [State Management][state-management]
+- [Domain][domain]
+  - [Models][models]
+    - [Data Objects][data-objects]
+    - [Data Contracts][data-contracts]
 - [Data][database]
   - [Database][database]
   - [APIs][apis]

@@ -17,7 +17,7 @@ class DioProviderImpl implements DioProvider {
   final Logger _logger;
   final String _baseUrl;
 
-  const DioProviderImpl(this._logger, @appServerUrl this._baseUrl);
+  DioProviderImpl(this._logger, @appServerUrl this._baseUrl);
 
   @override
   Dio create<T>() {

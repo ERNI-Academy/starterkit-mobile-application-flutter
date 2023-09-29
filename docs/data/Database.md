@@ -10,27 +10,28 @@ The database file is saved in the application's cache directory. `IsarDatabaseFa
 A `DataObject` is a class that represents a table in the database.
 
 ```dart
-import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:isar/isar.dart';
+import 'package:starterkit_app/core/domain/models/data_object.dart';
 
-part 'post_data_object.freezed.dart';
 part 'post_data_object.g.dart';
 
 @Collection(accessor: 'posts')
-@freezed
-class PostDataObject with _$PostDataObject implements DataObject {
-  const factory PostDataObject({
-    required int userId,
-    required int id,
-    required String title,
-    required String body,
-  }) = _PostDataObject;
+class PostDataObject implements DataObject<int> {
+  const PostDataObject({required this.userId, required this.id, required this.title, required this.body});
+
+  final int userId;
+
+  @override
+  final int id;
+
+  final String title;
+
+  final String body;
 }
 ```
 
 - `@Collection` is used to specify the name of the table in the database. This is needed for Isar to generate the schema.
-- `@freezed` is used to make it immutable.
-- `DataObject` has a definition of `id` which its implementation is required in the data object. This is used by Isar to identify the object in the database.
+- `DataObject` has a definition of `id` which its implementation is required in the data object. This is used by Isar to identify the object in the database. We add the type `int` to `DataObject<int>` indicating that the `id` is an integer.
 
 ## Creating a Local Data Source
 

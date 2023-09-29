@@ -15,7 +15,7 @@ class PostRepositoryImpl implements PostRepository {
   final PostMapper _postMapper;
   final ConnectivityService _connectivityService;
 
-  const PostRepositoryImpl(
+  PostRepositoryImpl(
     this._postRemoteDataSource,
     this._postLocalDataSource,
     this._postMapper,
@@ -37,5 +37,21 @@ class PostRepositoryImpl implements PostRepository {
     final Iterable<PostEntity> postEntities = _postMapper.mapObjects<PostDataObject, PostEntity>(dataObjects);
 
     return postEntities;
+  }
+
+  @override
+  Future<PostEntity> getPost(int id) async {
+    final bool isConnected = await _connectivityService.isConnected();
+
+    if (isConnected) {
+      final PostDataContract contract = await _postRemoteDataSource.getPost(id);
+      final PostDataObject dataObject = _postMapper.mapObject<PostDataContract, PostDataObject>(contract);
+      await _postLocalDataSource.addOrUpdate(dataObject);
+    }
+
+    final PostDataObject? dataObject = await _postLocalDataSource.get(id);
+    final PostEntity postEntity = _postMapper.mapObject<PostDataObject, PostEntity>(dataObject);
+
+    return postEntity;
   }
 }

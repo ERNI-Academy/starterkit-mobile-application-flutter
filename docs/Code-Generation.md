@@ -4,7 +4,6 @@ We'll use [`build_runner`](https://pub.dev/packages/build_runner) to generate th
 - JSON serialization/deserialization using [`json_serializable`](https://pub.dev/packages/json_serializable)
 - Resource management using [`flutter_gen`](https://pub.dev/packages/flutter_gen)
 - Mapper classes using [`auto_mappr`](https://pub.dev/packages/auto_mappr)
-- Model classes using [`freezed`](https://pub.dev/packages/freezed)
 - Localization files using [`intl_utils`](https://pub.dev/packages/intl_utils)
 - Mocks in tests using [`mockito`](https://pub.dev/packages/mockito)
 - Database schema using [`isar`](https://pub.dev/packages/isar)

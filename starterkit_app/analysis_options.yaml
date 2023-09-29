@@ -12,10 +12,10 @@ analyzer:
     - lib/*.config.dart
     - lib/**/*.config.dart
     - lib/**/*.g.dart
-    - lib/**/*.freezed.dart
     - lib/**/*.gr.dart
     - lib/main.reflectable.dart
     - lib/**/generated/**
+    - lib/**/*.auto_mappr.dart
     - test/**/*.config.dart
     - test/**/*.mocks.dart
     - test/full_coverage.dart

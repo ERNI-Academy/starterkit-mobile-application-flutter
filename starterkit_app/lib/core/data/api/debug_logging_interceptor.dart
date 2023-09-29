@@ -9,7 +9,7 @@ import 'package:starterkit_app/core/infrastructure/logging/logger.dart';
 class DebugLoggingInterceptor extends Interceptor {
   final Logger _logger;
 
-  const DebugLoggingInterceptor(this._logger);
+  DebugLoggingInterceptor(this._logger);
 
   @override
   void onRequest(RequestOptions options, RequestInterceptorHandler handler) {
@@ -50,7 +50,7 @@ class DebugLoggingInterceptor extends Interceptor {
   }
 
   void _logBody(String tag, Object? body) {
-    if (body is Map || body is! List) {
+    if (body is! Map && body is! List) {
       return;
     }
 
