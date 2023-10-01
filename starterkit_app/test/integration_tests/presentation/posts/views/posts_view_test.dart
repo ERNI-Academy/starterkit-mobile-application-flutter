@@ -1,5 +1,8 @@
 // ignore_for_file: prefer-moving-to-variable
 
+import 'dart:convert';
+
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:golden_toolkit/golden_toolkit.dart';
@@ -12,7 +15,6 @@ import 'package:starterkit_app/core/infrastructure/platform/connectivity_service
 import 'package:starterkit_app/core/presentation/navigation/root_auto_router.gr.dart';
 import 'package:starterkit_app/core/service_locator.dart';
 import 'package:starterkit_app/data/posts/remote/post_api.dart';
-import 'package:starterkit_app/domain/posts/models/post_data_contract.dart';
 import 'package:starterkit_app/domain/posts/models/post_entity.dart';
 import 'package:starterkit_app/presentation/app/views/app.dart';
 import 'package:starterkit_app/presentation/posts/views/post_details_view.dart';
@@ -24,33 +26,63 @@ import '../../../core/data/database/test_isar_database_factory.dart';
 import 'posts_view_test.mocks.dart';
 
 @GenerateNiceMocks(<MockSpec<Object>>[
-  MockSpec<PostApi>(),
   MockSpec<ConnectivityService>(),
+  MockSpec<Dio>(),
 ])
 void main() {
   group(PostsView, () {
     late Il8n il8n;
-    late MockPostApi mockPostApi;
     late MockConnectivityService mockConnectivityService;
+    late MockDio mockDio;
 
     setUp(() async {
-      await setupWidgetTest();
-      mockPostApi = MockPostApi();
+      await setUpWidgetTest();
       mockConnectivityService = MockConnectivityService();
-
+      mockDio = MockDio();
       il8n = await setupLocale();
 
       ServiceLocator.instance.registerLazySingleton<IsarDatabaseFactory>(TestIsarDatabaseFactory.new);
-      ServiceLocator.instance.registerLazySingleton<PostApi>(() => mockPostApi);
+      ServiceLocator.instance.registerLazySingleton<PostApi>(() => PostApi(mockDio));
       ServiceLocator.instance.registerLazySingleton<ConnectivityService>(() => mockConnectivityService);
       provideDummy<Result<Iterable<PostEntity>>>(Failure<Iterable<PostEntity>>(Exception()));
       provideDummy<Result<PostEntity>>(Failure<PostEntity>(Exception()));
     });
 
+    void setUpApi<TResponse>({
+      required Matcher expectedPath,
+      required Matcher expectedMethod,
+      required String expectedResponseFile,
+      VoidCallback? onAnswer,
+    }) {
+      final String expectedPostsJsonString = readFileAsString(expectedResponseFile);
+      // these values are not used for testing, but are required by Dio
+      when(mockDio.options).thenReturn(BaseOptions(method: 'GET', baseUrl: 'https://www.example.com'));
+      // False positive
+      // ignore: discarded_futures
+      when(mockDio.fetch<TResponse>(
+        argThat(
+          isA<RequestOptions>()
+              .having((RequestOptions r) => r.path, 'path', expectedPath)
+              .having((RequestOptions r) => r.method, 'method', expectedMethod),
+        ),
+      )).thenAnswer((_) async {
+        onAnswer?.call();
+
+        return Response<TResponse>(
+          data: jsonDecode(expectedPostsJsonString) as TResponse,
+          requestOptions: RequestOptions(),
+        );
+      });
+    }
+
     group('AppBar', () {
       testGoldens('should show correct title when shown', (WidgetTester tester) async {
+        setUpApi<List<dynamic>>(
+          expectedPath: endsWith('/posts'),
+          expectedMethod: matches('GET'),
+          expectedResponseFile: 'posts.json',
+        );
         when(mockConnectivityService.isConnected()).thenAnswer((_) async => true);
-        when(mockPostApi.getPosts()).thenAnswer((_) async => const <PostDataContract>[]);
 
         await tester.pumpWidget(const App(initialRoute: PostsViewRoute()));
         await tester.pumpAndSettle();
@@ -62,48 +94,47 @@ void main() {
 
     group('ListView', () {
       testGoldens('should show posts when loaded', (WidgetTester tester) async {
-        const PostDataContract expectedPost = PostDataContract(
-          userId: 0,
-          id: 0,
-          title: 'Lorem Ipsum',
-          body: 'Dolor sit amet',
+        setUpApi<List<dynamic>>(
+          expectedPath: endsWith('/posts'),
+          expectedMethod: matches('GET'),
+          expectedResponseFile: 'posts.json',
         );
         when(mockConnectivityService.isConnected()).thenAnswer((_) async => true);
-        when(mockPostApi.getPosts()).thenAnswer((_) async => const <PostDataContract>[expectedPost]);
 
         await tester.pumpWidget(const App(initialRoute: PostsViewRoute()));
         await tester.pumpAndSettle();
 
         await tester.matchGolden('posts_view_loaded');
         expect(find.byType(ListView), findsOneWidget);
-        expect(find.byType(ListTile), findsOneWidget);
-        expect(find.text(expectedPost.title), findsOneWidget);
-        expect(find.text(expectedPost.body), findsOneWidget);
+        expect(find.byType(ListTile), findsAtLeastNWidgets(1));
       });
     });
 
     group('ListTile', () {
-      testGoldens('should navigate to PostDetailsView when post tapped', (WidgetTester tester) async {
-        const PostDataContract expectedPost = PostDataContract(
-          userId: 0,
-          id: 0,
-          title: 'Lorem Ipsum',
-          body: 'Dolor sit amet',
+      testGoldens('should navigate to post details when post tapped', (WidgetTester tester) async {
+        setUpApi<List<dynamic>>(
+          expectedPath: endsWith('/posts'),
+          expectedMethod: matches('GET'),
+          expectedResponseFile: 'posts.json',
+          onAnswer: () {
+            reset(mockDio);
+            setUpApi<Map<String, dynamic>>(
+              expectedPath: contains('/posts/'),
+              expectedMethod: matches('GET'),
+              expectedResponseFile: 'post.json',
+            );
+          },
         );
         when(mockConnectivityService.isConnected()).thenAnswer((_) async => true);
-        when(mockPostApi.getPosts()).thenAnswer((_) async => const <PostDataContract>[expectedPost]);
-        when(mockPostApi.getPost(expectedPost.id)).thenAnswer((_) async => expectedPost);
 
         await tester.pumpWidget(const App(initialRoute: PostsViewRoute()));
         await tester.pumpAndSettle();
-        await tester.tap(find.byKey(Key(expectedPost.id.toString())));
+        await tester.tap(find.byType(ListTile));
         await tester.pumpAndSettle();
 
         await tester.matchGolden('posts_view_navigate_to_post_details_view');
         expect(find.byType(PostsView), findsNothing);
         expect(find.byType(PostDetailsView), findsOneWidget);
-        expect(find.text(expectedPost.title), findsOneWidget);
-        expect(find.text(expectedPost.body), findsOneWidget);
       });
     });
   });

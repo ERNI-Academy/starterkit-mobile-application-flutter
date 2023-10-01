@@ -15,7 +15,4 @@ class PostDataContract extends JsonSerializableObject {
   final String title;
 
   final String body;
-
-  @override
-  Map<String, dynamic> toJson() => _$PostDataContractToJson(this);
 }

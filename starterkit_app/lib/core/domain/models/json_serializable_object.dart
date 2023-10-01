@@ -15,5 +15,7 @@ abstract class JsonSerializableObject {
   @override
   String toString() => _encoder.convert(this);
 
-  Map<String, dynamic> toJson();
+  Map<String, dynamic> toJson() {
+    throw UnimplementedError('toJson() is not implemented, override this method to use it');
+  }
 }

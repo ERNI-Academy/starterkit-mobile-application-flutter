@@ -11,8 +11,8 @@ import 'package:starterkit_app/domain/posts/models/posts_list_state.dart';
 import 'package:starterkit_app/domain/posts/use_cases/get_posts_use_case.dart';
 import 'package:starterkit_app/presentation/posts/view_models/posts_view_model.dart';
 
+import '../../../../test_matchers.dart';
 import '../../../../test_utils.dart';
-import '../../../unit_test_utils.dart';
 import 'posts_view_model_test.mocks.dart';
 
 @GenerateNiceMocks(<MockSpec<Object>>[

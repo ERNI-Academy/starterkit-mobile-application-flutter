@@ -81,6 +81,10 @@ dart_code_metrics:
     # Causes false postives. And not always true.
     - avoid-similar-names: false
 
+    - avoid-dynamic:
+        exclude:
+          - test/**
+
     - prefer-widget-private-members:
         ignore-static: true
 

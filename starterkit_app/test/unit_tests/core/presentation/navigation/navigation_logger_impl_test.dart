@@ -6,7 +6,7 @@ import 'package:mockito/mockito.dart';
 import 'package:starterkit_app/core/infrastructure/logging/logger.dart';
 import 'package:starterkit_app/core/presentation/navigation/navigation_logger.dart';
 
-import '../../../unit_test_utils.dart';
+import '../../../../test_matchers.dart';
 import 'navigation_logger_impl_test.mocks.dart';
 
 @GenerateNiceMocks(<MockSpec<Object>>[

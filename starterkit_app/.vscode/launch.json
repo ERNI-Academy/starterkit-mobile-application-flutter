@@ -29,9 +29,7 @@
             },
             "args": [
                 "--dart-define-from-file",
-                "test/assets/test_secrets.json",
-                "-j",
-                "1"
+                "test/assets/test_secrets.json"
             ]
         },
         {
@@ -48,9 +46,7 @@
             },
             "args": [
                 "--dart-define-from-file",
-                "test/assets/test_secrets.json",
-                "-j",
-                "1"
+                "test/assets/test_secrets.json"
             ]
         },
         {
@@ -68,9 +64,7 @@
             "args": [
                 "--coverage",
                 "--dart-define-from-file",
-                "test/assets/test_secrets.json",
-                "-j",
-                "1"
+                "test/assets/test_secrets.json"
             ]
         },
         {
@@ -87,9 +81,7 @@
             "args": [
                 "--update-goldens",
                 "--dart-define-from-file",
-                "test/assets/test_secrets.json",
-                "-j",
-                "1"
+                "test/assets/test_secrets.json"
             ]
         },
     ],

@@ -3,7 +3,6 @@
 import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
 import 'package:retrofit/retrofit.dart';
-import 'package:starterkit_app/core/data/api/dio_provider.dart';
 import 'package:starterkit_app/domain/posts/models/post_data_contract.dart';
 
 part 'post_api.g.dart';
@@ -12,7 +11,7 @@ part 'post_api.g.dart';
 @RestApi()
 abstract interface class PostApi {
   @factoryMethod
-  factory PostApi(DioProvider dioProvider) => _PostApi(dioProvider.create<PostApi>());
+  factory PostApi(Dio dio) => _PostApi(dio);
 
   @GET('/posts')
   Future<List<PostDataContract>> getPosts();

@@ -7,7 +7,7 @@ import 'package:starterkit_app/domain/posts/models/post_entity.dart';
 import 'package:starterkit_app/domain/posts/use_cases/get_post_use_case.dart';
 import 'package:starterkit_app/presentation/posts/view_models/post_details_view_model.dart';
 
-import '../../../unit_test_utils.dart';
+import '../../../../test_matchers.dart';
 import 'post_details_view_model_test.mocks.dart';
 
 @GenerateNiceMocks(<MockSpec<Object>>[

@@ -6,7 +6,7 @@ import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:starterkit_app/core/data/database/isar_database_factory.dart';
 
-import '../../../unit_test_utils.dart';
+import '../../../../test_matchers.dart';
 import 'isar_local_data_source_test.mocks.dart';
 import 'test_local_data_source.dart';
 
