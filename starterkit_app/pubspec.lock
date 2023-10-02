@@ -713,10 +713,10 @@ packages:
     dependency: "direct main"
     description:
       name: retrofit
-      sha256: "5eedbd8f73697f190dabc88520e0bcf2d3b2d9b9ad5c837f1dbb3ee6172d7709"
+      sha256: "1b42e9dc9073e970fc264777615a113c45afca2ff6e998a26b9479582ee275b5"
       url: "https://pub.dev"
     source: hosted
-    version: "4.0.1"
+    version: "4.0.2"
   retrofit_generator:
     dependency: "direct dev"
     description:
