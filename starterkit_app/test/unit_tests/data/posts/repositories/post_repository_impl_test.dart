@@ -30,7 +30,12 @@ void main() {
       mockPostLocalDataSource = MockPostLocalDataSource();
       mockPostMapper = MockPostMapper();
       mockConnectivityService = MockConnectivityService();
-      provideDummy(const PostDataObject(userId: 0, id: 0, title: '', body: ''));
+      provideDummy(PostDataObject(
+        postId: 0,
+        userId: 1,
+        title: '',
+        body: '',
+      ));
       provideDummy(PostEntity.empty);
     });
 
@@ -51,8 +56,8 @@ void main() {
         const Iterable<PostEntity> expectedEntities = <PostEntity>[
           PostEntity(userId: 1, id: 1, title: '', body: ''),
         ];
-        const Iterable<PostDataObject> expectedObjects = <PostDataObject>[
-          PostDataObject(userId: 1, id: 1, title: '', body: ''),
+        final Iterable<PostDataObject> expectedObjects = <PostDataObject>[
+          PostDataObject(postId: 0, userId: 1, title: '', body: ''),
         ];
         final PostRepositoryImpl unit = createUnitToTest();
         when(mockConnectivityService.isConnected()).thenAnswer((_) async => true);
@@ -75,7 +80,7 @@ void main() {
           PostDataContract(userId: 1, id: 1, title: '', body: ''),
         ];
         final Iterable<PostDataObject> expectedObjects = <PostDataObject>[
-          const PostDataObject(userId: 1, id: 1, title: '', body: ''),
+          PostDataObject(postId: 0, userId: 1, title: '', body: ''),
         ];
         final PostRepositoryImpl unit = createUnitToTest();
         when(mockConnectivityService.isConnected()).thenAnswer((_) async => true);
@@ -94,7 +99,7 @@ void main() {
 
       test('should return posts from local data source when internet is not connected', () async {
         final Iterable<PostDataObject> expectedObjects = <PostDataObject>[
-          const PostDataObject(userId: 1, id: 1, title: '', body: ''),
+          PostDataObject(postId: 0, userId: 1, title: '', body: ''),
         ];
         const Iterable<PostEntity> expectedEntities = <PostEntity>[
           PostEntity(userId: 1, id: 1, title: '', body: ''),
@@ -118,7 +123,7 @@ void main() {
         const int expectedId = 1;
         const PostDataContract expectedContract = PostDataContract(userId: 1, id: expectedId, title: '', body: '');
         const PostEntity expectedEntity = PostEntity(userId: 1, id: expectedId, title: '', body: '');
-        const PostDataObject expectedObject = PostDataObject(userId: 1, id: expectedId, title: '', body: '');
+        final PostDataObject expectedObject = PostDataObject(postId: 0, userId: 1, title: '', body: '');
         final PostRepositoryImpl unit = createUnitToTest();
         when(mockConnectivityService.isConnected()).thenAnswer((_) async => true);
         when(mockPostRemoteDataSource.getPost(expectedId)).thenAnswer((_) async => expectedContract);
@@ -138,7 +143,7 @@ void main() {
       test('should add new post when internet is connected', () async {
         const int expectedId = 1;
         const PostDataContract expectedContract = PostDataContract(userId: 1, id: expectedId, title: '', body: '');
-        const PostDataObject expectedObject = PostDataObject(userId: 1, id: expectedId, title: '', body: '');
+        final PostDataObject expectedObject = PostDataObject(postId: 0, userId: 1, title: '', body: '');
         final PostRepositoryImpl unit = createUnitToTest();
         when(mockConnectivityService.isConnected()).thenAnswer((_) async => true);
         when(mockPostRemoteDataSource.getPost(expectedId)).thenAnswer((_) async => expectedContract);
@@ -155,7 +160,7 @@ void main() {
 
       test('should return post from local data source when internet is not connected', () async {
         const int expectedId = 1;
-        const PostDataObject expectedObject = PostDataObject(userId: 1, id: expectedId, title: '', body: '');
+        final PostDataObject expectedObject = PostDataObject(postId: 0, userId: 1, title: '', body: '');
         const PostEntity expectedEntity = PostEntity(userId: 1, id: expectedId, title: '', body: '');
         final PostRepositoryImpl unit = createUnitToTest();
         when(mockConnectivityService.isConnected()).thenAnswer((_) async => false);

@@ -11,10 +11,5 @@ class TestLocalDataSource extends IsarLocalDataSource<TestDataObject> {
   IsarGeneratedSchema get schema => TestDataObjectSchema;
 }
 
-@collection
-class TestDataObject implements DataObject<int> {
-  const TestDataObject(this.id);
-
-  @override
-  final int id;
-}
+@Collection()
+class TestDataObject extends DataObject {}

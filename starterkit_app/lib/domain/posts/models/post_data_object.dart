@@ -4,13 +4,17 @@ import 'package:starterkit_app/core/domain/models/data_object.dart';
 part 'post_data_object.g.dart';
 
 @Collection(accessor: 'posts')
-class PostDataObject implements DataObject<int> {
-  const PostDataObject({required this.userId, required this.id, required this.title, required this.body});
+class PostDataObject extends DataObject {
+  PostDataObject({
+    required this.postId,
+    required this.userId,
+    required this.title,
+    required this.body,
+  });
+
+  final int postId;
 
   final int userId;
-
-  @override
-  final int id;
 
   final String title;
 

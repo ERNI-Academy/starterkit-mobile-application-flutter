@@ -68,6 +68,7 @@ dart_code_metrics:
 
     # Not always true, sometimes it is more readable using if-else.
     - prefer-conditional-expressions: false
+    - prefer-returning-conditional-expressions: false
 
     # Not always true. Sometimes we need to split the code into multiple lines for readability.
     - prefer-getter-over-method: false
@@ -80,6 +81,12 @@ dart_code_metrics:
 
     # Causes false postives. And not always true.
     - avoid-similar-names: false
+
+    # Not always true. Sometimes we need to use an object directly to access each property.
+    - avoid-incomplete-copy-with: false
+
+    # Not always true. Sometimes we need only a specific set of properties to determine equality.
+    - list-all-equtable-fields: false
 
     - avoid-dynamic:
         exclude:

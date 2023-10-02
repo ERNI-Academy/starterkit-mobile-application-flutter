@@ -20,9 +20,9 @@ import 'package:starterkit_app/presentation/app/views/app.dart';
 import 'package:starterkit_app/presentation/posts/views/post_details_view.dart';
 import 'package:starterkit_app/presentation/posts/views/posts_view.dart';
 
+import '../../../../database/test_isar_database_factory.dart';
 import '../../../../test_utils.dart';
 import '../../../../widget_test_utils.dart';
-import '../../../core/data/database/test_isar_database_factory.dart';
 import 'posts_view_test.mocks.dart';
 
 @GenerateNiceMocks(<MockSpec<Object>>[

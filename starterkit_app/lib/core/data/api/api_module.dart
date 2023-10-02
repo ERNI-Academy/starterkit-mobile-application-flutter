@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
 import 'package:starterkit_app/core/data/api/debug_logging_interceptor.dart';
 import 'package:starterkit_app/core/infrastructure/logging/logger.dart';
+import 'package:starterkit_app/core/service_locator.dart';
 
 @module
 abstract class ApiModule {
@@ -10,7 +11,7 @@ abstract class ApiModule {
   static const Duration _sendTimeout = Duration(seconds: 10);
 
   @injectable
-  Dio createDio(Logger logger, String baseUrl) {
+  Dio createDio(Logger logger, @appServerUrl String baseUrl) {
     logger.logFor<Dio>();
 
     return Dio(

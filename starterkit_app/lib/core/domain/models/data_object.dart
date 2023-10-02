@@ -1,6 +1,6 @@
-import 'package:meta/meta.dart';
+import 'package:isar/isar.dart';
 
-@optionalTypeArgs
-abstract interface class DataObject<T extends Object> {
-  T get id;
+abstract class DataObject {
+  @Id()
+  int id = 0;
 }

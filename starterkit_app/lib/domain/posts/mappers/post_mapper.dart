@@ -12,8 +12,12 @@ abstract interface class PostMapper implements ObjectMapper {}
 
 @AutoMappr(<MapType<Object, Object>>[
   MapType<PostDataContract, PostEntity>(),
-  MapType<PostDataContract, PostDataObject>(),
-  MapType<PostDataObject, PostEntity>(),
+  MapType<PostDataContract, PostDataObject>(fields: <Field>[
+    Field.from('postId', from: 'id'),
+  ]),
+  MapType<PostDataObject, PostEntity>(fields: <Field>[
+    Field.from('id', from: 'postId'),
+  ]),
 ])
 @LazySingleton(as: PostMapper)
 class PostMapperImpl extends $PostMapperImpl implements PostMapper {
