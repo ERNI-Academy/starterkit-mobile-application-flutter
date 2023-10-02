@@ -7,7 +7,7 @@ environment:
   sdk: '>=3.0.0 <4.0.0'
 
 dependencies:
-  auto_mappr_annotation: ^1.2.0
+  auto_mappr_annotation: ^2.0.0
   auto_route: ^7.8.3
   collection: ^1.17.1
   connectivity_plus: ^4.0.2
@@ -33,7 +33,7 @@ dependencies:
   uuid: ^4.0.0
 
 dev_dependencies:
-  auto_mappr: ^1.7.0
+  auto_mappr: ^2.0.1
   auto_route_generator: ^7.3.0
   build_runner: ^2.4.6
   dart_code_metrics_presets: ^2.3.0
