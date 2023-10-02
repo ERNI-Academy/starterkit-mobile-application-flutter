@@ -38,8 +38,7 @@ permissions: {}
 jobs:
   run-tests:
     runs-on: macos-latest
-    permissions:
-      contents: write
+    permissions: {}
     steps:
       - name: Harden Runner
         uses: step-security/harden-runner@8ca2b8b2ece13480cda6dacd3511b49857a23c09 # v2.5.1
@@ -72,10 +71,8 @@ jobs:
       - name: Run tests
         run: |
           dart run full_coverage
-          flutter test --coverage --dart-define-from-file test/assets/test_secrets.json --update-goldens
+          flutter test --coverage --dart-define-from-file test/assets/test_secrets.json 
         working-directory: ${{ env.PROJECT_WORKING_DIRECTORY }}
-
-      - uses: stefanzweifel/git-auto-commit-action@v4
 
       - uses: codecov/codecov-action@eaaf4bedf32dbdc6b720b63067d99c4d77d6047d # v3.1.4
         with:
