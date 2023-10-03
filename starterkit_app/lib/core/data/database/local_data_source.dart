@@ -1,7 +1,7 @@
 import 'package:starterkit_app/core/domain/models/data_object.dart';
 
 abstract interface class LocalDataSource<T extends DataObject> {
-  Future<T?> get(Object id);
+  Future<T?> get(int id);
 
   Future<Iterable<T>> getAll();
 

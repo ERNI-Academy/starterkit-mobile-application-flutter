@@ -104,13 +104,11 @@ abstract final class ViewLifeCycleHandler {
       }
 
       bool predicate(DeclarationMirror element) => element.metadata.any((Object m) {
-            if (m is QueryParam) {
-              return m.name == paramValue.key;
-            } else if (m is PathParam) {
-              return m.name == paramValue.key;
-            }
-
-            return false;
+            return switch (m) {
+              final QueryParam query => query.name == paramValue.key,
+              final PathParam path => path.name == paramValue.key,
+              _ => false,
+            };
           });
       _setValue(instanceMirror, typeMirror, predicate, value);
     }
