@@ -11,11 +11,11 @@ Each project should have the following environments:
 
 Under `.secrets` folder, we can find the different variables used for each environments:
 
-![image.png](.attachments/environments.png)
+![image.png](../.attachments/environments.png)
 
 We use [Command Variable](https://marketplace.visualstudio.com/items?itemName=rioj7.command-variable) extension in order to select which environment to run locally. Pressing `F5` will show a picker before debugging the application:
 
-![image.png](.attachments/environments_run.png)
+![image.png](../.attachments/environments_run.png)
 
 Read more about this setup in [this article](https://itnext.io/flutter-3-7-and-a-new-way-of-defining-compile-time-variables-f63db8a4f6e2) and [here](https://medium.com/@dustincatap/app-environments-in-flutter-and-visual-studio-code-fd956daf9802).
 
@@ -23,7 +23,7 @@ Read more about this setup in [this article](https://itnext.io/flutter-3-7-and-a
 
 A specific `.json` file per environment is passed to Flutter's build arguments as [Dart defines](https://dartcode.org/docs/using-dart-define-in-flutter/). Checkout our `.vscode/launch.json` file to see how we pass the environment file to the build arguments.
 
-Below is a sample of a secret file for the development environment:
+Below are sample values of a secret file for the development environment:
 
 ```json
 {
@@ -31,13 +31,19 @@ Below is a sample of a secret file for the development environment:
     "appServerUrl": "https://jsonplaceholder.typicode.com/",
     "appId": "com.mycompany.starterkit.app",
     "appIdSuffix": ".dev",
-    "appName": "Starterkit App (Dev)"
+    "appName": "Starterkit App (Dev)",
+    "iOSDevelopmentTeam": "XXXXXXXXXX",
+    "iOSDevelopmentProfile": "Your Development Profile Name",
+    "iOSDistributionProfile": "Your Distribution Profile Name",
+    "iOSExportMethod": "ad-hoc"
 }
 ```
 
 :exclamation: **<span style="color: red">IMPORTANT</span>**
 
 - The folder `.secrets` is committed to git by default (for testing purposes). You should **delete** the `.secrets` folder and  **uncomment** last part of the **.gitignore** file to remove it from git. Once you have done this, you can start adding your secrets files locally.
+- For iOS, you need to add the necessary provisioning profiles and signing certificates to your local machine. You also need to supply the correct `iOSDevelopmentTeam` value in the secrets file and in the **`ios/Flutter/DartDefine-Defaults.xcconfig`** file.
+- The secrets file are also used in Fastlane. See `fastlane/Fastfile` for more details.
 
 ### Accessing Dart Defines in the Platforms
 

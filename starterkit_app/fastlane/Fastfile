@@ -63,10 +63,21 @@ lane :"build_ios_release" do |options|
     sh "flutter build ios --no-codesign --dart-define-from-file #{dart_fine_file}"
   end
 
-# Enable this if you want to build an IPA
+  build_app(
+    workspace: "ios/Runner.xcworkspace",
+    configuration: "Release",
+    export_options: {
+      method: "#{secrets[:iOSExportMethod]}",
+    },
+    skip_codesigning: true,
+    skip_package_ipa: true,
+    archive_path: "build/ios/archive/Runner.xcarchive"
+  )
+
+  # Uncomment this if you want to build an IPA
+
 #   build_app(
 #     workspace: "ios/Runner.xcworkspace",
-#     scheme: "Runner",
 #     configuration: "Release",
 #     output_directory: "build/ios/ipa",
 #     output_name: "app-release.ipa",
@@ -76,9 +87,12 @@ lane :"build_ios_release" do |options|
 #       method: "#{secrets[:iOSExportMethod]}",
 #       provisioningProfiles: { 
 #         "#{secrets[:appId]}#{secrets[:appIdSuffix]}" => "#{secrets[:iOSDistributionProfile]}",
-#       }
-#     }
-#   )
+#       },
+#     },
+#     skip_build_archive: true,
+#     skip_package_dependencies_resolution: true,
+#     archive_path: "build/ios/archive/Runner.xcarchive"
+#  )
 
 #   "build/ios/ipa/app-release.ipa"
 end

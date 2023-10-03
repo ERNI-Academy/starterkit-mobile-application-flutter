@@ -4,7 +4,8 @@
     "appId": "com.mycompany.starterkit.app",
     "appIdSuffix": "",
     "appName": "Starterkit App",
-    "iOSDevelopmentTeam": "XXXXXXXXXX",
+    "iOSDevelopmentTeam": "ABCDE12345",
     "iOSDevelopmentProfile": "Your Development Profile Name",
-    "iOSDistributionProfile": "Your Distribution Profile Name"
+    "iOSDistributionProfile": "Your Distribution Profile Name",
+    "iOSExportMethod": "app-store"
 }

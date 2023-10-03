@@ -7,7 +7,7 @@ We'll use [`build_runner`](https://pub.dev/packages/build_runner) to generate th
 - Localization files using [`intl_utils`](https://pub.dev/packages/intl_utils)
 - Mocks in tests using [`mockito`](https://pub.dev/packages/mockito)
 - Database schema using [`isar`](https://pub.dev/packages/isar)
-- API clients using [`retrofit``](https://pub.dev/packages/retrofit)
+- API clients using [`retrofit`](https://pub.dev/packages/retrofit)
 - Reflection capabilities using [`reflectable`](https://pub.dev/packages/reflectable)
 - Routing and navigation using [`auto_route`](https://pub.dev/packages/auto_route)
 

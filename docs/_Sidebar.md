@@ -18,8 +18,7 @@
 [views]: https://github.com/ERNI-Academy/starterkit-mobile-application-flutter/wiki/views
 
 <!-- DOMAIN -->
-[domain]: https://github.com/ERNI-Academy/starterkit-mobile-application-flutter/wiki/data-objects
-[models]: https://github.com/ERNI-Academy/starterkit-mobile-application-flutter/wiki/data-objects
+[entities]: https://github.com/ERNI-Academy/starterkit-mobile-application-flutter/wiki/entities
 [data-objects]: https://github.com/ERNI-Academy/starterkit-mobile-application-flutter/wiki/data-objects
 [data-contracts]: https://github.com/ERNI-Academy/starterkit-mobile-application-flutter/wiki/data-contracts
 
@@ -40,8 +39,9 @@
   - [View Models][view-models]
   - [Views][views]
   - [State Management][state-management]
-- [Domain][domain]
-  - [Models][models]
+- [Domain][entities]
+  - [Models][entities]
+    - [Entities][entities]
     - [Data Objects][data-objects]
     - [Data Contracts][data-contracts]
 - [Data][database]

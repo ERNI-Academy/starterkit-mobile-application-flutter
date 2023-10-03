@@ -2,18 +2,34 @@ A `DataObject` is a class that represents a table in the database.
 
 ```dart
 import 'package:isar/isar.dart';
+
+abstract class DataObject {
+  @Id()
+  int id = 0;
+}
+```
+
+- Base class of all data objects.
+- `@Id` is used to specify the primary key of the table. This is needed for Isar to automatically increment the id of the object.
+
+```dart
+import 'package:isar/isar.dart';
 import 'package:starterkit_app/core/domain/models/data_object.dart';
 
 part 'post_data_object.g.dart';
 
 @Collection(accessor: 'posts')
-class PostDataObject implements DataObject<int> {
-  const PostDataObject({required this.userId, required this.id, required this.title, required this.body});
+class PostDataObject extends DataObject {
+  PostDataObject({
+    required this.postId,
+    required this.userId,
+    required this.title,
+    required this.body,
+  });
+
+  final int postId;
 
   final int userId;
-
-  @override
-  final int id;
 
   final String title;
 
@@ -21,5 +37,8 @@ class PostDataObject implements DataObject<int> {
 }
 ```
 
-- `@Collection` is used to specify the name of the table in the database. This is needed for Isar to generate the schema.
-- `DataObject` has a definition of `id` which its implementation is required in the data object. This is used by Isar to identify the object in the database. We add the type `int` to `DataObject<int>` indicating that the `id` is an integer.
+- `@Collection` is used to specify that the annotated class will be created as a schema in the database. The `accessor` parameter is used as the name of the property extension on an `Isar` instance to access the collection.
+  
+:bulb: **<span style="color: green">TIP</span>**
+
+Use the code snippet shortcut `dbo` to create a data object class.

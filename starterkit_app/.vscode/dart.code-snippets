@@ -302,5 +302,18 @@
             ""
         ],
         "description": "Create a local data source"
-    }
+    },
+    "Creates a Data Object class": {
+        "prefix": "dbo",
+        "body": [
+          "import 'package:isar/isar.dart';",
+          "import 'package:starterkit_app/core/domain/models/data_object.dart';",
+          "",
+          "part '${TM_FILENAME_BASE}.g.dart';",
+          "",
+          "@Collection(accessor: '${accessorName}s')",
+          "class ${Name}DataObject extends DataObject {}"
+        ],
+        "description": "Creates a Data Object class"
+      }
 }
