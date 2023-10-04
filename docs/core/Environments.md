@@ -21,7 +21,7 @@ Read more about this setup in [this article](https://itnext.io/flutter-3-7-and-a
 
 ## Secrets File
 
-A specific `.json` file per environment is passed to Flutter's build arguments as [Dart defines](https://dartcode.org/docs/using-dart-define-in-flutter/). Checkout our `.vscode/launch.json` file to see how we pass the environment file to the build arguments.
+A specific `.json` file per environment is passed to Flutter's build arguments as [Dart defines](https://dartcode.org/docs/using-dart-define-in-flutter/). Checkout our [`.vscode/launch.json`](https://github.com/ERNI-Academy/starterkit-mobile-application-flutter/tree/main/starterkit_app/.vscode/launch.json) file to see how we pass the environment file to the build arguments.
 
 Below are sample values of a secret file for the development environment:
 
@@ -41,9 +41,9 @@ Below are sample values of a secret file for the development environment:
 
 :exclamation: **<span style="color: red">IMPORTANT</span>**
 
-- The folder `.secrets` is committed to git by default (for testing purposes). You should **delete** the `.secrets` folder and  **uncomment** last part of the **.gitignore** file to remove it from git. Once you have done this, you can start adding your secrets files locally.
-- For iOS, you need to add the necessary provisioning profiles and signing certificates to your local machine. You also need to supply the correct `iOSDevelopmentTeam` value in the secrets file and in the **`ios/Flutter/DartDefine-Defaults.xcconfig`** file.
-- The secrets file are also used in Fastlane. See `fastlane/Fastfile` for more details.
+- The secrets file should be kept in a secure location that is not accessible to the public. And should be given only to the developers who need it. For CI purposes, the secrets files should be stored in a secure location in the CI server (like GitHub Secrets) and should be re-created for each build depending on the environment.
+- For iOS, you need to add the necessary provisioning profiles and signing certificates to your local machine. You also need to supply the correct `iOSDevelopmentTeam` value in the secrets file and in the [`DartDefine-Defaults.xcconfig`](https://github.com/ERNI-Academy/starterkit-mobile-application-flutter/blob/main/starterkit_app/ios/Flutter/DartDefine-Defaults.xcconfig) file.
+- The secrets file are also used in Fastlane. See [`Fastfile`](https://github.com/ERNI-Academy/starterkit-mobile-application-flutter/blob/main/starterkit_app/fastlane/Fastfile) for more details.
 
 ### Accessing Dart Defines in the Platforms
 
@@ -51,7 +51,7 @@ The Android and iOS native projects are already configured to update their curre
 
 You can access other Dart defines in the native projects by referencing the key directly. 
 
-An example of this can be found in `ios/Runner/Info.plist`:
+An example of this can be found in iOS' [`Info.plist`](https://github.com/ERNI-Academy/starterkit-mobile-application-flutter/blob/main/starterkit_app/ios/Runner/Info.plist):
 
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>

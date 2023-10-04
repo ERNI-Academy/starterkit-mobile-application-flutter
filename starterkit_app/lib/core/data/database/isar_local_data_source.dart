@@ -65,7 +65,7 @@ abstract class IsarLocalDataSource<T extends DataObject> implements LocalDataSou
   @protected
   @nonVirtual
   Future<TResult> readUsing<TResult>(IsarTxnCallback<T, TResult> callback) async {
-    final Isar isar = await _getIsar();
+    final Isar isar = await getIsar();
     final TResult result = isar.read((Isar i) => callback(i.collection<int, T>()));
 
     return result;
@@ -74,11 +74,13 @@ abstract class IsarLocalDataSource<T extends DataObject> implements LocalDataSou
   @protected
   @nonVirtual
   Future<void> writeUsing(IsarTxnCallback<T, void> callback) async {
-    final Isar isar = await _getIsar();
+    final Isar isar = await getIsar();
     isar.write<void>((Isar i) => callback(i.collection<int, T>()));
   }
 
-  Future<Isar> _getIsar() async {
+  @protected
+  @nonVirtual
+  Future<Isar> getIsar() async {
     final Isar isar = await _isarDatabaseFactory.getIsar(schema);
 
     return isar;

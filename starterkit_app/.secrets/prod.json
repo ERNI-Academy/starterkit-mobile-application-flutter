@@ -1,7 +1,7 @@
 {
     "appEnvironment": "prod",
     "appServerUrl": "https://jsonplaceholder.typicode.com/",
-    "appId": "com.mycompany.starterkit.app",
+    "appId": "com.example.starterkit.app",
     "appIdSuffix": "",
     "appName": "Starterkit App",
     "iOSDevelopmentTeam": "ABCDE12345",

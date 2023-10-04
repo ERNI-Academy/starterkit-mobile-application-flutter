@@ -1,4 +1,4 @@
-package com.example.starterkit_app
+package com.example.starterkit.app
 
 import io.flutter.embedding.android.FlutterActivity
 
