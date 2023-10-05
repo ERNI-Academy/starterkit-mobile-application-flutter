@@ -1,14 +1,18 @@
 ## Create the project
 
-You can use the [`create.sh`](https://github.com/ERNI-Academy/starterkit-mobile-application-flutter/tree/main/scripts/create.sh) script which will create a new project based on the starterkit. It will clone the repository to the current directory and rename the project for you and the other files based on the configurations you will provide.
+You can use the [`create.sh`](https://github.com/ERNI-Academy/starterkit-mobile-application-flutter/tree/main/scripts/create.sh) or [`create.ps1`](https://github.com/ERNI-Academy/starterkit-mobile-application-flutter/tree/main/scripts/create.ps1) scripts which will create a new project based on the starterkit. It will clone the repository to the current directory and rename the project for you and the other files based on the configurations you will provide.
 
 ```sh
-Usage: create.sh -n <project_name> -i <app_id>
+Usage: <create script file> -n <project_name> -i <app_id>
   -n, --name      Project name
   -i, --app-id    App id
 
 create.sh -n "sample_app" -i "com.mycompany.sample.app"
+# or
+create.ps1 -n "sample_app" -i "com.mycompany.sample.app"
 ```
+
+You may need to manually resolve minor lint issues in the project, specifically the import ordering, after running the script.
 
 ## Setup your secrets
 

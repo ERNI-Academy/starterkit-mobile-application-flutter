@@ -58,7 +58,6 @@ fi
 PROJECT_REPO_NAME=$(echo "$PROJECT_NAME" | sed -r 's/_/-/g')
 DIR="$( cd "$( dirname )" >/dev/null 2>&1 && pwd )"
 PROJECT_DIR="$DIR/$PROJECT_REPO_NAME/$PROJECT_NAME"
-# App name should replace underscores with spaces and capitalize first letters
 APP_NAME=$(echo "$PROJECT_NAME" | sed -r 's/_/ /g' | sed -r 's/(^| )([a-z])/\1\u\2/g')
 
 echo "Project name: $PROJECT_NAME"
@@ -108,3 +107,17 @@ if [ -f "$OLD_MAIN_ACTIVITY_DIR2/MainActivity.kt" ]; then
     mkdir -p $NEW_MAIN_ACTIVITY_DIR
     mv "$TEMP_MAIN_ACTIVITY_DIR/MainActivity.kt" "$NEW_MAIN_ACTIVITY_DIR/MainActivity.kt"
 fi
+
+if ! command -v fvm &> /dev/null; then
+    echo "fvm could not be found"
+    echo "Please install fvm from https://fvm.app/"
+    exit 1
+fi
+
+cd $PROJECT_DIR
+fvm install
+fvm dart format --line-length 120 .
+fvm flutter pub get
+fvm flutter pub run build_runner build --delete-conflicting-outputs
+fvm flutter fix --apply
+cd $DIR

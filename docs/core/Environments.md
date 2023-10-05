@@ -42,6 +42,7 @@ Below are sample values of a secret file for the development environment:
 :exclamation: **<span style="color: red">IMPORTANT</span>**
 
 - The secrets file should be kept in a secure location that is not accessible to the public. And should be given only to the developers who need it. For CI purposes, the secrets files should be stored in a secure location in the CI server (like GitHub Secrets) and should be re-created for each build depending on the environment.
+- The secrets file are added to this repository by default. Be sure to remove them on yours once you updated the values.
 - For iOS, you need to add the necessary provisioning profiles and signing certificates to your local machine. You also need to supply the correct `iOSDevelopmentTeam` value in the secrets file and in the [`DartDefine-Defaults.xcconfig`](https://github.com/ERNI-Academy/starterkit-mobile-application-flutter/blob/main/starterkit_app/ios/Flutter/DartDefine-Defaults.xcconfig) file.
 - The secrets file are also used in Fastlane. See [`Fastfile`](https://github.com/ERNI-Academy/starterkit-mobile-application-flutter/blob/main/starterkit_app/fastlane/Fastfile) for more details.
 
@@ -66,7 +67,7 @@ An example of this can be found in iOS' [`Info.plist`](https://github.com/ERNI-A
 </plist>
 ```
 
-and in `android/app/build.gradle`:
+and in Android's [`build.gradle`](https://github.com/ERNI-Academy/starterkit-mobile-application-flutter/blob/main/starterkit_app/android/app/build.gradle):
 
 ```groovy
 android {
