@@ -4,7 +4,7 @@
 [home]: https://github.com/ERNI-Academy/starterkit-mobile-application-flutter/wiki
 [project-setup]: https://github.com/ERNI-Academy/starterkit-mobile-application-flutter/wiki/project-setup
 [resource-management]: https://github.com/ERNI-Academy/starterkit-mobile-application-flutter/wiki/resource-management
-[unit-testing]: https://github.com/ERNI-Academy/starterkit-mobile-application-flutter/wiki/unit-testing
+[testing]: https://github.com/ERNI-Academy/starterkit-mobile-application-flutter/wiki/testing
 
 <!-- CORE -->
 [dependency-injection]: https://github.com/ERNI-Academy/starterkit-mobile-application-flutter/wiki/dependency-injection
@@ -48,4 +48,4 @@
   - [Database][database]
   - [APIs][apis]
 - [Resource Management][resource-management]
-- [Unit Testing][unit-testing]
+- [Testing][testing]

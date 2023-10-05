@@ -112,16 +112,16 @@ if (Test-Path "$OLD_MAIN_ACTIVITY_DIR2\MainActivity.kt") {
 
 $FVM = Get-Command fvm -ErrorAction SilentlyContinue
 
-if ($FVM -eq $null) {
+if ($null -eq $FVM) {
     Write-Host "fvm could not be found"
     Write-Host "Please install fvm from https://fvm.app/"
     exit 1
 }
 
-cd $PROJECT_DIR
+Set-Location $PROJECT_DIR
 fvm install
 fvm dart format --line-length 120 .
 fvm flutter pub get
 fvm flutter pub run build_runner build --delete-conflicting-outputs
 fvm dart fix --apply
-cd $DIR
+Set-Location $DIR

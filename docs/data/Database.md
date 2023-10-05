@@ -9,29 +9,7 @@ The database file is saved in the application's cache directory. `IsarDatabaseFa
 ## Creating a Data Object
 A `DataObject` is a class that represents a table in the database.
 
-```dart
-import 'package:isar/isar.dart';
-import 'package:starterkit_app/core/domain/models/data_object.dart';
-
-part 'post_data_object.g.dart';
-
-@Collection(accessor: 'posts')
-class PostDataObject implements DataObject<int> {
-  const PostDataObject({required this.userId, required this.id, required this.title, required this.body});
-
-  final int userId;
-
-  @override
-  final int id;
-
-  final String title;
-
-  final String body;
-}
-```
-
-- `@Collection` is used to specify the name of the table in the database. This is needed for Isar to generate the schema.
-- `DataObject` has a definition of `id` which its implementation is required in the data object. This is used by Isar to identify the object in the database. We add the type `int` to `DataObject<int>` indicating that the `id` is an integer.
+See [Data Objects](data-objects) for more details.
 
 ## Creating a Local Data Source
 
@@ -41,7 +19,7 @@ class PostDataObject implements DataObject<int> {
 abstract interface class LocalDataSource<T extends DataObject> {
   Future<T?> get(int id);
 
-  Future<Iterable<T>> getAll();
+  Future<Iterable<T>> getAll({required int offset, required int limit});
 
   Future<void> addOrUpdate(T object);
 
@@ -65,7 +43,9 @@ abstract interface class PostLocalDataSource implements LocalDataSource<PostData
 class PostLocalDataSourceImpl extends IsarLocalDataSource<PostDataObject> implements PostLocalDataSource {
   const PostLocalDataSourceImpl(super._isarDatabaseFactory);
 
+  @protected
   @override
+  @visibleForTesting
   IsarGeneratedSchema get schema => PostDataObjectSchema;
 }
 ```
@@ -74,6 +54,43 @@ class PostLocalDataSourceImpl extends IsarLocalDataSource<PostDataObject> implem
 - `IsarLocalDataSource` is a base class that implements `LocalDataSource`. It is responsible for opening the database and executing transactions.
 - `PostDataObjectSchema` is generated after running the `build_runner`. It is used to point the schema to use when opening the database.
 - It is important that we only implement `LocalDataSource<PostDataObject>` to `PostLocalDataSource`. This will hide the unecessary implementation details of `IsarLocalDataSource` to the consumers of `PostLocalDataSource`. 
+
+## Extending the Local Data Source
+
+If you need to support other queries to your data source, you can add update your own interface that implements `LocalDataSource`.
+
+```dart
+import 'package:injectable/injectable.dart';
+import 'package:isar/isar.dart';
+
+abstract interface class PostLocalDataSource implements LocalDataSource<PostDataObject> {
+  Future<Iterable<PostDataObject>> getAllByUserId(int userId);
+}
+
+@LazySingleton(as: PostLocalDataSource)
+class PostLocalDataSourceImpl extends IsarLocalDataSource<PostDataObject> implements PostLocalDataSource {
+  const PostLocalDataSourceImpl(super._isarDatabaseFactory);
+
+  @protected
+  @override
+  @visibleForTesting
+  IsarGeneratedSchema get schema => PostDataObjectSchema;
+
+  @override
+  Future<Iterable<PostDataObject>> getAllByUserId(int userId) async {
+    final Isar isar = await getIsar();
+    final Iterable<PostDataObject> objects = isar.read((Isar i) {
+      return i.posts.where().userIdEqualTo(userId).findAll();
+    });
+
+    return objects;
+  }
+}
+```
+
+- In the example above, we added `getAllByUserId` which uses `Isar`'s generated collection extension on an instance of `Isar` for our `PostDataObject` called `posts`. It provides additional filter options for each of the properties of the data object, for this example we used `userIdEqualTo` to filter the posts by `userId`.
+
+
 
 :bulb: **<span style="color: green">TIP</span>**
 

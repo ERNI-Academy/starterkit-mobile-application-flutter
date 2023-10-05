@@ -20,5 +20,19 @@ void main() {
         expect(actualSchema, equals(PostDataObjectSchema));
       });
     });
+
+    group('getAllByUserId', () {
+      test('should return objects from database when called', () async {
+        final Iterable<PostDataObject> expectedSavedObjects = <PostDataObject>[
+          PostDataObject(postId: 1, userId: 1, title: 'title', body: 'body'),
+        ];
+        final PostLocalDataSourceImpl unit = createUnitToTest();
+
+        await unit.addOrUpdateAll(expectedSavedObjects);
+        final Iterable<PostDataObject> actualSavedObjects = await unit.getAllByUserId(1);
+
+        expect(actualSavedObjects.firstOrNull?.id, equals(expectedSavedObjects.firstOrNull?.id));
+      });
+    });
   });
 }
