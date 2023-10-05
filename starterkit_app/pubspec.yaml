@@ -30,7 +30,7 @@ dependencies:
   path_provider: ^2.1.1
   reflectable: ^4.0.5
   retrofit: ^4.0.1
-  uuid: ^4.0.0
+  uuid: ^4.1.0
 
 dev_dependencies:
   auto_mappr: ^1.7.0
