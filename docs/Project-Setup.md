@@ -1,6 +1,6 @@
-## Create the project
+## Create your project
 
-You can use the [`create.sh`](https://github.com/ERNI-Academy/starterkit-mobile-application-flutter/tree/main/scripts/create.sh) or [`create.ps1`](https://github.com/ERNI-Academy/starterkit-mobile-application-flutter/tree/main/scripts/create.ps1) scripts which will create a new project based on the starterkit. It will clone the repository to the current directory and rename the project for you and the other files based on the configurations you will provide.
+You can use the [`create.sh`](https://github.com/ERNI-Academy/starterkit-mobile-application-flutter/tree/main/scripts/create.sh) or [`create.ps1`](https://github.com/ERNI-Academy/starterkit-mobile-application-flutter/tree/main/scripts/create.ps1) scripts which will create a new project. It will clone the repository to the current directory and rename the project for you and the other files based on the configurations you will provide.
 
 ```sh
 Usage: <create script file> -n <project_name> -i <app_id>
@@ -11,8 +11,11 @@ create.sh -n "sample_app" -i "com.mycompany.sample.app"
 # or
 create.ps1 -n "sample_app" -i "com.mycompany.sample.app"
 ```
+:bulb: **<span style="color: green">NOTE</span>**
 
-You may need to manually resolve minor lint issues in the project, specifically the import ordering, after running the script.
+- The script will check if you already have [FVM](https://fvm.app) installed.
+- If [FVM](https://fvm.app) is installed, the script will continue to install the configured Flutter SDK version, get the pub dependencies, generate the code, and resolve the lint issues that can be automatically fixed.
+- You may need to manually resolve minor lint issues in the project, specifically the import ordering, after running the script.
 
 ## Setup your secrets
 

@@ -37,7 +37,7 @@ void main() {
         final TestLocalDataSource unit = createUnitToTest();
 
         await unit.addOrUpdateAll(expectedSavedObjects);
-        final Iterable<TestDataObject> actualSavedObjects = await unit.getAll();
+        final Iterable<TestDataObject> actualSavedObjects = await unit.getAll(offset: 0, limit: 1);
 
         expect(actualSavedObjects.firstOrNull?.id, equals(expectedSavedObjects.firstOrNull?.id));
       });
@@ -61,7 +61,7 @@ void main() {
         final TestLocalDataSource unit = createUnitToTest();
 
         await unit.addOrUpdateAll(expectedObjectsToSave);
-        final Iterable<TestDataObject> actualObjectsToSave = await unit.getAll();
+        final Iterable<TestDataObject> actualObjectsToSave = await unit.getAll(offset: 0, limit: 1);
 
         expect(actualObjectsToSave.firstOrNull?.id, equals(expectedObjectsToSave.firstOrNull?.id));
       });
@@ -87,7 +87,7 @@ void main() {
 
         await unit.addOrUpdateAll(expectedObjectsToSave);
         await unit.deleteAll();
-        final Iterable<TestDataObject> actualObjectsToSave = await unit.getAll();
+        final Iterable<TestDataObject> actualObjectsToSave = await unit.getAll(offset: 0, limit: 1);
 
         expect(actualObjectsToSave, isEmpty);
       });

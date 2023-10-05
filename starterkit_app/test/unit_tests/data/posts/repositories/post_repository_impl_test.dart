@@ -10,6 +10,7 @@ import 'package:starterkit_app/domain/posts/models/post_data_contract.dart';
 import 'package:starterkit_app/domain/posts/models/post_data_object.dart';
 import 'package:starterkit_app/domain/posts/models/post_entity.dart';
 
+import '../../../../test_matchers.dart';
 import 'post_repository_impl_test.mocks.dart';
 
 @GenerateNiceMocks(<MockSpec<Object>>[
@@ -67,9 +68,12 @@ void main() {
 
           return expectedObjects;
         });
-        when(mockPostLocalDataSource.getAll()).thenAnswer((_) async => expectedObjects);
+        when(mockPostLocalDataSource.getAll(
+          offset: anyInstanceOf<int>(named: 'offset'),
+          limit: anyInstanceOf<int>(named: 'limit'),
+        )).thenAnswer((_) async => expectedObjects);
 
-        final Iterable<PostEntity> actualPosts = await unit.getPosts();
+        final Iterable<PostEntity> actualPosts = await unit.getPosts(offset: 0, limit: 1);
 
         verify(mockPostRemoteDataSource.getPosts()).called(1);
         expect(actualPosts, equals(expectedEntities));
@@ -91,7 +95,7 @@ void main() {
           return expectedObjects;
         });
 
-        await unit.getPosts();
+        await unit.getPosts(offset: 0, limit: 1);
 
         verify(mockPostLocalDataSource.deleteAll()).called(1);
         verify(mockPostLocalDataSource.addOrUpdateAll(expectedObjects)).called(1);
@@ -106,14 +110,20 @@ void main() {
         ];
         final PostRepositoryImpl unit = createUnitToTest();
         when(mockConnectivityService.isConnected()).thenAnswer((_) async => false);
-        when(mockPostLocalDataSource.getAll()).thenAnswer((_) async => expectedObjects);
+        when(mockPostLocalDataSource.getAll(
+          offset: anyInstanceOf<int>(named: 'offset'),
+          limit: anyInstanceOf<int>(named: 'limit'),
+        )).thenAnswer((_) async => expectedObjects);
         when(mockPostMapper.mapObjects<PostDataObject, PostEntity>(expectedObjects))
             .thenAnswer((_) => expectedEntities);
 
-        final Iterable<PostEntity> actualPosts = await unit.getPosts();
+        final Iterable<PostEntity> actualPosts = await unit.getPosts(offset: 0, limit: 1);
 
         verifyNever(mockPostRemoteDataSource.getPosts());
-        verify(mockPostLocalDataSource.getAll()).called(1);
+        verify(mockPostLocalDataSource.getAll(
+          offset: anyInstanceOf<int>(named: 'offset'),
+          limit: anyInstanceOf<int>(named: 'limit'),
+        )).called(1);
         expect(actualPosts, equals(expectedEntities));
       });
     });

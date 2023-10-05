@@ -26,9 +26,9 @@ abstract class IsarLocalDataSource<T extends DataObject> implements LocalDataSou
   }
 
   @override
-  Future<Iterable<T>> getAll() async {
+  Future<Iterable<T>> getAll({required int offset, required int limit}) async {
     final Iterable<T> objects = await readUsing((IsarCollection<int, T> collection) {
-      return collection.where().findAll();
+      return collection.where().findAll(offset: offset, limit: limit);
     });
 
     return objects;

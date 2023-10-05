@@ -6,6 +6,7 @@ import 'package:starterkit_app/domain/posts/models/post_entity.dart';
 import 'package:starterkit_app/domain/posts/repositories/post_repository.dart';
 import 'package:starterkit_app/domain/posts/use_cases/get_posts_use_case.dart';
 
+import '../../../../test_matchers.dart';
 import 'get_posts_use_case_impl_test.mocks.dart';
 
 @GenerateNiceMocks(<MockSpec<Object>>[
@@ -27,22 +28,34 @@ void main() {
       test('should return successful result when called', () async {
         const List<PostEntity> expectedPosts = <PostEntity>[PostEntity.empty];
         const Success<Iterable<PostEntity>> expectedPostsResult = Success<Iterable<PostEntity>>(expectedPosts);
-        when(mockPostRepository.getPosts()).thenAnswer((_) async => expectedPosts);
+        when(mockPostRepository.getPosts(
+          offset: anyInstanceOf<int>(named: 'offset'),
+          limit: anyInstanceOf<int>(named: 'limit'),
+        )).thenAnswer((_) async => expectedPosts);
         final GetPostsUseCase unit = createUnitToTest();
 
-        final Result<Iterable<PostEntity>> actualPostsResult = await unit.execute();
+        final Result<Iterable<PostEntity>> actualPostsResult = await unit.execute(offset: 0, limit: 1);
 
-        verify(mockPostRepository.getPosts()).called(1);
+        verify(mockPostRepository.getPosts(
+          offset: anyInstanceOf<int>(named: 'offset'),
+          limit: anyInstanceOf<int>(named: 'limit'),
+        )).called(1);
         expect(actualPostsResult, equals(expectedPostsResult));
       });
 
       test('should return failed result when exception thrown', () async {
-        when(mockPostRepository.getPosts()).thenThrow(Exception());
+        when(mockPostRepository.getPosts(
+          offset: anyInstanceOf<int>(named: 'offset'),
+          limit: anyInstanceOf<int>(named: 'limit'),
+        )).thenThrow(Exception());
         final GetPostsUseCase unit = createUnitToTest();
 
-        final Result<Iterable<PostEntity>> actualPostsResult = await unit.execute();
+        final Result<Iterable<PostEntity>> actualPostsResult = await unit.execute(offset: 0, limit: 1);
 
-        verify(mockPostRepository.getPosts()).called(1);
+        verify(mockPostRepository.getPosts(
+          offset: anyInstanceOf<int>(named: 'offset'),
+          limit: anyInstanceOf<int>(named: 'limit'),
+        )).called(1);
         expect(actualPostsResult.isSuccess, isFalse);
       });
     });

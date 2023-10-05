@@ -88,6 +88,13 @@ dart_code_metrics:
     # Not always true. Sometimes we need only a specific set of properties to determine equality.
     - list-all-equtable-fields: false
 
+    # Late is not inherently bad. It is useful when we need to initialize a variable later. But we need to keep in mind that such usage should be reviewed thoroughly.
+    - avoid-late-keyword: false
+
+    - no-magic-number:
+        exclude:
+          - test/**
+
     - avoid-dynamic:
         exclude:
           - test/**
@@ -117,10 +124,6 @@ dart_code_metrics:
             deny: ["^.+impl.dart$"]
             message: "Do not import implementation files in this layer."
 
-    - avoid-late-keyword:
-        # Excluded for late initialization of mocks in tests.
-        exclude:
-          - test/**
     - arguments-ordering:
         child-last: true
     - avoid-long-functions:

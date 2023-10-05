@@ -23,7 +23,7 @@ class PostRepositoryImpl implements PostRepository {
   );
 
   @override
-  Future<Iterable<PostEntity>> getPosts() async {
+  Future<Iterable<PostEntity>> getPosts({required int offset, required int limit}) async {
     final bool isConnected = await _connectivityService.isConnected();
 
     if (isConnected) {
@@ -33,7 +33,7 @@ class PostRepositoryImpl implements PostRepository {
       await _postLocalDataSource.addOrUpdateAll(dataObjects);
     }
 
-    final Iterable<PostDataObject> dataObjects = await _postLocalDataSource.getAll();
+    final Iterable<PostDataObject> dataObjects = await _postLocalDataSource.getAll(offset: offset, limit: limit);
     final Iterable<PostEntity> postEntities = _postMapper.mapObjects<PostDataObject, PostEntity>(dataObjects);
 
     return postEntities;
