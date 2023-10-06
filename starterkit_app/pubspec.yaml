@@ -29,7 +29,7 @@ dependencies:
   path_provider: ^2.1.1
   reflectable: ^4.0.5
   retrofit: ^4.0.1
-  uuid: ^4.0.0
+  uuid: ^4.1.0
 
 dev_dependencies:
   auto_mappr: ^2.0.0
@@ -45,7 +45,7 @@ dev_dependencies:
   intl_utils: ^2.8.4
   json_serializable: ^6.7.1
   mockito: ^5.4.2
-  retrofit_generator: ^7.0.8
+  retrofit_generator: ^8.0.0
 
 flutter:
   uses-material-design: true
