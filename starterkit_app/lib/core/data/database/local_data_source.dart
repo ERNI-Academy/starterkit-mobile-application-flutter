@@ -9,7 +9,7 @@ abstract interface class LocalDataSource<T extends DataObject> {
 
   Future<void> addOrUpdateAll(Iterable<T> objects);
 
-  Future<void> delete(T object);
+  Future<void> delete(int id);
 
-  Future<void> deleteAll();
+  Future<void> deleteAll(Iterable<int> ids);
 }

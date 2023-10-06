@@ -6,7 +6,7 @@ import 'package:starterkit_app/core/data/database/local_data_source.dart';
 import 'package:starterkit_app/domain/posts/models/post_data_object.dart';
 
 abstract interface class PostLocalDataSource implements LocalDataSource<PostDataObject> {
-  Future<Iterable<PostDataObject>> getAllByUserId(int userId);
+  Future<PostDataObject?> getPost(int postId);
 }
 
 @LazySingleton(as: PostLocalDataSource)
@@ -19,12 +19,12 @@ class PostLocalDataSourceImpl extends IsarLocalDataSource<PostDataObject> implem
   IsarGeneratedSchema get schema => PostDataObjectSchema;
 
   @override
-  Future<Iterable<PostDataObject>> getAllByUserId(int userId) async {
+  Future<PostDataObject?> getPost(int postId) async {
     final Isar isar = await getIsar();
-    final Iterable<PostDataObject> objects = isar.read((Isar i) {
-      return i.posts.where().userIdEqualTo(userId).findAll();
+    final PostDataObject? object = isar.read((Isar i) {
+      return i.posts.where().postIdEqualTo(postId).findFirst();
     });
 
-    return objects;
+    return object;
   }
 }

@@ -79,7 +79,7 @@ void main() {
         expect(actualPosts, equals(expectedEntities));
       });
 
-      test('should delete all posts and add new posts when internet is connected', () async {
+      test('should add new posts when internet is connected', () async {
         const Iterable<PostDataContract> expectedContracts = <PostDataContract>[
           PostDataContract(userId: 1, id: 1, title: '', body: ''),
         ];
@@ -97,7 +97,6 @@ void main() {
 
         await unit.getPosts(offset: 0, limit: 1);
 
-        verify(mockPostLocalDataSource.deleteAll()).called(1);
         verify(mockPostLocalDataSource.addOrUpdateAll(expectedObjects)).called(1);
       });
 
@@ -130,23 +129,23 @@ void main() {
 
     group('getPost', () {
       test('should return post from remote data source when internet is connected', () async {
-        const int expectedId = 1;
-        const PostDataContract expectedContract = PostDataContract(userId: 1, id: expectedId, title: '', body: '');
-        const PostEntity expectedEntity = PostEntity(userId: 1, id: expectedId, title: '', body: '');
-        final PostDataObject expectedObject = PostDataObject(postId: 0, userId: 1, title: '', body: '');
+        const int expectedPostId = 1;
+        const PostDataContract expectedContract = PostDataContract(userId: 1, id: expectedPostId, title: '', body: '');
+        const PostEntity expectedEntity = PostEntity(userId: 1, id: expectedPostId, title: '', body: '');
+        final PostDataObject expectedObject = PostDataObject(postId: expectedPostId, userId: 1, title: '', body: '');
         final PostRepositoryImpl unit = createUnitToTest();
         when(mockConnectivityService.isConnected()).thenAnswer((_) async => true);
-        when(mockPostRemoteDataSource.getPost(expectedId)).thenAnswer((_) async => expectedContract);
+        when(mockPostRemoteDataSource.getPost(expectedPostId)).thenAnswer((_) async => expectedContract);
         when(mockPostMapper.mapObject<PostDataContract, PostDataObject>(expectedContract)).thenAnswer((_) {
           when(mockPostMapper.mapObject<PostDataObject, PostEntity>(expectedObject)).thenReturn(expectedEntity);
 
           return expectedObject;
         });
-        when(mockPostLocalDataSource.get(expectedId)).thenAnswer((_) async => expectedObject);
+        when(mockPostLocalDataSource.getPost(expectedPostId)).thenAnswer((_) async => expectedObject);
 
-        final PostEntity actualPost = await unit.getPost(expectedId);
+        final PostEntity actualPost = await unit.getPost(expectedPostId);
 
-        verify(mockPostRemoteDataSource.getPost(expectedId)).called(1);
+        verify(mockPostRemoteDataSource.getPost(expectedPostId)).called(1);
         expect(actualPost, equals(expectedEntity));
       });
 
@@ -174,13 +173,13 @@ void main() {
         const PostEntity expectedEntity = PostEntity(userId: 1, id: expectedId, title: '', body: '');
         final PostRepositoryImpl unit = createUnitToTest();
         when(mockConnectivityService.isConnected()).thenAnswer((_) async => false);
-        when(mockPostLocalDataSource.get(expectedId)).thenAnswer((_) async => expectedObject);
+        when(mockPostLocalDataSource.getPost(expectedId)).thenAnswer((_) async => expectedObject);
         when(mockPostMapper.mapObject<PostDataObject, PostEntity>(expectedObject)).thenAnswer((_) => expectedEntity);
 
         final PostEntity actualPost = await unit.getPost(expectedId);
 
         verifyNever(mockPostRemoteDataSource.getPost(expectedId));
-        verify(mockPostLocalDataSource.get(expectedId)).called(1);
+        verify(mockPostLocalDataSource.getPost(expectedId)).called(1);
         expect(actualPost, equals(expectedEntity));
       });
     });

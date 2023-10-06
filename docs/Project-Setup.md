@@ -11,6 +11,18 @@ create.sh -n "sample_app" -i "com.mycompany.sample.app"
 # or
 create.ps1 -n "sample_app" -i "com.mycompany.sample.app"
 ```
+
+<br />
+
+**For Bash**
+Copy the following and execute it in your terminal. Do not forget to add the parameters mentioned above.
+
+```sh
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/ERNI-Academy/starterkit-mobile-application-flutter/HEAD/scripts/create.sh)"
+```
+
+<br />
+
 :bulb: **<span style="color: green">NOTE</span>**
 
 - The script will check if you already have [FVM](https://fvm.app) installed.
@@ -23,7 +35,7 @@ Update the contents of `.secrets/dev.json`, and add the other `.json` file for e
 
 Read more about setting up your environments [here](environments).
 
-## Generate code
+## Code generation
 
 Run the following commands to generate code. Note that this project uses [FVM](https://fvm.app) to manage its Flutter SDK versions.
 
@@ -48,5 +60,5 @@ Read more about code generation [here](code-generation).
 
 :exclamation: **<span style="color: red">IMPORTANT</span>**
 
-- Be sure to open the project using the `starterkit_app` in VSCode, and not the root directory of the repository. This is because the `.vscode` folder is configured with additional settings such as launch configurations, code snippets, and project-scoped settings.
-- The same goes when running `fvm flutter <command>`, be sure to run it in the `starterkit_app` directory.
+- Be sure to open the Flutter project (i.e. `starterkit_app`) in VSCode, and not the root directory of the repository. This is because the `.vscode` folder is configured with additional settings such as launch configurations, code snippets, and project-scoped settings.
+- The same goes when running `fvm flutter <command>`, be sure to run it in the Flutter project directory.

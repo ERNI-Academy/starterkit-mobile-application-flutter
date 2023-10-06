@@ -21,17 +21,15 @@ void main() {
       });
     });
 
-    group('getAllByUserId', () {
+    group('getPost', () {
       test('should return objects from database when called', () async {
-        final Iterable<PostDataObject> expectedSavedObjects = <PostDataObject>[
-          PostDataObject(postId: 1, userId: 1, title: 'title', body: 'body'),
-        ];
+        final PostDataObject expectedSavedObject = PostDataObject(postId: 1, userId: 1, title: 'title', body: 'body');
         final PostLocalDataSourceImpl unit = createUnitToTest();
 
-        await unit.addOrUpdateAll(expectedSavedObjects);
-        final Iterable<PostDataObject> actualSavedObjects = await unit.getAllByUserId(1);
+        await unit.addOrUpdate(expectedSavedObject);
+        final PostDataObject? actualSavedObject = await unit.getPost(1);
 
-        expect(actualSavedObjects.firstOrNull?.id, equals(expectedSavedObjects.firstOrNull?.id));
+        expect(actualSavedObject?.postId, equals(expectedSavedObject.postId));
       });
     });
   });

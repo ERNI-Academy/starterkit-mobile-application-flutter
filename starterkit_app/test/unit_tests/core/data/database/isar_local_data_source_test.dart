@@ -21,7 +21,7 @@ void main() {
 
     group('get', () {
       test('should return object from database when called', () async {
-        final TestDataObject expectedObject = TestDataObject();
+        final TestDataObject expectedObject = TestDataObject(1);
         final TestLocalDataSource unit = createUnitToTest();
 
         await unit.addOrUpdate(expectedObject);
@@ -33,7 +33,7 @@ void main() {
 
     group('getAll', () {
       test('should return objects from database when called', () async {
-        final Iterable<TestDataObject> expectedSavedObjects = <TestDataObject>[TestDataObject()];
+        final Iterable<TestDataObject> expectedSavedObjects = <TestDataObject>[TestDataObject(1)];
         final TestLocalDataSource unit = createUnitToTest();
 
         await unit.addOrUpdateAll(expectedSavedObjects);
@@ -45,7 +45,7 @@ void main() {
 
     group('addOrUpdate', () {
       test('should add object to database when called', () async {
-        final TestDataObject expectedObject = TestDataObject();
+        final TestDataObject expectedObject = TestDataObject(1);
         final TestLocalDataSource unit = createUnitToTest();
 
         await unit.addOrUpdate(expectedObject);
@@ -57,7 +57,7 @@ void main() {
 
     group('addOrUpdateAll', () {
       test('should add objects to database when called', () async {
-        final Iterable<TestDataObject> expectedObjectsToSave = <TestDataObject>[TestDataObject()];
+        final Iterable<TestDataObject> expectedObjectsToSave = <TestDataObject>[TestDataObject(1)];
         final TestLocalDataSource unit = createUnitToTest();
 
         await unit.addOrUpdateAll(expectedObjectsToSave);
@@ -69,11 +69,11 @@ void main() {
 
     group('delete', () {
       test('should delete object from database when called', () async {
-        final TestDataObject expectedObject = TestDataObject();
+        final TestDataObject expectedObject = TestDataObject(1);
         final TestLocalDataSource unit = createUnitToTest();
 
         await unit.addOrUpdate(expectedObject);
-        await unit.delete(expectedObject);
+        await unit.delete(expectedObject.id);
         final TestDataObject? actualObject = await unit.get(expectedObject.id);
 
         expect(actualObject, isNull);
@@ -82,12 +82,14 @@ void main() {
 
     group('deleteAll', () {
       test('should delete all objects from database when called', () async {
-        final List<TestDataObject> expectedObjectsToSave = <TestDataObject>[TestDataObject()];
+        final List<TestDataObject> expectedObjectsToSave = <TestDataObject>[TestDataObject(1)];
         final TestLocalDataSource unit = createUnitToTest();
 
         await unit.addOrUpdateAll(expectedObjectsToSave);
-        await unit.deleteAll();
-        final Iterable<TestDataObject> actualObjectsToSave = await unit.getAll(offset: 0, limit: 1);
+        final Iterable<TestDataObject> actualSavedObjects = await unit.getAll(offset: 0, limit: 10);
+        final List<int> actualSavedObjectIds = actualSavedObjects.map((TestDataObject object) => object.id).toList();
+        await unit.deleteAll(actualSavedObjectIds);
+        final Iterable<TestDataObject> actualObjectsToSave = await unit.getAll(offset: 0, limit: 10);
 
         expect(actualObjectsToSave, isEmpty);
       });

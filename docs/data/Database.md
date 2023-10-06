@@ -53,7 +53,11 @@ class PostLocalDataSourceImpl extends IsarLocalDataSource<PostDataObject> implem
 - `@LazySingleton` is used to register the data source as a lazy singleton. We don't need to worry about sharing the same instance since all transactions will be using a different database instance from `IsarDatabaseFactory`.
 - `IsarLocalDataSource` is a base class that implements `LocalDataSource`. It is responsible for opening the database and executing transactions.
 - `PostDataObjectSchema` is generated after running the `build_runner`. It is used to point the schema to use when opening the database.
-- It is important that we only implement `LocalDataSource<PostDataObject>` to `PostLocalDataSource`. This will hide the unecessary implementation details of `IsarLocalDataSource` to the consumers of `PostLocalDataSource`. 
+- It is important that we only implement `LocalDataSource<PostDataObject>` to `PostLocalDataSource`. This will hide the unecessary implementation details of `IsarLocalDataSource` to the consumers of `PostLocalDataSource`.
+
+:bulb: **<span style="color: green">TIP</span>**
+
+- Use the snippet shortcut `locd` to create a local data source.
 
 ## Extending the Local Data Source
 
@@ -64,12 +68,12 @@ import 'package:injectable/injectable.dart';
 import 'package:isar/isar.dart';
 
 abstract interface class PostLocalDataSource implements LocalDataSource<PostDataObject> {
-  Future<Iterable<PostDataObject>> getAllByUserId(int userId);
+  Future<PostDataObject?> getPost(int postId);
 }
 
 @LazySingleton(as: PostLocalDataSource)
 class PostLocalDataSourceImpl extends IsarLocalDataSource<PostDataObject> implements PostLocalDataSource {
-  const PostLocalDataSourceImpl(super._isarDatabaseFactory);
+  PostLocalDataSourceImpl(super._isarDatabaseFactory);
 
   @protected
   @override
@@ -77,21 +81,20 @@ class PostLocalDataSourceImpl extends IsarLocalDataSource<PostDataObject> implem
   IsarGeneratedSchema get schema => PostDataObjectSchema;
 
   @override
-  Future<Iterable<PostDataObject>> getAllByUserId(int userId) async {
+  Future<PostDataObject?> getPost(int postId) async {
     final Isar isar = await getIsar();
-    final Iterable<PostDataObject> objects = isar.read((Isar i) {
-      return i.posts.where().userIdEqualTo(userId).findAll();
+    final PostDataObject? object = isar.read((Isar i) {
+      return i.posts.where().postIdEqualTo(postId).findFirst();
     });
 
-    return objects;
+    return object;
   }
 }
 ```
 
-- In the example above, we added `getAllByUserId` which uses `Isar`'s generated collection extension on an instance of `Isar` for our `PostDataObject` called `posts`. It provides additional filter options for each of the properties of the data object, for this example we used `userIdEqualTo` to filter the posts by `userId`.
-
+- In the example above, we added `getPost` which uses `Isar`'s generated collection extension on an instance of `Isar` for our `PostDataObject` called `posts`. It provides additional filter options for each of the properties of the data object, for this example we used `postIdEqualTo` to filter the posts by `postId`.
 
 
 :bulb: **<span style="color: green">TIP</span>**
 
-- Use the snippet shortcut `locd` to create a local data source.
+- As stated in Isar's documentation about [Indexes](https://isar.dev/indexes.html#what-are-indexes), using `@Index()` improves the performance of your queries if you are to use the annotated property for filtering.

@@ -49,16 +49,16 @@ abstract class IsarLocalDataSource<T extends DataObject> implements LocalDataSou
   }
 
   @override
-  Future<void> delete(T object) async {
+  Future<void> delete(int id) async {
     await writeUsing((IsarCollection<int, T> collection) {
-      collection.delete(object.id);
+      collection.delete(id);
     });
   }
 
   @override
-  Future<void> deleteAll() async {
+  Future<void> deleteAll(Iterable<int> ids) async {
     await writeUsing((IsarCollection<int, T> collection) {
-      collection.clear();
+      collection.deleteAll(ids.toList());
     });
   }
 

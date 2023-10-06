@@ -13,6 +13,10 @@ if [ $# -eq 0 ]; then
     usage
 fi
 
+export LANG=C
+export LC_CTYPE=C
+export LC_ALL=C
+
 PROJECT_NAME=""
 APP_ID=""
 while [[ $# > 0 ]]
@@ -58,7 +62,9 @@ fi
 PROJECT_REPO_NAME=$(echo "$PROJECT_NAME" | sed -r 's/_/-/g')
 DIR="$( cd "$( dirname )" >/dev/null 2>&1 && pwd )"
 PROJECT_DIR="$DIR/$PROJECT_REPO_NAME/$PROJECT_NAME"
-APP_NAME=$(echo "$PROJECT_NAME" | sed -r 's/_/ /g' | sed -r 's/(^| )([a-z])/\1\u\2/g')
+APP_NAME=$(echo $PROJECT_NAME | awk -F_ '{for(i=1;i<=NF;i++) printf "%s", toupper(substr($i,1,1)) substr($i,2);}')
+APP_NAME=$(echo $APP_NAME | sed -r 's/([A-Z])/ \1/g')
+APP_NAME=$(echo $APP_NAME | sed -r 's/^\s+|\s+$//g')
 
 echo "Project name: $PROJECT_NAME"
 echo "Project repo name: $PROJECT_REPO_NAME"
@@ -119,5 +125,5 @@ fvm install
 fvm dart format --line-length 120 .
 fvm flutter pub get
 fvm flutter pub run build_runner build --delete-conflicting-outputs
-fvm flutter fix --apply
+fvm dart fix --apply
 cd $DIR

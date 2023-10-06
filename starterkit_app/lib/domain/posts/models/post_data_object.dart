@@ -12,6 +12,7 @@ class PostDataObject extends DataObject {
     required this.body,
   });
 
+  @Index(unique: true)
   final int postId;
 
   final int userId;
