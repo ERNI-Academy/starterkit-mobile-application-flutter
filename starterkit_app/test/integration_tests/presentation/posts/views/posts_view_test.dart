@@ -1,5 +1,3 @@
-// ignore_for_file: prefer-moving-to-variable
-
 import 'dart:convert';
 
 import 'package:dio/dio.dart';

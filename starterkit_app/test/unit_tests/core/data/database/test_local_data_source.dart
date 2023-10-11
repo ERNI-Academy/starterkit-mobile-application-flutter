@@ -11,8 +11,7 @@ class TestLocalDataSource extends IsarLocalDataSource<TestDataObject> {
   IsarGeneratedSchema get schema => TestDataObjectSchema;
 
   Future<TestDataObject?> getByTestId(int testId) async {
-    final Isar isar = await getIsar();
-    final TestDataObject? object = isar.read((Isar i) {
+    final TestDataObject? object = await readWithIsar((Isar i) {
       return i.testDataObjects.where().testIdEqualTo(testId).findFirst();
     });
 

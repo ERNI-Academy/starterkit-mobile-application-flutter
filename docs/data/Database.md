@@ -25,11 +25,16 @@ abstract interface class LocalDataSource<T extends DataObject> {
 
   Future<void> addOrUpdateAll(Iterable<T> objects);
 
-  Future<void> delete(T object);
+  Future<void> delete(int id);
 
-  Future<void> deleteAll();
+  Future<void> deleteAll(Iterable<int> ids);
 }
 ```
+
+:bulb: **<span style="color: orange">IMPORTANT</span>**
+
+- By default, we expose `getAll` and `deleteAll` database operations with filters. This is to avoid loading all the data in the database at once. This is important if you have a large amount of data in the database. Loading all the data without any filters may be applicable for tables that have a small or fixed  amount of data.
+- Update the implementing interfaces of `LocalDataSource` if you wish to add additional filters. See the next sections below for more details.
 
 Once you have created your data object, you can now create your local data source by extending `IsarLocalDataSource`.
 
@@ -82,14 +87,13 @@ class PostLocalDataSourceImpl extends IsarLocalDataSource<PostDataObject> implem
 
   @override
   Future<PostDataObject?> getPost(int postId) async {
-    final Isar isar = await getIsar();
-    final PostDataObject? object = isar.read((Isar i) {
+    final PostDataObject? object = await readWithIsar((Isar i) {
       return i.posts.where().postIdEqualTo(postId).findFirst();
     });
 
     return object;
   }
-}
+}s
 ```
 
 - In the example above, we added `getPost` which uses `Isar`'s generated collection extension on an instance of `Isar` for our `PostDataObject` called `posts`. It provides additional filter options for each of the properties of the data object, for this example we used `postIdEqualTo` to filter the posts by `postId`.

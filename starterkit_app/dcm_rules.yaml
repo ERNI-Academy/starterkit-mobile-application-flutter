@@ -73,6 +73,9 @@ dart_code_metrics:
     # Not always true. Sometimes we need to split the code into multiple lines for readability.
     - prefer-getter-over-method: false
 
+    # Not always true. Sometimes we need to call a method that returns a different value each time.
+    - prefer-moving-to-variable: false
+
     # We arrange parameters by their importance or type.
     - parameters-ordering: false
 

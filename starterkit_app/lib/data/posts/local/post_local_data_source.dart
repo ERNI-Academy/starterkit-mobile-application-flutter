@@ -20,8 +20,7 @@ class PostLocalDataSourceImpl extends IsarLocalDataSource<PostDataObject> implem
 
   @override
   Future<PostDataObject?> getPost(int postId) async {
-    final Isar isar = await getIsar();
-    final PostDataObject? object = isar.read((Isar i) {
+    final PostDataObject? object = await readWithIsar((Isar i) {
       return i.posts.where().postIdEqualTo(postId).findFirst();
     });
 
