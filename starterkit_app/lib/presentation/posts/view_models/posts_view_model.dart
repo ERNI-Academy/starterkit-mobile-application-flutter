@@ -28,18 +28,9 @@ class PostsViewModel extends ViewModel implements Initializable {
     _logger.logFor(this);
   }
 
-  int get _currentOffset => (_currentPage - 1) * _itemsPerPage;
-
   ValueListenable<PostsListState> get postsState => _postsState;
 
-  @override
-  Future<void> onInitialize() async {
-    await onGetPosts();
-  }
-
-  Future<void> onPostSelected(PostEntity post) async {
-    await _navigationService.push(PostDetailsViewRoute(postId: post.id));
-  }
+  int get _currentOffset => (_currentPage - 1) * _itemsPerPage;
 
   Future<void> onGetPosts() async {
     _logger.log(LogLevel.info, 'Getting posts');
@@ -55,6 +46,15 @@ class PostsViewModel extends ViewModel implements Initializable {
         _logger.log(LogLevel.error, 'Failed to get posts', ex, st);
         _postsState.value = PostsListErrorState(Il8n.current.failedToGetPosts);
     }
+  }
+
+  @override
+  Future<void> onInitialize() async {
+    await onGetPosts();
+  }
+
+  Future<void> onPostSelected(PostEntity post) async {
+    await _navigationService.push(AlertDialogViewRoute(message: 'This is an alert dialog', title: 'Alert Dialog'));
   }
 
   void _onAddNewPosts(Iterable<PostEntity> postsToBeAdded) {

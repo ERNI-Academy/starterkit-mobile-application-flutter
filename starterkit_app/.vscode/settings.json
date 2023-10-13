@@ -18,10 +18,11 @@
     "[dart]": {
         // Automatically format code on save and during typing of certain characters
         // (like `;` and `}`).
-        "editor.codeActionsOnSave": [
-            "source.fixAll",
-            "source.organizeImports",
-        ],
+        "editor.codeActionsOnSave": {
+            "source.organizeImports": true,
+            "source.sortMembers": true,
+            "source.fixAll": true
+        },
         "editor.formatOnSave": true,
         "editor.formatOnType": true,
         // Draw a guide line at 120 characters, where Dart's formatting will wrap code.
