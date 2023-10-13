@@ -11,6 +11,7 @@
 [environments]: https://github.com/ERNI-Academy/starterkit-mobile-application-flutter/wiki/environments
 [navigation]: https://github.com/ERNI-Academy/starterkit-mobile-application-flutter/wiki/navigation
 [reflection]: https://github.com/ERNI-Academy/starterkit-mobile-application-flutter/wiki/reflection
+[error-handling]: https://github.com/ERNI-Academy/starterkit-mobile-application-flutter/wiki/error-handling
 
 <!-- PRESENTATION -->
 [state-management]: https://github.com/ERNI-Academy/starterkit-mobile-application-flutter/wiki/state-management
@@ -21,6 +22,9 @@
 [entities]: https://github.com/ERNI-Academy/starterkit-mobile-application-flutter/wiki/entities
 [data-objects]: https://github.com/ERNI-Academy/starterkit-mobile-application-flutter/wiki/data-objects
 [data-contracts]: https://github.com/ERNI-Academy/starterkit-mobile-application-flutter/wiki/data-contracts
+[mappers]: https://github.com/ERNI-Academy/starterkit-mobile-application-flutter/wiki/mappers
+[repositories]: https://github.com/ERNI-Academy/starterkit-mobile-application-flutter/wiki/repositories
+[use-cases]: https://github.com/ERNI-Academy/starterkit-mobile-application-flutter/wiki/use-cases
 
 <!-- DATA -->
 [apis]: https://github.com/ERNI-Academy/starterkit-mobile-application-flutter/wiki/apis
@@ -35,6 +39,7 @@
   - [Reflection][reflection]
   - [Environments][environments]
   - [Navigation][navigation]
+  - [Error Handling][error-handling]
 - [Presentation][view-models]
   - [View Models][view-models]
   - [Views][views]
@@ -44,6 +49,9 @@
     - [Entities][entities]
     - [Data Objects][data-objects]
     - [Data Contracts][data-contracts]
+  - [Mappers][mappers]
+  - [Repositories][repositories]
+  - [Use Cases][use-cases]
 - [Data][database]
   - [Database][database]
   - [APIs][apis]
