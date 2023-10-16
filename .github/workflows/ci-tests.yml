@@ -38,6 +38,8 @@ permissions: {}
 jobs:
   run-tests:
     runs-on: macos-latest
+    # Revert after updating goldens
+    # permissions: write
     permissions: {}
     steps:
       - name: Harden Runner
@@ -71,8 +73,11 @@ jobs:
       - name: Run tests
         run: |
           dart run full_coverage
-          flutter test --coverage --dart-define-from-file test/assets/test_secrets.json 
+          flutter test --coverage --dart-define-from-file test/assets/test_secrets.json --update-goldens
         working-directory: ${{ env.PROJECT_WORKING_DIRECTORY }}
+
+      # Remove after updating goldens
+      - uses: stefanzweifel/git-auto-commit-action@v4
 
       - uses: codecov/codecov-action@eaaf4bedf32dbdc6b720b63067d99c4d77d6047d # v3.1.4
         with:

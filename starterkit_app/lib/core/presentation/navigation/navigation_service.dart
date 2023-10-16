@@ -10,6 +10,8 @@ abstract interface class NavigationService {
   void pushToNewRoot(PageRouteInfo route, {OnNavigationFailure? onFailure});
 
   Future<T?> replace<T extends Object>(PageRouteInfo route, {OnNavigationFailure? onFailure});
+
+  Future<void> pop<T extends Object>([T? result]);
 }
 
 @LazySingleton(as: NavigationService)
@@ -36,5 +38,10 @@ class NavigationServiceImpl implements NavigationService {
     final T? result = await _router.replace(route, onFailure: onFailure);
 
     return result;
+  }
+
+  @override
+  Future<void> pop<T extends Object>([T? result]) async {
+    await _router.pop(result);
   }
 }

@@ -7,9 +7,8 @@ import 'package:starterkit_app/core/presentation/view_models/app_life_cycle_awar
 import 'package:starterkit_app/core/presentation/view_models/view_model.dart';
 
 mixin AppLifeCycleAwareMixin on ViewModel implements AppLifeCycleAware {
-  WidgetsBindingObserver? _appLifeCycleObserver;
-
-  WidgetsBindingObserver get appLifeCycleObserver => _appLifeCycleObserver ?? _WidgetsBindingObserverImpl(this);
+  @nonVirtual
+  late final WidgetsBindingObserver appLifeCycleObserver = _WidgetsBindingObserverImpl(this);
 
   @override
   Future<void> onAppPaused() => Future<void>.value();

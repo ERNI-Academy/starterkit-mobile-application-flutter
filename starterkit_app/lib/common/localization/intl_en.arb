@@ -1,5 +1,6 @@
 {
     "posts": "Posts",
     "failedToGetPosts": "There was a problem getting posts",
-    "generalOk": "Ok"
+    "generalOk": "Ok",
+    "generalCancel": "Cancel"
 }

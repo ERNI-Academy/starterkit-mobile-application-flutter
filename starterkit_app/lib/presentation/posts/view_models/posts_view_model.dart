@@ -18,6 +18,7 @@ class PostsViewModel extends ViewModel implements Initializable {
 
   final Logger _logger;
   final NavigationService _navigationService;
+
   final GetPostsUseCase _getPostsUseCase;
 
   final ValueNotifier<PostsListState> _postsState = ValueNotifier<PostsListState>(const PostsListLoadingState());
@@ -28,9 +29,14 @@ class PostsViewModel extends ViewModel implements Initializable {
     _logger.logFor(this);
   }
 
+  int get _currentOffset => (_currentPage - 1) * _itemsPerPage;
+
   ValueListenable<PostsListState> get postsState => _postsState;
 
-  int get _currentOffset => (_currentPage - 1) * _itemsPerPage;
+  @override
+  Future<void> onInitialize() async {
+    await onGetPosts();
+  }
 
   Future<void> onGetPosts() async {
     _logger.log(LogLevel.info, 'Getting posts');
@@ -48,13 +54,8 @@ class PostsViewModel extends ViewModel implements Initializable {
     }
   }
 
-  @override
-  Future<void> onInitialize() async {
-    await onGetPosts();
-  }
-
   Future<void> onPostSelected(PostEntity post) async {
-    await _navigationService.push(AlertDialogViewRoute(message: 'This is an alert dialog', title: 'Alert Dialog'));
+    await _navigationService.push(PostDetailsViewRoute(postId: post.id));
   }
 
   void _onAddNewPosts(Iterable<PostEntity> postsToBeAdded) {
@@ -62,11 +63,13 @@ class PostsViewModel extends ViewModel implements Initializable {
       _currentPage++;
     }
 
-    final List<PostEntity> newPosts = <PostEntity>[...postsToBeAdded];
+    final List<PostEntity> newPosts = <PostEntity>[];
 
     if (_postsState.value case PostsListLoadedState(posts: final Iterable<PostEntity> currentPosts)) {
       newPosts.addAll(currentPosts);
     }
+
+    newPosts.addAll(postsToBeAdded);
 
     _postsState.value = PostsListLoadedState(newPosts);
     _logger.log(LogLevel.info, '${newPosts.length} posts loaded');

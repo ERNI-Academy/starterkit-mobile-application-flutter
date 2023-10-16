@@ -15,17 +15,16 @@ class InfiniteListView extends StatefulWidget {
 
 class _InfiniteListViewState extends State<InfiniteListView> {
   final ScrollController _scrollController = ScrollController();
-  late final VoidCallback _scrollListener;
 
   @override
   void initState() {
     super.initState();
-    _scrollListener = () {
+
+    _scrollController.addListener(() {
       if (_scrollController.position.pixels == _scrollController.position.maxScrollExtent) {
         widget.onScrollEnd();
       }
-    };
-    _scrollController.addListener(_scrollListener);
+    });
   }
 
   @override

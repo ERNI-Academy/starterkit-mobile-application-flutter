@@ -1,15 +1,11 @@
 dart_code_metrics:
+  # See https://dcm.dev/docs/configuration/presets/ for other presets
   extends:
     - package:dart_code_metrics_presets/all.yaml
     - package:dart_code_metrics_presets/equatable.yaml
+    - package:dart_code_metrics_presets/get_it.yaml
+    - package:dart_code_metrics_presets/metrics_recommended.yaml
     - package:dart_code_metrics_presets/pub.yaml
-
-  metrics:
-    cyclomatic-complexity: 20
-    maintainability-index: 50
-    maximum-nesting: 5
-    number-of-parameters: 5
-    source-lines-of-code: 50
 
   metrics-exclude:
     - lib/generated_plugin_registrant.dart
@@ -91,8 +87,13 @@ dart_code_metrics:
     # Not always true. Sometimes we need only a specific set of properties to determine equality.
     - list-all-equtable-fields: false
 
-    # Late is not inherently bad. It is useful when we need to initialize a variable later. But we need to keep in mind that such usage should be reviewed thoroughly.
-    - avoid-late-keyword: false
+    - avoid-local-functions: false
+    
+    - avoid-late-keyword:
+        allow-initialized: true
+        exclude:
+          - test/**
+
 
     - no-magic-number:
         exclude:
