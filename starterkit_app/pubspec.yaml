@@ -10,7 +10,7 @@ dependencies:
   auto_mappr_annotation: ^2.0.0
   auto_route: ^7.8.4
   collection: ^1.17.1
-  connectivity_plus: ^4.0.2
+  connectivity_plus: ^5.0.1
   cupertino_icons: ^1.0.6
   dio: ^5.3.3
   equatable: ^2.0.5
@@ -19,7 +19,7 @@ dependencies:
   flutter_localizations:
     sdk: flutter
   get_it: ^7.6.4
-  injectable: ^2.1.2
+  injectable: ^2.3.2
   intl: ^0.18.1
   isar: ^4.0.0-dev.14
   isar_flutter_libs: ^4.0.0-dev.14
@@ -41,7 +41,7 @@ dev_dependencies:
     sdk: flutter
   full_coverage: ^1.0.0
   golden_toolkit: ^0.15.0
-  injectable_generator: ^2.1.6
+  injectable_generator: ^2.4.1
   intl_utils: ^2.8.4
   json_serializable: ^6.7.1
   mockito: ^5.4.2
