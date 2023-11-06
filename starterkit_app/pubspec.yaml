@@ -29,7 +29,7 @@ dependencies:
   path: ^1.8.3
   path_provider: ^2.1.1
   reflectable: ^4.0.5
-  retrofit: ^4.0.1
+  retrofit: ^4.0.3
   uuid: ^4.1.0
 
 dev_dependencies:
