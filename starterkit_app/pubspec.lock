@@ -237,10 +237,10 @@ packages:
     dependency: "direct dev"
     description:
       name: dart_code_metrics_presets
-      sha256: "47ab5f4e9e224b6f59287f1822d51a6de357bf0cd0593882390107644b091c2e"
+      sha256: "0a19eb6842db4c9a913f9472b063d9ad4df8b0fa9e01bb7cf52968d0c441bbd2"
       url: "https://pub.dev"
     source: hosted
-    version: "2.4.0"
+    version: "2.5.0"
   dart_style:
     dependency: transitive
     description:
@@ -465,10 +465,10 @@ packages:
     dependency: "direct dev"
     description:
       name: intl_utils
-      sha256: "0d38f605f292321c0729f8c0632b845be77aa12d272b7bc5e3022bb670a7309e"
+      sha256: "5cad11e11ff7662c3cd0ef04729248591d71ed023d4ef0903a137528b4568adf"
       url: "https://pub.dev"
     source: hosted
-    version: "2.8.4"
+    version: "2.8.5"
   io:
     dependency: transitive
     description:
