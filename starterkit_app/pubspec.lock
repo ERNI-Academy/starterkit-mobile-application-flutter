@@ -69,10 +69,10 @@ packages:
     dependency: "direct dev"
     description:
       name: auto_route_generator
-      sha256: e7aa9ab44b77cd31a4619d94db645ab5736e543fd0b4c6058c281249e479dfb8
+      sha256: "11067a3bcd643812518fe26c0c9ec073990286cabfd9d74b6da9ef9b913c4d22"
       url: "https://pub.dev"
     source: hosted
-    version: "7.3.1"
+    version: "7.3.2"
   boolean_selector:
     dependency: transitive
     description:
@@ -705,18 +705,18 @@ packages:
     dependency: "direct main"
     description:
       name: retrofit
-      sha256: "1b42e9dc9073e970fc264777615a113c45afca2ff6e998a26b9479582ee275b5"
+      sha256: "04ed77c82cadb655bb9357e8d0cb9da72ff704749a2d0cfe6540dd1f1f7ca4b9"
       url: "https://pub.dev"
     source: hosted
-    version: "4.0.2"
+    version: "4.0.3"
   retrofit_generator:
     dependency: "direct dev"
     description:
       name: retrofit_generator
-      sha256: "7b5bdbb1ed740c204156d6d6fdae6de758140b18a1e9e26ec9e11f8ff286deef"
+      sha256: "96117547429535021d845e36a3daccc503af68281e9ebf5b2b3c051e4ff29ffc"
       url: "https://pub.dev"
     source: hosted
-    version: "8.0.0"
+    version: "8.0.3"
   shelf:
     dependency: transitive
     description:
