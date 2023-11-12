@@ -9,7 +9,7 @@ abstract interface class ConnectivityService {
 class ConnectivityServiceImpl implements ConnectivityService {
   final Connectivity _connectivity;
 
-  const ConnectivityServiceImpl(this._connectivity);
+  ConnectivityServiceImpl(this._connectivity);
 
   @override
   Future<bool> isConnected() async {

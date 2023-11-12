@@ -1,15 +1,11 @@
 dart_code_metrics:
+  # See https://dcm.dev/docs/configuration/presets/ for other presets
   extends:
     - package:dart_code_metrics_presets/all.yaml
     - package:dart_code_metrics_presets/equatable.yaml
+    - package:dart_code_metrics_presets/get_it.yaml
+    - package:dart_code_metrics_presets/metrics_recommended.yaml
     - package:dart_code_metrics_presets/pub.yaml
-
-  metrics:
-    cyclomatic-complexity: 20
-    maintainability-index: 50
-    maximum-nesting: 5
-    number-of-parameters: 5
-    source-lines-of-code: 50
 
   metrics-exclude:
     - lib/generated_plugin_registrant.dart
@@ -17,10 +13,10 @@ dart_code_metrics:
     - lib/*.config.dart
     - lib/**/*.config.dart
     - lib/**/*.g.dart
-    - lib/**/*.freezed.dart
     - lib/**/*.gr.dart
     - lib/main.reflectable.dart
     - lib/**/generated/**
+    - lib/**/*.auto_mappr.dart
     - lib/**/theme.dart
     - lib/**/widgets/**
     - lib/**/views/**
@@ -60,20 +56,52 @@ dart_code_metrics:
     # Not always true for enums that are ordered by values.
     - enum-constants-ordering: false
 
+    # This will have an issue in dependency injection when we register a class that is needed to be resolved as a new instance every time.
+    - prefer-declaring-const-constructor: false
+
     # Object as type is not always a bad practice.
     - no-object-declaration: false
 
     # Not always true, sometimes it is more readable using if-else.
     - prefer-conditional-expressions: false
+    - prefer-returning-conditional-expressions: false
 
     # Not always true. Sometimes we need to split the code into multiple lines for readability.
     - prefer-getter-over-method: false
+
+    # Not always true. Sometimes we need to call a method that returns a different value each time.
+    - prefer-moving-to-variable: false
 
     # We arrange parameters by their importance or type.
     - parameters-ordering: false
 
     # Improves readability of parameter values, rather than implicitly using the default value.
     - avoid-passing-default-values: false
+
+    # Causes false postives. And not always true.
+    - avoid-similar-names: false
+
+    # Not always true. Sometimes we need to use an object directly to access each property.
+    - avoid-incomplete-copy-with: false
+
+    # Not always true. Sometimes we need only a specific set of properties to determine equality.
+    - list-all-equtable-fields: false
+
+    - avoid-local-functions: false
+    
+    - avoid-late-keyword:
+        allow-initialized: true
+        exclude:
+          - test/**
+
+
+    - no-magic-number:
+        exclude:
+          - test/**
+
+    - avoid-dynamic:
+        exclude:
+          - test/**
 
     - prefer-widget-private-members:
         ignore-static: true
@@ -100,15 +128,8 @@ dart_code_metrics:
             deny: ["^.+impl.dart$"]
             message: "Do not import implementation files in this layer."
 
-    - avoid-late-keyword:
-        # Excluded for late initialization of mocks in tests.
-        exclude:
-          - test/**
     - arguments-ordering:
         child-last: true
-    - avoid-similar-names:
-        show-similarity: true
-        similarity-threshold: 0.9
     - avoid-long-functions:
         exclude:
           - test/**

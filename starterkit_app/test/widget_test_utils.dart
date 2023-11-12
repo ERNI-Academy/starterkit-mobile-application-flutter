@@ -12,7 +12,7 @@ import 'package:starterkit_app/main.reflectable.dart';
 
 import 'test_utils.dart';
 
-Future<void> setupWidgetTest() async {
+Future<void> setUpWidgetTest() async {
   ServiceLocator.registerDependencies();
   initializeReflectable();
   await setupLocale();

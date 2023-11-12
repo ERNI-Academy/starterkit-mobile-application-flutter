@@ -14,7 +14,7 @@ import 'package:starterkit_app/core/reflection.dart';
 import 'package:starterkit_app/core/service_locator.dart';
 
 abstract final class ViewLifeCycleHandler {
-  static NavigationObserver get _navigationObserver => ServiceLocator.instance<NavigationObserver>();
+  static final NavigationObserver _navigationObserver = ServiceLocator.instance<NavigationObserver>();
 
   static TViewModel onCreateViewModel<TViewModel extends ViewModel>(
     BuildContext context, {
@@ -104,13 +104,11 @@ abstract final class ViewLifeCycleHandler {
       }
 
       bool predicate(DeclarationMirror element) => element.metadata.any((Object m) {
-            if (m is QueryParam) {
-              return m.name == paramValue.key;
-            } else if (m is PathParam) {
-              return m.name == paramValue.key;
-            }
-
-            return false;
+            return switch (m) {
+              final QueryParam query => query.name == paramValue.key,
+              final PathParam path => path.name == paramValue.key,
+              _ => false,
+            };
           });
       _setValue(instanceMirror, typeMirror, predicate, value);
     }

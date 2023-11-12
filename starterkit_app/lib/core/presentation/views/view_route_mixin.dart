@@ -5,16 +5,16 @@ import 'package:starterkit_app/core/presentation/views/view_life_cycle_handler.d
 import 'package:starterkit_app/core/presentation/views/view_model_builder.dart';
 
 mixin ViewRouteMixin<TViewModel extends ViewModel> implements View<TViewModel> {
-  @override
   @mustCallSuper
   Widget build(BuildContext context) {
     return ViewModelBuilder<TViewModel>(
-      create: () => onCreateViewModel(context),
-      builder: (BuildContext context, TViewModel viewModel) {
+      create: () {
+        final TViewModel viewModel = onCreateViewModel(context);
         ViewLifeCycleHandler.tryGetNavigationParams(context, viewModel);
 
-        return buildView(context, viewModel);
+        return viewModel;
       },
+      builder: buildView,
       dispose: onDisposeViewModel,
     );
   }

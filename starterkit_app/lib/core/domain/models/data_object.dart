@@ -1,3 +1,6 @@
-abstract interface class DataObject {
-  int get id;
+import 'package:isar/isar.dart';
+
+abstract class DataObject {
+  @Id()
+  int id = 0;
 }

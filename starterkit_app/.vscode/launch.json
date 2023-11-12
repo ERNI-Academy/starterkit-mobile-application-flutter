@@ -29,7 +29,7 @@
             },
             "args": [
                 "--dart-define-from-file",
-                ".secrets/${input:appEnvironment}.json",
+                "test/assets/test_secrets.json"
             ]
         },
         {
@@ -46,7 +46,7 @@
             },
             "args": [
                 "--dart-define-from-file",
-                ".secrets/${input:appEnvironment}.json",
+                "test/assets/test_secrets.json"
             ]
         },
         {
@@ -64,7 +64,7 @@
             "args": [
                 "--coverage",
                 "--dart-define-from-file",
-                ".secrets/${input:appEnvironment}.json",
+                "test/assets/test_secrets.json"
             ]
         },
         {
@@ -81,7 +81,7 @@
             "args": [
                 "--update-goldens",
                 "--dart-define-from-file",
-                ".secrets/${input:appEnvironment}.json",
+                "test/assets/test_secrets.json"
             ]
         },
     ],

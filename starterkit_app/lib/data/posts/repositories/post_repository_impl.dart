@@ -15,7 +15,7 @@ class PostRepositoryImpl implements PostRepository {
   final PostMapper _postMapper;
   final ConnectivityService _connectivityService;
 
-  const PostRepositoryImpl(
+  PostRepositoryImpl(
     this._postRemoteDataSource,
     this._postLocalDataSource,
     this._postMapper,
@@ -23,21 +23,34 @@ class PostRepositoryImpl implements PostRepository {
   );
 
   @override
-  Future<Iterable<PostEntity>> getPosts() async {
-    final Iterable<PostEntity> postEntities;
+  Future<Iterable<PostEntity>> getPosts({required int offset, required int limit}) async {
     final bool isConnected = await _connectivityService.isConnected();
 
     if (isConnected) {
       final Iterable<PostDataContract> contracts = await _postRemoteDataSource.getPosts();
       final Iterable<PostDataObject> dataObjects = _postMapper.mapObjects<PostDataContract, PostDataObject>(contracts);
-      await _postLocalDataSource.deleteAll();
       await _postLocalDataSource.addOrUpdateAll(dataObjects);
-      postEntities = _postMapper.mapObjects<PostDataContract, PostEntity>(contracts);
-    } else {
-      final Iterable<PostDataObject> dataObjects = await _postLocalDataSource.getAll();
-      postEntities = _postMapper.mapObjects<PostDataObject, PostEntity>(dataObjects);
     }
 
-    return postEntities;
+    final Iterable<PostDataObject> dataObjects = await _postLocalDataSource.getAll(offset: offset, limit: limit);
+    final Iterable<PostEntity> entities = _postMapper.mapObjects<PostDataObject, PostEntity>(dataObjects);
+
+    return entities;
+  }
+
+  @override
+  Future<PostEntity> getPost(int id) async {
+    final bool isConnected = await _connectivityService.isConnected();
+
+    if (isConnected) {
+      final PostDataContract contract = await _postRemoteDataSource.getPost(id);
+      final PostDataObject dataObject = _postMapper.mapObject<PostDataContract, PostDataObject>(contract);
+      await _postLocalDataSource.addOrUpdate(dataObject);
+    }
+
+    final PostDataObject? dataObject = await _postLocalDataSource.getPost(id);
+    final PostEntity entity = _postMapper.mapObject<PostDataObject, PostEntity>(dataObject);
+
+    return entity;
   }
 }

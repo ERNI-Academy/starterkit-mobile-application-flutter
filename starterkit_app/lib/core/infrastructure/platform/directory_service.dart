@@ -11,8 +11,6 @@ abstract interface class DirectoryService {
 
 @LazySingleton(as: DirectoryService)
 class DirectoryServiceImpl implements DirectoryService {
-  const DirectoryServiceImpl();
-
   @override
   Future<Directory> getCacheDirectory() async {
     final Directory directory = await getApplicationCacheDirectory();

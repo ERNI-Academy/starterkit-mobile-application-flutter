@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:starterkit_app/common/localization/generated/l10n.dart';
 import 'package:starterkit_app/core/presentation/navigation/root_auto_router.gr.dart';
 import 'package:starterkit_app/core/presentation/views/view_mixin.dart';
+import 'package:starterkit_app/core/presentation/widgets/infinite_list_view.dart';
 import 'package:starterkit_app/domain/posts/models/post_entity.dart';
 import 'package:starterkit_app/domain/posts/models/posts_list_state.dart';
 import 'package:starterkit_app/presentation/posts/view_models/posts_view_model.dart';
@@ -22,7 +23,8 @@ class PostsView extends StatelessWidget with ViewMixin<PostsViewModel> {
         builder: (BuildContext context, PostsListState postsState, _) {
           return switch (postsState) {
             PostsListLoadingState _ => const Center(child: CircularProgressIndicator()),
-            PostsListLoadedState _ => _PostsListView(postsState.posts.toList(), viewModel.onPostSelected),
+            PostsListLoadedState _ =>
+              _PostsListView(postsState.posts.toList(), viewModel.onPostSelected, viewModel.onGetPosts),
             PostsListErrorState _ => Center(child: Text(postsState.message)),
           };
         },
@@ -32,14 +34,16 @@ class PostsView extends StatelessWidget with ViewMixin<PostsViewModel> {
 }
 
 class _PostsListView extends StatelessWidget {
-  const _PostsListView(this.posts, this.onTap);
+  const _PostsListView(this.posts, this.onTap, this.onScrollEnd);
 
   final List<PostEntity> posts;
   final void Function(PostEntity entity) onTap;
+  final VoidCallback onScrollEnd;
 
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
+    return InfiniteListView(
+      itemCount: posts.length,
       itemBuilder: (BuildContext context, int index) {
         Widget? listWidget;
         final PostEntity? post = posts.elementAtOrNull(index);
@@ -55,7 +59,7 @@ class _PostsListView extends StatelessWidget {
 
         return listWidget;
       },
-      itemCount: posts.length,
+      onScrollEnd: onScrollEnd,
     );
   }
 }

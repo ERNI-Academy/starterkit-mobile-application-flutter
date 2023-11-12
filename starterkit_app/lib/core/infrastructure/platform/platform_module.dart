@@ -5,8 +5,6 @@ import 'package:injectable/injectable.dart';
 
 @module
 abstract class PlatformModule {
-  const PlatformModule();
-
   @lazySingleton
   Connectivity get connectivity => Connectivity();
 }

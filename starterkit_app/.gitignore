@@ -8,7 +8,6 @@
 .buildlog/
 .history
 .svn/
-*.dll
 migrate_working_dir/
 
 # IntelliJ related
@@ -36,12 +35,12 @@ migrate_working_dir/
 /build/
 **/*.g.dart
 **/*.gr.dart
-**/*.freezed.dart
 **/*.reflectable.dart
 **/*.config.dart
 **/*.gen.dart
 **/*.mocks.dart
 **/generated/**
+**/*.auto_mappr.dart
 full_coverage_test.dart
 metrics
 .fvm/flutter_sdk
@@ -95,5 +94,4 @@ fastlane/*.env
 google-services.json
 GoogleService-Info.plist
 
-# Comment this out after setting the correct secrets file
-# .secrets/**
+.secrets/**

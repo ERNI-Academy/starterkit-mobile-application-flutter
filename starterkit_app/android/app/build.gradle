@@ -56,7 +56,7 @@ if (keystorePropertiesFileExists) {
 // }
 
 android {
-    namespace 'com.example.starterkit_app'
+    namespace 'com.example.starterkit.app'
     compileSdkVersion 34
     ndkVersion flutter.ndkVersion
 
