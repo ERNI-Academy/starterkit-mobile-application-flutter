@@ -44,7 +44,7 @@ dev_dependencies:
   full_coverage: ^1.0.0
   golden_toolkit: ^0.15.0
   injectable_generator: ^2.4.1
-  intl_utils: ^2.8.4
+  intl_utils: ^2.8.5
   json_serializable: ^6.7.1
   mockito: ^5.4.2
   retrofit_generator: ^8.0.3
