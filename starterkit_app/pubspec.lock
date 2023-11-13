@@ -53,10 +53,10 @@ packages:
     dependency: "direct main"
     description:
       name: auto_mappr_annotation
-      sha256: "1e75a9ed88e6a163c27af1d9173419252f88e1661ab1171cd4b0c3af2c84e182"
+      sha256: b86e558b7d8af4b970c01a45c6edb97bdc0949de5f970224ed99c44e56816562
       url: "https://pub.dev"
     source: hosted
-    version: "2.0.0"
+    version: "2.1.0"
   auto_route:
     dependency: "direct main"
     description:
