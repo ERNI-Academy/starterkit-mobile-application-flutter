@@ -1,0 +1,8 @@
+You need to download the latest Isar binaries in order to run tests that uses database.
+
+1. Download it [https://github.com/isar/isar/releases]. 
+2. Rename the binaries according to the OS you are running your test
+   - `isar_linux.so` for Linux
+   - `isar_macos.dylib` for MacOS
+   - `isar_windows.dll` for Windows
+3. Place these in the `starterkit_app/test/assets/` folder
