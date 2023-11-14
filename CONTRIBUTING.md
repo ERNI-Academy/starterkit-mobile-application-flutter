@@ -32,6 +32,7 @@ Before starting you must be a ERNI contributor.
 Please send us an email to this account so we can add you to our contributors list.
 
 📧 <esp-services@betterask.erni>
+📧 <dustincatap@gmail.com>
 
 ## 2. How to create a resource
 
