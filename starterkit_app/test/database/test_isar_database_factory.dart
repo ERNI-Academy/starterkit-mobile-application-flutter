@@ -8,10 +8,12 @@ import 'package:starterkit_app/core/data/database/isar_database_factory.dart';
 
 class TestIsarDatabaseFactory implements IsarDatabaseFactory {
   static String get _isarLibraryFile {
+    const String fileName = 'isar';
+
     return switch (Platform.operatingSystem) {
-      'windows' => 'isar_windows.dll',
-      'linux' => 'isar_linux.so',
-      'macos' => 'isar_macos.dylib',
+      'windows' => '$fileName.dll',
+      'linux' => '$fileName.so',
+      'macos' => '$fileName.dylib',
       _ => throw UnsupportedError('Unsupported platform: ${Platform.operatingSystem}'),
     };
   }

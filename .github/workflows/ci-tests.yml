@@ -52,6 +52,10 @@ jobs:
         with:
           target_environment: ${{ github.event.inputs.target_environment }}
 
+      - name: Download Isar binary
+        run: |
+          curl -L https://github.com/isar/isar/releases/download/4.0.0-dev.14/libisar_macos.dylib > ${{ env.PROJECT_WORKING_DIRECTORY }}/test/assets/isar.dylib
+
       - name: Install Flutter
         uses: ./.github/workflows/steps/install-flutter
         with:
@@ -71,7 +75,7 @@ jobs:
       - name: Run tests
         run: |
           dart run full_coverage
-          flutter test --coverage --dart-define-from-file test/assets/test_secrets.json 
+          flutter test --coverage --dart-define-from-file test/assets/test_secrets.json
         working-directory: ${{ env.PROJECT_WORKING_DIRECTORY }}
 
       - uses: codecov/codecov-action@eaaf4bedf32dbdc6b720b63067d99c4d77d6047d # v3.1.4

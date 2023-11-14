@@ -1,3 +1,5 @@
+// coverage:ignore-file
+
 import 'package:injectable/injectable.dart';
 
 abstract interface class EnvironmentVariables {
