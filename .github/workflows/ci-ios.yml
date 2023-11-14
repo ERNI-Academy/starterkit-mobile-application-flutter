@@ -37,7 +37,7 @@ permissions: {}
 
 jobs:
   build-ios:
-    runs-on: macos-latest
+    runs-on: macos-13-xlarge
     permissions: {}
     steps:
       - name: Harden Runner
