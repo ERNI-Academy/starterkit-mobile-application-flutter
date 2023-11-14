@@ -75,7 +75,7 @@ jobs:
       - name: Run tests
         run: |
           dart run full_coverage
-          flutter test --coverage --dart-define-from-file test/assets/test_secrets.json
+          flutter test --coverage
         working-directory: ${{ env.PROJECT_WORKING_DIRECTORY }}
 
       - uses: codecov/codecov-action@eaaf4bedf32dbdc6b720b63067d99c4d77d6047d # v3.1.4
