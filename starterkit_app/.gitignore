@@ -95,3 +95,8 @@ google-services.json
 GoogleService-Info.plist
 
 .secrets/**
+
+# Binaries
+*.dll
+*.dylib
+*.so

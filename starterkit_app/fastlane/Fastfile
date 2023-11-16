@@ -74,7 +74,7 @@ lane :"build_ios_release" do |options|
     archive_path: "build/ios/archive/Runner.xcarchive"
   )
 
-  # Uncomment this if you want to build an IPA
+# Uncomment this if you want to build an IPA
 
 #   build_app(
 #     workspace: "ios/Runner.xcworkspace",

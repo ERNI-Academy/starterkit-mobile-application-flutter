@@ -16,7 +16,6 @@ runs:
   using: composite
   steps:
     - run: |
-        rm -d -R .secrets
         mkdir .secrets
         echo -n "${{ inputs.secrets_file_value }}" | base64 --decode > .secrets/${{ inputs.app_environment }}.json
       shell: bash

@@ -27,10 +27,6 @@
                 ],
                 "path": "test"
             },
-            "args": [
-                "--dart-define-from-file",
-                "test/assets/test_secrets.json"
-            ]
         },
         {
             "name": "Debug",
@@ -44,10 +40,6 @@
                 ],
                 "path": "test"
             },
-            "args": [
-                "--dart-define-from-file",
-                "test/assets/test_secrets.json"
-            ]
         },
         {
             "name": "Test Coverage",
@@ -61,11 +53,6 @@
                 ],
                 "path": "test"
             },
-            "args": [
-                "--coverage",
-                "--dart-define-from-file",
-                "test/assets/test_secrets.json"
-            ]
         },
         {
             "name": "Update Goldens",
@@ -79,10 +66,8 @@
                 "path": "test",
             },
             "args": [
-                "--update-goldens",
-                "--dart-define-from-file",
-                "test/assets/test_secrets.json"
-            ]
+                "--update-goldens"
+            ],
         },
     ],
     "inputs": [
