@@ -17,8 +17,6 @@ abstract class ServiceLocator {
       );
     }
 
-    // We already checked for null above
-    // ignore: avoid-non-null-assertion
     return _instance!;
   }
 

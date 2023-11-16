@@ -21,8 +21,6 @@ class _ViewModelBuilderState<TViewModel extends ViewModel> extends State<ViewMod
       throw StateError('ViewModel is not initialized');
     }
 
-    // Ignored since the value is guaranteed to be non-null
-    // ignore: avoid-non-null-assertion
     return _currentViewModel!;
   }
 

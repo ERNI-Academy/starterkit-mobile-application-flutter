@@ -25,8 +25,6 @@ class DebugLoggingInterceptor extends Interceptor {
   }
 
   @override
-  // Ignored since we cannot change the override the signature of the method using `covariant`
-  // ignore: avoid-dynamic
   void onResponse(Response<dynamic> response, ResponseInterceptorHandler handler) {
     final String tag = '[RES#${shortHash(response.requestOptions)}]';
 

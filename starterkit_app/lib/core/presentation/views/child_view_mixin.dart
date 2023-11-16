@@ -21,7 +21,5 @@ mixin ChildViewMixin<TViewModel extends ViewModel> implements View<TViewModel> {
 
   @protected
   @override
-  // Ignored because of satisfying an interface contract
-  // ignore: no-empty-block
   void onDisposeViewModel(BuildContext context, TViewModel viewModel) {}
 }
