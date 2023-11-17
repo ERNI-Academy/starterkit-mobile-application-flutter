@@ -19,22 +19,19 @@ export LC_ALL=C
 
 PROJECT_NAME=""
 APP_ID=""
-while [[ $# > 0 ]]
-do
-    key="$1"
-    case $key in
-        -n|--name)
-        PROJECT_NAME="$2"
-        shift
-        ;;
-        -i|--app-id)
-        APP_ID="$2"
-        shift
-        ;;
-        *)
-        ;;
-    esac
-    shift
+
+while getopts "n:i:" opt; do
+  case ${opt} in
+    n)
+      PROJECT_NAME="$OPTARG"
+      ;;
+    i)
+      APP_ID="$OPTARG"
+      ;;
+    \?)
+      echo "Invalid option: -$OPTARG" >&2
+      ;;
+  esac
 done
 
 PROJECT_NAME=$(echo "$PROJECT_NAME" | tr '[:upper:]' '[:lower:]')
