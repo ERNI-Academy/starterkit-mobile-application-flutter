@@ -69,7 +69,7 @@ jobs:
 
       - name: Add ignore-coverage to generated files
         run: |
-          bash ../scripts/ignore_coverage.sh
+          bash ../scripts/ignore_generated_files_from_coverage.sh
         working-directory: ${{ env.PROJECT_WORKING_DIRECTORY }}
 
       - name: Run tests
