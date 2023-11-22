@@ -1,0 +1,3 @@
+[submodule "docs"]
+	path = docs
+	url = git@github.com:ERNI-Academy/starterkit-mobile-application-flutter.wiki.git
