@@ -55,12 +55,12 @@ void main() {
     }
 
     group('openLink', () {
-      test('should trigger open uri when link text tapped', () {
+      test('should trigger open uri when link text tapped', () async {
         final expectedUri = Uri.parse('http://sample.com');
         when(mockUriHandler.openUri(expectedUri)).thenAnswer((_) async => true);
 
         final unit = createUnitToTest();
-        unit.openLink(expectedUri);
+        await unit.openLink(expectedUri);
 
         verify(mockUriHandler.openUri(expectedUri)).called(1);
       });
@@ -78,3 +78,14 @@ void main() {
 :bulb: **<span style="color: green">TIP</span>**
 
 - Use the snippet shortcut `gtest` to create a test file similar above.
+
+## Running Database Tests
+
+- In order to run tests that uses database, download the latest [Isar Release Binaries](https://github.com/isar/isar/releases/tag/4.0.0-dev.14) that matches your current platform that you are running the test.
+- Rename the binaries to `isar.dll` for Windows, `isar.dylib` for MacOS, and `isar.so` for Linux.
+- Put the binaries in the `starterkit_app/test/assets` folder.
+
+## Code Coverage
+
+- There is an [existing issue](https://github.com/flutter/flutter/issues/27997) regarding untested files not being included in the code coverage report. As a workaround, we use [`full_coverage`](https://pub.dev/packages/full_coverage) to generate a dummy file that imports all files in a specified directory. This is just to make sure all files are "included" when running the test.
+- Another thing is the code coverage of generated files. The project uses a script [`ignore_generated_files_from_coverage.sh`](https://github.com/ERNI-Academy/starterkit-mobile-application-flutter/blob/main/scripts/ignore_generated_files_from_coverage.sh) to remove the generated files from the code coverage report. Before running the test with coverage, make sure to run this script first once every time you run `build_runner`.

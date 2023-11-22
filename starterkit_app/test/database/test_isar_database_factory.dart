@@ -7,17 +7,6 @@ import 'package:starterkit_app/core/data/database/isar_database_factory.dart';
 // Download the latest libraries from https://github.com/isar/isar/releases
 
 class TestIsarDatabaseFactory implements IsarDatabaseFactory {
-  static String get _isarLibraryFile {
-    const String fileName = 'isar';
-
-    return switch (Platform.operatingSystem) {
-      'windows' => '$fileName.dll',
-      'linux' => '$fileName.so',
-      'macos' => '$fileName.dylib',
-      _ => throw UnsupportedError('Unsupported platform: ${Platform.operatingSystem}'),
-    };
-  }
-
   @override
   Future<Isar> getIsar(IsarGeneratedSchema schema) async {
     await Future<void>.value(Isar.initialize(join('test', 'assets', _isarLibraryFile)));
@@ -30,5 +19,16 @@ class TestIsarDatabaseFactory implements IsarDatabaseFactory {
     );
 
     return isar;
+  }
+
+  static String get _isarLibraryFile {
+    const String fileName = 'isar';
+
+    return switch (Platform.operatingSystem) {
+      'windows' => '$fileName.dll',
+      'linux' => '$fileName.so',
+      'macos' => '$fileName.dylib',
+      _ => throw UnsupportedError('Unsupported platform: ${Platform.operatingSystem}'),
+    };
   }
 }

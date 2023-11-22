@@ -4,6 +4,7 @@ function usage {
     Write-Host "Usage: create.ps1 -n <project_name> -i <app_id>"
     Write-Host "  -n, --name      Project name"
     Write-Host "  -i, --app-id    App id"
+    Write-Host "  -d, --directory Directory where the project will be created"
     exit 1
 }
 
@@ -13,25 +14,21 @@ if ($args.Count -eq 0) {
 
 $PROJECT_NAME = ""
 $APP_ID = ""
+$DIR = (Get-Item -Path ".\" -Verbose).FullName # default
+$DEV_SECRETS = "ewogICAgImFwcEVudmlyb25tZW50IjogImRldiIsCiAgICAiYXBwU2VydmVyVXJsIjogImh0dHBzOi8vanNvbnBsYWNlaG9sZGVyLnR5cGljb2RlLmNvbS8iLAogICAgImFwcElkIjogImNvbS5leGFtcGxlLnN0YXJ0ZXJraXQuYXBwIiwKICAgICJhcHBJZFN1ZmZpeCI6ICIuZGV2IiwKICAgICJhcHBOYW1lIjogIlN0YXJ0ZXJraXQgQXBwIChEZXYpIiwKICAgICJpT1NEZXZlbG9wbWVudFRlYW0iOiAiQUJDREUxMjM0NSIsCiAgICAiaU9TRGV2ZWxvcG1lbnRQcm9maWxlIjogIllvdXIgRGV2ZWxvcG1lbnQgUHJvZmlsZSBOYW1lIiwKICAgICJpT1NEaXN0cmlidXRpb25Qcm9maWxlIjogIllvdXIgRGlzdHJpYnV0aW9uIFByb2ZpbGUgTmFtZSIsCiAgICAiaU9TRXhwb3J0TWV0aG9kIjogImFkLWhvYyIKfQ=="
+$PROD_SECRETS = "ewogICAgImFwcEVudmlyb25tZW50IjogInByb2QiLAogICAgImFwcFNlcnZlclVybCI6ICJodHRwczovL2pzb25wbGFjZWhvbGRlci50eXBpY29kZS5jb20vIiwKICAgICJhcHBJZCI6ICJjb20uZXhhbXBsZS5zdGFydGVya2l0LmFwcCIsCiAgICAiYXBwSWRTdWZmaXgiOiAiIiwKICAgICJhcHBOYW1lIjogIlN0YXJ0ZXJraXQgQXBwIiwKICAgICJpT1NEZXZlbG9wbWVudFRlYW0iOiAiQUJDREUxMjM0NSIsCiAgICAiaU9TRGV2ZWxvcG1lbnRQcm9maWxlIjogIllvdXIgRGV2ZWxvcG1lbnQgUHJvZmlsZSBOYW1lIiwKICAgICJpT1NEaXN0cmlidXRpb25Qcm9maWxlIjogIllvdXIgRGlzdHJpYnV0aW9uIFByb2ZpbGUgTmFtZSIsCiAgICAiaU9TRXhwb3J0TWV0aG9kIjogImFwcC1zdG9yZSIKfQ=="
+
+
 for ($i = 0; $i -lt $args.Count; $i++) {
     $key = $args[$i]
     switch ($key) {
-        "-n" {
-            $PROJECT_NAME = $args[$i+1]
-            $i++
-        }
-        "--name" {
-            $PROJECT_NAME = $args[$i+1]
-            $i++
-        }
-        "-i" {
-            $APP_ID = $args[$i+1]
-            $i++
-        }
-        "--app-id" {
-            $APP_ID = $args[$i+1]
-            $i++
-        }
+        "-n" { $PROJECT_NAME = $args[++$i] }
+        "--name" { $PROJECT_NAME = $args[++$i] }
+        "-i" { $APP_ID = $args[++$i] }
+        "--app-id" { $APP_ID = $args[++$i] }
+        "-d" { $DIR = $args[++$i] }
+        "--directory" { $DIR = $args[++$i] }
+        default { usage }
     }
 }
 
@@ -58,9 +55,8 @@ if ($APP_ID -notmatch "^[a-z0-9.]+$" -or ($APP_ID -split "\." | Measure-Object).
 }
 
 $PROJECT_REPO_NAME = $PROJECT_NAME -replace "_", "-"
-$DIR = (Get-Item -Path ".\" -Verbose).FullName
 $PROJECT_DIR = "$DIR\$PROJECT_REPO_NAME\$PROJECT_NAME"
-$APP_NAME = ($PROJECT_NAME -split "_") | ForEach-Object { $_.Substring(0,1).ToUpper() + $_.Substring(1) }
+$APP_NAME = ($PROJECT_NAME -split "_") | ForEach-Object { $_.Substring(0, 1).ToUpper() + $_.Substring(1) }
 
 Write-Host "Project name: $PROJECT_NAME"
 Write-Host "Project repo name: $PROJECT_REPO_NAME"
@@ -88,6 +84,13 @@ Get-ChildItem "$DIR/$PROJECT_REPO_NAME" -Recurse -File | ForEach-Object { (Get-C
 
 Write-Host "Renaming project name..."
 Get-ChildItem "$DIR/$PROJECT_REPO_NAME" -Recurse -File | ForEach-Object { (Get-Content $_.FullName) -replace "starterkit_app", "$PROJECT_NAME" | Set-Content $_.FullName }
+
+Write-Host "Setting up secrets..."
+New-Item -ItemType Directory -Path "$PROJECT_DIR/.secrets" -Force
+$decodedDevSecrets = [System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String($DEV_SECRETS))
+$decodedDevSecrets | Out-File "$PROJECT_DIR/.secrets/dev.json"
+$decodedProdSecrets = [System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String($PROD_SECRETS))
+$decodedProdSecrets | Out-File "$PROJECT_DIR/.secrets/prod.json"
 
 Write-Host "Moving MainActivity.kt..."
 $ANDROID_PROJECT_DIR = "$PROJECT_DIR\android"
