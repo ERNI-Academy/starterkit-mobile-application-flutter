@@ -1,45 +1,46 @@
 #!/bin/bash
 
+export LANG=C
+export LC_CTYPE=C
+export LC_ALL=C
+
 usage() {
     echo "Running this script will create a new project based on the starterkit."
     echo "It will clone the starterkit-mobile-application-flutter repository to the current directory and rename the project."
-    echo "Usage: $0 -n <project_name> -i <app_id>"
-    echo "  -n, --name      Project name"
-    echo "  -i, --app-id    App id"
-    echo "  -d, --directory Directory where the project will be created"
-    exit 1
+    echo "You will be prompted to enter the project name, app id, and directory where the project will be created."
 }
 
 if [ $# -eq 0 ]; then
     usage
 fi
 
-export LANG=C
-export LC_CTYPE=C
-export LC_ALL=C
+replace() {
+    echo "Replacing $1 with $2..."
+    if [[ "$OSTYPE" == "darwin"* ]]; then
+        # Mac OS
+        find "$DIR/$PROJECT_REPO_NAME" -type f -exec sed -i '' -e "s/$1/$2/g" {} \;
+    else
+        # Other OSs
+        find "$DIR/$PROJECT_REPO_NAME" -type f -exec sed -i -e "s/$1/$2/g" {} \;
+    fi
+}
 
 PROJECT_NAME=""
 APP_ID=""
-DIR="$( cd "$( dirname )" >/dev/null 2>&1 && pwd )" # default
+DIR="$(pwd)"
 DEV_SECRETS="ewogICAgImFwcEVudmlyb25tZW50IjogImRldiIsCiAgICAiYXBwU2VydmVyVXJsIjogImh0dHBzOi8vanNvbnBsYWNlaG9sZGVyLnR5cGljb2RlLmNvbS8iLAogICAgImFwcElkIjogImNvbS5leGFtcGxlLnN0YXJ0ZXJraXQuYXBwIiwKICAgICJhcHBJZFN1ZmZpeCI6ICIuZGV2IiwKICAgICJhcHBOYW1lIjogIlN0YXJ0ZXJraXQgQXBwIChEZXYpIiwKICAgICJpT1NEZXZlbG9wbWVudFRlYW0iOiAiQUJDREUxMjM0NSIsCiAgICAiaU9TRGV2ZWxvcG1lbnRQcm9maWxlIjogIllvdXIgRGV2ZWxvcG1lbnQgUHJvZmlsZSBOYW1lIiwKICAgICJpT1NEaXN0cmlidXRpb25Qcm9maWxlIjogIllvdXIgRGlzdHJpYnV0aW9uIFByb2ZpbGUgTmFtZSIsCiAgICAiaU9TRXhwb3J0TWV0aG9kIjogImFkLWhvYyIKfQ=="
 PROD_SECRETS="ewogICAgImFwcEVudmlyb25tZW50IjogInByb2QiLAogICAgImFwcFNlcnZlclVybCI6ICJodHRwczovL2pzb25wbGFjZWhvbGRlci50eXBpY29kZS5jb20vIiwKICAgICJhcHBJZCI6ICJjb20uZXhhbXBsZS5zdGFydGVya2l0LmFwcCIsCiAgICAiYXBwSWRTdWZmaXgiOiAiIiwKICAgICJhcHBOYW1lIjogIlN0YXJ0ZXJraXQgQXBwIiwKICAgICJpT1NEZXZlbG9wbWVudFRlYW0iOiAiQUJDREUxMjM0NSIsCiAgICAiaU9TRGV2ZWxvcG1lbnRQcm9maWxlIjogIllvdXIgRGV2ZWxvcG1lbnQgUHJvZmlsZSBOYW1lIiwKICAgICJpT1NEaXN0cmlidXRpb25Qcm9maWxlIjogIllvdXIgRGlzdHJpYnV0aW9uIFByb2ZpbGUgTmFtZSIsCiAgICAiaU9TRXhwb3J0TWV0aG9kIjogImFwcC1zdG9yZSIKfQ=="
 
-while getopts "n:i:" opt; do
-    case "$opt" in
-    n | name)
-        PROJECT_NAME=$OPTARG
-        ;;
-    i | app-id)
-        APP_ID=$OPTARG
-        ;;
-    d | directory)
-        DIR=$OPTARG
-        ;;
-    *)
-        usage
-        ;;
-    esac
-done
+read -p "Enter project name: " PROJECT_NAME
+read -p "Enter app id: " APP_ID
+read -p "Enter directory where the project will be created: " DIR
+
+if [ -z "$DIR" ]; then
+    DIR="$(pwd)"
+else
+    # Expand DIR if ~ is used
+    DIR="${DIR/#\~/$HOME}"
+fi
 
 PROJECT_NAME=$(echo "$PROJECT_NAME" | tr '[:upper:]' '[:lower:]')
 
@@ -71,7 +72,7 @@ APP_NAME=$(echo $APP_NAME | sed -r 's/^\s+|\s+$//g')
 
 echo "Project name: $PROJECT_NAME"
 echo "Project repo name: $PROJECT_REPO_NAME"
-echo "Project Directory: $DIR"
+echo "Project Directory: $DIR/$PROJECT_REPO_NAME"
 echo "App id: $APP_ID"
 echo "App name: $APP_NAME"
 
@@ -86,18 +87,21 @@ rm -rf "$DIR/$PROJECT_REPO_NAME/.git"
 mv "$DIR/$PROJECT_REPO_NAME/starterkit_app" "$PROJECT_DIR"
 
 echo "Renaming app name..."
-find "$DIR/$PROJECT_REPO_NAME" -type f -exec sed -i -e "s/Starterkit App/$APP_NAME/g" {} \;
+replace "Starterkit App" "$APP_NAME"
 
 echo "Renaming app id..."
-find "$DIR/$PROJECT_REPO_NAME" -type f -exec sed -i -e "s/com.example.starterkit_app/$APP_ID/g" {} \;
-find "$DIR/$PROJECT_REPO_NAME" -type f -exec sed -i -e "s/com.example.starterkit.app/$APP_ID/g" {} \;
-find "$DIR/$PROJECT_REPO_NAME" -type f -exec sed -i -e "s/com.mycompany.starterkit.app/$APP_ID/g" {} \;
+replace "com.example.starterkit_app" "$APP_ID"
+replace "com.example.starterkit.app" "$APP_ID"
+replace "com.mycompany.starterkit.app" "$APP_ID"
 
 echo "Renaming project name..."
-find "$DIR/$PROJECT_REPO_NAME" -type f -exec sed -i -e "s/starterkit_app/$PROJECT_NAME/g" {} \;
+replace "starterkit_app" "$PROJECT_NAME"
 
 echo "Setting up secrets..."
-mkdir .secrets
+rm -rf "$PROJECT_DIR/.secrets"
+mkdir "$PROJECT_DIR/.secrets"
+touch "$PROJECT_DIR/.secrets/dev.json"
+touch "$PROJECT_DIR/.secrets/prod.json"
 base64 --decode <<< "$DEV_SECRETS" > "$PROJECT_DIR/.secrets/dev.json"
 base64 --decode <<< "$PROD_SECRETS" > "$PROJECT_DIR/.secrets/prod.json"
 
