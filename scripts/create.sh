@@ -10,9 +10,7 @@ usage() {
     echo "You will be prompted to enter the project name, app id, and directory where the project will be created."
 }
 
-if [ $# -eq 0 ]; then
-    usage
-fi
+usage
 
 replace() {
     echo "Replacing $1 with $2..."
@@ -38,8 +36,8 @@ read -p "Enter directory where the project will be created: " DIR
 if [ -z "$DIR" ]; then
     DIR="$(pwd)"
 else
-    # Expand DIR if ~ is used
-    DIR="${DIR/#\~/$HOME}"
+    # Expand DIR if ~ is used or $ variable
+    DIR=$(eval echo "$DIR")
 fi
 
 PROJECT_NAME=$(echo "$PROJECT_NAME" | tr '[:upper:]' '[:lower:]')
@@ -84,6 +82,18 @@ fi
 
 git clone https://github.com/ERNI-Academy/starterkit-mobile-application-flutter.git "$DIR/$PROJECT_REPO_NAME"
 rm -rf "$DIR/$PROJECT_REPO_NAME/.git"
+rm -rf "$DIR/$PROJECT_REPO_NAME/.github"
+rm -rf "$DIR/$PROJECT_REPO_NAME/.gitmodules"
+rm -rf "$DIR/$PROJECT_REPO_NAME/.codecov.yml"
+rm -rf "$DIR/$PROJECT_REPO_NAME/AUTHORS.md"
+rm -rf "$DIR/$PROJECT_REPO_NAME/CONTRIBUTING.md"
+rm -rf "$DIR/$PROJECT_REPO_NAME/LICENSE"
+rm -rf "$DIR/$PROJECT_REPO_NAME/CODE_OF_CONDUCT.md"
+rm -rf "$DIR/$PROJECT_REPO_NAME/README.md"
+rm -rf "$DIR/$PROJECT_REPO_NAME/SECURITY.md"
+rm -rf "$DIR/$PROJECT_REPO_NAME/docs"
+rm -rf "$DIR/$PROJECT_REPO_NAME/scripts/create.sh"
+rm -rf "$DIR/$PROJECT_REPO_NAME/scripts/create.ps1"
 mv "$DIR/$PROJECT_REPO_NAME/starterkit_app" "$PROJECT_DIR"
 
 echo "Renaming app name..."
@@ -136,6 +146,8 @@ cd $PROJECT_DIR
 fvm install
 fvm dart format --line-length 120 .
 fvm flutter pub get
-fvm flutter pub run build_runner build --delete-conflicting-outputs
+fvm dart run build_runner build --delete-conflicting-outputs
+fvm dart run intl_utils:generate
 fvm dart fix --apply
 cd $DIR
+exit 0
