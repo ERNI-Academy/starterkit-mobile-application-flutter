@@ -43,7 +43,7 @@ dev_dependencies:
   injectable_generator: ^2.4.1
   intl_utils: ^2.8.5
   json_serializable: ^6.7.1
-  mockito: ^5.4.2
+  mockito: ^5.4.4
   retrofit_generator: ^8.0.6
 
 flutter:
