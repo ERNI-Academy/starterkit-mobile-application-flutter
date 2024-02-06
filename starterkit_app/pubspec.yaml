@@ -18,7 +18,7 @@ dependencies:
     sdk: flutter
   flutter_localizations:
     sdk: flutter
-  get_it: ^7.6.4
+  get_it: ^7.6.7
   injectable: ^2.3.2
   intl: ^0.18.1
   isar: ^4.0.0-dev.14
