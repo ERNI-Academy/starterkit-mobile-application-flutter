@@ -24,7 +24,7 @@ dependencies:
   isar: ^4.0.0-dev.14
   isar_flutter_libs: ^4.0.0-dev.14
   json_annotation: ^4.8.1
-  meta: ^1.9.1
+  meta: ^1.11.0
   path: ^1.8.3
   path_provider: ^2.1.2
   reflectable: ^4.0.5
