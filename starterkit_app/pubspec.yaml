@@ -12,7 +12,7 @@ dependencies:
   collection: ^1.17.1
   connectivity_plus: ^5.0.1
   cupertino_icons: ^1.0.6
-  dio: ^5.4.0
+  dio: ^5.4.1
   equatable: ^2.0.5
   flutter:
     sdk: flutter
@@ -44,7 +44,7 @@ dev_dependencies:
   intl_utils: ^2.8.5
   json_serializable: ^6.7.1
   mockito: ^5.4.4
-  retrofit_generator: ^8.0.6
+  retrofit_generator: ^8.1.0
 
 flutter:
   uses-material-design: true
