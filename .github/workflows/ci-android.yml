@@ -47,7 +47,7 @@ jobs:
 
       - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
 
-      - uses: ruby/setup-ruby@22fdc77bf4148f810455b226c90fb81b5cbc00a7 # v1
+      - uses: ruby/setup-ruby@d4526a55538b775af234ba4af27118ed6f8f6677 # v1
         with:
           ruby-version: 2.7
 
@@ -89,7 +89,7 @@ jobs:
         working-directory: ${{ env.PROJECT_WORKING_DIRECTORY }}
 
       - name: Publish Android APK
-        uses: actions/upload-artifact@26f96dfa697d77e81fd5907df203aa23a56210a8 # v4.3.0
+        uses: actions/upload-artifact@5d5d22a31266ced268874388b861e4b58bb5c2f3 # v4.3.1
         with:
           name: android_build
           path: ${{ env.PROJECT_WORKING_DIRECTORY }}/build/app/outputs/apk/release/app-release.apk
