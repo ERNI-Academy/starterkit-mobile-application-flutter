@@ -94,7 +94,9 @@ fastlane/*.env
 google-services.json
 GoogleService-Info.plist
 
+# Secrets related
 .secrets/**
+/ios/Flutter/Dart-Defines.xcconfig
 
 # Binaries
 *.dll
