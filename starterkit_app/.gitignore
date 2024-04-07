@@ -43,7 +43,7 @@ migrate_working_dir/
 **/*.auto_mappr.dart
 full_coverage_test.dart
 metrics
-.fvm/flutter_sdk
+.fvm/
 
 # Web related
 
