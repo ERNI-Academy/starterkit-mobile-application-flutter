@@ -11,7 +11,7 @@ runs:
   steps:
     - uses: kuhnroyal/flutter-fvm-config-action@v1
       with:
-        path: ${{ inputs.working_directory }}/.fvm/fvm_config.json
+        path: ${{ inputs.working_directory }}/.fvmrc
 
     - uses: subosito/flutter-action@v2
       with:
