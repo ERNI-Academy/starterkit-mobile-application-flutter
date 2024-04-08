@@ -43,7 +43,8 @@ migrate_working_dir/
 **/*.auto_mappr.dart
 full_coverage_test.dart
 metrics
-.fvm/
+.fvm/**
+!.fvm/fvm_config.json
 
 # Web related
 
