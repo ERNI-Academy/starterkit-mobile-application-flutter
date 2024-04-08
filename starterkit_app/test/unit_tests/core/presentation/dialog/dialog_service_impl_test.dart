@@ -4,9 +4,8 @@ import 'package:mockito/mockito.dart';
 import 'package:starterkit_app/common/localization/generated/l10n.dart';
 import 'package:starterkit_app/core/presentation/dialogs/dialog_action.dart';
 import 'package:starterkit_app/core/presentation/dialogs/dialog_service.dart';
+import 'package:starterkit_app/core/presentation/navigation/navigation_router.gr.dart';
 import 'package:starterkit_app/core/presentation/navigation/navigation_service.dart';
-import 'package:starterkit_app/core/presentation/navigation/root_auto_router.gr.dart';
-import 'package:starterkit_app/core/presentation/view_models/dialogs/alert_dialog_view_model.dart';
 
 import '../../../../test_matchers.dart';
 import '../../../../test_utils.dart';
@@ -16,15 +15,15 @@ import 'dialog_service_impl_test.mocks.dart';
   MockSpec<NavigationService>(),
 ])
 void main() {
-  group(DialogServiceImpl, () {
+  group(DialogService, () {
     late MockNavigationService mockNavigationService;
 
     setUp(() {
       mockNavigationService = MockNavigationService();
     });
 
-    DialogServiceImpl createUnitToTest() {
-      return DialogServiceImpl(mockNavigationService);
+    DialogService createUnitToTest() {
+      return DialogService(mockNavigationService);
     }
 
     group('alert', () {
@@ -34,12 +33,12 @@ void main() {
         const String expectedPrimaryText = 'primaryText';
         const String expectedSecondaryText = 'secondaryText';
         final Map<String?, String> expectedQueryParams = <String?, String>{
-          messageParam.name: expectedMessage,
-          primaryTextParam.name: expectedPrimaryText,
-          secondaryTextParam.name: expectedSecondaryText,
-          titleParam.name: expectedTitle,
+          'message': expectedMessage,
+          'primaryText': expectedPrimaryText,
+          'secondaryText': expectedSecondaryText,
+          'title': expectedTitle,
         };
-        final DialogServiceImpl unit = createUnitToTest();
+        final DialogService unit = createUnitToTest();
 
         await unit.alert(
           message: expectedMessage,
@@ -61,12 +60,12 @@ void main() {
         const String expectedPrimaryText = 'primaryText';
         const String expectedSecondaryText = 'secondaryText';
         final Map<String?, String> expectedQueryParams = <String?, String>{
-          messageParam.name: expectedMessage,
-          primaryTextParam.name: expectedPrimaryText,
-          secondaryTextParam.name: expectedSecondaryText,
-          titleParam.name: expectedTitle,
+          'message': expectedMessage,
+          'primaryText': expectedPrimaryText,
+          'secondaryText': expectedSecondaryText,
+          'title': expectedTitle,
         };
-        final DialogServiceImpl unit = createUnitToTest();
+        final DialogService unit = createUnitToTest();
 
         await unit.confirm(
           message: expectedMessage,
@@ -86,7 +85,7 @@ void main() {
         const String expectedPrimaryText = 'primaryText';
         const String expectedSecondaryText = 'secondaryText';
         const DialogAction expectedResult = DialogAction.primary;
-        final DialogServiceImpl unit = createUnitToTest();
+        final DialogService unit = createUnitToTest();
         when(mockNavigationService.push<DialogAction>(anyInstanceOf<AlertDialogViewRoute>()))
             .thenAnswer((_) async => expectedResult);
 
@@ -105,7 +104,7 @@ void main() {
         const String expectedTitle = 'title';
         const String expectedPrimaryText = 'primaryText';
         const String expectedSecondaryText = 'secondaryText';
-        final DialogServiceImpl unit = createUnitToTest();
+        final DialogService unit = createUnitToTest();
         when(mockNavigationService.push<DialogAction>(anyInstanceOf<AlertDialogViewRoute>()))
             .thenAnswer((_) async => null);
 
@@ -126,12 +125,12 @@ void main() {
         const String expectedPrimaryText = 'primaryText';
         const String? expectedSecondaryText = null;
         final Map<String?, String> expectedQueryParams = <String?, String>{
-          messageParam.name: expectedMessage,
-          primaryTextParam.name: expectedPrimaryText,
-          secondaryTextParam.name: il8n.generalCancel,
-          titleParam.name: expectedTitle,
+          'message': expectedMessage,
+          'primaryText': expectedPrimaryText,
+          'secondaryText': il8n.generalCancel,
+          'title': expectedTitle,
         };
-        final DialogServiceImpl unit = createUnitToTest();
+        final DialogService unit = createUnitToTest();
         when(mockNavigationService.push<DialogAction>(anyInstanceOf<AlertDialogViewRoute>()))
             .thenAnswer((_) async => null);
 

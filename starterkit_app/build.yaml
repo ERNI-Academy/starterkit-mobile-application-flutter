@@ -1,18 +1,31 @@
 targets:
   $default:
     builders:
+
       injectable_generator|injectable_config_builder:
         generate_for:
           include:
-            - lib/core/service_locator.dart
+            - lib/core/service_registrar.dart
 
       reflectable:
         enabled: false # Disable reflectable builder and run it after injectable_generator
 
-      retrofit_generator|retrofit_builder:
+      retrofit_generator:
         generate_for:
           include:
             - lib/features/**/*_api.dart
+
+      auto_route_generator:auto_route_generator: # this for @RoutePage
+        options:
+          enable_cached_builds: true
+        generate_for:
+          - lib/**/presentation/**/**_view.dart
+
+      auto_route_generator:auto_router_generator: # this for @AutoRouterConfig
+        options:
+          enable_cached_builds: true
+        generate_for:
+          - lib/core/presentation/navigation/navigation_router.dart
 
 # Run reflectable after injectable_generator
 # See https://github.com/dart-lang/build/issues/2701#issuecomment-1424669567 

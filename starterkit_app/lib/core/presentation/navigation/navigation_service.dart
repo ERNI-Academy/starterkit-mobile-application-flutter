@@ -2,46 +2,33 @@ import 'dart:async';
 
 import 'package:auto_route/auto_route.dart';
 import 'package:injectable/injectable.dart';
-import 'package:starterkit_app/core/presentation/navigation/root_auto_router.dart';
+import 'package:starterkit_app/core/presentation/navigation/navigation_router.dart';
 
-abstract interface class NavigationService {
-  Future<T?> push<T extends Object>(PageRouteInfo route, {OnNavigationFailure? onFailure});
+@lazySingleton
+class NavigationService {
+  final NavigationRouter _router;
 
-  void pushToNewRoot(PageRouteInfo route, {OnNavigationFailure? onFailure});
+  NavigationService(this._router);
 
-  Future<T?> replace<T extends Object>(PageRouteInfo route, {OnNavigationFailure? onFailure});
-
-  Future<void> pop<T extends Object>([T? result]);
-}
-
-@LazySingleton(as: NavigationService)
-class NavigationServiceImpl implements NavigationService {
-  final RootAutoRouter _router;
-
-  NavigationServiceImpl(this._router);
-
-  @override
   Future<T?> push<T extends Object>(PageRouteInfo route, {OnNavigationFailure? onFailure}) async {
     final T? result = await _router.push(route, onFailure: onFailure) as T?;
 
     return result;
   }
 
-  @override
   void pushToNewRoot(PageRouteInfo route, {OnNavigationFailure? onFailure}) {
     _router.popUntilRoot();
     unawaited(replace(route, onFailure: onFailure)); // This future does not complete
   }
 
-  @override
   Future<T?> replace<T extends Object>(PageRouteInfo route, {OnNavigationFailure? onFailure}) async {
     final T? result = await _router.replace(route, onFailure: onFailure);
 
     return result;
   }
 
-  @override
-  Future<void> pop<T extends Object>([T? result]) async {
-    await _router.pop(result);
+  Future<bool> maybePop<T extends Object>([T? result]) async {
+    final bool didPop = await _router.maybePop(result);
+    return didPop;
   }
 }

@@ -1,9 +1,9 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
-import 'package:starterkit_app/data/posts/remote/post_api.dart';
-import 'package:starterkit_app/data/posts/remote/post_remote_data_source.dart';
-import 'package:starterkit_app/domain/posts/models/post_data_contract.dart';
+import 'package:starterkit_app/features/post/data/remote/post_api.dart';
+import 'package:starterkit_app/features/post/data/remote/post_remote_data_source.dart';
+import 'package:starterkit_app/features/post/domain/models/post_data_contract.dart';
 
 import 'post_remote_data_source_impl_test.mocks.dart';
 

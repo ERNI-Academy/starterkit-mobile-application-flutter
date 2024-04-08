@@ -10,17 +10,17 @@ import 'package:starterkit_app/common/localization/generated/l10n.dart';
 import 'package:starterkit_app/core/data/database/isar_database_factory.dart';
 import 'package:starterkit_app/core/domain/models/result.dart';
 import 'package:starterkit_app/core/infrastructure/platform/connectivity_service.dart';
-import 'package:starterkit_app/core/presentation/navigation/root_auto_router.gr.dart';
-import 'package:starterkit_app/core/service_locator.dart';
-import 'package:starterkit_app/data/posts/remote/post_api.dart';
-import 'package:starterkit_app/domain/posts/models/post_entity.dart';
-import 'package:starterkit_app/presentation/app/views/app.dart';
-import 'package:starterkit_app/presentation/posts/views/post_details_view.dart';
-import 'package:starterkit_app/presentation/posts/views/posts_view.dart';
+import 'package:starterkit_app/core/presentation/navigation/navigation_router.gr.dart';
+import 'package:starterkit_app/core/service_registrar.dart';
+import 'package:starterkit_app/features/post/data/remote/post_api.dart';
+import 'package:starterkit_app/features/post/domain/models/post_entity.dart';
+import 'package:starterkit_app/features/post/presentation/views/post_details_view.dart';
+import 'package:starterkit_app/features/post/presentation/views/posts_view.dart';
 
 import '../../../../database/test_isar_database_factory.dart';
 import '../../../../test_utils.dart';
 import '../../../../widget_test_utils.dart';
+import '../../../test_app.dart';
 import 'posts_view_test.mocks.dart';
 
 @GenerateNiceMocks(<MockSpec<Object>>[
@@ -39,9 +39,9 @@ void main() {
       mockDio = MockDio();
       il8n = await setupLocale();
 
-      ServiceLocator.instance.registerLazySingleton<IsarDatabaseFactory>(TestIsarDatabaseFactory.new);
-      ServiceLocator.instance.registerLazySingleton<PostApi>(() => PostApi(mockDio));
-      ServiceLocator.instance.registerLazySingleton<ConnectivityService>(() => mockConnectivityService);
+      ServiceRegistrar.registerLazySingleton<IsarDatabaseFactory>(TestIsarDatabaseFactory.new);
+      ServiceRegistrar.registerLazySingleton<PostApi>(() => PostApi(mockDio));
+      ServiceRegistrar.registerLazySingleton<ConnectivityService>(() => mockConnectivityService);
       provideDummy<Result<Iterable<PostEntity>>>(Failure<Iterable<PostEntity>>(Exception()));
       provideDummy<Result<PostEntity>>(Failure<PostEntity>(Exception()));
     });
@@ -82,7 +82,7 @@ void main() {
         );
         when(mockConnectivityService.isConnected()).thenAnswer((_) async => true);
 
-        await tester.pumpWidget(const App(initialRoute: PostsViewRoute()));
+        await tester.pumpWidget(const TestApp(initialRoute: PostsViewRoute()));
         await tester.pumpAndSettle();
 
         await tester.matchGolden('posts_view_app_bar_title');
@@ -99,7 +99,7 @@ void main() {
         );
         when(mockConnectivityService.isConnected()).thenAnswer((_) async => true);
 
-        await tester.pumpWidget(const App(initialRoute: PostsViewRoute()));
+        await tester.pumpWidget(const TestApp(initialRoute: PostsViewRoute()));
         await tester.pumpAndSettle();
 
         await tester.matchGolden('posts_view_loaded');
@@ -125,7 +125,7 @@ void main() {
         );
         when(mockConnectivityService.isConnected()).thenAnswer((_) async => true);
 
-        await tester.pumpWidget(const App(initialRoute: PostsViewRoute()));
+        await tester.pumpWidget(const TestApp(initialRoute: PostsViewRoute()));
         await tester.pumpAndSettle();
         await tester.tap(find.byType(ListTile));
         await tester.pumpAndSettle();

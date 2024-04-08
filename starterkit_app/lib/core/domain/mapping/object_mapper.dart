@@ -1,5 +1,5 @@
 abstract interface class ObjectMapper {
-  T mapObject<S, T>(S? object);
+  T convert<S, T>(S? object);
 
-  Iterable<T> mapObjects<S, T>(Iterable<S> objects);
+  Iterable<T> convertIterable<S, T>(Iterable<S> objects);
 }

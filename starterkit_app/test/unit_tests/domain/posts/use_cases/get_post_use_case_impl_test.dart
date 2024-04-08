@@ -2,9 +2,9 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:starterkit_app/core/domain/models/result.dart';
-import 'package:starterkit_app/domain/posts/models/post_entity.dart';
-import 'package:starterkit_app/domain/posts/repositories/post_repository.dart';
-import 'package:starterkit_app/domain/posts/use_cases/get_post_use_case.dart';
+import 'package:starterkit_app/features/post/domain/models/post_entity.dart';
+import 'package:starterkit_app/features/post/domain/repositories/post_repository.dart';
+import 'package:starterkit_app/features/post/domain/use_cases/get_post_use_case.dart';
 
 import 'get_post_use_case_impl_test.mocks.dart';
 

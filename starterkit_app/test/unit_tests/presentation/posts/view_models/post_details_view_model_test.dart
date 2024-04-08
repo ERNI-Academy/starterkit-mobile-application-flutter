@@ -3,9 +3,9 @@ import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:starterkit_app/core/domain/models/result.dart';
 import 'package:starterkit_app/core/infrastructure/logging/logger.dart';
-import 'package:starterkit_app/domain/posts/models/post_entity.dart';
-import 'package:starterkit_app/domain/posts/use_cases/get_post_use_case.dart';
-import 'package:starterkit_app/presentation/posts/view_models/post_details_view_model.dart';
+import 'package:starterkit_app/features/post/domain/models/post_entity.dart';
+import 'package:starterkit_app/features/post/domain/use_cases/get_post_use_case.dart';
+import 'package:starterkit_app/features/post/presentation/view_models/post_details_view_model.dart';
 
 import '../../../../test_matchers.dart';
 import 'post_details_view_model_test.mocks.dart';
@@ -37,7 +37,7 @@ void main() {
         when(mockGetPostUseCase.execute(expectedPostId))
             .thenAnswer((_) async => const Success<PostEntity>(expectedPost));
 
-        await unit.onInitialize();
+        await unit.onInitialize(expectedPostId);
 
         verify(mockGetPostUseCase.execute(expectedPostId)).called(1);
         expect(unit.post.value, equals(expectedPost));
@@ -50,7 +50,7 @@ void main() {
         when(mockGetPostUseCase.execute(any))
             .thenAnswer((_) async => Failure<PostEntity>(expectedException, expectedStackTrace));
 
-        await unit.onInitialize();
+        await unit.onInitialize(1);
 
         verify(mockLogger.log(LogLevel.error, anyInstanceOf<String>(), expectedException, expectedStackTrace));
       });

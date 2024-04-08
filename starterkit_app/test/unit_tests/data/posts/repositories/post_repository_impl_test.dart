@@ -2,13 +2,13 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:starterkit_app/core/infrastructure/platform/connectivity_service.dart';
-import 'package:starterkit_app/data/posts/local/post_local_data_source.dart';
-import 'package:starterkit_app/data/posts/remote/post_remote_data_source.dart';
-import 'package:starterkit_app/data/posts/repositories/post_repository_impl.dart';
-import 'package:starterkit_app/domain/posts/mappers/post_mapper.dart';
-import 'package:starterkit_app/domain/posts/models/post_data_contract.dart';
-import 'package:starterkit_app/domain/posts/models/post_data_object.dart';
-import 'package:starterkit_app/domain/posts/models/post_entity.dart';
+import 'package:starterkit_app/features/post/data/local/post_local_data_source.dart';
+import 'package:starterkit_app/features/post/data/remote/post_remote_data_source.dart';
+import 'package:starterkit_app/features/post/data/repositories/post_repository_impl.dart';
+import 'package:starterkit_app/features/post/domain/mappers/post_mapper.dart';
+import 'package:starterkit_app/features/post/domain/models/post_data_contract.dart';
+import 'package:starterkit_app/features/post/domain/models/post_data_object.dart';
+import 'package:starterkit_app/features/post/domain/models/post_entity.dart';
 
 import '../../../../test_matchers.dart';
 import 'post_repository_impl_test.mocks.dart';
@@ -63,8 +63,9 @@ void main() {
         final PostRepositoryImpl unit = createUnitToTest();
         when(mockConnectivityService.isConnected()).thenAnswer((_) async => true);
         when(mockPostRemoteDataSource.getPosts()).thenAnswer((_) async => expectedContracts);
-        when(mockPostMapper.mapObjects<PostDataContract, PostDataObject>(expectedContracts)).thenAnswer((_) {
-          when(mockPostMapper.mapObjects<PostDataObject, PostEntity>(expectedObjects)).thenReturn(expectedEntities);
+        when(mockPostMapper.convertIterable<PostDataContract, PostDataObject>(expectedContracts)).thenAnswer((_) {
+          when(mockPostMapper.convertIterable<PostDataObject, PostEntity>(expectedObjects))
+              .thenReturn(expectedEntities);
 
           return expectedObjects;
         });
@@ -89,8 +90,9 @@ void main() {
         final PostRepositoryImpl unit = createUnitToTest();
         when(mockConnectivityService.isConnected()).thenAnswer((_) async => true);
         when(mockPostRemoteDataSource.getPosts()).thenAnswer((_) async => expectedContracts);
-        when(mockPostMapper.mapObjects<PostDataContract, PostDataObject>(expectedContracts)).thenAnswer((_) {
-          when(mockPostMapper.mapObjects<PostDataContract, PostEntity>(expectedContracts)).thenReturn(<PostEntity>[]);
+        when(mockPostMapper.convertIterable<PostDataContract, PostDataObject>(expectedContracts)).thenAnswer((_) {
+          when(mockPostMapper.convertIterable<PostDataContract, PostEntity>(expectedContracts))
+              .thenReturn(<PostEntity>[]);
 
           return expectedObjects;
         });
@@ -113,7 +115,7 @@ void main() {
           offset: anyInstanceOf<int>(named: 'offset'),
           limit: anyInstanceOf<int>(named: 'limit'),
         )).thenAnswer((_) async => expectedObjects);
-        when(mockPostMapper.mapObjects<PostDataObject, PostEntity>(expectedObjects))
+        when(mockPostMapper.convertIterable<PostDataObject, PostEntity>(expectedObjects))
             .thenAnswer((_) => expectedEntities);
 
         final Iterable<PostEntity> actualPosts = await unit.getPosts(offset: 0, limit: 1);
@@ -136,8 +138,8 @@ void main() {
         final PostRepositoryImpl unit = createUnitToTest();
         when(mockConnectivityService.isConnected()).thenAnswer((_) async => true);
         when(mockPostRemoteDataSource.getPost(expectedPostId)).thenAnswer((_) async => expectedContract);
-        when(mockPostMapper.mapObject<PostDataContract, PostDataObject>(expectedContract)).thenAnswer((_) {
-          when(mockPostMapper.mapObject<PostDataObject, PostEntity>(expectedObject)).thenReturn(expectedEntity);
+        when(mockPostMapper.convert<PostDataContract, PostDataObject>(expectedContract)).thenAnswer((_) {
+          when(mockPostMapper.convert<PostDataObject, PostEntity>(expectedObject)).thenReturn(expectedEntity);
 
           return expectedObject;
         });
@@ -156,8 +158,8 @@ void main() {
         final PostRepositoryImpl unit = createUnitToTest();
         when(mockConnectivityService.isConnected()).thenAnswer((_) async => true);
         when(mockPostRemoteDataSource.getPost(expectedId)).thenAnswer((_) async => expectedContract);
-        when(mockPostMapper.mapObject<PostDataContract, PostDataObject>(expectedContract)).thenAnswer((_) {
-          when(mockPostMapper.mapObject<PostDataContract, PostEntity>(expectedContract)).thenReturn(PostEntity.empty);
+        when(mockPostMapper.convert<PostDataContract, PostDataObject>(expectedContract)).thenAnswer((_) {
+          when(mockPostMapper.convert<PostDataContract, PostEntity>(expectedContract)).thenReturn(PostEntity.empty);
 
           return expectedObject;
         });
@@ -174,7 +176,7 @@ void main() {
         final PostRepositoryImpl unit = createUnitToTest();
         when(mockConnectivityService.isConnected()).thenAnswer((_) async => false);
         when(mockPostLocalDataSource.getPost(expectedId)).thenAnswer((_) async => expectedObject);
-        when(mockPostMapper.mapObject<PostDataObject, PostEntity>(expectedObject)).thenAnswer((_) => expectedEntity);
+        when(mockPostMapper.convert<PostDataObject, PostEntity>(expectedObject)).thenAnswer((_) => expectedEntity);
 
         final PostEntity actualPost = await unit.getPost(expectedId);
 

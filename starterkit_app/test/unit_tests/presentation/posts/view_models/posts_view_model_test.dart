@@ -4,12 +4,12 @@ import 'package:mockito/mockito.dart';
 import 'package:starterkit_app/common/localization/generated/l10n.dart';
 import 'package:starterkit_app/core/domain/models/result.dart';
 import 'package:starterkit_app/core/infrastructure/logging/logger.dart';
+import 'package:starterkit_app/core/presentation/navigation/navigation_router.gr.dart';
 import 'package:starterkit_app/core/presentation/navigation/navigation_service.dart';
-import 'package:starterkit_app/core/presentation/navigation/root_auto_router.gr.dart';
-import 'package:starterkit_app/domain/posts/models/post_entity.dart';
-import 'package:starterkit_app/domain/posts/models/posts_list_state.dart';
-import 'package:starterkit_app/domain/posts/use_cases/get_posts_use_case.dart';
-import 'package:starterkit_app/presentation/posts/view_models/posts_view_model.dart';
+import 'package:starterkit_app/features/post/domain/models/post_entity.dart';
+import 'package:starterkit_app/features/post/domain/models/posts_list_state.dart';
+import 'package:starterkit_app/features/post/domain/use_cases/get_posts_use_case.dart';
+import 'package:starterkit_app/features/post/presentation/view_models/posts_view_model.dart';
 
 import '../../../../test_matchers.dart';
 import '../../../../test_utils.dart';
@@ -50,7 +50,7 @@ void main() {
         )).thenAnswer((_) async => const Success<List<PostEntity>>(expectedPostEntities));
 
         final PostsViewModel unit = createUnitToTest();
-        await unit.onInitialize();
+        await unit.onInitialize(null);
 
         verify(mockGetPostsUseCase.execute(
           offset: anyInstanceOf<int>(named: 'offset'),
@@ -69,7 +69,7 @@ void main() {
         )).thenAnswer((_) async => Failure<List<PostEntity>>(expectedException, expectedStackTrace));
 
         final PostsViewModel unit = createUnitToTest();
-        await unit.onInitialize();
+        await unit.onInitialize(null);
 
         verify(mockGetPostsUseCase.execute(
           offset: anyInstanceOf<int>(named: 'offset'),
@@ -91,7 +91,7 @@ void main() {
         )).thenAnswer((_) async => const Success<List<PostEntity>>(<PostEntity>[PostEntity.empty]));
 
         final PostsViewModel unit = createUnitToTest();
-        await unit.onInitialize();
+        await unit.onInitialize(null);
         await unit.onGetPosts();
 
         verify(mockGetPostsUseCase.execute(
