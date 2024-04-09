@@ -1,9 +1,9 @@
-import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:starterkit_app/core/presentation/dialogs/dialog_action.dart';
+import 'package:starterkit_app/core/presentation/view_models/dialogs/base_dialog_view_model.dart';
+import 'package:starterkit_app/core/presentation/views/view_model_builder.dart';
 import 'package:starterkit_app/core/presentation/widgets/build_context_extensions.dart';
 
-abstract class BaseDialogView extends StatelessWidget {
+abstract class BaseDialogView<T extends BaseDialogViewModel> extends StatelessWidget {
   final String? _message;
   final String? _title;
   final String? _primaryText;
@@ -22,41 +22,37 @@ abstract class BaseDialogView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final Widget? content = buildContent(context);
+    return AutoViewModelBuilder<T>(
+      builder: (BuildContext context, T viewModel) {
+        final Widget? content = buildContent(context, viewModel);
 
-    return AlertDialog(
-      title: _title == null ? null : Text(_title),
-      content: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisSize: MainAxisSize.min,
-        children: <Widget>[
-          Text(_message ?? ''),
-          if (content != null) Flexible(child: content),
-        ],
-      ),
-      actions: <Widget>[
-        if (_secondaryText != null)
-          TextButton(
-            onPressed: () async => onSecondaryButtonPressed(context),
-            child: Text(_secondaryText),
+        return AlertDialog(
+          title: _title == null ? null : Text(_title),
+          content: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              Text(_message ?? ''),
+              if (content != null) Flexible(child: content),
+            ],
           ),
-        TextButton(
-          onPressed: () async => onPrimaryButtonPressed(context),
-          child: Text(_primaryText ?? context.il8n.generalOk),
-        ),
-      ],
-      surfaceTintColor: Theme.of(context).colorScheme.surface,
+          actions: <Widget>[
+            if (_secondaryText != null)
+              TextButton(
+                onPressed: () async => viewModel.onSecondaryButtonPressed(),
+                child: Text(_secondaryText),
+              ),
+            TextButton(
+              onPressed: () async => viewModel.onPrimaryButtonPressed(),
+              child: Text(_primaryText ?? context.il8n.generalOk),
+            ),
+          ],
+          surfaceTintColor: Theme.of(context).colorScheme.surface,
+        );
+      },
     );
   }
 
-  Future<void> onPrimaryButtonPressed(BuildContext context) async {
-    await AutoRouter.of(context).maybePop(DialogAction.primary);
-  }
-
-  Future<void> onSecondaryButtonPressed(BuildContext context) async {
-    await AutoRouter.of(context).maybePop(DialogAction.secondary);
-  }
-
-  Widget? buildContent(BuildContext context) => null;
+  Widget? buildContent(BuildContext context, T viewModel) => null;
 }

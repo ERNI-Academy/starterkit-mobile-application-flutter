@@ -1,17 +1,12 @@
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:injectable/injectable.dart';
 
-abstract interface class ConnectivityService {
-  Future<bool> isConnected();
-}
-
-@LazySingleton(as: ConnectivityService)
-class ConnectivityServiceImpl implements ConnectivityService {
+@lazySingleton
+class ConnectivityService {
   final Connectivity _connectivity;
 
-  ConnectivityServiceImpl(this._connectivity);
+  ConnectivityService(this._connectivity);
 
-  @override
   Future<bool> isConnected() async {
     final ConnectivityResult status = await _connectivity.checkConnectivity();
     final bool isConnected = _isConnected(status);

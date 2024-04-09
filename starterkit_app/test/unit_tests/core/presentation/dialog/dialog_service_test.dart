@@ -9,7 +9,7 @@ import 'package:starterkit_app/core/presentation/navigation/navigation_service.d
 
 import '../../../../test_matchers.dart';
 import '../../../../test_utils.dart';
-import 'dialog_service_impl_test.mocks.dart';
+import 'dialog_service_test.mocks.dart';
 
 @GenerateNiceMocks(<MockSpec<Object>>[
   MockSpec<NavigationService>(),
@@ -143,6 +143,100 @@ void main() {
 
         verify(mockNavigationService.push(argThat(isA<AlertDialogViewRoute>()
                 .having((AlertDialogViewRoute r) => r.rawQueryParams, 'rawQueryParams', expectedQueryParams))))
+            .called(1);
+      });
+    });
+
+    group('textInput', () {
+      test('should navigate to TextInputDialogViewRoute when called', () async {
+        const String expectedMessage = 'message';
+        const String expectedTitle = 'title';
+        const String expectedPrimaryText = 'primaryText';
+        const String expectedSecondaryText = 'secondaryText';
+        final Map<String?, String> expectedQueryParams = <String?, String>{
+          'message': expectedMessage,
+          'primaryText': expectedPrimaryText,
+          'secondaryText': expectedSecondaryText,
+          'title': expectedTitle,
+        };
+        final DialogService unit = createUnitToTest();
+
+        await unit.textInput(
+          message: expectedMessage,
+          title: expectedTitle,
+          primaryText: expectedPrimaryText,
+          secondaryText: expectedSecondaryText,
+        );
+
+        verify(mockNavigationService.push(argThat(isA<TextInputDialogViewRoute>()
+                .having((TextInputDialogViewRoute r) => r.rawQueryParams, 'rawQueryParams', expectedQueryParams))))
+            .called(1);
+      });
+
+      test('should return result when result is not null', () async {
+        const String expectedMessage = 'message';
+        const String expectedTitle = 'title';
+        const String expectedPrimaryText = 'primaryText';
+        const String expectedSecondaryText = 'secondaryText';
+        const String expectedResult = 'result';
+        final DialogService unit = createUnitToTest();
+        when(mockNavigationService.push<String>(anyInstanceOf<TextInputDialogViewRoute>()))
+            .thenAnswer((_) async => expectedResult);
+
+        final String? actualResult = await unit.textInput(
+          message: expectedMessage,
+          title: expectedTitle,
+          primaryText: expectedPrimaryText,
+          secondaryText: expectedSecondaryText,
+        );
+
+        expect(actualResult, expectedResult);
+      });
+
+      test('should return null when result is null', () async {
+        const String expectedMessage = 'message';
+        const String expectedTitle = 'title';
+        const String expectedPrimaryText = 'primaryText';
+        const String expectedSecondaryText = 'secondaryText';
+        final DialogService unit = createUnitToTest();
+        when(mockNavigationService.push<String>(anyInstanceOf<TextInputDialogViewRoute>()))
+            .thenAnswer((_) async => null);
+
+        final String? actualResult = await unit.textInput(
+          message: expectedMessage,
+          title: expectedTitle,
+          primaryText: expectedPrimaryText,
+          secondaryText: expectedSecondaryText,
+        );
+
+        expect(actualResult, isNull);
+      });
+
+      test('should set secondary text to cancel when null', () async {
+        final Il8n il8n = await setupLocale();
+        const String expectedMessage = 'message';
+        const String expectedTitle = 'title';
+        const String expectedPrimaryText = 'primaryText';
+        const String? expectedSecondaryText = null;
+        final Map<String?, String> expectedQueryParams = <String?, String>{
+          'message': expectedMessage,
+          'primaryText': expectedPrimaryText,
+          'secondaryText': il8n.generalCancel,
+          'title': expectedTitle,
+        };
+        final DialogService unit = createUnitToTest();
+        when(mockNavigationService.push<String>(anyInstanceOf<TextInputDialogViewRoute>()))
+            .thenAnswer((_) async => null);
+
+        await unit.textInput(
+          message: expectedMessage,
+          title: expectedTitle,
+          primaryText: expectedPrimaryText,
+          secondaryText: expectedSecondaryText,
+        );
+
+        verify(mockNavigationService.push(argThat(isA<TextInputDialogViewRoute>()
+                .having((TextInputDialogViewRoute r) => r.rawQueryParams, 'rawQueryParams', expectedQueryParams))))
             .called(1);
       });
     });

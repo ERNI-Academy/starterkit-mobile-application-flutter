@@ -4,21 +4,21 @@ import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:starterkit_app/core/infrastructure/platform/connectivity_service.dart';
 
-import 'connectivity_service_impl_test.mocks.dart';
+import 'connectivity_service_test.mocks.dart';
 
 @GenerateNiceMocks(<MockSpec<Object>>[
   MockSpec<Connectivity>(),
 ])
 void main() {
-  group(ConnectivityServiceImpl, () {
+  group(ConnectivityService, () {
     late MockConnectivity mockConnectivity;
 
     setUp(() {
       mockConnectivity = MockConnectivity();
     });
 
-    ConnectivityServiceImpl createUnitToTest() {
-      return ConnectivityServiceImpl(mockConnectivity);
+    ConnectivityService createUnitToTest() {
+      return ConnectivityService(mockConnectivity);
     }
 
     group('isConnected', () {
@@ -28,7 +28,7 @@ void main() {
           ConnectivityResult.mobile,
           ConnectivityResult.ethernet,
         ];
-        final ConnectivityServiceImpl unit = createUnitToTest();
+        final ConnectivityService unit = createUnitToTest();
 
         for (final ConnectivityResult status in expectedStatuses) {
           when(mockConnectivity.checkConnectivity()).thenAnswer((_) async => status);
@@ -45,7 +45,7 @@ void main() {
               element == ConnectivityResult.wifi ||
               element == ConnectivityResult.mobile ||
               element == ConnectivityResult.ethernet);
-        final ConnectivityServiceImpl unit = createUnitToTest();
+        final ConnectivityService unit = createUnitToTest();
 
         for (final ConnectivityResult status in expectedStatuses) {
           when(mockConnectivity.checkConnectivity()).thenAnswer((_) async => status);

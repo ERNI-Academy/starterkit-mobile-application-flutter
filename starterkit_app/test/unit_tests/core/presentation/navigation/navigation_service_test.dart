@@ -7,7 +7,7 @@ import 'package:mockito/mockito.dart';
 import 'package:starterkit_app/core/presentation/navigation/navigation_router.dart';
 import 'package:starterkit_app/core/presentation/navigation/navigation_service.dart';
 
-import 'navigation_service_impl_test.mocks.dart';
+import 'navigation_service_test.mocks.dart';
 
 @GenerateNiceMocks(<MockSpec<Object>>[
   MockSpec<NavigationRouter>(),
@@ -77,6 +77,18 @@ void main() {
         final String? actualResult = await unit.replace(expectedRoute);
 
         expect(actualResult, equals(expectedResult));
+      });
+    });
+
+    group('maybePop', () {
+      test('should return true when called', () async {
+        const String expectedResult = 'result';
+        final NavigationService unit = createUnitToTest();
+        when(mockNavigationRouter.maybePop(expectedResult)).thenAnswer((_) async => true);
+
+        final bool actualResult = await unit.maybePop(expectedResult);
+
+        expect(actualResult, isTrue);
       });
     });
   });

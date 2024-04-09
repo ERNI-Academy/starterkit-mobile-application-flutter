@@ -7,7 +7,7 @@ import 'package:starterkit_app/core/infrastructure/logging/logger.dart';
 import 'package:starterkit_app/core/presentation/navigation/navigation_logger.dart';
 
 import '../../../../test_matchers.dart';
-import 'navigation_logger_impl_test.mocks.dart';
+import 'navigation_logger_test.mocks.dart';
 
 @GenerateNiceMocks(<MockSpec<Object>>[
   MockSpec<Logger>(),
@@ -15,20 +15,20 @@ import 'navigation_logger_impl_test.mocks.dart';
   MockSpec<RouteMatch<Object?>>(),
 ])
 void main() {
-  group(NavigationLoggerImpl, () {
+  group(NavigationLogger, () {
     late MockLogger mockLogger;
 
     setUp(() {
       mockLogger = MockLogger();
     });
 
-    NavigationLoggerImpl createUnitToTest() {
-      return NavigationLoggerImpl(mockLogger);
+    NavigationLogger createUnitToTest() {
+      return NavigationLogger(mockLogger);
     }
 
     group('didPush', () {
       test('should log information when called', () {
-        final NavigationLoggerImpl unit = createUnitToTest();
+        final NavigationLogger unit = createUnitToTest();
 
         unit.didPush(MaterialPageRoute<void>(builder: (BuildContext context) => const SizedBox()), null);
 
@@ -44,7 +44,7 @@ void main() {
         final MockRouteMatch mockRouteMatch = MockRouteMatch();
         when(mockRouteData.path).thenReturn(expectedRoutePath);
         when(mockRouteData.route).thenReturn(mockRouteMatch);
-        final NavigationLoggerImpl unit = createUnitToTest();
+        final NavigationLogger unit = createUnitToTest();
 
         unit.didPush(
           MaterialPageRoute<void>(
@@ -66,7 +66,7 @@ void main() {
 
     group('didPop', () {
       test('should log information when called', () {
-        final NavigationLoggerImpl unit = createUnitToTest();
+        final NavigationLogger unit = createUnitToTest();
 
         unit.didPop(MaterialPageRoute<void>(builder: (BuildContext context) => const SizedBox()), null);
 
@@ -82,7 +82,7 @@ void main() {
         final MockRouteMatch mockRouteMatch = MockRouteMatch();
         when(mockRouteData.path).thenReturn(expectedRoutePath);
         when(mockRouteData.route).thenReturn(mockRouteMatch);
-        final NavigationLoggerImpl unit = createUnitToTest();
+        final NavigationLogger unit = createUnitToTest();
 
         unit.didPop(
           MaterialPageRoute<void>(
@@ -104,7 +104,7 @@ void main() {
 
     group('didReplace', () {
       test('should log information when called', () {
-        final NavigationLoggerImpl unit = createUnitToTest();
+        final NavigationLogger unit = createUnitToTest();
 
         unit.didReplace(newRoute: null, oldRoute: null);
 
@@ -120,7 +120,7 @@ void main() {
         final MockRouteMatch mockRouteMatch = MockRouteMatch();
         when(mockRouteData.path).thenReturn(expectedRoutePath);
         when(mockRouteData.route).thenReturn(mockRouteMatch);
-        final NavigationLoggerImpl unit = createUnitToTest();
+        final NavigationLogger unit = createUnitToTest();
 
         unit.didReplace(
           newRoute: MaterialPageRoute<void>(

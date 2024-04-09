@@ -23,6 +23,7 @@ class NavigationRouterImpl extends $NavigationRouterImpl implements NavigationRo
   List<AutoRoute> get routes {
     return <AutoRoute>[
       CustomDialogRoute(page: AlertDialogViewRoute.page, path: '/dialogs/alert'),
+      CustomDialogRoute(page: TextInputDialogViewRoute.page, path: '/dialogs/text-input'),
       AutoRoute(page: PostsViewRoute.page, path: '/'),
       AutoRoute(page: PostDetailsViewRoute.page, path: '/posts/:postId'),
     ];
