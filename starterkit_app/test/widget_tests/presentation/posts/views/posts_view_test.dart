@@ -12,6 +12,7 @@ import 'package:starterkit_app/core/domain/models/result.dart';
 import 'package:starterkit_app/core/infrastructure/platform/connectivity_service.dart';
 import 'package:starterkit_app/core/presentation/navigation/navigation_router.gr.dart';
 import 'package:starterkit_app/core/service_registrar.dart';
+import 'package:starterkit_app/features/app/presentation/views/app.dart';
 import 'package:starterkit_app/features/post/data/remote/post_api.dart';
 import 'package:starterkit_app/features/post/domain/models/post_entity.dart';
 import 'package:starterkit_app/features/post/presentation/views/post_details_view.dart';
@@ -20,7 +21,6 @@ import 'package:starterkit_app/features/post/presentation/views/posts_view.dart'
 import '../../../../database/test_isar_database_factory.dart';
 import '../../../../test_utils.dart';
 import '../../../../widget_test_utils.dart';
-import '../../../test_app.dart';
 import 'posts_view_test.mocks.dart';
 
 @GenerateNiceMocks(<MockSpec<Object>>[
@@ -82,7 +82,7 @@ void main() {
         );
         when(mockConnectivityService.isConnected()).thenAnswer((_) async => true);
 
-        await tester.pumpWidget(const TestApp(initialRoute: PostsViewRoute()));
+        await tester.pumpWidget(const App(initialRoute: PostsViewRoute()));
         await tester.pumpAndSettle();
 
         await tester.matchGolden('posts_view_app_bar_title');
@@ -99,7 +99,7 @@ void main() {
         );
         when(mockConnectivityService.isConnected()).thenAnswer((_) async => true);
 
-        await tester.pumpWidget(const TestApp(initialRoute: PostsViewRoute()));
+        await tester.pumpWidget(const App(initialRoute: PostsViewRoute()));
         await tester.pumpAndSettle();
 
         await tester.matchGolden('posts_view_loaded');
@@ -125,7 +125,7 @@ void main() {
         );
         when(mockConnectivityService.isConnected()).thenAnswer((_) async => true);
 
-        await tester.pumpWidget(const TestApp(initialRoute: PostsViewRoute()));
+        await tester.pumpWidget(const App(initialRoute: PostsViewRoute()));
         await tester.pumpAndSettle();
         await tester.tap(find.byType(ListTile));
         await tester.pumpAndSettle();

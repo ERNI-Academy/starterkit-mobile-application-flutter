@@ -2,9 +2,9 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:golden_toolkit/golden_toolkit.dart';
 import 'package:starterkit_app/core/presentation/navigation/navigation_router.gr.dart';
 import 'package:starterkit_app/core/presentation/views/dialogs/alert_dialog_view.dart';
+import 'package:starterkit_app/features/app/presentation/views/app.dart';
 
 import '../../../../../widget_test_utils.dart';
-import '../../../../test_app.dart';
 
 void main() {
   group(AlertDialogView, () {
@@ -20,7 +20,7 @@ void main() {
         const String expectedPrimaryText = 'primaryText';
 
         await tester.pumpWidget(
-          TestApp(
+          App(
             initialRoute: AlertDialogViewRoute(
               message: expectedMessage,
               title: expectedTitle,
@@ -46,7 +46,7 @@ void main() {
         const String expectedPrimaryText = 'primaryText';
         const String expectedSecondaryText = 'secondaryText';
 
-        await tester.pumpWidget(TestApp(
+        await tester.pumpWidget(App(
           initialRoute: AlertDialogViewRoute(
             message: expectedMessage,
             title: expectedTitle,
