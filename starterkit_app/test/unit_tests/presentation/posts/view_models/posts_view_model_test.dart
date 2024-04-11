@@ -44,18 +44,13 @@ void main() {
       test('should get posts when called', () async {
         const List<PostEntity> expectedPostEntities = <PostEntity>[PostEntity.empty];
         const PostsListLoadedState expectedPostState = PostsListLoadedState(expectedPostEntities);
-        when(mockGetPostsUseCase.execute(
-          offset: anyInstanceOf<int>(named: 'offset'),
-          limit: anyInstanceOf<int>(named: 'limit'),
-        )).thenAnswer((_) async => const Success<List<PostEntity>>(expectedPostEntities));
+        when(mockGetPostsUseCase.execute())
+            .thenAnswer((_) async => const Success<List<PostEntity>>(expectedPostEntities));
 
         final PostsViewModel unit = createUnitToTest();
         await unit.onInitialize(null);
 
-        verify(mockGetPostsUseCase.execute(
-          offset: anyInstanceOf<int>(named: 'offset'),
-          limit: anyInstanceOf<int>(named: 'limit'),
-        )).called(1);
+        verify(mockGetPostsUseCase.execute()).called(1);
         await expectLater(unit.postsState.value, equals(expectedPostState));
       });
 
@@ -63,18 +58,13 @@ void main() {
         final Exception expectedException = Exception();
         const StackTrace expectedStackTrace = StackTrace.empty;
         final PostsListErrorState expectedPostState = PostsListErrorState(il8n.failedToGetPosts);
-        when(mockGetPostsUseCase.execute(
-          offset: anyInstanceOf<int>(named: 'offset'),
-          limit: anyInstanceOf<int>(named: 'limit'),
-        )).thenAnswer((_) async => Failure<List<PostEntity>>(expectedException, expectedStackTrace));
+        when(mockGetPostsUseCase.execute())
+            .thenAnswer((_) async => Failure<List<PostEntity>>(expectedException, expectedStackTrace));
 
         final PostsViewModel unit = createUnitToTest();
         await unit.onInitialize(null);
 
-        verify(mockGetPostsUseCase.execute(
-          offset: anyInstanceOf<int>(named: 'offset'),
-          limit: anyInstanceOf<int>(named: 'limit'),
-        )).called(1);
+        verify(mockGetPostsUseCase.execute()).called(1);
         verify(mockLogger.log(LogLevel.error, anyInstanceOf<String>(), expectedException, expectedStackTrace))
             .called(1);
         await expectLater(unit.postsState.value, equals(expectedPostState));
@@ -85,19 +75,14 @@ void main() {
       test('should add previous posts to new posts when called', () async {
         const List<PostEntity> expectedPostEntities = <PostEntity>[PostEntity.empty, PostEntity.empty];
         const PostsListLoadedState expectedPostState = PostsListLoadedState(expectedPostEntities);
-        when(mockGetPostsUseCase.execute(
-          offset: anyInstanceOf<int>(named: 'offset'),
-          limit: anyInstanceOf<int>(named: 'limit'),
-        )).thenAnswer((_) async => const Success<List<PostEntity>>(<PostEntity>[PostEntity.empty]));
+        when(mockGetPostsUseCase.execute())
+            .thenAnswer((_) async => const Success<List<PostEntity>>(<PostEntity>[PostEntity.empty]));
 
         final PostsViewModel unit = createUnitToTest();
         await unit.onInitialize(null);
         await unit.onGetPosts();
 
-        verify(mockGetPostsUseCase.execute(
-          offset: anyInstanceOf<int>(named: 'offset'),
-          limit: anyInstanceOf<int>(named: 'limit'),
-        )).called(2);
+        verify(mockGetPostsUseCase.execute()).called(2);
         expect(unit.postsState.value, equals(expectedPostState));
       });
     });

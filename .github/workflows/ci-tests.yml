@@ -51,11 +51,7 @@ jobs:
         uses: ./.github/workflows/steps/set-app-environment
         with:
           target_environment: ${{ github.event.inputs.target_environment }}
-
-      - name: Download Isar binary
-        run: |
-          curl -L https://github.com/isar/isar/releases/download/4.0.0-dev.14/libisar_macos.dylib > ${{ env.PROJECT_WORKING_DIRECTORY }}/test/assets/isar.dylib
-
+          
       - name: Install Flutter
         uses: ./.github/workflows/steps/install-flutter
         with:

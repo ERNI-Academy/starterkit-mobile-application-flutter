@@ -14,9 +14,7 @@ const Named appServerUrl = Named('apiBaseUrl');
 abstract interface class ServiceRegistrar {
   static GetIt get _instance {
     if (_instanceRef == null) {
-      throw UnsupportedError(
-        'GetIt is not initialized, did you forget to call DependencyInjection.registerDependencies()?',
-      );
+      throw StateError('GetIt is not initialized, did you forget to call ServiceRegistrar.registerDependencies()?');
     }
 
     return _instanceRef!;

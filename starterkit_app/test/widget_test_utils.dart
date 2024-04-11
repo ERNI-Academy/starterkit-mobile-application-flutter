@@ -3,6 +3,7 @@
 import 'dart:async';
 import 'dart:io';
 
+import 'package:drift/drift.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:golden_toolkit/golden_toolkit.dart';
@@ -15,6 +16,7 @@ Future<void> setUpWidgetTest() async {
   ServiceRegistrar.registerDependencies();
   await setupLocale();
   await loadAppFonts();
+  driftRuntimeOptions.dontWarnAboutMultipleDatabases = true;
 }
 
 abstract final class Devices {

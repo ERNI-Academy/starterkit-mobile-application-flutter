@@ -4,7 +4,7 @@ import 'package:starterkit_app/features/post/domain/models/post_entity.dart';
 import 'package:starterkit_app/features/post/domain/repositories/post_repository.dart';
 
 abstract interface class GetPostsUseCase {
-  Future<Result<Iterable<PostEntity>>> execute({required int offset, required int limit});
+  Future<Result<Iterable<PostEntity>>> execute();
 }
 
 @LazySingleton(as: GetPostsUseCase)
@@ -14,9 +14,9 @@ class GetPostsUseCaseImpl implements GetPostsUseCase {
   GetPostsUseCaseImpl(this._postRepository);
 
   @override
-  Future<Result<Iterable<PostEntity>>> execute({required int offset, required int limit}) async {
+  Future<Result<Iterable<PostEntity>>> execute() async {
     try {
-      final Iterable<PostEntity> posts = await _postRepository.getPosts(offset: offset, limit: limit);
+      final Iterable<PostEntity> posts = await _postRepository.getPosts();
 
       return Success<Iterable<PostEntity>>(posts);
     } catch (e, st) {

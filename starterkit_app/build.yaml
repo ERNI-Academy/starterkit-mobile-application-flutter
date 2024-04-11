@@ -27,6 +27,10 @@ targets:
         generate_for:
           - lib/core/presentation/navigation/navigation_router.dart
 
+      drift_dev:
+        options:
+          data_class_to_companions: false
+
 # Run reflectable after injectable_generator
 # See https://github.com/dart-lang/build/issues/2701#issuecomment-1424669567 
 # for more info on how to run builders in specific order

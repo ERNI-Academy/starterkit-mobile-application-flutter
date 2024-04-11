@@ -14,8 +14,6 @@ import 'package:starterkit_app/features/post/domain/use_cases/get_posts_use_case
 
 @injectable
 class PostsViewModel extends ViewModel implements Initializable {
-  static const int _itemsPerPage = 10;
-
   final Logger _logger;
   final NavigationService _navigationService;
 
@@ -23,13 +21,9 @@ class PostsViewModel extends ViewModel implements Initializable {
 
   final ValueNotifier<PostsListState> _postsState = ValueNotifier<PostsListState>(const PostsListLoadingState());
 
-  int _currentPage = 1;
-
   PostsViewModel(this._logger, this._navigationService, this._getPostsUseCase) {
     _logger.logFor(this);
   }
-
-  int get _currentOffset => (_currentPage - 1) * _itemsPerPage;
 
   ValueListenable<PostsListState> get postsState => _postsState;
 
@@ -41,8 +35,7 @@ class PostsViewModel extends ViewModel implements Initializable {
   Future<void> onGetPosts() async {
     _logger.log(LogLevel.info, 'Getting posts');
 
-    final Result<Iterable<PostEntity>> getPostsResult =
-        await _getPostsUseCase.execute(offset: _currentOffset, limit: _itemsPerPage);
+    final Result<Iterable<PostEntity>> getPostsResult = await _getPostsUseCase.execute();
 
     switch (getPostsResult) {
       case Success<Iterable<PostEntity>>(value: final Iterable<PostEntity> postsToBeAdded):
@@ -59,10 +52,6 @@ class PostsViewModel extends ViewModel implements Initializable {
   }
 
   void _onAddNewPosts(Iterable<PostEntity> postsToBeAdded) {
-    if (postsToBeAdded.isNotEmpty) {
-      _currentPage++;
-    }
-
     final List<PostEntity> newPosts = <PostEntity>[];
 
     if (_postsState.value case PostsListLoadedState(posts: final Iterable<PostEntity> currentPosts)) {

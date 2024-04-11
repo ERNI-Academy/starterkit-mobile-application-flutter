@@ -7,7 +7,7 @@ import 'package:golden_toolkit/golden_toolkit.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:starterkit_app/common/localization/generated/l10n.dart';
-import 'package:starterkit_app/core/data/database/isar_database_factory.dart';
+import 'package:starterkit_app/core/data/database/app_database.dart';
 import 'package:starterkit_app/core/domain/models/result.dart';
 import 'package:starterkit_app/core/infrastructure/platform/connectivity_service.dart';
 import 'package:starterkit_app/core/presentation/navigation/navigation_router.gr.dart';
@@ -18,7 +18,7 @@ import 'package:starterkit_app/features/post/domain/models/post_entity.dart';
 import 'package:starterkit_app/features/post/presentation/views/post_details_view.dart';
 import 'package:starterkit_app/features/post/presentation/views/posts_view.dart';
 
-import '../../../../database/test_isar_database_factory.dart';
+import '../../../../database/in_memory_app_database.dart';
 import '../../../../test_utils.dart';
 import '../../../../widget_test_utils.dart';
 import 'posts_view_test.mocks.dart';
@@ -39,7 +39,7 @@ void main() {
       mockDio = MockDio();
       il8n = await setupLocale();
 
-      ServiceRegistrar.registerLazySingleton<IsarDatabaseFactory>(TestIsarDatabaseFactory.new);
+      ServiceRegistrar.registerLazySingleton<AppDatabase>(InMemoryAppDatabase.new);
       ServiceRegistrar.registerLazySingleton<PostApi>(() => PostApi(mockDio));
       ServiceRegistrar.registerLazySingleton<ConnectivityService>(() => mockConnectivityService);
       provideDummy<Result<Iterable<PostEntity>>>(Failure<Iterable<PostEntity>>(Exception()));
@@ -73,67 +73,61 @@ void main() {
       });
     }
 
-    group('AppBar', () {
-      testGoldens('should show correct title when shown', (WidgetTester tester) async {
-        setUpApi<List<dynamic>>(
-          expectedPath: endsWith('/posts'),
-          expectedMethod: matches('GET'),
-          expectedResponseFile: 'posts.json',
-        );
-        when(mockConnectivityService.isConnected()).thenAnswer((_) async => true);
+    testGoldens('AppBar should show correct title when shown', (WidgetTester tester) async {
+      setUpApi<List<dynamic>>(
+        expectedPath: endsWith('/posts'),
+        expectedMethod: matches('GET'),
+        expectedResponseFile: 'posts.json',
+      );
+      when(mockConnectivityService.isConnected()).thenAnswer((_) async => true);
 
-        await tester.pumpWidget(const App(initialRoute: PostsViewRoute()));
-        await tester.pumpAndSettle();
+      await tester.pumpWidget(const App(initialRoute: PostsViewRoute()));
+      await tester.pumpAndSettle();
 
-        await tester.matchGolden('posts_view_app_bar_title');
-        expect(find.text(il8n.posts), findsOneWidget);
-      });
+      await tester.matchGolden('posts_view_app_bar_title');
+      expect(find.text(il8n.posts), findsOneWidget);
     });
 
-    group('ListView', () {
-      testGoldens('should show posts when loaded', (WidgetTester tester) async {
-        setUpApi<List<dynamic>>(
-          expectedPath: endsWith('/posts'),
-          expectedMethod: matches('GET'),
-          expectedResponseFile: 'posts.json',
-        );
-        when(mockConnectivityService.isConnected()).thenAnswer((_) async => true);
+    testGoldens('ListView should show posts when loaded', (WidgetTester tester) async {
+      setUpApi<List<dynamic>>(
+        expectedPath: endsWith('/posts'),
+        expectedMethod: matches('GET'),
+        expectedResponseFile: 'posts.json',
+      );
+      when(mockConnectivityService.isConnected()).thenAnswer((_) async => true);
 
-        await tester.pumpWidget(const App(initialRoute: PostsViewRoute()));
-        await tester.pumpAndSettle();
+      await tester.pumpWidget(const App(initialRoute: PostsViewRoute()));
+      await tester.pumpAndSettle();
 
-        await tester.matchGolden('posts_view_loaded');
-        expect(find.byType(ListView), findsOneWidget);
-        expect(find.byType(ListTile), findsAtLeastNWidgets(1));
-      });
+      await tester.matchGolden('posts_view_loaded');
+      expect(find.byType(ListView), findsOneWidget);
+      expect(find.byType(ListTile), findsAtLeastNWidgets(1));
     });
 
-    group('ListTile', () {
-      testGoldens('should navigate to post details when post tapped', (WidgetTester tester) async {
-        setUpApi<List<dynamic>>(
-          expectedPath: endsWith('/posts'),
-          expectedMethod: matches('GET'),
-          expectedResponseFile: 'posts.json',
-          onAnswer: () {
-            reset(mockDio);
-            setUpApi<Map<String, dynamic>>(
-              expectedPath: contains('/posts/'),
-              expectedMethod: matches('GET'),
-              expectedResponseFile: 'post.json',
-            );
-          },
-        );
-        when(mockConnectivityService.isConnected()).thenAnswer((_) async => true);
+    testGoldens('ListTile should navigate to post details when post tapped', (WidgetTester tester) async {
+      setUpApi<List<dynamic>>(
+        expectedPath: endsWith('/posts'),
+        expectedMethod: matches('GET'),
+        expectedResponseFile: 'posts.json',
+        onAnswer: () {
+          reset(mockDio);
+          setUpApi<Map<String, dynamic>>(
+            expectedPath: contains('/posts/'),
+            expectedMethod: matches('GET'),
+            expectedResponseFile: 'post.json',
+          );
+        },
+      );
+      when(mockConnectivityService.isConnected()).thenAnswer((_) async => true);
 
-        await tester.pumpWidget(const App(initialRoute: PostsViewRoute()));
-        await tester.pumpAndSettle();
-        await tester.tap(find.byType(ListTile));
-        await tester.pumpAndSettle();
+      await tester.pumpWidget(const App(initialRoute: PostsViewRoute()));
+      await tester.pumpAndSettle();
+      await tester.tap(find.byType(ListTile));
+      await tester.pumpAndSettle();
 
-        await tester.matchGolden('posts_view_navigate_to_post_details_view');
-        expect(find.byType(PostsView), findsNothing);
-        expect(find.byType(PostDetailsView), findsOneWidget);
-      });
+      await tester.matchGolden('posts_view_navigate_to_post_details_view');
+      expect(find.byType(PostsView), findsNothing);
+      expect(find.byType(PostDetailsView), findsOneWidget);
     });
   });
 }

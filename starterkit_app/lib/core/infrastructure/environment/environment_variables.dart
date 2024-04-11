@@ -3,6 +3,8 @@
 import 'package:injectable/injectable.dart';
 
 abstract interface class EnvironmentVariables {
+  String get appId;
+
   String get appEnvironment;
 
   String get appServerUrl;
@@ -10,6 +12,9 @@ abstract interface class EnvironmentVariables {
 
 @LazySingleton(as: EnvironmentVariables)
 class EnvironmentVariablesImpl implements EnvironmentVariables {
+  @override
+  String get appId => const String.fromEnvironment('appId') + const String.fromEnvironment('appIdSuffix');
+
   @override
   String get appEnvironment => const String.fromEnvironment('appEnvironment');
 
