@@ -6,23 +6,21 @@ import 'package:starterkit_app/features/post/data/remote/post_remote_data_source
 import 'package:starterkit_app/features/post/domain/mappers/post_mapper.dart';
 import 'package:starterkit_app/features/post/domain/models/post_data_contract.dart';
 import 'package:starterkit_app/features/post/domain/models/post_entity.dart';
-import 'package:starterkit_app/features/post/domain/repositories/post_repository.dart';
 
-@LazySingleton(as: PostRepository)
-class PostRepositoryImpl implements PostRepository {
+@lazySingleton
+class PostRepository {
   final PostRemoteDataSource _postRemoteDataSource;
   final PostLocalDataSource _postLocalDataSource;
   final PostMapper _postMapper;
   final ConnectivityService _connectivityService;
 
-  PostRepositoryImpl(
+  PostRepository(
     this._postRemoteDataSource,
     this._postLocalDataSource,
     this._postMapper,
     this._connectivityService,
   );
 
-  @override
   Future<Iterable<PostEntity>> getPosts() async {
     final bool isConnected = await _connectivityService.isConnected();
 
@@ -39,7 +37,6 @@ class PostRepositoryImpl implements PostRepository {
     return entities;
   }
 
-  @override
   Future<PostEntity> getPost(int postId) async {
     final bool isConnected = await _connectivityService.isConnected();
 

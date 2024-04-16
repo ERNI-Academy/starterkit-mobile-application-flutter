@@ -4,7 +4,7 @@ import 'package:mockito/mockito.dart';
 import 'package:starterkit_app/core/domain/models/result.dart';
 import 'package:starterkit_app/core/infrastructure/logging/logger.dart';
 import 'package:starterkit_app/features/post/domain/models/post_entity.dart';
-import 'package:starterkit_app/features/post/domain/use_cases/get_post_use_case.dart';
+import 'package:starterkit_app/features/post/domain/services/post_query_service.dart';
 import 'package:starterkit_app/features/post/presentation/view_models/post_details_view_model.dart';
 
 import '../../../../test_matchers.dart';
@@ -12,21 +12,21 @@ import 'post_details_view_model_test.mocks.dart';
 
 @GenerateNiceMocks(<MockSpec<Object>>[
   MockSpec<Logger>(),
-  MockSpec<GetPostUseCase>(),
+  MockSpec<PostQueryService>(),
 ])
 void main() {
   group(PostDetailsViewModel, () {
     late MockLogger mockLogger;
-    late MockGetPostUseCase mockGetPostUseCase;
+    late MockPostQueryService mockPostQueryService;
 
     setUp(() {
       mockLogger = MockLogger();
-      mockGetPostUseCase = MockGetPostUseCase();
+      mockPostQueryService = MockPostQueryService();
       provideDummy<Result<PostEntity>>(Failure<PostEntity>(Exception(), StackTrace.empty));
     });
 
     PostDetailsViewModel createUnitToTest() {
-      return PostDetailsViewModel(mockGetPostUseCase, mockLogger);
+      return PostDetailsViewModel(mockPostQueryService, mockLogger);
     }
 
     group('onInitialize', () {
@@ -34,12 +34,12 @@ void main() {
         final PostDetailsViewModel unit = createUnitToTest();
         const PostEntity expectedPost = PostEntity.empty;
         final int expectedPostId = expectedPost.id;
-        when(mockGetPostUseCase.execute(expectedPostId))
+        when(mockPostQueryService.getPost(expectedPostId))
             .thenAnswer((_) async => const Success<PostEntity>(expectedPost));
 
         await unit.onInitialize(expectedPostId);
 
-        verify(mockGetPostUseCase.execute(expectedPostId)).called(1);
+        verify(mockPostQueryService.getPost(expectedPostId)).called(1);
         expect(unit.post.value, equals(expectedPost));
       });
 
@@ -47,7 +47,7 @@ void main() {
         final PostDetailsViewModel unit = createUnitToTest();
         final Exception expectedException = Exception();
         const StackTrace expectedStackTrace = StackTrace.empty;
-        when(mockGetPostUseCase.execute(any))
+        when(mockPostQueryService.getPost(any))
             .thenAnswer((_) async => Failure<PostEntity>(expectedException, expectedStackTrace));
 
         await unit.onInitialize(1);

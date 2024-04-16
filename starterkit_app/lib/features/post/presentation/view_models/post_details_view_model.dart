@@ -4,14 +4,14 @@ import 'package:starterkit_app/core/infrastructure/logging/logger.dart';
 import 'package:starterkit_app/core/presentation/view_models/initializable.dart';
 import 'package:starterkit_app/core/presentation/view_models/view_model.dart';
 import 'package:starterkit_app/features/post/domain/models/post_entity.dart';
-import 'package:starterkit_app/features/post/domain/use_cases/get_post_use_case.dart';
+import 'package:starterkit_app/features/post/domain/services/post_query_service.dart';
 
 @injectable
 class PostDetailsViewModel extends ViewModel implements Initializable<int> {
-  final GetPostUseCase _getPostUseCase;
+  final PostQueryService _postQueryService;
   final Logger _logger;
 
-  PostDetailsViewModel(this._getPostUseCase, this._logger) {
+  PostDetailsViewModel(this._postQueryService, this._logger) {
     _logger.logFor<PostDetailsViewModel>();
   }
 
@@ -20,7 +20,7 @@ class PostDetailsViewModel extends ViewModel implements Initializable<int> {
 
   @override
   Future<void> onInitialize(int postId) async {
-    final Result<PostEntity> getPostResult = await _getPostUseCase.execute(postId);
+    final Result<PostEntity> getPostResult = await _postQueryService.getPost(postId);
 
     switch (getPostResult) {
       case Success<PostEntity>():

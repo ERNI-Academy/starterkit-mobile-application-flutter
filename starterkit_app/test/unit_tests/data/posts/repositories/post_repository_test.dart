@@ -10,7 +10,7 @@ import 'package:starterkit_app/features/post/domain/mappers/post_mapper.dart';
 import 'package:starterkit_app/features/post/domain/models/post_data_contract.dart';
 import 'package:starterkit_app/features/post/domain/models/post_entity.dart';
 
-import 'post_repository_impl_test.mocks.dart';
+import 'post_repository_test.mocks.dart';
 
 @GenerateNiceMocks(<MockSpec<Object>>[
   MockSpec<PostRemoteDataSource>(),
@@ -19,7 +19,7 @@ import 'post_repository_impl_test.mocks.dart';
   MockSpec<ConnectivityService>(),
 ])
 void main() {
-  group(PostRepositoryImpl, () {
+  group(PostRepository, () {
     late MockPostRemoteDataSource mockPostRemoteDataSource;
     late MockPostLocalDataSource mockPostLocalDataSource;
     late MockPostMapper mockPostMapper;
@@ -40,8 +40,8 @@ void main() {
       provideDummy(PostEntity.empty);
     });
 
-    PostRepositoryImpl createUnitToTest() {
-      return PostRepositoryImpl(
+    PostRepository createUnitToTest() {
+      return PostRepository(
         mockPostRemoteDataSource,
         mockPostLocalDataSource,
         mockPostMapper,
@@ -60,7 +60,7 @@ void main() {
         final Iterable<PostDataObject> expectedObjects = <PostDataObject>[
           const PostDataObject(id: 0, postId: 0, userId: 1, title: '', body: ''),
         ];
-        final PostRepositoryImpl unit = createUnitToTest();
+        final PostRepository unit = createUnitToTest();
         when(mockConnectivityService.isConnected()).thenAnswer((_) async => true);
         when(mockPostRemoteDataSource.getPosts()).thenAnswer((_) async => expectedContracts);
         when(mockPostMapper.convertIterable<PostDataContract, PostDataObject>(expectedContracts)).thenAnswer((_) {
@@ -84,7 +84,7 @@ void main() {
         final Iterable<PostDataObject> expectedObjects = <PostDataObject>[
           const PostDataObject(id: 0, postId: 0, userId: 1, title: '', body: ''),
         ];
-        final PostRepositoryImpl unit = createUnitToTest();
+        final PostRepository unit = createUnitToTest();
         when(mockConnectivityService.isConnected()).thenAnswer((_) async => true);
         when(mockPostRemoteDataSource.getPosts()).thenAnswer((_) async => expectedContracts);
         when(mockPostMapper.convertIterable<PostDataContract, PostDataObject>(expectedContracts)).thenAnswer((_) {
@@ -106,7 +106,7 @@ void main() {
         const Iterable<PostEntity> expectedEntities = <PostEntity>[
           PostEntity(userId: 1, id: 1, title: '', body: ''),
         ];
-        final PostRepositoryImpl unit = createUnitToTest();
+        final PostRepository unit = createUnitToTest();
         when(mockConnectivityService.isConnected()).thenAnswer((_) async => false);
         when(mockPostLocalDataSource.getAll()).thenAnswer((_) async => expectedObjects);
         when(mockPostMapper.convertIterable<PostDataObject, PostEntity>(expectedObjects))
@@ -127,7 +127,7 @@ void main() {
         const PostEntity expectedEntity = PostEntity(userId: 1, id: expectedPostId, title: '', body: '');
         const PostDataObject expectedObject =
             PostDataObject(id: 0, postId: expectedPostId, userId: 1, title: '', body: '');
-        final PostRepositoryImpl unit = createUnitToTest();
+        final PostRepository unit = createUnitToTest();
         when(mockConnectivityService.isConnected()).thenAnswer((_) async => true);
         when(mockPostRemoteDataSource.getPost(expectedPostId)).thenAnswer((_) async => expectedContract);
         when(mockPostMapper.convert<PostDataContract, PostDataObject>(expectedContract))
@@ -145,7 +145,7 @@ void main() {
         const int expectedId = 1;
         const PostDataContract expectedContract = PostDataContract(userId: 1, id: expectedId, title: '', body: '');
         const PostDataObject expectedObject = PostDataObject(id: 0, postId: expectedId, userId: 1, title: '', body: '');
-        final PostRepositoryImpl unit = createUnitToTest();
+        final PostRepository unit = createUnitToTest();
         when(mockConnectivityService.isConnected()).thenAnswer((_) async => true);
         when(mockPostRemoteDataSource.getPost(expectedId)).thenAnswer((_) async => expectedContract);
         when(mockPostMapper.convert<PostDataContract, PostDataObject>(expectedContract)).thenAnswer((_) {
@@ -163,7 +163,7 @@ void main() {
         const int expectedId = 1;
         const PostDataObject expectedObject = PostDataObject(id: 0, postId: expectedId, userId: 1, title: '', body: '');
         const PostEntity expectedEntity = PostEntity(userId: 1, id: expectedId, title: '', body: '');
-        final PostRepositoryImpl unit = createUnitToTest();
+        final PostRepository unit = createUnitToTest();
         when(mockConnectivityService.isConnected()).thenAnswer((_) async => false);
         when(mockPostLocalDataSource.getPost(expectedId)).thenAnswer((_) async => expectedObject);
         when(mockPostMapper.convert<PostDataObject, PostEntity>(expectedObject)).thenAnswer((_) => expectedEntity);
