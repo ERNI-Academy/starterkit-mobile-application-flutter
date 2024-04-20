@@ -17,7 +17,7 @@
   "[dart]": {
     "editor.codeActionsOnSave": {
       "source.organizeImports": "explicit",
-      "source.sortMembers": "never",
+      "source.sortMembers": "explicit",
       "source.fixAll": "explicit"
     },
     "editor.formatOnSave": true,
