@@ -32,7 +32,6 @@
     "editor.wordBasedSuggestions": "off"
   },
   "flutter-coverage.sufficientCoverageThreshold": 80,
-  "dart.flutterSdkPath": ".fvm/versions/3.19.5",
   "search.exclude": {
     "**/.fvm": true
   },

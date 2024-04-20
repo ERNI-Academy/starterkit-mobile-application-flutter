@@ -1,13 +1,13 @@
+import 'package:flutter/foundation.dart';
 import 'package:injectable/injectable.dart';
 import 'package:starterkit_app/core/domain/models/result.dart';
 import 'package:starterkit_app/core/infrastructure/logging/logger.dart';
 import 'package:starterkit_app/core/presentation/view_models/initializable.dart';
-import 'package:starterkit_app/core/presentation/view_models/view_model.dart';
 import 'package:starterkit_app/features/post/domain/models/post_entity.dart';
 import 'package:starterkit_app/features/post/domain/services/post_query_service.dart';
 
 @injectable
-class PostDetailsViewModel extends ViewModel implements Initializable<int> {
+class PostDetailsViewModel implements Initializable<int> {
   final PostQueryService _postQueryService;
   final Logger _logger;
 

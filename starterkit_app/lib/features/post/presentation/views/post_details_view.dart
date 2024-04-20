@@ -15,7 +15,7 @@ class PostDetailsView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AutoViewModelBuilder<PostDetailsViewModel>(
-      initializationParameter: () => postId,
+      initializeWith: () => postId,
       child: const Scaffold(
         appBar: _PostDetailsAppBar(),
         body: _PostDetailsBody(),

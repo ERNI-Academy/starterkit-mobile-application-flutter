@@ -6,7 +6,9 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:starterkit_app/common/localization/generated/l10n.dart';
 import 'package:starterkit_app/core/presentation/navigation/navigation_router.dart';
 import 'package:starterkit_app/core/presentation/navigation/navigation_router_delegate.dart';
+import 'package:starterkit_app/core/presentation/views/view_model_builder.dart';
 import 'package:starterkit_app/core/service_locator.dart';
+import 'package:starterkit_app/features/app/presentation/view_models/app_view_model.dart';
 
 class App extends StatefulWidget {
   final PageRouteInfo? initialRoute;
@@ -37,20 +39,22 @@ class _AppState extends State<App> {
           return const SizedBox.shrink();
         }
 
-        return MaterialApp.router(
-          routeInformationParser: _rootStackRouter.routeInformationParser,
-          routerDelegate: _routerDelegate,
-          theme: ThemeData(
-            useMaterial3: true,
-            colorSchemeSeed: Colors.blue,
+        return AutoViewModelBuilder<AppViewModel>(
+          child: MaterialApp.router(
+            routeInformationParser: _rootStackRouter.routeInformationParser,
+            routerDelegate: _routerDelegate,
+            theme: ThemeData(
+              useMaterial3: true,
+              colorSchemeSeed: Colors.blue,
+            ),
+            localizationsDelegates: const <LocalizationsDelegate<Object>>[
+              Il8n.delegate,
+              GlobalMaterialLocalizations.delegate,
+              GlobalWidgetsLocalizations.delegate,
+              GlobalCupertinoLocalizations.delegate,
+            ],
+            supportedLocales: Il8n.delegate.supportedLocales,
           ),
-          localizationsDelegates: const <LocalizationsDelegate<Object>>[
-            Il8n.delegate,
-            GlobalMaterialLocalizations.delegate,
-            GlobalWidgetsLocalizations.delegate,
-            GlobalCupertinoLocalizations.delegate,
-          ],
-          supportedLocales: Il8n.delegate.supportedLocales,
         );
       },
     );

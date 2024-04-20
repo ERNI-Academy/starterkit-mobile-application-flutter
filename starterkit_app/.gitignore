@@ -103,3 +103,9 @@ GoogleService-Info.plist
 *.dll
 *.dylib
 *.so
+
+# Unsupported platforms
+macos/
+windows/
+linux/
+web/
