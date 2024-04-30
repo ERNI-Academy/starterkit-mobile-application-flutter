@@ -221,18 +221,18 @@ packages:
     dependency: "direct main"
     description:
       name: connectivity_plus
-      sha256: "224a77051d52a11fbad53dd57827594d3bd24f945af28bd70bab376d68d437f0"
+      sha256: db7a4e143dc72cc3cb2044ef9b052a7ebfe729513e6a82943bc3526f784365b8
       url: "https://pub.dev"
     source: hosted
-    version: "5.0.2"
+    version: "6.0.3"
   connectivity_plus_platform_interface:
     dependency: transitive
     description:
       name: connectivity_plus_platform_interface
-      sha256: cf1d1c28f4416f8c654d7dc3cd638ec586076255d407cef3ddbdaf178272a71a
+      sha256: b6a56efe1e6675be240de39107281d4034b64ac23438026355b4234042a35adb
       url: "https://pub.dev"
     source: hosted
-    version: "1.2.4"
+    version: "2.0.0"
   convert:
     dependency: transitive
     description:
@@ -253,10 +253,10 @@ packages:
     dependency: "direct main"
     description:
       name: cupertino_icons
-      sha256: d57953e10f9f8327ce64a508a355f0b1ec902193f66288e8cb5070e7c47eeb2d
+      sha256: ba631d1c7f7bef6b729a622b7b752645a2d076dba9976925b8f25725a30e1ee6
       url: "https://pub.dev"
     source: hosted
-    version: "1.0.6"
+    version: "1.0.8"
   dart_style:
     dependency: transitive
     description:
@@ -285,26 +285,26 @@ packages:
     dependency: "direct main"
     description:
       name: dio
-      sha256: "0978e9a3e45305a80a7210dbeaf79d6ee8bee33f70c8e542dc654c952070217f"
+      sha256: "11e40df547d418cc0c4900a9318b26304e665da6fa4755399a9ff9efd09034b5"
       url: "https://pub.dev"
     source: hosted
-    version: "5.4.2+1"
+    version: "5.4.3+1"
   drift:
     dependency: "direct main"
     description:
       name: drift
-      sha256: "3b276c838ff7f8e19aac18a51f9b388715268f3534eaaf8047c8455ef3c1738d"
+      sha256: "049057eba8692cc097c9d0be7612d0a6dd65e3bd283de7e352f9dc81de23169a"
       url: "https://pub.dev"
     source: hosted
-    version: "2.16.0"
+    version: "2.17.0"
   drift_dev:
     dependency: "direct dev"
     description:
       name: drift_dev
-      sha256: "66cf3e397448f855523d7b6b7b3789db232b211db96543a42285464d05f3bf72"
+      sha256: eb327c76604f3e84fff12b246d52da1c160d3aa44d7d433f000d416b4d5e8d8d
       url: "https://pub.dev"
     source: hosted
-    version: "2.16.0"
+    version: "2.17.0"
   equatable:
     dependency: "direct main"
     description:
@@ -401,10 +401,10 @@ packages:
     dependency: "direct main"
     description:
       name: get_it
-      sha256: "36524bfb3f0b4ec952c3202466fdd69ad1f7ac1dd9b0a7564177707e45bfaeb9"
+      sha256: d85128a5dae4ea777324730dc65edd9c9f43155c109d5cc0a69cab74139fbac1
       url: "https://pub.dev"
     source: hosted
-    version: "7.6.8"
+    version: "7.7.0"
   glob:
     dependency: transitive
     description:
@@ -505,18 +505,18 @@ packages:
     dependency: "direct main"
     description:
       name: json_annotation
-      sha256: b10a7b2ff83d83c777edba3c6a0f97045ddadd56c944e1a23a3fdf43a1bf4467
+      sha256: "1ce844379ca14835a50d2f019a3099f419082cfdd231cd86a142af94dd5c6bb1"
       url: "https://pub.dev"
     source: hosted
-    version: "4.8.1"
+    version: "4.9.0"
   json_serializable:
     dependency: "direct dev"
     description:
       name: json_serializable
-      sha256: aa1f5a8912615733e0fdc7a02af03308933c93235bdc8d50d0b0c8a8ccb0b969
+      sha256: ea1432d167339ea9b5bb153f0571d0039607a873d6e04e0117af043f14a1fd4b
       url: "https://pub.dev"
     source: hosted
-    version: "6.7.1"
+    version: "6.8.0"
   leak_tracker:
     dependency: transitive
     description:
@@ -617,10 +617,10 @@ packages:
     dependency: "direct main"
     description:
       name: path_provider
-      sha256: b27217933eeeba8ff24845c34003b003b2b22151de3c908d0e679e8fe1aa078b
+      sha256: c9e7d3a4cd1410877472158bee69963a4579f78b68c65a2b7d40d1a7a88bb161
       url: "https://pub.dev"
     source: hosted
-    version: "2.1.2"
+    version: "2.1.3"
   path_provider_android:
     dependency: transitive
     description:
@@ -733,14 +733,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "4.1.0"
-  reflectable:
-    dependency: "direct main"
-    description:
-      name: reflectable
-      sha256: cdc1a278a2e9769abafaf9ba54ce1fd3432b2a38360e14b87ea6344f715340de
-      url: "https://pub.dev"
-    source: hosted
-    version: "4.0.6"
   retrofit:
     dependency: "direct main"
     description:
@@ -822,18 +814,18 @@ packages:
     dependency: "direct main"
     description:
       name: sqlite3_flutter_libs
-      sha256: d6c31c8511c441d1f12f20b607343df1afe4eddf24a1cf85021677c8eea26060
+      sha256: fb2a106a2ea6042fe57de2c47074cc31539a941819c91e105b864744605da3f5
       url: "https://pub.dev"
     source: hosted
-    version: "0.5.20"
+    version: "0.5.21"
   sqlparser:
     dependency: transitive
     description:
       name: sqlparser
-      sha256: "7b20045d1ccfb7bc1df7e8f9fee5ae58673fce6ff62cefbb0e0fd7214e90e5a0"
+      sha256: ce244c25100319b3fe1a7774c091f89faf3101adb73d75f1297e56d247f66b2b
       url: "https://pub.dev"
     source: hosted
-    version: "0.34.1"
+    version: "0.35.1"
   stack_trace:
     dependency: transitive
     description:
@@ -918,10 +910,10 @@ packages:
     dependency: "direct main"
     description:
       name: uuid
-      sha256: cd210a09f7c18cbe5a02511718e0334de6559871052c90a90c0cca46a4aa81c8
+      sha256: "814e9e88f21a176ae1359149021870e87f7cddaf633ab678a5d2b0bff7fd1ba8"
       url: "https://pub.dev"
     source: hosted
-    version: "4.3.3"
+    version: "4.4.0"
   vector_math:
     dependency: transitive
     description:

@@ -28,15 +28,12 @@ void main() {
           ConnectivityResult.mobile,
           ConnectivityResult.ethernet,
         ];
+        when(mockConnectivity.checkConnectivity()).thenAnswer((_) async => expectedStatuses);
         final ConnectivityService unit = createUnitToTest();
 
-        for (final ConnectivityResult status in expectedStatuses) {
-          when(mockConnectivity.checkConnectivity()).thenAnswer((_) async => status);
+        final bool actualIsConnected = await unit.isConnected();
 
-          final bool actualIsConnected = await unit.isConnected();
-
-          expect(actualIsConnected, isTrue);
-        }
+        expect(actualIsConnected, isTrue);
       });
 
       test('should return false when not connected to wifi, mobile, or ethernet', () async {
@@ -45,15 +42,12 @@ void main() {
               element == ConnectivityResult.wifi ||
               element == ConnectivityResult.mobile ||
               element == ConnectivityResult.ethernet);
+        when(mockConnectivity.checkConnectivity()).thenAnswer((_) async => expectedStatuses);
         final ConnectivityService unit = createUnitToTest();
 
-        for (final ConnectivityResult status in expectedStatuses) {
-          when(mockConnectivity.checkConnectivity()).thenAnswer((_) async => status);
+        final bool actualIsConnected = await unit.isConnected();
 
-          final bool actualIsConnected = await unit.isConnected();
-
-          expect(actualIsConnected, isFalse);
-        }
+        expect(actualIsConnected, isFalse);
       });
     });
   });

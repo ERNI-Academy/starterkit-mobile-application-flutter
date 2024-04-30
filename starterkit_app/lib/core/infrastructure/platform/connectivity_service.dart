@@ -8,15 +8,15 @@ class ConnectivityService {
   ConnectivityService(this._connectivity);
 
   Future<bool> isConnected() async {
-    final ConnectivityResult status = await _connectivity.checkConnectivity();
-    final bool isConnected = _isConnected(status);
+    final List<ConnectivityResult> statuses = await _connectivity.checkConnectivity();
+    final bool isConnected = _isConnected(statuses);
 
     return isConnected;
   }
 
-  static bool _isConnected(ConnectivityResult status) {
-    return status == ConnectivityResult.wifi ||
-        status == ConnectivityResult.mobile ||
-        status == ConnectivityResult.ethernet;
+  static bool _isConnected(List<ConnectivityResult> statuses) {
+    return statuses.contains(ConnectivityResult.wifi) ||
+        statuses.contains(ConnectivityResult.mobile) ||
+        statuses.contains(ConnectivityResult.ethernet);
   }
 }
