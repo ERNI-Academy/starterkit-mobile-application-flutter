@@ -43,8 +43,6 @@ migrate_working_dir/
 **/*.auto_mappr.dart
 full_coverage_test.dart
 metrics
-.fvm/**
-!.fvm/fvm_config.json
 
 # Web related
 
@@ -109,3 +107,9 @@ macos/
 windows/
 linux/
 web/
+
+# FVM Version Cache
+.fvm/
+
+# Commited since it is needed for GitHub Actions
+!.fvm/fvm_config.json 

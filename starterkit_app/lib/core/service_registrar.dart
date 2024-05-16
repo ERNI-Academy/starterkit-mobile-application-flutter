@@ -6,12 +6,15 @@ import 'package:starterkit_app/core/service_registrar.config.dart';
 
 const Named appServerUrl = Named('apiBaseUrl');
 
+// ignore: invalid_annotation_target
 @InjectableInit(
   initializerName: r'$register',
   preferRelativeImports: false,
   asExtension: false,
 )
 abstract interface class ServiceRegistrar {
+  static GetIt? _instanceRef;
+
   static GetIt get _instance {
     if (_instanceRef == null) {
       throw StateError('GetIt is not initialized, did you forget to call ServiceRegistrar.registerDependencies()?');
@@ -19,8 +22,6 @@ abstract interface class ServiceRegistrar {
 
     return _instanceRef!;
   }
-
-  static GetIt? _instanceRef;
 
   static void registerDependencies() {
     final GetIt getIt = GetIt.instance..allowReassignment = true;

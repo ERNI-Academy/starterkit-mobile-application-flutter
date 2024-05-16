@@ -37,5 +37,6 @@
   },
   "files.watcherExclude": {
     "**/.fvm": true
-  }
+  },
+  "dart.flutterSdkPath": ".fvm/versions/3.22.0"
 }
