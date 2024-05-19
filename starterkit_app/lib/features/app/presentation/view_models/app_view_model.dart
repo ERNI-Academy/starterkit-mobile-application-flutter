@@ -11,13 +11,13 @@ class AppViewModel with AppLifeCycleAwareMixin {
   }
 
   @override
-  Future<void> onAppPaused() async {
-    _logger.log(LogLevel.info, 'App paused');
+  Future<void> onAppDetached() async {
+    _logger.log(LogLevel.info, 'App detached');
   }
 
   @override
-  Future<void> onAppResumed() async {
-    _logger.log(LogLevel.info, 'App resumed');
+  Future<void> onAppHidden() async {
+    _logger.log(LogLevel.info, 'App hidden');
   }
 
   @override
@@ -26,12 +26,12 @@ class AppViewModel with AppLifeCycleAwareMixin {
   }
 
   @override
-  Future<void> onAppDetached() async {
-    _logger.log(LogLevel.info, 'App detached');
+  Future<void> onAppPaused() async {
+    _logger.log(LogLevel.info, 'App paused');
   }
 
   @override
-  Future<void> onAppHidden() async {
-    _logger.log(LogLevel.info, 'App hidden');
+  Future<void> onAppResumed() async {
+    _logger.log(LogLevel.info, 'App resumed');
   }
 }

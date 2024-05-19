@@ -46,6 +46,11 @@ class AutoViewModelBuilder<TViewModel extends Object> extends StatelessWidget {
 }
 
 class ViewModelBuilder<TViewModel> extends StatefulWidget {
+  final TViewModel Function(BuildContext context) create;
+
+  final ViewModelWidgetBuilder<TViewModel> builder;
+  final Object Function()? initializeWith;
+  final void Function(BuildContext context, TViewModel viewModel)? dispose;
   const ViewModelBuilder({
     required this.create,
     required this.builder,
@@ -53,11 +58,6 @@ class ViewModelBuilder<TViewModel> extends StatefulWidget {
     this.dispose,
     super.key,
   });
-
-  final TViewModel Function(BuildContext context) create;
-  final ViewModelWidgetBuilder<TViewModel> builder;
-  final Object Function()? initializeWith;
-  final void Function(BuildContext context, TViewModel viewModel)? dispose;
 
   @override
   State<StatefulWidget> createState() => _ViewModelBuilderState<TViewModel>();
@@ -72,6 +72,29 @@ class _ViewModelBuilderState<TViewModel> extends State<ViewModelBuilder<TViewMod
     }
 
     return _currentViewModel!;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return ViewModelProvider<TViewModel>(
+      viewModel: _viewModel,
+      child: widget.builder(context, _viewModel),
+    );
+  }
+
+  @override
+  void dispose() {
+    if (_viewModel case AppLifeCycleAwareMixin(:final WidgetsBindingObserver appLifeCycleObserver)) {
+      WidgetsBinding.instance.removeObserver(appLifeCycleObserver);
+    }
+
+    if (_viewModel case final Disposable disposable) {
+      disposable.dispose();
+    }
+
+    widget.dispose?.call(context, _viewModel);
+
+    super.dispose();
   }
 
   @override
@@ -96,34 +119,11 @@ class _ViewModelBuilderState<TViewModel> extends State<ViewModelBuilder<TViewMod
     _currentViewModel = viewModel;
   }
 
-  @override
-  void dispose() {
-    if (_viewModel case AppLifeCycleAwareMixin(:final WidgetsBindingObserver appLifeCycleObserver)) {
-      WidgetsBinding.instance.removeObserver(appLifeCycleObserver);
-    }
-
-    if (_viewModel case final Disposable disposable) {
-      disposable.dispose();
-    }
-
-    widget.dispose?.call(context, _viewModel);
-
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return ViewModelProvider<TViewModel>(
-      viewModel: _viewModel,
-      child: widget.builder(context, _viewModel),
-    );
-  }
-
   static Future<void> _tryInitilizeViewModel(Initializable initializable, Object? parameter) async {
     try {
       await initializable.onInitialize(parameter);
     } on TypeError {
-      throw StateError('Failed to initialize ViewModel with parameter: $parameter');
+      throw StateError('Failed to initialize ViewModel ${initializable.runtimeType} with parameter: $parameter');
     }
   }
 }

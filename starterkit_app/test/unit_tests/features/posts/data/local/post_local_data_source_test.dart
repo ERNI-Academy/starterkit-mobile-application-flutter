@@ -2,7 +2,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:starterkit_app/core/data/database/app_database.dart';
 import 'package:starterkit_app/features/post/data/local/post_local_data_source.dart';
 
-import '../../../../database/in_memory_app_database.dart';
+import '../../../../../database/in_memory_app_database.dart';
 
 void main() {
   group(PostLocalDataSource, () {
