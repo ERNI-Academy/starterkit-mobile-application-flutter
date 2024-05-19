@@ -18,6 +18,7 @@ runs:
       shell: bash
       run: |
         dart run full_coverage
+      working-directory: ${{ inputs.working_directory }}
 
     - name: Run tests and update goldens
       shell: bash
