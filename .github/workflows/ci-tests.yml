@@ -33,14 +33,12 @@ concurrency:
 env:
   PROJECT_WORKING_DIRECTORY: "starterkit_app"
 
-# Set `contents` to `write` if you want to commit to this repository
-permissions:
-  contents: write
-
 jobs:
   run-tests:
     runs-on: macos-latest
-    permissions: {}
+    # Set `contents` to `write` if you want to commit to this repository
+    permissions:
+      contents: write
     steps:
       - name: Harden Runner
         uses: step-security/harden-runner@63c24ba6bd7ba022e95695ff85de572c04a18142 # v2.7.0
