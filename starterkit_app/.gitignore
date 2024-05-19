@@ -110,6 +110,3 @@ web/
 
 # FVM Version Cache
 .fvm/
-
-# Commited since it is needed for GitHub Actions
-!.fvm/fvm_config.json 

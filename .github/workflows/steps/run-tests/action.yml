@@ -1,0 +1,38 @@
+name: Run Tests
+description: Run tests for the project
+
+inputs:
+  working_directory:
+    description: 'The working directory'
+    required: true
+
+  update_goldens:
+    description: 'Update golden files and commit them to the repository'
+    required: false
+    default: false
+
+runs:
+  using: composite
+  steps:
+    - name: Ensure full coverage
+      run: |
+        dart run full_coverage
+
+    - name: Run tests and update goldens
+      if: ${{ inputs.update_goldens }}
+      run: |
+        flutter test --coverage --update-goldens
+      working-directory: ${{ inputs.working_directory }}
+
+    - uses: stefanzweifel/git-auto-commit-action@v5
+      name: Commit golden files to the repository
+      if: ${{ inputs.update_goldens }}
+      with:
+        commit_message: 'Update golden files'
+        file_pattern: '**/*.png'
+
+    - name: Run tests
+      if: ${{ !inputs.update_goldens }}
+      run: |
+        flutter test --coverage
+      working-directory: ${{ inputs.working_directory }}
