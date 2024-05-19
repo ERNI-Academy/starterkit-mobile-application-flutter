@@ -15,10 +15,12 @@ runs:
   using: composite
   steps:
     - name: Ensure full coverage
+      shell: bash
       run: |
         dart run full_coverage
 
     - name: Run tests and update goldens
+      shell: bash
       if: ${{ inputs.update_goldens }}
       run: |
         flutter test --coverage --update-goldens
@@ -32,6 +34,7 @@ runs:
         file_pattern: '**/*.png'
 
     - name: Run tests
+      shell: bash
       if: ${{ !inputs.update_goldens }}
       run: |
         flutter test --coverage
