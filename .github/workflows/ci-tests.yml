@@ -33,7 +33,9 @@ concurrency:
 env:
   PROJECT_WORKING_DIRECTORY: "starterkit_app"
 
-permissions: {}
+# Set `contents` to `write` if you want to commit to this repository
+permissions:
+  contents: write
 
 jobs:
   run-tests:
@@ -68,6 +70,7 @@ jobs:
           bash ../scripts/ignore_generated_files_from_coverage.sh
         working-directory: ${{ env.PROJECT_WORKING_DIRECTORY }}
 
+      # Set `update_goldens` to `true` to update golden files and commit them to the repository
       - name: Run tests
         uses: ./.github/workflows/steps/run-tests
         with:
