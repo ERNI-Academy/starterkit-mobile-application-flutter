@@ -47,7 +47,7 @@ jobs:
 
       - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
 
-      - uses: ruby/setup-ruby@d4526a55538b775af234ba4af27118ed6f8f6677 # v1
+      - uses: ruby/setup-ruby@6615b4b8a02c78c4d711c06df4b8a20aa685a45d # v1
         with:
           ruby-version: 2.7
 
