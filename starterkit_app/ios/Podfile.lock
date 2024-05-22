@@ -1,41 +1,53 @@
 PODS:
   - connectivity_plus (0.0.1):
     - Flutter
-    - ReachabilitySwift
+    - FlutterMacOS
   - Flutter (1.0.0)
-  - isar_flutter_libs (1.0.0):
-    - Flutter
   - path_provider_foundation (0.0.1):
     - Flutter
     - FlutterMacOS
-  - ReachabilitySwift (5.2.1)
+  - "sqlite3 (3.45.3+1)":
+    - "sqlite3/common (= 3.45.3+1)"
+  - "sqlite3/common (3.45.3+1)"
+  - "sqlite3/fts5 (3.45.3+1)":
+    - sqlite3/common
+  - "sqlite3/perf-threadsafe (3.45.3+1)":
+    - sqlite3/common
+  - "sqlite3/rtree (3.45.3+1)":
+    - sqlite3/common
+  - sqlite3_flutter_libs (0.0.1):
+    - Flutter
+    - "sqlite3 (~> 3.45.3+1)"
+    - sqlite3/fts5
+    - sqlite3/perf-threadsafe
+    - sqlite3/rtree
 
 DEPENDENCIES:
-  - connectivity_plus (from `.symlinks/plugins/connectivity_plus/ios`)
+  - connectivity_plus (from `.symlinks/plugins/connectivity_plus/darwin`)
   - Flutter (from `Flutter`)
-  - isar_flutter_libs (from `.symlinks/plugins/isar_flutter_libs/ios`)
   - path_provider_foundation (from `.symlinks/plugins/path_provider_foundation/darwin`)
+  - sqlite3_flutter_libs (from `.symlinks/plugins/sqlite3_flutter_libs/ios`)
 
 SPEC REPOS:
   trunk:
-    - ReachabilitySwift
+    - sqlite3
 
 EXTERNAL SOURCES:
   connectivity_plus:
-    :path: ".symlinks/plugins/connectivity_plus/ios"
+    :path: ".symlinks/plugins/connectivity_plus/darwin"
   Flutter:
     :path: Flutter
-  isar_flutter_libs:
-    :path: ".symlinks/plugins/isar_flutter_libs/ios"
   path_provider_foundation:
     :path: ".symlinks/plugins/path_provider_foundation/darwin"
+  sqlite3_flutter_libs:
+    :path: ".symlinks/plugins/sqlite3_flutter_libs/ios"
 
 SPEC CHECKSUMS:
-  connectivity_plus: bf0076dd84a130856aa636df1c71ccaff908fa1d
+  connectivity_plus: ddd7f30999e1faaef5967c23d5b6d503d10434db
   Flutter: e0871f40cf51350855a761d2e70bf5af5b9b5de7
-  isar_flutter_libs: b69f437aeab9c521821c3f376198c4371fa21073
-  path_provider_foundation: 3784922295ac71e43754bd15e0653ccfd36a147c
-  ReachabilitySwift: 5ae15e16814b5f9ef568963fb2c87aeb49158c66
+  path_provider_foundation: 2b6b4c569c0fb62ec74538f866245ac84301af46
+  sqlite3: 02d1f07eaaa01f80a1c16b4b31dfcbb3345ee01a
+  sqlite3_flutter_libs: 9bfe005308998aeca155330bbc2ea6dddf834a3b
 
 PODFILE CHECKSUM: c4c93c5f6502fe2754f48404d3594bf779584011
 
