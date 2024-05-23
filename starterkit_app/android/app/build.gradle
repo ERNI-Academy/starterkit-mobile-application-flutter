@@ -63,6 +63,11 @@ if (keystorePropertiesFileExists) {
 //     googleServicesJsonFile.write(decoded)
 // }
 
+//  If `appIdSuffix` is not set (prod env), for some reason it will have a default value of `appIdSuffix` ¯\_(ツ)_/¯
+def appIdSuffix = dartDefines.appIdSuffix != 'appIdSuffix' ? dartDefines.appIdSuffix : ''
+def appIdComplete = "${dartDefines.appId}${appIdSuffix}" 
+println "Building: ${dartDefines.appName} (${appIdComplete}) for ${dartDefines.appEnvironment} environment"
+
 android {
     namespace 'com.example.starterkit.app'
     compileSdk 34
@@ -81,10 +86,10 @@ android {
     }
 
     defaultConfig {
-        println "Building ${dartDefines.appId}${dartDefines.appIdSuffix}"
-
         applicationId "${dartDefines.appId}"
-        applicationIdSuffix "${dartDefines.appIdSuffix}"
+        if (appIdSuffix?.trim()) {
+            applicationIdSuffix appIdSuffix
+        }
         minSdkVersion 31
         targetSdkVersion 34
         versionCode flutterVersionCode.toInteger()
