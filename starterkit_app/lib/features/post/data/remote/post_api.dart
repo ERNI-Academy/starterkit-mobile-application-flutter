@@ -11,7 +11,7 @@ part 'post_api.g.dart';
 @RestApi()
 abstract interface class PostApi {
   @factoryMethod
-  factory PostApi(Dio dio) => _PostApi(dio);
+  factory PostApi(Dio dio) = _PostApi;
 
   @GET('/posts')
   Future<List<PostDataContract>> getPosts();

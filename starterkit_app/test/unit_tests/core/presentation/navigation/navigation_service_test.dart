@@ -86,7 +86,7 @@ void main() {
         final NavigationService unit = createUnitToTest();
         when(mockNavigationRouter.maybePop(expectedResult)).thenAnswer((_) async => true);
 
-        final bool actualResult = await unit.maybePop(expectedResult);
+        final bool actualResult = await unit.pop(expectedResult);
 
         expect(actualResult, isTrue);
       });

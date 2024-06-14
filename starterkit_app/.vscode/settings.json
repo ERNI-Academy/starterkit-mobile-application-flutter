@@ -1,5 +1,4 @@
 {
-  "dart.lineLength": 120,
   "files.exclude": {
     "build": true,
     "**/*.g.dart": true,
@@ -17,7 +16,7 @@
   "[dart]": {
     "editor.codeActionsOnSave": {
       "source.organizeImports": "explicit",
-      "source.sortMembers": "explicit",
+      "source.sortMembers": "never",
       "source.fixAll": "explicit"
     },
     "editor.formatOnSave": true,
@@ -38,5 +37,7 @@
   "files.watcherExclude": {
     "**/.fvm": true
   },
-  "dart.flutterSdkPath": ".fvm/versions/3.22.0"
+  "dart.lineLength": 120,
+  "dart.onlyAnalyzeProjectsWithOpenFiles": true,
+  "dart.flutterSdkPath": ".fvm/versions/3.22.2"
 }

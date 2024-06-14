@@ -40,21 +40,23 @@ class _AppState extends State<App> {
         }
 
         return AutoViewModelBuilder<AppViewModel>(
-          child: MaterialApp.router(
-            routeInformationParser: _rootStackRouter.routeInformationParser,
-            routerDelegate: _routerDelegate,
-            theme: ThemeData(
-              useMaterial3: true,
-              colorSchemeSeed: Colors.blue,
-            ),
-            localizationsDelegates: const <LocalizationsDelegate<Object>>[
-              Il8n.delegate,
-              GlobalMaterialLocalizations.delegate,
-              GlobalWidgetsLocalizations.delegate,
-              GlobalCupertinoLocalizations.delegate,
-            ],
-            supportedLocales: Il8n.delegate.supportedLocales,
-          ),
+          builder: (BuildContext context, AppViewModel viewModel) {
+            return MaterialApp.router(
+              routeInformationParser: _rootStackRouter.routeInformationParser,
+              routerDelegate: _routerDelegate,
+              theme: ThemeData(
+                useMaterial3: true,
+                colorSchemeSeed: Colors.blue,
+              ),
+              localizationsDelegates: const <LocalizationsDelegate<Object>>[
+                Il8n.delegate,
+                GlobalMaterialLocalizations.delegate,
+                GlobalWidgetsLocalizations.delegate,
+                GlobalCupertinoLocalizations.delegate,
+              ],
+              supportedLocales: Il8n.delegate.supportedLocales,
+            );
+          },
         );
       },
     );

@@ -2,6 +2,7 @@
 
 import 'package:get_it/get_it.dart';
 import 'package:injectable/injectable.dart';
+import 'package:meta/meta.dart';
 import 'package:starterkit_app/core/service_registrar.config.dart';
 
 const Named appServerUrl = Named('apiBaseUrl');
@@ -28,6 +29,7 @@ abstract interface class ServiceRegistrar {
     _instanceRef = $register(getIt);
   }
 
+  @visibleForTesting
   static void registerLazySingleton<T extends Object>(FactoryFunc<T> factoryFunc, {String? instanceName}) {
     _instance.registerLazySingleton<T>(factoryFunc, instanceName: instanceName);
   }

@@ -29,7 +29,7 @@ void main() {
         unit.text = expectedResult;
         await unit.onPrimaryButtonPressed();
 
-        verify(mockNavigationService.maybePop(expectedResult)).called(1);
+        verify(mockNavigationService.pop(expectedResult)).called(1);
       });
     });
 
@@ -38,7 +38,7 @@ void main() {
         final TextInputDialogViewModel unit = createUnitToTest();
         await unit.onSecondaryButtonPressed();
 
-        verify(mockNavigationService.maybePop<Object>(null)).called(1);
+        verify(mockNavigationService.pop<Object>(null)).called(1);
       });
     });
   });

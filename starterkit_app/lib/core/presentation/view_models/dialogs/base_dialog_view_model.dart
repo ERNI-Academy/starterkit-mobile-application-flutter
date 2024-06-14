@@ -9,10 +9,10 @@ abstract base class BaseDialogViewModel {
   BaseDialogViewModel(this.navigationService);
 
   Future<void> onPrimaryButtonPressed() async {
-    await navigationService.maybePop(DialogAction.primary);
+    await navigationService.pop(DialogAction.primary);
   }
 
   Future<void> onSecondaryButtonPressed() async {
-    await navigationService.maybePop(DialogAction.secondary);
+    await navigationService.pop(DialogAction.secondary);
   }
 }

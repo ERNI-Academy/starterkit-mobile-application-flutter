@@ -15,11 +15,12 @@ class PostDetailsView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AutoViewModelBuilder<PostDetailsViewModel>(
-      initializeWith: () => postId,
-      child: const Scaffold(
-        appBar: _PostDetailsAppBar(),
-        body: _PostDetailsBody(),
-      ),
+      builder: (BuildContext context, PostDetailsViewModel viewModel) {
+        return const Scaffold(
+          appBar: _PostDetailsAppBar(),
+          body: _PostDetailsBody(),
+        );
+      },
     );
   }
 }

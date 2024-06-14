@@ -3,6 +3,7 @@ import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:starterkit_app/core/domain/models/result.dart';
 import 'package:starterkit_app/core/infrastructure/logging/logger.dart';
+import 'package:starterkit_app/core/presentation/navigation/navigation_router.gr.dart';
 import 'package:starterkit_app/features/post/domain/models/post_entity.dart';
 import 'package:starterkit_app/features/post/domain/services/post_query_service.dart';
 import 'package:starterkit_app/features/post/presentation/view_models/post_details_view_model.dart';
@@ -37,7 +38,7 @@ void main() {
         when(mockPostQueryService.getPost(expectedPostId))
             .thenAnswer((_) async => const Success<PostEntity>(expectedPost));
 
-        await unit.onInitialize(expectedPostId);
+        await unit.onInitialize(PostDetailsViewRouteArgs(postId: expectedPostId));
 
         verify(mockPostQueryService.getPost(expectedPostId)).called(1);
         expect(unit.post.value, equals(expectedPost));
@@ -50,7 +51,7 @@ void main() {
         when(mockPostQueryService.getPost(any))
             .thenAnswer((_) async => Failure<PostEntity>(expectedException, expectedStackTrace));
 
-        await unit.onInitialize(1);
+        await unit.onInitialize(const PostDetailsViewRouteArgs(postId: 1));
 
         verify(mockLogger.log(LogLevel.error, anyInstanceOf<String>(), expectedException, expectedStackTrace));
       });

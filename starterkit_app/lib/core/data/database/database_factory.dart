@@ -17,7 +17,7 @@ class DatabaseFactory {
   Future<NativeDatabase> open() async {
     final String dbFileName = '${_environmentVariables.appId}.sqlite';
     final Directory cacheDir = await getApplicationCacheDirectory();
-    final Directory appDir = Directory(join(cacheDir.path, _environmentVariables.appId))..createSync();
+    final Directory appDir = Directory(join(cacheDir.path, 'database'))..createSync();
     final File dbFile = File(join(appDir.path, dbFileName));
 
     return NativeDatabase(dbFile);

@@ -20,22 +20,22 @@ dependencies:
   flutter_localizations:
     sdk: flutter
   get_it: ^7.7.0
-  injectable: ^2.4.0
+  injectable: ^2.4.2
   intl: ^0.19.0
   json_annotation: ^4.9.0
   meta: ^1.12.0
   path: ^1.9.0
   path_provider: ^2.1.3
   retrofit: ^4.1.0
-  sqlite3_flutter_libs: ^0.5.21
+  sqlite3_flutter_libs: ^0.5.23
   uuid: ^4.4.0
 
 dev_dependencies:
   auto_mappr: ^2.5.0
   auto_route_generator: ^7.3.2
-  build_runner: ^2.4.9
+  build_runner: ^2.4.11
   drift_dev: ^2.18.0
-  flutter_gen_runner: ^5.4.0
+  flutter_gen_runner: ^5.5.0+1
   flutter_test:
     sdk: flutter
   full_coverage: ^1.0.0

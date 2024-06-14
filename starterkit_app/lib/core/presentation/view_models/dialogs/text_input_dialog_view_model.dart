@@ -9,11 +9,11 @@ final class TextInputDialogViewModel extends BaseDialogViewModel {
 
   @override
   Future<void> onPrimaryButtonPressed() async {
-    await navigationService.maybePop(text);
+    await navigationService.pop(text);
   }
 
   @override
   Future<void> onSecondaryButtonPressed() async {
-    await navigationService.maybePop<Object>(null);
+    await navigationService.pop<Object>(null);
   }
 }

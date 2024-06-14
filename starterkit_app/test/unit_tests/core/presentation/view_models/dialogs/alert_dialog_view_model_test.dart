@@ -29,7 +29,7 @@ void main() {
         final AlertDialogViewModel unit = createUnitToTest();
         await unit.onPrimaryButtonPressed();
 
-        verify(mockNavigationService.maybePop(expectedResult)).called(1);
+        verify(mockNavigationService.pop(expectedResult)).called(1);
       });
     });
 
@@ -40,7 +40,7 @@ void main() {
         final AlertDialogViewModel unit = createUnitToTest();
         await unit.onSecondaryButtonPressed();
 
-        verify(mockNavigationService.maybePop(expectedResult)).called(1);
+        verify(mockNavigationService.pop(expectedResult)).called(1);
       });
     });
   });
