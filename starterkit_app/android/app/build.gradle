@@ -1,14 +1,15 @@
+plugins {
+    id "com.android.application"
+    id "kotlin-android"
+    id "dev.flutter.flutter-gradle-plugin"
+}
+
 def localProperties = new Properties()
 def localPropertiesFile = rootProject.file('local.properties')
 if (localPropertiesFile.exists()) {
     localPropertiesFile.withReader('UTF-8') { reader ->
         localProperties.load(reader)
     }
-}
-
-def flutterRoot = localProperties.getProperty('flutter.sdk')
-if (flutterRoot == null) {
-    throw new GradleException("Flutter SDK not found. Define location with flutter.sdk in the local.properties file.")
 }
 
 def flutterVersionCode = localProperties.getProperty('flutter.versionCode')
@@ -21,9 +22,16 @@ if (flutterVersionName == null) {
     flutterVersionName = '1.0'
 }
 
-apply plugin: 'com.android.application'
-apply plugin: 'kotlin-android'
-apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
+def dartDefines = [:]
+if (project.hasProperty('dart-defines')) {
+    // Decode dart-defines, which are comma-separated and encoded in Base64, and store them in a variable.
+    dartDefines = dartDefines + project.property('dart-defines')
+            .split(',')
+            .collectEntries { entry ->
+                def pair = new String(entry.decodeBase64(), 'UTF-8').split('=')
+                [(pair.first()): pair.last()]
+            }
+}
 
 // Check keystore file
 def keystoreProperties = new Properties()
@@ -48,17 +56,21 @@ if (keystorePropertiesFileExists) {
 
 // Uncomment this line if using google-services.json
 // Decode provided base64 google-services.json
-// if (androidGoogleServicesJson?.trim()) {
-//     def encoded = androidGoogleServicesJson
+// if (dartDefines.androidGoogleServicesJson?.trim()) {
+//     def encoded = dartDefines.androidGoogleServicesJson
 //     def decoded = new String(encoded.decodeBase64())
 //     def googleServicesJsonFile = new File("app/google-services.json")
 //     googleServicesJsonFile.write(decoded)
 // }
 
+//  If `appIdSuffix` is not set (prod env), for some reason it will have a default value of `appIdSuffix` ¯\_(ツ)_/¯
+def appIdSuffix = dartDefines.appIdSuffix != 'appIdSuffix' ? dartDefines.appIdSuffix : ''
+def appIdComplete = "${dartDefines.appId}${appIdSuffix}" 
+println "Building: ${dartDefines.appName} (${appIdComplete}) for ${dartDefines.appEnvironment} environment"
+
 android {
     namespace 'com.example.starterkit.app'
-    compileSdkVersion 34
-    ndkVersion flutter.ndkVersion
+    compileSdk 34
 
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
@@ -74,16 +86,16 @@ android {
     }
 
     defaultConfig {
-        println "Building $appId$appIdSuffix"
-
-        applicationId appId
-        applicationIdSuffix appIdSuffix
+        applicationId "${dartDefines.appId}"
+        if (appIdSuffix?.trim()) {
+            applicationIdSuffix appIdSuffix
+        }
         minSdkVersion 31
         targetSdkVersion 34
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
 
-        resValue "string", "app_name", appName
+        resValue "string", "app_name", "${dartDefines.appName}"
     }
 
     signingConfigs {
@@ -114,8 +126,4 @@ android {
 
 flutter {
     source '../..'
-}
-
-dependencies {
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 }

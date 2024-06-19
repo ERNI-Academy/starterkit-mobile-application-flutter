@@ -1,8 +1,8 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:golden_toolkit/golden_toolkit.dart';
-import 'package:starterkit_app/core/presentation/navigation/root_auto_router.gr.dart';
+import 'package:starterkit_app/core/presentation/navigation/navigation_router.gr.dart';
 import 'package:starterkit_app/core/presentation/views/dialogs/alert_dialog_view.dart';
-import 'package:starterkit_app/presentation/app/views/app.dart';
+import 'package:starterkit_app/features/app/presentation/views/app.dart';
 
 import '../../../../../widget_test_utils.dart';
 
@@ -19,14 +19,16 @@ void main() {
         const String expectedTitle = 'title';
         const String expectedPrimaryText = 'primaryText';
 
-        await tester.pumpWidget(App(
-          initialRoute: AlertDialogViewRoute(
-            message: expectedMessage,
-            title: expectedTitle,
-            primaryText: expectedPrimaryText,
-            secondaryText: null,
+        await tester.pumpWidget(
+          App(
+            initialRoute: AlertDialogViewRoute(
+              message: expectedMessage,
+              title: expectedTitle,
+              primaryText: expectedPrimaryText,
+              secondaryText: null,
+            ),
           ),
-        ));
+        );
         await tester.pumpAndSettle();
 
         await tester.matchGolden('alert_dialog_view_title_message_and_primary_action_button');

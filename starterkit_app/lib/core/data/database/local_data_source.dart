@@ -1,15 +1,16 @@
-import 'package:starterkit_app/core/domain/models/data_object.dart';
+import 'package:drift/drift.dart';
+import 'package:starterkit_app/core/domain/models/data_table.dart';
 
-abstract interface class LocalDataSource<T extends DataObject> {
-  Future<T?> get(int id);
+abstract interface class LocalDataSource<TTable extends DataTable, TDataObject extends Insertable<TDataObject>> {
+  Future<TDataObject?> get(int id);
 
-  Future<Iterable<T>> getAll({required int offset, required int limit});
+  Future<Iterable<TDataObject>> getAll();
 
-  Future<void> addOrUpdate(T object);
+  Future<void> addOrUpdate(TDataObject object);
 
-  Future<void> addOrUpdateAll(Iterable<T> objects);
+  Future<void> addOrUpdateAll(Iterable<TDataObject> objects);
 
-  Future<void> delete(int id);
+  Future<void> remove(TDataObject object);
 
-  Future<void> deleteAll(Iterable<int> ids);
+  Future<void> removeAll(Iterable<int> ids);
 }

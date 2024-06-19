@@ -43,7 +43,6 @@ migrate_working_dir/
 **/*.auto_mappr.dart
 full_coverage_test.dart
 metrics
-.fvm/flutter_sdk
 
 # Web related
 
@@ -94,9 +93,20 @@ fastlane/*.env
 google-services.json
 GoogleService-Info.plist
 
+# Secrets related
 .secrets/**
+/ios/Flutter/Dart-Defines.xcconfig
 
 # Binaries
 *.dll
 *.dylib
 *.so
+
+# Unsupported platforms
+macos/
+windows/
+linux/
+web/
+
+# FVM Version Cache
+.fvm/
