@@ -56,8 +56,8 @@ if (keystorePropertiesFileExists) {
 
 // Uncomment this line if using google-services.json
 // Decode provided base64 google-services.json
-// if (androidGoogleServicesJson?.trim()) {
-//     def encoded = androidGoogleServicesJson
+// if (dartDefines.androidGoogleServicesJson?.trim()) {
+//     def encoded = dartDefines.androidGoogleServicesJson
 //     def decoded = new String(encoded.decodeBase64())
 //     def googleServicesJsonFile = new File("app/google-services.json")
 //     googleServicesJsonFile.write(decoded)
