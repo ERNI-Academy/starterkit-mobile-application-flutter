@@ -1,22 +1,15 @@
 import 'package:injectable/injectable.dart';
 import 'package:starterkit_app/common/localization/generated/l10n.dart';
 import 'package:starterkit_app/core/presentation/dialogs/dialog_action.dart';
+import 'package:starterkit_app/core/presentation/navigation/navigation_router.gr.dart';
 import 'package:starterkit_app/core/presentation/navigation/navigation_service.dart';
-import 'package:starterkit_app/core/presentation/navigation/root_auto_router.gr.dart';
 
-abstract interface class DialogService {
-  Future<void> alert({required String message, String? title, String? primaryText, String? secondaryText});
-
-  Future<DialogAction> confirm({required String message, String? title, String? primaryText, String? secondaryText});
-}
-
-@LazySingleton(as: DialogService)
-class DialogServiceImpl implements DialogService {
+@lazySingleton
+class DialogService {
   final NavigationService _navigationService;
 
-  DialogServiceImpl(this._navigationService);
+  DialogService(this._navigationService);
 
-  @override
   Future<void> alert({required String message, String? title, String? primaryText, String? secondaryText}) async {
     await _navigationService.push(AlertDialogViewRoute(
       message: message,
@@ -26,7 +19,6 @@ class DialogServiceImpl implements DialogService {
     ));
   }
 
-  @override
   Future<DialogAction> confirm({
     required String message,
     String? title,
@@ -41,5 +33,21 @@ class DialogServiceImpl implements DialogService {
     ));
 
     return result ?? DialogAction.cancelled;
+  }
+
+  Future<String?> textInput({
+    required String message,
+    String? title,
+    String? primaryText,
+    String? secondaryText,
+  }) async {
+    final String? result = await _navigationService.push<String>(TextInputDialogViewRoute(
+      message: message,
+      title: title,
+      primaryText: primaryText,
+      secondaryText: secondaryText ?? Il8n.current.generalCancel,
+    ));
+
+    return result;
   }
 }

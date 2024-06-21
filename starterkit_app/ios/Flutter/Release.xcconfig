@@ -2,3 +2,4 @@
 #include? "Pods/Target Support Files/Pods-Runner/Pods-Runner.profile.xcconfig"
 #include "Generated.xcconfig"
 #include "DartDefine-Defaults.xcconfig"
+#include "Dart-Defines.xcconfig"

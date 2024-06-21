@@ -38,6 +38,7 @@ permissions: {}
 jobs:
   run-tests:
     runs-on: macos-latest
+    # Set `contents` to `write` if you want to commit to this repository
     permissions: {}
     steps:
       - name: Harden Runner
@@ -51,11 +52,7 @@ jobs:
         uses: ./.github/workflows/steps/set-app-environment
         with:
           target_environment: ${{ github.event.inputs.target_environment }}
-
-      - name: Download Isar binary
-        run: |
-          curl -L https://github.com/isar/isar/releases/download/4.0.0-dev.14/libisar_macos.dylib > ${{ env.PROJECT_WORKING_DIRECTORY }}/test/assets/isar.dylib
-
+          
       - name: Install Flutter
         uses: ./.github/workflows/steps/install-flutter
         with:
@@ -72,11 +69,12 @@ jobs:
           bash ../scripts/ignore_generated_files_from_coverage.sh
         working-directory: ${{ env.PROJECT_WORKING_DIRECTORY }}
 
+      # Set `update_goldens` to `true` to update golden files and commit them to the repository
       - name: Run tests
-        run: |
-          dart run full_coverage
-          flutter test --coverage
-        working-directory: ${{ env.PROJECT_WORKING_DIRECTORY }}
+        uses: ./.github/workflows/steps/run-tests
+        with:
+          working_directory: ${{ env.PROJECT_WORKING_DIRECTORY }}
+          update_goldens: false
 
       - uses: codecov/codecov-action@54bcd8715eee62d40e33596ef5e8f0f48dbbccab # v4.1.0
         with:

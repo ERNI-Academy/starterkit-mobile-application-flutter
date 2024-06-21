@@ -2,28 +2,28 @@
 
 import 'dart:async';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
 import 'package:starterkit_app/core/presentation/view_models/app_life_cycle_aware.dart';
-import 'package:starterkit_app/core/presentation/view_models/view_model.dart';
 
-mixin AppLifeCycleAwareMixin on ViewModel implements AppLifeCycleAware {
+mixin AppLifeCycleAwareMixin implements AppLifeCycleAware {
   @nonVirtual
   late final WidgetsBindingObserver appLifeCycleObserver = _WidgetsBindingObserverImpl(this);
 
   @override
-  Future<void> onAppPaused() => Future<void>.value();
+  Future<void> onAppPaused() async {}
 
   @override
-  Future<void> onAppResumed() => Future<void>.value();
+  Future<void> onAppResumed() async {}
 
   @override
-  Future<void> onAppInactive() => Future<void>.value();
+  Future<void> onAppInactive() async {}
 
   @override
-  Future<void> onAppDetached() => Future<void>.value();
+  Future<void> onAppDetached() async {}
 
   @override
-  Future<void> onAppHidden() => Future<void>.value();
+  Future<void> onAppHidden() async {}
 }
 
 class _WidgetsBindingObserverImpl extends WidgetsBindingObserver {
@@ -33,21 +33,12 @@ class _WidgetsBindingObserverImpl extends WidgetsBindingObserver {
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
-    switch (state) {
-      case AppLifecycleState.paused:
-        unawaited(_appLifeCycleAware.onAppPaused());
-
-      case AppLifecycleState.resumed:
-        unawaited(_appLifeCycleAware.onAppResumed());
-
-      case AppLifecycleState.inactive:
-        unawaited(_appLifeCycleAware.onAppInactive());
-
-      case AppLifecycleState.detached:
-        unawaited(_appLifeCycleAware.onAppDetached());
-
-      case AppLifecycleState.hidden:
-        unawaited(_appLifeCycleAware.onAppHidden());
-    }
+    unawaited(switch (state) {
+      AppLifecycleState.paused => _appLifeCycleAware.onAppPaused(),
+      AppLifecycleState.resumed => _appLifeCycleAware.onAppResumed(),
+      AppLifecycleState.inactive => _appLifeCycleAware.onAppInactive(),
+      AppLifecycleState.detached => _appLifeCycleAware.onAppDetached(),
+      AppLifecycleState.hidden => _appLifeCycleAware.onAppHidden()
+    });
   }
 }

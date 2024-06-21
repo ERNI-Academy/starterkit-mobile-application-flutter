@@ -8,14 +8,14 @@ updates:
   - package-ecosystem: "pub"
     directory: "starterkit_app"
     schedule:
-      interval: "monthly"
+      interval: monthly
 
   - package-ecosystem: github-actions
     directory: /
     schedule:
-      interval: daily
+      interval: monthly
 
   - package-ecosystem: bundler
     directory: /starterkit_app
     schedule:
-      interval: daily
+      interval: monthly

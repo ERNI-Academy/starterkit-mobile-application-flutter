@@ -1,27 +1,22 @@
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:injectable/injectable.dart';
 
-abstract interface class ConnectivityService {
-  Future<bool> isConnected();
-}
-
-@LazySingleton(as: ConnectivityService)
-class ConnectivityServiceImpl implements ConnectivityService {
+@lazySingleton
+class ConnectivityService {
   final Connectivity _connectivity;
 
-  ConnectivityServiceImpl(this._connectivity);
+  ConnectivityService(this._connectivity);
 
-  @override
   Future<bool> isConnected() async {
-    final ConnectivityResult status = await _connectivity.checkConnectivity();
-    final bool isConnected = _isConnected(status);
+    final List<ConnectivityResult> statuses = await _connectivity.checkConnectivity();
+    final bool isConnected = _isConnected(statuses);
 
     return isConnected;
   }
 
-  static bool _isConnected(ConnectivityResult status) {
-    return status == ConnectivityResult.wifi ||
-        status == ConnectivityResult.mobile ||
-        status == ConnectivityResult.ethernet;
+  static bool _isConnected(List<ConnectivityResult> statuses) {
+    return statuses.contains(ConnectivityResult.wifi) ||
+        statuses.contains(ConnectivityResult.mobile) ||
+        statuses.contains(ConnectivityResult.ethernet);
   }
 }
