@@ -12,7 +12,8 @@ Please see our [Contribution Guide](CONTRIBUTING.md) to learn how to contribute.
 
 ![MIT](https://img.shields.io/badge/License-MIT-blue.svg)
 
-Copyright © 2023 [ERNI - Swiss Software Engineering](https://www.betterask.erni)
+Copyright © 2024 [Dustin Catap](mailto:dustincatap@gmail.com)
+Copyright © 2024 [ERNI - Swiss Software Engineering](https://www.betterask.erni)
 
 ## Code of conduct
 
@@ -21,13 +22,6 @@ Please see our [Code of Conduct](CODE_OF_CONDUCT.md)
 ## Stats
 
 ![Alt](https://repobeats.axiom.co/api/embed/0efcc903e049a8ee8086139e5a6b22e2504c1fa1.svg "Repobeats analytics image")
-
-## Follow us
-
-[![Twitter Follow](https://img.shields.io/twitter/follow/ERNI?style=social)](https://www.twitter.com/ERNI)
-[![Twitch Status](https://img.shields.io/twitch/status/erni_academy?label=Twitch%20Erni%20Academy&style=social)](https://www.twitch.tv/erni_academy)
-[![YouTube Channel Views](https://img.shields.io/youtube/channel/views/UCkdDcxjml85-Ydn7Dc577WQ?label=Youtube%20Erni%20Academy&style=social)](https://www.youtube.com/channel/UCkdDcxjml85-Ydn7Dc577WQ)
-[![Linkedin](https://img.shields.io/badge/linkedin-31k-green?style=social&logo=Linkedin)](https://www.linkedin.com/company/erni)
 
 ## Contact
 
