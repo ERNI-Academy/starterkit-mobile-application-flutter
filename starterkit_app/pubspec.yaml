@@ -44,7 +44,7 @@ dev_dependencies:
   intl_utils: ^2.8.7
   json_serializable: ^6.8.0
   mockito: ^5.4.4
-  retrofit_generator: ^8.1.0
+  retrofit_generator: ^8.2.1
 
 flutter:
   uses-material-design: true
