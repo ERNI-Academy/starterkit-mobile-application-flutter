@@ -69,12 +69,10 @@ jobs:
           bash ../scripts/ignore_generated_files_from_coverage.sh
         working-directory: ${{ env.PROJECT_WORKING_DIRECTORY }}
 
-      # Set `update_goldens` to `true` to update golden files and commit them to the repository
       - name: Run tests
         uses: ./.github/workflows/steps/run-tests
         with:
           working_directory: ${{ env.PROJECT_WORKING_DIRECTORY }}
-          update_goldens: true
 
       - uses: codecov/codecov-action@e28ff129e5465c2c0dcc6f003fc735cb6ae0c673 # v4.5.0
         with:

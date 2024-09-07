@@ -20,23 +20,8 @@ runs:
         dart run full_coverage
       working-directory: ${{ inputs.working_directory }}
 
-    - name: Run tests and update goldens
-      shell: bash
-      if: ${{ inputs.update_goldens }}
-      run: |
-        flutter test --coverage --update-goldens
-      working-directory: ${{ inputs.working_directory }}
-
-    - uses: stefanzweifel/git-auto-commit-action@v5
-      name: Commit golden files to the repository
-      if: ${{ inputs.update_goldens }}
-      with:
-        commit_message: 'Update golden files'
-        file_pattern: '**/*.png'
-
     - name: Run tests
       shell: bash
-      if: ${{ !inputs.update_goldens }}
       run: |
         flutter test --coverage
       working-directory: ${{ inputs.working_directory }}
