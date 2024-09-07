@@ -3,7 +3,8 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 
-class CustomDialogRoute extends CustomRoute {
+@optionalTypeArgs
+class CustomDialogRoute<T> extends CustomRoute<T> {
   static const int animationDurationInMs = 300;
   static const int reverseAnimationDurationInMs = 300;
   static final Color dialogBarrierColor = Colors.black.withOpacity(0.5);
