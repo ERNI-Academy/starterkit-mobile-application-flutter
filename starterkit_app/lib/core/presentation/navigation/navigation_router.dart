@@ -12,7 +12,7 @@ abstract interface class NavigationRouter implements StackRouter {
 
 @LazySingleton(as: NavigationRouter)
 @AutoRouterConfig(replaceInRouteName: 'View,ViewRoute')
-class NavigationRouterImpl extends $NavigationRouterImpl implements NavigationRouter {
+class NavigationRouterImpl extends RootStackRouter implements NavigationRouter {
   @override
   RouteType get defaultRouteType => const RouteType.adaptive();
 
