@@ -62,7 +62,6 @@ lcov.info
 **/failures/**
 screenshots
 report
-libisar.dylib
 
 # fastlane
 fastlane/report.xml
@@ -107,6 +106,8 @@ macos/
 windows/
 linux/
 web/
+!**/goldens/macos
+!**/goldens/windows
 
 # FVM Version Cache
 .fvm/

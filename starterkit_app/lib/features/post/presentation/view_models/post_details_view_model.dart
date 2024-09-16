@@ -5,14 +5,14 @@ import 'package:starterkit_app/core/infrastructure/logging/logger.dart';
 import 'package:starterkit_app/core/presentation/navigation/navigation_router.gr.dart';
 import 'package:starterkit_app/core/presentation/view_models/initializable.dart';
 import 'package:starterkit_app/features/post/domain/models/post_entity.dart';
-import 'package:starterkit_app/features/post/domain/services/post_query_service.dart';
+import 'package:starterkit_app/features/post/domain/services/post_service.dart';
 
 @injectable
 class PostDetailsViewModel implements Initializable<PostDetailsViewRouteArgs> {
-  final PostQueryService _postQueryService;
+  final PostService _postService;
   final Logger _logger;
 
-  PostDetailsViewModel(this._postQueryService, this._logger) {
+  PostDetailsViewModel(this._postService, this._logger) {
     _logger.logFor<PostDetailsViewModel>();
   }
 
@@ -25,14 +25,14 @@ class PostDetailsViewModel implements Initializable<PostDetailsViewRouteArgs> {
       return;
     }
 
-    final Result<PostEntity> getPostResult = await _postQueryService.getPost(args.postId);
+    final Result<PostEntity> getPostResult = await _postService.getPost(args.postId);
 
     switch (getPostResult) {
       case Success<PostEntity>():
         _post.value = getPostResult.value;
 
       case Failure<PostEntity>():
-        _logger.log(LogLevel.error, 'Failed to get post', getPostResult.exception, getPostResult.stackTrace);
+        _logger.log(LogLevel.error, 'Failed to get post');
     }
   }
 }
