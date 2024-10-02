@@ -10,17 +10,17 @@ import 'package:starterkit_app/core/presentation/navigation/navigation_service.d
 import 'package:starterkit_app/core/presentation/view_models/initializable.dart';
 import 'package:starterkit_app/features/post/domain/models/post_entity.dart';
 import 'package:starterkit_app/features/post/domain/models/posts_list_state.dart';
-import 'package:starterkit_app/features/post/domain/services/post_query_service.dart';
+import 'package:starterkit_app/features/post/domain/services/post_service.dart';
 
 @injectable
 class PostsViewModel implements Initializable {
   final Logger _logger;
   final NavigationService _navigationService;
-  final PostQueryService _postQueryService;
+  final PostService _postService;
 
   final ValueNotifier<PostsListState> _postsState = ValueNotifier<PostsListState>(const PostsListLoadingState());
 
-  PostsViewModel(this._logger, this._navigationService, this._postQueryService) {
+  PostsViewModel(this._logger, this._navigationService, this._postService) {
     _logger.logFor(this);
   }
 
@@ -34,14 +34,14 @@ class PostsViewModel implements Initializable {
   Future<void> onGetPosts() async {
     _logger.log(LogLevel.info, 'Getting posts');
 
-    final Result<Iterable<PostEntity>> getPostsResult = await _postQueryService.getPosts();
+    final Result<Iterable<PostEntity>> getPostsResult = await _postService.getPosts();
 
     switch (getPostsResult) {
       case Success<Iterable<PostEntity>>(value: final Iterable<PostEntity> postsToBeAdded):
         _onAddNewPosts(postsToBeAdded);
 
-      case Failure<Iterable<PostEntity>>(exception: final Exception ex, stackTrace: final StackTrace? st):
-        _logger.log(LogLevel.error, 'Failed to get posts', ex, st);
+      case Failure<Iterable<PostEntity>>():
+        _logger.log(LogLevel.error, 'Failed to get posts');
         _postsState.value = PostsListErrorState(Il8n.current.failedToGetPosts);
     }
   }

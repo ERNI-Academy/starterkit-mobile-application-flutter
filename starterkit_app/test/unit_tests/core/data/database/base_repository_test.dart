@@ -3,10 +3,10 @@
 import 'package:drift/drift.dart' hide isNull;
 import 'package:drift/native.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:starterkit_app/core/data/database/base_local_data_source.dart';
+import 'package:starterkit_app/core/data/database/base_repository.dart';
 import 'package:starterkit_app/core/domain/models/data_table.dart';
 
-part 'base_local_data_source_test.g.dart';
+part 'base_repository_test.g.dart';
 
 @DriftDatabase(tables: <Type>[_TestDataTable])
 class _TestDatabase extends _$_TestDatabase {
@@ -19,12 +19,12 @@ class _TestDatabase extends _$_TestDatabase {
 @DataClassName('TestDataObject')
 class _TestDataTable extends DataTable {}
 
-class _TestLocalDataSource extends BaseLocalDataSource<_TestDatabase, _TestDataTable, TestDataObject> {
-  _TestLocalDataSource(super.attachedDatabase);
+class _TestRepository extends BaseRepository<_TestDatabase, _TestDataTable, TestDataObject> {
+  _TestRepository(super.attachedDatabase);
 }
 
 void main() {
-  group(BaseLocalDataSource, () {
+  group(BaseRepository, () {
     late _TestDatabase database;
 
     setUp(() {
@@ -32,14 +32,14 @@ void main() {
       database = _TestDatabase();
     });
 
-    _TestLocalDataSource createUnitToTest() {
-      return _TestLocalDataSource(database);
+    _TestRepository createUnitToTest() {
+      return _TestRepository(database);
     }
 
     group('get', () {
       test('should return object from database when called', () async {
         const TestDataObject expectedObject = TestDataObject(id: 1);
-        final _TestLocalDataSource unit = createUnitToTest();
+        final _TestRepository unit = createUnitToTest();
 
         await unit.addOrUpdate(expectedObject);
         final TestDataObject? actualObject = await unit.get(expectedObject.id);
@@ -51,7 +51,7 @@ void main() {
     group('getAll', () {
       test('should return objects from database when called', () async {
         final Iterable<TestDataObject> expectedSavedObjects = <TestDataObject>[const TestDataObject(id: 1)];
-        final _TestLocalDataSource unit = createUnitToTest();
+        final _TestRepository unit = createUnitToTest();
 
         await unit.addOrUpdateAll(expectedSavedObjects);
         final Iterable<TestDataObject> actualSavedObjects = await unit.getAll();
@@ -63,7 +63,7 @@ void main() {
     group('addOrUpdate', () {
       test('should add object to database when called', () async {
         const TestDataObject expectedObject = TestDataObject(id: 1);
-        final _TestLocalDataSource unit = createUnitToTest();
+        final _TestRepository unit = createUnitToTest();
 
         await unit.addOrUpdate(expectedObject);
         final TestDataObject? actualObject = await unit.get(expectedObject.id);
@@ -75,7 +75,7 @@ void main() {
     group('addOrUpdateAll', () {
       test('should add objects to database when called', () async {
         final Iterable<TestDataObject> expectedObjectsToSave = <TestDataObject>[const TestDataObject(id: 1)];
-        final _TestLocalDataSource unit = createUnitToTest();
+        final _TestRepository unit = createUnitToTest();
 
         await unit.addOrUpdateAll(expectedObjectsToSave);
         final Iterable<TestDataObject> actualObjectsToSave = await unit.getAll();
@@ -87,7 +87,7 @@ void main() {
     group('delete', () {
       test('should delete object from database when called', () async {
         const TestDataObject expectedObject = TestDataObject(id: 1);
-        final _TestLocalDataSource unit = createUnitToTest();
+        final _TestRepository unit = createUnitToTest();
 
         await unit.addOrUpdate(expectedObject);
         await unit.remove(expectedObject);
@@ -100,7 +100,7 @@ void main() {
     group('deleteAll', () {
       test('should delete all objects from database when called', () async {
         final List<TestDataObject> expectedObjectsToSave = <TestDataObject>[const TestDataObject(id: 1)];
-        final _TestLocalDataSource unit = createUnitToTest();
+        final _TestRepository unit = createUnitToTest();
 
         await unit.addOrUpdateAll(expectedObjectsToSave);
         final Iterable<TestDataObject> actualSavedObjects = await unit.getAll();

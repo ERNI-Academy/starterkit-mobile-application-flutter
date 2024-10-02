@@ -73,6 +73,31 @@ void main() {
       });
     }
 
+    void setUpApiToFail<TResponse>({
+      required Matcher expectedPath,
+      required Matcher expectedMethod,
+      VoidCallback? onAnswer,
+    }) {
+      // these values are not used for testing, but are required by Dio
+      when(mockDio.options).thenReturn(BaseOptions(method: 'GET', baseUrl: 'https://www.example.com'));
+      // False positive
+      // ignore: discarded_futures
+      when(mockDio.fetch<TResponse>(
+        argThat(
+          isA<RequestOptions>()
+              .having((RequestOptions r) => r.path, 'path', expectedPath)
+              .having((RequestOptions r) => r.method, 'method', expectedMethod),
+        ),
+      )).thenAnswer((_) async {
+        onAnswer?.call();
+
+        return Response<TResponse>(
+          data: null,
+          requestOptions: RequestOptions(),
+        );
+      });
+    }
+
     testGoldens('AppBar should show correct title when shown', (WidgetTester tester) async {
       setUpApi<List<dynamic>>(
         expectedPath: endsWith('/posts'),
@@ -102,6 +127,21 @@ void main() {
       await tester.matchGolden('posts_view_loaded');
       expect(find.byType(ListView), findsOneWidget);
       expect(find.byType(ListTile), findsAtLeastNWidgets(1));
+    });
+
+    testGoldens('ListView should show error message when posts failed to load', (WidgetTester tester) async {
+      setUpApiToFail<List<dynamic>>(
+        expectedPath: endsWith('/posts'),
+        expectedMethod: matches('GET'),
+      );
+      when(mockConnectivityService.isConnected()).thenAnswer((_) async => true);
+
+      await tester.pumpWidget(const App(initialRoute: PostsViewRoute()));
+      await tester.pumpAndSettle();
+
+      await tester.matchGolden('posts_view_error');
+      expect(find.byType(ListView), findsNothing);
+      expect(find.text(il8n.failedToGetPosts), findsOneWidget);
     });
 
     testGoldens('ListTile should navigate to post details when post tapped', (WidgetTester tester) async {

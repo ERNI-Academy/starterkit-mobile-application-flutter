@@ -13,6 +13,7 @@ abstract interface class PostMapper implements ObjectMapper {}
 @AutoMappr(<MapType<Object, Object>>[
   MapType<PostDataContract, PostEntity>(),
   MapType<PostDataContract, PostDataObject>(fields: <Field>[
+    Field.custom('id', custom: 0),
     Field.from('postId', from: 'id'),
   ]),
   MapType<PostDataObject, PostEntity>(fields: <Field>[
