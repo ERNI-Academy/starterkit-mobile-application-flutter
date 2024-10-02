@@ -1,12 +1,12 @@
 import 'package:drift/drift.dart';
 import 'package:meta/meta.dart';
-import 'package:starterkit_app/core/data/database/local_data_source.dart';
+import 'package:starterkit_app/core/data/database/repository.dart';
 import 'package:starterkit_app/core/domain/models/data_table.dart';
 
-abstract class BaseLocalDataSource<TDb extends GeneratedDatabase, TTable extends DataTable,
+abstract class BaseRepository<TDb extends GeneratedDatabase, TTable extends DataTable,
         TDataObject extends Insertable<TDataObject>> extends DatabaseAccessor<TDb>
-    implements LocalDataSource<TTable, TDataObject> {
-  BaseLocalDataSource(super.attachedDatabase)
+    implements Repository<TTable, TDataObject> {
+  BaseRepository(super.attachedDatabase)
       : table = attachedDatabase.allTables.firstWhere((TableInfo<Table, dynamic> element) => element is TTable)
             as TableInfo<TTable, TDataObject>;
 
