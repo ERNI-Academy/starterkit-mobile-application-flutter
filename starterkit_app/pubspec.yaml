@@ -13,7 +13,7 @@ dependencies:
   connectivity_plus: ^6.0.3
   cupertino_icons: ^1.0.8
   dio: ^5.4.3+1
-  drift: ^2.20.3
+  drift: ^2.21.0
   equatable: ^2.0.5
   flutter:
     sdk: flutter
