@@ -12,6 +12,7 @@ import 'package:starterkit_app/features/post/domain/models/post_data_contract.da
 import 'package:starterkit_app/features/post/domain/models/post_entity.dart';
 import 'package:starterkit_app/features/post/domain/services/post_service.dart';
 
+import '../../../../../test_matchers.dart';
 import 'post_service_test.mocks.dart';
 
 @GenerateNiceMocks(<MockSpec<Object>>[
@@ -31,7 +32,7 @@ void main() {
       mockPostRepository = MockPostRepository();
       mockConnectivityService = MockConnectivityService();
       provideDummy(const PostDataObject(
-        id: 0,
+        id: 'abc',
         postId: 0,
         userId: 1,
         title: '',
@@ -59,7 +60,7 @@ void main() {
           PostEntity(userId: 1, id: 1, title: '', body: ''),
         ];
         final Iterable<PostDataObject> expectedObjects = <PostDataObject>[
-          const PostDataObject(id: 1, postId: 1, userId: 1, title: '', body: ''),
+          const PostDataObject(id: 'abc', postId: 1, userId: 1, title: '', body: ''),
         ];
 
         when(mockConnectivityService.isConnected()).thenAnswer((_) async => true);
@@ -77,9 +78,6 @@ void main() {
         const Iterable<PostDataContract> expectedContracts = <PostDataContract>[
           PostDataContract(userId: 1, id: 1, title: '', body: ''),
         ];
-        final Iterable<PostDataObject> expectedObjects = <PostDataObject>[
-          const PostDataObject(id: 0, postId: 1, userId: 1, title: '', body: ''),
-        ];
 
         when(mockConnectivityService.isConnected()).thenAnswer((_) async => true);
         when(mockPostApi.getPosts()).thenAnswer((_) async => expectedContracts.toList());
@@ -87,12 +85,30 @@ void main() {
         final PostService unit = createUnitToTest();
         await unit.getPosts();
 
-        verify(mockPostRepository.addOrUpdateAll(expectedObjects)).called(1);
+        verify(mockPostRepository.addOrUpdateAll(anyInstanceOf<Iterable<PostDataObject>>())).called(1);
+      });
+
+      test('should remove existing posts from repository when internet is connected', () async {
+        const Iterable<PostDataContract> expectedContracts = <PostDataContract>[
+          PostDataContract(userId: 1, id: 1, title: '', body: ''),
+        ];
+        final Iterable<PostDataObject> expectedObjects = <PostDataObject>[
+          const PostDataObject(id: 'abc', postId: 1, userId: 1, title: '', body: ''),
+        ];
+
+        when(mockConnectivityService.isConnected()).thenAnswer((_) async => true);
+        when(mockPostApi.getPosts()).thenAnswer((_) async => expectedContracts.toList());
+        when(mockPostRepository.getAll()).thenAnswer((_) async => expectedObjects);
+
+        final PostService unit = createUnitToTest();
+        await unit.getPosts();
+
+        verify(mockPostRepository.removeAll(anyInstanceOf<Iterable<Object>>())).called(1);
       });
 
       test('should return posts from repository when internet is not connected', () async {
         final Iterable<PostDataObject> expectedObjects = <PostDataObject>[
-          const PostDataObject(id: 1, postId: 1, userId: 1, title: '', body: ''),
+          const PostDataObject(id: 'abc', postId: 1, userId: 1, title: '', body: ''),
         ];
         const Iterable<PostEntity> expectedEntities = <PostEntity>[
           PostEntity(userId: 1, id: 1, title: '', body: ''),
@@ -127,7 +143,7 @@ void main() {
         const PostDataContract expectedContract = PostDataContract(userId: 1, id: expectedPostId, title: '', body: '');
         const PostEntity expectedEntity = PostEntity(userId: 1, id: expectedPostId, title: '', body: '');
         const PostDataObject expectedObject =
-            PostDataObject(id: 0, postId: expectedPostId, userId: 1, title: '', body: '');
+            PostDataObject(id: 'abc', postId: expectedPostId, userId: 1, title: '', body: '');
 
         when(mockConnectivityService.isConnected()).thenAnswer((_) async => true);
         when(mockPostApi.getPost(expectedPostId)).thenAnswer((_) async => expectedContract);
@@ -143,21 +159,23 @@ void main() {
       test('should add new post to repository when internet is connected', () async {
         const int expectedId = 1;
         const PostDataContract expectedContract = PostDataContract(userId: 1, id: expectedId, title: '', body: '');
-        const PostDataObject expectedObject = PostDataObject(id: 0, postId: expectedId, userId: 1, title: '', body: '');
 
         when(mockConnectivityService.isConnected()).thenAnswer((_) async => true);
         when(mockPostApi.getPost(expectedId)).thenAnswer((_) async => expectedContract);
-        when(mockPostRepository.getPost(expectedId)).thenAnswer((_) async => expectedObject);
+        when(mockPostRepository.getPost(expectedId)).thenAnswer(
+            (_) async => const PostDataObject(id: 'abc', postId: expectedId, userId: 1, title: '', body: ''));
 
         final PostService unit = createUnitToTest();
         await unit.getPost(expectedId);
 
-        verify(mockPostRepository.addOrUpdate(expectedObject)).called(1);
+        verify(mockPostRepository.deletePost(expectedId)).called(1);
+        verify(mockPostRepository.addOrUpdate(anyInstanceOf<PostDataObject>())).called(1);
       });
 
       test('should return post from repository when internet is not connected', () async {
         const int expectedId = 1;
-        const PostDataObject expectedObject = PostDataObject(id: 0, postId: expectedId, userId: 1, title: '', body: '');
+        const PostDataObject expectedObject =
+            PostDataObject(id: 'abc', postId: expectedId, userId: 1, title: '', body: '');
         const PostEntity expectedEntity = PostEntity(userId: 1, id: expectedId, title: '', body: '');
 
         when(mockConnectivityService.isConnected()).thenAnswer((_) async => false);

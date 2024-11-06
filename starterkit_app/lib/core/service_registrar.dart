@@ -7,6 +7,7 @@ import 'package:starterkit_app/core/service_registrar.config.dart';
 
 const Named appServerUrl = Named('apiBaseUrl');
 
+// We'll use a class instead of top-level functions.
 // ignore: invalid_annotation_target
 @InjectableInit(
   initializerName: r'$register',
