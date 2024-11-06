@@ -40,6 +40,7 @@ abstract class BaseRepository<TDb extends GeneratedDatabase, TTable extends Data
       final bool isStringList = ids.every((Object id) => id is String);
       final bool isIntList = ids.every((Object id) => id is int);
 
+      // Needs to be explicitly casted
       if (isStringList) {
         await (delete(table)..where((TTable t) => t.id.isIn(ids.cast<String>()))).go();
       } else if (isIntList) {
