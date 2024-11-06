@@ -3,5 +3,8 @@
 import 'package:drift/drift.dart';
 
 abstract class DataTable extends Table {
-  Column<int> get id => integer().withDefault(const Constant<int>(0)).autoIncrement()();
+  Column<Object> get id;
+
+  @override
+  Set<Column<Object>> get primaryKey => <Column<Object>>{id};
 }

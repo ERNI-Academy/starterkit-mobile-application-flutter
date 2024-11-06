@@ -17,7 +17,10 @@ class _TestDatabase extends _$_TestDatabase {
 }
 
 @DataClassName('TestDataObject')
-class _TestDataTable extends DataTable {}
+class _TestDataTable extends DataTable {
+  @override
+  IntColumn get id => integer().withDefault(const Constant<int>(0))();
+}
 
 class _TestRepository extends BaseRepository<_TestDatabase, _TestDataTable, TestDataObject> {
   _TestRepository(super.attachedDatabase);
@@ -90,7 +93,7 @@ void main() {
         final _TestRepository unit = createUnitToTest();
 
         await unit.addOrUpdate(expectedObject);
-        await unit.remove(expectedObject);
+        await unit.remove(expectedObject.id);
         final TestDataObject? actualObject = await unit.get(expectedObject.id);
 
         expect(actualObject, isNull);

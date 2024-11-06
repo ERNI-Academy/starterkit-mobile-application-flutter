@@ -28,21 +28,28 @@ abstract class BaseRepository<TDb extends GeneratedDatabase, TTable extends Data
   }
 
   @override
-  Future<void> remove(TDataObject object) async {
+  Future<void> remove(Object id) async {
     await transaction(() async {
-      await delete(table).delete(object);
+      await (delete(table)..where((TTable t) => t.id.equals(id))).go();
     });
   }
 
   @override
-  Future<void> removeAll(Iterable<int> ids) async {
+  Future<void> removeAll(Iterable<Object> ids) async {
     await transaction(() async {
-      await (delete(table)..where((TTable t) => t.id.isIn(ids))).go();
+      final bool isStringList = ids.every((Object id) => id is String);
+      final bool isIntList = ids.every((Object id) => id is int);
+
+      if (isStringList) {
+        await (delete(table)..where((TTable t) => t.id.isIn(ids.cast<String>()))).go();
+      } else if (isIntList) {
+        await (delete(table)..where((TTable t) => t.id.isIn(ids.cast<int>()))).go();
+      }
     });
   }
 
   @override
-  Future<TDataObject?> get(int id) async {
+  Future<TDataObject?> get(Object id) async {
     final TDataObject? result = await transaction(() async {
       final SimpleSelectStatement<TTable, TDataObject> query = select(table)..where((TTable t) => t.id.equals(id));
       final TDataObject? result = await query.getSingleOrNull();

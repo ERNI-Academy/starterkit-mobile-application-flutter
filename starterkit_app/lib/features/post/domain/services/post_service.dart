@@ -34,9 +34,14 @@ class PostService {
       final bool isConnected = await _connectivityService.isConnected();
 
       if (isConnected) {
-        final Iterable<PostDataContract> contracts = await _postApi.getPosts();
-        final Iterable<PostDataObject> dataObjects =
-            _postMapper.convertIterable<PostDataContract, PostDataObject>(contracts);
+        final List<PostDataContract> contracts = await _postApi.getPosts();
+        final List<PostDataObject> dataObjects = _postMapper.convertList<PostDataContract, PostDataObject>(contracts);
+        final Iterable<PostDataObject> existingDataObjects = await _postRepository.getAll();
+
+        if (existingDataObjects.isNotEmpty) {
+          await _postRepository.removeAll(existingDataObjects.map((PostDataObject dataObject) => dataObject.id));
+        }
+
         await _postRepository.addOrUpdateAll(dataObjects);
       }
 
@@ -57,6 +62,7 @@ class PostService {
       if (isConnected) {
         final PostDataContract contract = await _postApi.getPost(postId);
         final PostDataObject dataObject = _postMapper.convert<PostDataContract, PostDataObject>(contract);
+        await _postRepository.deletePost(dataObject.postId);
         await _postRepository.addOrUpdate(dataObject);
       }
 

@@ -12,6 +12,12 @@ class PostRepository extends BaseRepository<AppDatabase, PostDataTable, PostData
     implements Repository<PostDataTable, PostDataObject> {
   PostRepository(super.attachedDatabase);
 
+  Future<void> deletePost(int postId) async {
+    await transaction(() async {
+      await (delete(table)..where((PostDataTable t) => t.postId.equals(postId))).go();
+    });
+  }
+
   Future<PostDataObject?> getPost(int postId) async {
     final SimpleSelectStatement<PostDataTable, PostDataObject> query = select(table)
       ..where((PostDataTable t) => t.postId.equals(postId));
