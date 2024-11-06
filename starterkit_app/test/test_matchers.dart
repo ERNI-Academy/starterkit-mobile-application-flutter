@@ -1,3 +1,4 @@
+// Ignored to match matcher signature
 // ignore_for_file: prefer_void_to_null
 // ignore_for_file: prefer-static-class
 
