@@ -15,7 +15,7 @@ dependencies:
   dio: ^5.7.0
   drift: ^2.21.0
   drift_flutter: ^0.1.0
-  equatable: ^2.0.5
+  equatable: ^2.0.7
   flutter:
     sdk: flutter
   flutter_localization: ^0.2.2
