@@ -35,7 +35,7 @@ dev_dependencies:
   auto_mappr: ^2.5.0
   auto_route_generator: ^9.0.0
   build_runner: ^2.4.13
-  drift_dev: ^2.21.2
+  drift_dev: ^2.25.2
   flutter_gen_runner: ^5.8.0
   flutter_test:
     sdk: flutter
