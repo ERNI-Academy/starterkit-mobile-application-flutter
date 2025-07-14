@@ -6,22 +6,17 @@ inputs:
     description: 'The working directory'
     required: true
 
-  update_goldens:
-    description: 'Update golden files and commit them to the repository'
-    required: false
-    default: false
-
 runs:
   using: composite
   steps:
     - name: Ensure full coverage
       shell: bash
       run: |
-        dart run full_coverage
+        fvm dart run full_coverage
       working-directory: ${{ inputs.working_directory }}
 
     - name: Run tests
       shell: bash
       run: |
-        flutter test --coverage
+        fvm flutter test --coverage
       working-directory: ${{ inputs.working_directory }}

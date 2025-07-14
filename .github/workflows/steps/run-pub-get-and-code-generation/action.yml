@@ -16,15 +16,15 @@ runs:
       shell: bash
       working-directory: ${{ inputs.working_directory }}
 
-    - run: dart pub global activate intl_utils
+    - run: fvm dart pub global activate intl_utils
       shell: bash
       if: ${{ inputs.generate_intl == 'true' }}
 
-    - run: dart pub global run intl_utils:generate
+    - run: fvm dart pub global run intl_utils:generate
       shell: bash
       working-directory: ${{ inputs.working_directory }}
       if: ${{ inputs.generate_intl == 'true' }}
 
-    - run: dart run build_runner build --delete-conflicting-outputs
+    - run: fvm dart run build_runner build --delete-conflicting-outputs
       shell: bash
       working-directory: ${{ inputs.working_directory }}

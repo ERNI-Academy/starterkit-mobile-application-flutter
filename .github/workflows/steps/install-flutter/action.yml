@@ -9,14 +9,13 @@ inputs:
 runs:
   using: composite
   steps:
-    - uses: kuhnroyal/flutter-fvm-config-action@v2
-      with:
-        path: ${{ inputs.working_directory }}/.fvmrc
-
-    - uses: subosito/flutter-action@v2
-      with:
-        flutter-version: ${{ env.FLUTTER_VERSION }}
-        channel: ${{ env.FLUTTER_CHANNEL }}
-
-    - run: flutter --version
+    - run: curl -fsSL https://fvm.app/install.sh | bash
       shell: bash
+
+    - run: fvm install
+      shell: bash
+      working-directory: ${{ inputs.working_directory }}
+
+    - run: fvm flutter --version
+      shell: bash
+      working-directory: ${{ inputs.working_directory }}
