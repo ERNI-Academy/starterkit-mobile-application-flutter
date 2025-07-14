@@ -7,23 +7,23 @@ import 'package:flutter/material.dart';
 class CustomDialogRoute<T> extends CustomRoute<T> {
   static const int animationDurationInMs = 300;
   static const int reverseAnimationDurationInMs = 300;
-  static final Color dialogBarrierColor = Colors.black.withOpacity(0.5);
+  static final Color dialogBarrierColor = Colors.black.withValues(alpha: 0.5);
 
   CustomDialogRoute({required super.page, super.path})
-      : super(
-          fullscreenDialog: true,
-          transitionsBuilder: _dialogTransitionBuilder,
-          durationInMilliseconds: animationDurationInMs,
-          reverseDurationInMilliseconds: reverseAnimationDurationInMs,
-          opaque: false,
-          barrierDismissible: true,
-          barrierColor: dialogBarrierColor,
-        );
+    : super(
+        fullscreenDialog: true,
+        transitionsBuilder: _dialogTransitionBuilder,
+        durationInMilliseconds: animationDurationInMs,
+        reverseDurationInMilliseconds: reverseAnimationDurationInMs,
+        opaque: false,
+        barrierDismissible: true,
+        barrierColor: dialogBarrierColor,
+      );
 
   static Widget _dialogTransitionBuilder(
     BuildContext _,
     Animation<double> animation,
-    Animation<double> __,
+    Animation<double> _,
     Widget child,
   ) {
     return FadeTransition(

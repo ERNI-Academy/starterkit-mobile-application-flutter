@@ -37,11 +37,13 @@ void main() {
       });
 
       test('should return false when not connected to wifi, mobile, or ethernet', () async {
-        final List<ConnectivityResult> expectedStatuses = ConnectivityResult.values.toList()
-          ..removeWhere((ConnectivityResult element) =>
-              element == ConnectivityResult.wifi ||
-              element == ConnectivityResult.mobile ||
-              element == ConnectivityResult.ethernet);
+        final List<ConnectivityResult> expectedStatuses =
+            ConnectivityResult.values.toList()..removeWhere(
+              (ConnectivityResult element) =>
+                  element == ConnectivityResult.wifi ||
+                  element == ConnectivityResult.mobile ||
+                  element == ConnectivityResult.ethernet,
+            );
         when(mockConnectivity.checkConnectivity()).thenAnswer((_) async => expectedStatuses);
         final ConnectivityService unit = createUnitToTest();
 

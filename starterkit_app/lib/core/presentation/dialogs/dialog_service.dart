@@ -11,12 +11,14 @@ class DialogService {
   DialogService(this._navigationService);
 
   Future<void> alert({required String message, String? title, String? primaryText, String? secondaryText}) async {
-    await _navigationService.push(AlertDialogViewRoute(
-      message: message,
-      title: title,
-      primaryText: primaryText,
-      secondaryText: secondaryText,
-    ));
+    await _navigationService.push(
+      AlertDialogViewRoute(
+        message: message,
+        title: title,
+        primaryText: primaryText,
+        secondaryText: secondaryText,
+      ),
+    );
   }
 
   Future<DialogAction> confirm({
@@ -25,12 +27,14 @@ class DialogService {
     String? primaryText,
     String? secondaryText,
   }) async {
-    final DialogAction? result = await _navigationService.push<DialogAction>(AlertDialogViewRoute(
-      message: message,
-      title: title,
-      primaryText: primaryText,
-      secondaryText: secondaryText ?? Il8n.current.generalCancel,
-    ));
+    final DialogAction? result = await _navigationService.push<DialogAction>(
+      AlertDialogViewRoute(
+        message: message,
+        title: title,
+        primaryText: primaryText,
+        secondaryText: secondaryText ?? Il8n.current.generalCancel,
+      ),
+    );
 
     return result ?? DialogAction.cancelled;
   }
@@ -41,12 +45,14 @@ class DialogService {
     String? primaryText,
     String? secondaryText,
   }) async {
-    final String? result = await _navigationService.push<String>(TextInputDialogViewRoute(
-      message: message,
-      title: title,
-      primaryText: primaryText,
-      secondaryText: secondaryText ?? Il8n.current.generalCancel,
-    ));
+    final String? result = await _navigationService.push<String>(
+      TextInputDialogViewRoute(
+        message: message,
+        title: title,
+        primaryText: primaryText,
+        secondaryText: secondaryText ?? Il8n.current.generalCancel,
+      ),
+    );
 
     return result;
   }

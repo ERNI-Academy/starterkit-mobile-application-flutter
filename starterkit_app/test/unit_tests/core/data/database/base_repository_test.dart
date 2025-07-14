@@ -63,7 +63,7 @@ void main() {
     group('getAll', () {
       test('should return objects from database when called', () async {
         final Iterable<TestDataObjectWithIntId> expectedSavedObjects = <TestDataObjectWithIntId>[
-          const TestDataObjectWithIntId(id: 1)
+          const TestDataObjectWithIntId(id: 1),
         ];
         final _TestWithIntIdRepository unit = createUnitToTest();
 
@@ -89,7 +89,7 @@ void main() {
     group('addOrUpdateAll', () {
       test('should add objects to database when called', () async {
         final Iterable<TestDataObjectWithIntId> expectedObjectsToSave = <TestDataObjectWithIntId>[
-          const TestDataObjectWithIntId(id: 1)
+          const TestDataObjectWithIntId(id: 1),
         ];
         final _TestWithIntIdRepository unit = createUnitToTest();
 
@@ -116,7 +116,7 @@ void main() {
     group('deleteAll', () {
       test('should delete all objects from database when called', () async {
         final List<TestDataObjectWithIntId> expectedObjectsToSave = <TestDataObjectWithIntId>[
-          const TestDataObjectWithIntId(id: 1)
+          const TestDataObjectWithIntId(id: 1),
         ];
         final _TestWithIntIdRepository unit = createUnitToTest();
 
@@ -147,7 +147,7 @@ void main() {
     group('deleteAll', () {
       test('should delete all objects from database when called', () async {
         final List<TestDataObjectWithStringId> expectedObjectsToSave = <TestDataObjectWithStringId>[
-          const TestDataObjectWithStringId(id: 'abc')
+          const TestDataObjectWithStringId(id: 'abc'),
         ];
         final _TestWithStringIdRepository unit = createUnitToTest();
 

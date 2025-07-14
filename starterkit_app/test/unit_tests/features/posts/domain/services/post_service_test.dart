@@ -31,13 +31,15 @@ void main() {
       mockPostApi = MockPostApi();
       mockPostRepository = MockPostRepository();
       mockConnectivityService = MockConnectivityService();
-      provideDummy(const PostDataObject(
-        id: 'abc',
-        postId: 0,
-        userId: 1,
-        title: '',
-        body: '',
-      ));
+      provideDummy(
+        const PostDataObject(
+          id: 'abc',
+          postId: 0,
+          userId: 1,
+          title: '',
+          body: '',
+        ),
+      );
       provideDummy(PostEntity.empty);
     });
 
@@ -142,8 +144,13 @@ void main() {
         const int expectedPostId = 1;
         const PostDataContract expectedContract = PostDataContract(userId: 1, id: expectedPostId, title: '', body: '');
         const PostEntity expectedEntity = PostEntity(userId: 1, id: expectedPostId, title: '', body: '');
-        const PostDataObject expectedObject =
-            PostDataObject(id: 'abc', postId: expectedPostId, userId: 1, title: '', body: '');
+        const PostDataObject expectedObject = PostDataObject(
+          id: 'abc',
+          postId: expectedPostId,
+          userId: 1,
+          title: '',
+          body: '',
+        );
 
         when(mockConnectivityService.isConnected()).thenAnswer((_) async => true);
         when(mockPostApi.getPost(expectedPostId)).thenAnswer((_) async => expectedContract);
@@ -162,8 +169,9 @@ void main() {
 
         when(mockConnectivityService.isConnected()).thenAnswer((_) async => true);
         when(mockPostApi.getPost(expectedId)).thenAnswer((_) async => expectedContract);
-        when(mockPostRepository.getPost(expectedId)).thenAnswer(
-            (_) async => const PostDataObject(id: 'abc', postId: expectedId, userId: 1, title: '', body: ''));
+        when(
+          mockPostRepository.getPost(expectedId),
+        ).thenAnswer((_) async => const PostDataObject(id: 'abc', postId: expectedId, userId: 1, title: '', body: ''));
 
         final PostService unit = createUnitToTest();
         await unit.getPost(expectedId);
@@ -174,8 +182,13 @@ void main() {
 
       test('should return post from repository when internet is not connected', () async {
         const int expectedId = 1;
-        const PostDataObject expectedObject =
-            PostDataObject(id: 'abc', postId: expectedId, userId: 1, title: '', body: '');
+        const PostDataObject expectedObject = PostDataObject(
+          id: 'abc',
+          postId: expectedId,
+          userId: 1,
+          title: '',
+          body: '',
+        );
         const PostEntity expectedEntity = PostEntity(userId: 1, id: expectedId, title: '', body: '');
 
         when(mockConnectivityService.isConnected()).thenAnswer((_) async => false);

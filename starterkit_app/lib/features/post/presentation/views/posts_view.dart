@@ -27,10 +27,10 @@ class PostsView extends StatelessWidget {
               return switch (postsState) {
                 PostsListLoadingState _ => const Center(child: CircularProgressIndicator()),
                 PostsListLoadedState _ => _PostsListView(
-                    posts: postsState.posts.toList(),
-                    onTap: context.viewModel<PostsViewModel>().onPostSelected,
-                    onScrollEnd: context.viewModel<PostsViewModel>().onGetPosts,
-                  ),
+                  posts: postsState.posts.toList(),
+                  onTap: context.viewModel<PostsViewModel>().onPostSelected,
+                  onScrollEnd: context.viewModel<PostsViewModel>().onGetPosts,
+                ),
                 PostsListErrorState _ => Center(child: Text(postsState.message)),
               };
             },

@@ -38,9 +38,9 @@ lane :"build_android_release" do |options|
 
     puts "Building #{version_name} (#{version_number})"
 
-    sh "flutter build #{task} --target-platform android-arm64 --build-number #{version_number} --build-name #{version_name} --dart-define-from-file #{dart_fine_file}"
+    sh "fvm flutter build #{task} --target-platform android-arm64 --build-number #{version_number} --build-name #{version_name} --dart-define-from-file #{dart_fine_file}"
   else
-    sh "flutter build #{task} --target-platform android-arm64 --dart-define-from-file #{dart_fine_file}"
+    sh "fvm flutter build #{task} --target-platform android-arm64 --dart-define-from-file #{dart_fine_file}"
   end
 
   if task == "appbundle"
@@ -58,9 +58,9 @@ lane :"build_ios_release" do |options|
 
     puts "Building #{version_name} (#{version_number})"
 
-    sh "flutter build ios --no-codesign --build-number #{version_number} --build-name #{version_name} --dart-define-from-file #{dart_fine_file}"
+    sh "fvm flutter build ios --no-codesign --build-number #{version_number} --build-name #{version_name} --dart-define-from-file #{dart_fine_file}"
   else
-    sh "flutter build ios --no-codesign --dart-define-from-file #{dart_fine_file}"
+    sh "fvm flutter build ios --no-codesign --dart-define-from-file #{dart_fine_file}"
   end
 
   build_app(

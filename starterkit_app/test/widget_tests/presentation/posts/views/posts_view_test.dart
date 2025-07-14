@@ -55,15 +55,15 @@ void main() {
       final String expectedPostsJsonString = readFileAsString(expectedResponseFile);
       // these values are not used for testing, but are required by Dio
       when(mockDio.options).thenReturn(BaseOptions(method: 'GET', baseUrl: 'https://www.example.com'));
-      // False positive
-      // ignore: discarded_futures
-      when(mockDio.fetch<TResponse>(
-        argThat(
-          isA<RequestOptions>()
-              .having((RequestOptions r) => r.path, 'path', expectedPath)
-              .having((RequestOptions r) => r.method, 'method', expectedMethod),
+      when(
+        mockDio.fetch<TResponse>(
+          argThat(
+            isA<RequestOptions>()
+                .having((RequestOptions r) => r.path, 'path', expectedPath)
+                .having((RequestOptions r) => r.method, 'method', expectedMethod),
+          ),
         ),
-      )).thenAnswer((_) async {
+      ).thenAnswer((_) async {
         onAnswer?.call();
 
         return Response<TResponse>(
@@ -81,14 +81,15 @@ void main() {
       // these values are not used for testing, but are required by Dio
       when(mockDio.options).thenReturn(BaseOptions(method: 'GET', baseUrl: 'https://www.example.com'));
       // False positive
-      // ignore: discarded_futures
-      when(mockDio.fetch<TResponse>(
-        argThat(
-          isA<RequestOptions>()
-              .having((RequestOptions r) => r.path, 'path', expectedPath)
-              .having((RequestOptions r) => r.method, 'method', expectedMethod),
+      when(
+        mockDio.fetch<TResponse>(
+          argThat(
+            isA<RequestOptions>()
+                .having((RequestOptions r) => r.path, 'path', expectedPath)
+                .having((RequestOptions r) => r.method, 'method', expectedMethod),
+          ),
         ),
-      )).thenAnswer((_) async {
+      ).thenAnswer((_) async {
         onAnswer?.call();
 
         return Response<TResponse>(

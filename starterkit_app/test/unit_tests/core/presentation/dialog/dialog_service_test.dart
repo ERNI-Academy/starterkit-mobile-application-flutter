@@ -47,9 +47,17 @@ void main() {
           secondaryText: expectedSecondaryText,
         );
 
-        verify(mockNavigationService.push(argThat(isA<AlertDialogViewRoute>()
-                .having((AlertDialogViewRoute r) => r.rawQueryParams, 'rawQueryParams', expectedQueryParams))))
-            .called(1);
+        verify(
+          mockNavigationService.push(
+            argThat(
+              isA<AlertDialogViewRoute>().having(
+                (AlertDialogViewRoute r) => r.rawQueryParams,
+                'rawQueryParams',
+                expectedQueryParams,
+              ),
+            ),
+          ),
+        ).called(1);
       });
     });
 
@@ -74,9 +82,17 @@ void main() {
           secondaryText: expectedSecondaryText,
         );
 
-        verify(mockNavigationService.push(argThat(isA<AlertDialogViewRoute>()
-                .having((AlertDialogViewRoute r) => r.rawQueryParams, 'rawQueryParams', expectedQueryParams))))
-            .called(1);
+        verify(
+          mockNavigationService.push(
+            argThat(
+              isA<AlertDialogViewRoute>().having(
+                (AlertDialogViewRoute r) => r.rawQueryParams,
+                'rawQueryParams',
+                expectedQueryParams,
+              ),
+            ),
+          ),
+        ).called(1);
       });
 
       test('should return result when result is not null', () async {
@@ -86,8 +102,9 @@ void main() {
         const String expectedSecondaryText = 'secondaryText';
         const DialogAction expectedResult = DialogAction.primary;
         final DialogService unit = createUnitToTest();
-        when(mockNavigationService.push<DialogAction>(anyInstanceOf<AlertDialogViewRoute>()))
-            .thenAnswer((_) async => expectedResult);
+        when(
+          mockNavigationService.push<DialogAction>(anyInstanceOf<AlertDialogViewRoute>()),
+        ).thenAnswer((_) async => expectedResult);
 
         final DialogAction actualResult = await unit.confirm(
           message: expectedMessage,
@@ -105,8 +122,9 @@ void main() {
         const String expectedPrimaryText = 'primaryText';
         const String expectedSecondaryText = 'secondaryText';
         final DialogService unit = createUnitToTest();
-        when(mockNavigationService.push<DialogAction>(anyInstanceOf<AlertDialogViewRoute>()))
-            .thenAnswer((_) async => null);
+        when(
+          mockNavigationService.push<DialogAction>(anyInstanceOf<AlertDialogViewRoute>()),
+        ).thenAnswer((_) async => null);
 
         final DialogAction actualResult = await unit.confirm(
           message: expectedMessage,
@@ -131,8 +149,9 @@ void main() {
           'title': expectedTitle,
         };
         final DialogService unit = createUnitToTest();
-        when(mockNavigationService.push<DialogAction>(anyInstanceOf<AlertDialogViewRoute>()))
-            .thenAnswer((_) async => null);
+        when(
+          mockNavigationService.push<DialogAction>(anyInstanceOf<AlertDialogViewRoute>()),
+        ).thenAnswer((_) async => null);
 
         await unit.confirm(
           message: expectedMessage,
@@ -141,9 +160,17 @@ void main() {
           secondaryText: expectedSecondaryText,
         );
 
-        verify(mockNavigationService.push(argThat(isA<AlertDialogViewRoute>()
-                .having((AlertDialogViewRoute r) => r.rawQueryParams, 'rawQueryParams', expectedQueryParams))))
-            .called(1);
+        verify(
+          mockNavigationService.push(
+            argThat(
+              isA<AlertDialogViewRoute>().having(
+                (AlertDialogViewRoute r) => r.rawQueryParams,
+                'rawQueryParams',
+                expectedQueryParams,
+              ),
+            ),
+          ),
+        ).called(1);
       });
     });
 
@@ -168,9 +195,17 @@ void main() {
           secondaryText: expectedSecondaryText,
         );
 
-        verify(mockNavigationService.push(argThat(isA<TextInputDialogViewRoute>()
-                .having((TextInputDialogViewRoute r) => r.rawQueryParams, 'rawQueryParams', expectedQueryParams))))
-            .called(1);
+        verify(
+          mockNavigationService.push(
+            argThat(
+              isA<TextInputDialogViewRoute>().having(
+                (TextInputDialogViewRoute r) => r.rawQueryParams,
+                'rawQueryParams',
+                expectedQueryParams,
+              ),
+            ),
+          ),
+        ).called(1);
       });
 
       test('should return result when result is not null', () async {
@@ -180,8 +215,9 @@ void main() {
         const String expectedSecondaryText = 'secondaryText';
         const String expectedResult = 'result';
         final DialogService unit = createUnitToTest();
-        when(mockNavigationService.push<String>(anyInstanceOf<TextInputDialogViewRoute>()))
-            .thenAnswer((_) async => expectedResult);
+        when(
+          mockNavigationService.push<String>(anyInstanceOf<TextInputDialogViewRoute>()),
+        ).thenAnswer((_) async => expectedResult);
 
         final String? actualResult = await unit.textInput(
           message: expectedMessage,
@@ -199,8 +235,9 @@ void main() {
         const String expectedPrimaryText = 'primaryText';
         const String expectedSecondaryText = 'secondaryText';
         final DialogService unit = createUnitToTest();
-        when(mockNavigationService.push<String>(anyInstanceOf<TextInputDialogViewRoute>()))
-            .thenAnswer((_) async => null);
+        when(
+          mockNavigationService.push<String>(anyInstanceOf<TextInputDialogViewRoute>()),
+        ).thenAnswer((_) async => null);
 
         final String? actualResult = await unit.textInput(
           message: expectedMessage,
@@ -225,8 +262,9 @@ void main() {
           'title': expectedTitle,
         };
         final DialogService unit = createUnitToTest();
-        when(mockNavigationService.push<String>(anyInstanceOf<TextInputDialogViewRoute>()))
-            .thenAnswer((_) async => null);
+        when(
+          mockNavigationService.push<String>(anyInstanceOf<TextInputDialogViewRoute>()),
+        ).thenAnswer((_) async => null);
 
         await unit.textInput(
           message: expectedMessage,
@@ -235,9 +273,17 @@ void main() {
           secondaryText: expectedSecondaryText,
         );
 
-        verify(mockNavigationService.push(argThat(isA<TextInputDialogViewRoute>()
-                .having((TextInputDialogViewRoute r) => r.rawQueryParams, 'rawQueryParams', expectedQueryParams))))
-            .called(1);
+        verify(
+          mockNavigationService.push(
+            argThat(
+              isA<TextInputDialogViewRoute>().having(
+                (TextInputDialogViewRoute r) => r.rawQueryParams,
+                'rawQueryParams',
+                expectedQueryParams,
+              ),
+            ),
+          ),
+        ).called(1);
       });
     });
   });

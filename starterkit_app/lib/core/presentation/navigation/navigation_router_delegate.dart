@@ -12,9 +12,10 @@ class NavigationRouterDelegate extends AutoRouterDelegate {
     NavigationLogger logger,
     NavigationObserver observer,
   ) : super(
-          navigatorObservers: () => <NavigatorObserver>[
-            logger,
-            observer,
-          ],
-        );
+        navigatorObservers:
+            () => <NavigatorObserver>[
+              logger,
+              observer,
+            ],
+      );
 }

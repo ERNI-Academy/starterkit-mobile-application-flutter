@@ -3,12 +3,17 @@ import 'package:meta/meta.dart';
 import 'package:starterkit_app/core/data/database/repository.dart';
 import 'package:starterkit_app/core/domain/models/data_table.dart';
 
-abstract class BaseRepository<TDb extends GeneratedDatabase, TTable extends DataTable,
-        TDataObject extends Insertable<TDataObject>> extends DatabaseAccessor<TDb>
+abstract class BaseRepository<
+  TDb extends GeneratedDatabase,
+  TTable extends DataTable,
+  TDataObject extends Insertable<TDataObject>
+>
+    extends DatabaseAccessor<TDb>
     implements Repository<TTable, TDataObject> {
   BaseRepository(super.attachedDatabase)
-      : table = attachedDatabase.allTables.firstWhere((TableInfo<Table, dynamic> element) => element is TTable)
-            as TableInfo<TTable, TDataObject>;
+    : table =
+          attachedDatabase.allTables.firstWhere((TableInfo<Table, dynamic> element) => element is TTable)
+              as TableInfo<TTable, TDataObject>;
 
   @protected
   final TableInfo<TTable, TDataObject> table;
