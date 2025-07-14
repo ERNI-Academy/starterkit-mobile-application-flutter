@@ -8,13 +8,13 @@ environment:
 
 dependencies:
   auto_mappr_annotation: ^2.3.0
-  auto_route: ^9.3.0+1
+  auto_route: ^10.1.0+1
   collection: ^1.19.1
   connectivity_plus: ^6.1.4
   cupertino_icons: ^1.0.8
   dio: ^5.8.0+1
   drift: ^2.28.0
-  drift_flutter: ^0.1.0
+  drift_flutter: ^0.2.4
   equatable: ^2.0.7
   flutter:
     sdk: flutter
@@ -33,7 +33,7 @@ dependencies:
 
 dev_dependencies:
   auto_mappr: ^2.9.0
-  auto_route_generator: ^9.3.1
+  auto_route_generator: ^10.2.3
   build_runner: ^2.5.4
   drift_dev: ^2.28.0
   flutter_gen_runner: ^5.10.0

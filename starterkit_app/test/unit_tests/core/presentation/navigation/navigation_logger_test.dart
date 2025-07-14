@@ -11,7 +11,7 @@ import 'navigation_logger_test.mocks.dart';
 
 @GenerateNiceMocks(<MockSpec<Object>>[
   MockSpec<Logger>(),
-  MockSpec<RouteData>(),
+  MockSpec<RouteData<Object?>>(),
   MockSpec<RouteMatch<Object?>>(),
 ])
 void main() {

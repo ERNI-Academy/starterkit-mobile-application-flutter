@@ -33,7 +33,7 @@ class NavigationLogger extends RouteObserver<ModalRoute<Object?>> implements Nav
     final RouteSettings? routeSettings = route?.settings;
 
     if (routeSettings is AutoRoutePage) {
-      final RouteData routeData = routeSettings.routeData;
+      final RouteData<dynamic> routeData = routeSettings.routeData;
 
       return routeData.path;
     }

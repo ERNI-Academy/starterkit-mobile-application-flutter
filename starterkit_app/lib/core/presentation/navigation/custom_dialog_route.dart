@@ -9,14 +9,13 @@ class CustomDialogRoute<T> extends CustomRoute<T> {
   static const int reverseAnimationDurationInMs = 300;
   static final Color dialogBarrierColor = Colors.black.withValues(alpha: 0.5);
 
-  CustomDialogRoute({required super.page, super.path})
+  CustomDialogRoute({required super.page, super.path, super.barrierDismissible = true})
     : super(
         fullscreenDialog: true,
         transitionsBuilder: _dialogTransitionBuilder,
-        durationInMilliseconds: animationDurationInMs,
-        reverseDurationInMilliseconds: reverseAnimationDurationInMs,
+        duration: const Duration(milliseconds: animationDurationInMs),
+        reverseDuration: const Duration(milliseconds: reverseAnimationDurationInMs),
         opaque: false,
-        barrierDismissible: true,
         barrierColor: dialogBarrierColor,
       );
 
