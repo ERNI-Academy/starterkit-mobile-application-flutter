@@ -44,7 +44,6 @@ jobs:
 
       - name: Check formatting
         run: |
-          fvm dart --version
           fvm dart format --line-length=120 --set-exit-if-changed .
         working-directory: ${{ env.PROJECT_WORKING_DIRECTORY }}
 

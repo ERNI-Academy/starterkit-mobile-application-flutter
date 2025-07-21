@@ -2,7 +2,6 @@
 # Read more about linter packages here https://rydmike.com/blog_flutter_linting
 include: all_lint_rules.yaml
 formatter:
-  page_width: 120
   trailing_commas: preserve
 analyzer:
   exclude:
