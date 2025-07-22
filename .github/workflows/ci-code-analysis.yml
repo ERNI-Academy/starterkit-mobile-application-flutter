@@ -45,7 +45,6 @@ jobs:
       - name: Check formatting
         run: |
           fvm dart format .
-          git diff
         working-directory: ${{ env.PROJECT_WORKING_DIRECTORY }}
 
       - name: Check for duplicate lines of code

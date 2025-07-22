@@ -122,8 +122,9 @@ void main() {
 
         await unit.addOrUpdateAll(expectedObjectsToSave);
         final Iterable<TestDataObjectWithIntId> actualSavedObjects = await unit.getAll();
-        final List<int> actualSavedObjectIds =
-            actualSavedObjects.map((TestDataObjectWithIntId object) => object.id).toList();
+        final List<int> actualSavedObjectIds = actualSavedObjects
+            .map((TestDataObjectWithIntId object) => object.id)
+            .toList();
         await unit.removeAll(actualSavedObjectIds);
         final Iterable<TestDataObjectWithIntId> actualObjectsToSave = await unit.getAll();
 
@@ -153,8 +154,9 @@ void main() {
 
         await unit.addOrUpdateAll(expectedObjectsToSave);
         final Iterable<TestDataObjectWithStringId> actualSavedObjects = await unit.getAll();
-        final List<String> actualSavedObjectIds =
-            actualSavedObjects.map((TestDataObjectWithStringId object) => object.id).toList();
+        final List<String> actualSavedObjectIds = actualSavedObjects
+            .map((TestDataObjectWithStringId object) => object.id)
+            .toList();
         await unit.removeAll(actualSavedObjectIds);
         final Iterable<TestDataObjectWithStringId> actualObjectsToSave = await unit.getAll();
 
