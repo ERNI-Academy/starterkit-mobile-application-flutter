@@ -44,7 +44,7 @@ jobs:
 
       - name: Check formatting
         run: |
-          fvm dart format .
+          fvm dart format --set-exit-if-changed .
         working-directory: ${{ env.PROJECT_WORKING_DIRECTORY }}
 
       - name: Check for duplicate lines of code
