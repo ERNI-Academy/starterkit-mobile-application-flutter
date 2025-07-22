@@ -33,8 +33,9 @@ void main() {
         );
         await tester.pumpAndSettle();
 
-        await tester
-            .matchGolden('text_input_dialog_view_title_message_text_form_field_primary_and_secondary_action_button');
+        await tester.matchGolden(
+          'text_input_dialog_view_title_message_text_form_field_primary_and_secondary_action_button',
+        );
         expect(find.text(expectedMessage), findsOneWidget);
         expect(find.text(expectedTitle), findsOneWidget);
         expect(find.text(expectedPrimaryText), findsOneWidget);

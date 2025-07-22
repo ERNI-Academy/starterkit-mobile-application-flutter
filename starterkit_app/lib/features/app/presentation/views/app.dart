@@ -68,7 +68,7 @@ class _AppState extends State<App> {
 
       await _routerDelegate.setInitialRoutePath(
         UrlState.fromSegments(<RouteMatch<dynamic>>[
-          if (matchingRoute != null) matchingRoute,
+          ?matchingRoute,
         ]),
       );
     }

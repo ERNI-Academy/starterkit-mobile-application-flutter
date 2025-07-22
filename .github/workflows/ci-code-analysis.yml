@@ -27,7 +27,7 @@ permissions: {}
 
 jobs:
   run-code-analysis:
-    runs-on: ubuntu-latest
+    runs-on: macos-latest
     permissions: {}
     steps:
       - name: Harden Runner
@@ -43,7 +43,8 @@ jobs:
           working_directory: ${{ env.PROJECT_WORKING_DIRECTORY }}
 
       - name: Check formatting
-        run: dart format --line-length=120 --set-exit-if-changed .
+        run: |
+          fvm dart format --set-exit-if-changed .
         working-directory: ${{ env.PROJECT_WORKING_DIRECTORY }}
 
       - name: Check for duplicate lines of code
@@ -60,5 +61,5 @@ jobs:
 
       - name: Run Dart code analysis
         run: |
-          dart analyze .
+          fvm dart analyze .
         working-directory: ${{ env.PROJECT_WORKING_DIRECTORY }}

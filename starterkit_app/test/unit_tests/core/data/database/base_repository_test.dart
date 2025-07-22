@@ -63,7 +63,7 @@ void main() {
     group('getAll', () {
       test('should return objects from database when called', () async {
         final Iterable<TestDataObjectWithIntId> expectedSavedObjects = <TestDataObjectWithIntId>[
-          const TestDataObjectWithIntId(id: 1)
+          const TestDataObjectWithIntId(id: 1),
         ];
         final _TestWithIntIdRepository unit = createUnitToTest();
 
@@ -89,7 +89,7 @@ void main() {
     group('addOrUpdateAll', () {
       test('should add objects to database when called', () async {
         final Iterable<TestDataObjectWithIntId> expectedObjectsToSave = <TestDataObjectWithIntId>[
-          const TestDataObjectWithIntId(id: 1)
+          const TestDataObjectWithIntId(id: 1),
         ];
         final _TestWithIntIdRepository unit = createUnitToTest();
 
@@ -116,14 +116,15 @@ void main() {
     group('deleteAll', () {
       test('should delete all objects from database when called', () async {
         final List<TestDataObjectWithIntId> expectedObjectsToSave = <TestDataObjectWithIntId>[
-          const TestDataObjectWithIntId(id: 1)
+          const TestDataObjectWithIntId(id: 1),
         ];
         final _TestWithIntIdRepository unit = createUnitToTest();
 
         await unit.addOrUpdateAll(expectedObjectsToSave);
         final Iterable<TestDataObjectWithIntId> actualSavedObjects = await unit.getAll();
-        final List<int> actualSavedObjectIds =
-            actualSavedObjects.map((TestDataObjectWithIntId object) => object.id).toList();
+        final List<int> actualSavedObjectIds = actualSavedObjects
+            .map((TestDataObjectWithIntId object) => object.id)
+            .toList();
         await unit.removeAll(actualSavedObjectIds);
         final Iterable<TestDataObjectWithIntId> actualObjectsToSave = await unit.getAll();
 
@@ -147,14 +148,15 @@ void main() {
     group('deleteAll', () {
       test('should delete all objects from database when called', () async {
         final List<TestDataObjectWithStringId> expectedObjectsToSave = <TestDataObjectWithStringId>[
-          const TestDataObjectWithStringId(id: 'abc')
+          const TestDataObjectWithStringId(id: 'abc'),
         ];
         final _TestWithStringIdRepository unit = createUnitToTest();
 
         await unit.addOrUpdateAll(expectedObjectsToSave);
         final Iterable<TestDataObjectWithStringId> actualSavedObjects = await unit.getAll();
-        final List<String> actualSavedObjectIds =
-            actualSavedObjects.map((TestDataObjectWithStringId object) => object.id).toList();
+        final List<String> actualSavedObjectIds = actualSavedObjects
+            .map((TestDataObjectWithStringId object) => object.id)
+            .toList();
         await unit.removeAll(actualSavedObjectIds);
         final Iterable<TestDataObjectWithStringId> actualObjectsToSave = await unit.getAll();
 

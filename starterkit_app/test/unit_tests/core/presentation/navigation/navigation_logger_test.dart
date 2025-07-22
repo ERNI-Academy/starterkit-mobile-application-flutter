@@ -11,7 +11,7 @@ import 'navigation_logger_test.mocks.dart';
 
 @GenerateNiceMocks(<MockSpec<Object>>[
   MockSpec<Logger>(),
-  MockSpec<RouteData>(),
+  MockSpec<RouteData<Object?>>(),
   MockSpec<RouteMatch<Object?>>(),
 ])
 void main() {
@@ -32,8 +32,9 @@ void main() {
 
         unit.didPush(MaterialPageRoute<void>(builder: (BuildContext context) => const SizedBox()), null);
 
-        final VerificationResult logVerificationResult =
-            verify(mockLogger.log(LogLevel.info, captureAnyInstanceOf<String>()))..called(1);
+        final VerificationResult logVerificationResult = verify(
+          mockLogger.log(LogLevel.info, captureAnyInstanceOf<String>()),
+        )..called(1);
         final String? actualLogMessage = logVerificationResult.captured.singleOrNull as String?;
         expect(actualLogMessage, contains('PUSHED'));
       });
@@ -57,8 +58,9 @@ void main() {
           null,
         );
 
-        final VerificationResult logVerificationResult =
-            verify(mockLogger.log(LogLevel.info, captureAnyInstanceOf<String>()))..called(1);
+        final VerificationResult logVerificationResult = verify(
+          mockLogger.log(LogLevel.info, captureAnyInstanceOf<String>()),
+        )..called(1);
         final String? actualLogMessage = logVerificationResult.captured.singleOrNull as String?;
         expect(actualLogMessage, contains(expectedRoutePath));
       });
@@ -70,8 +72,9 @@ void main() {
 
         unit.didPop(MaterialPageRoute<void>(builder: (BuildContext context) => const SizedBox()), null);
 
-        final VerificationResult logVerificationResult =
-            verify(mockLogger.log(LogLevel.info, captureAnyInstanceOf<String>()))..called(1);
+        final VerificationResult logVerificationResult = verify(
+          mockLogger.log(LogLevel.info, captureAnyInstanceOf<String>()),
+        )..called(1);
         final String? actualLogMessage = logVerificationResult.captured.singleOrNull as String?;
         expect(actualLogMessage, contains('POPPED'));
       });
@@ -95,8 +98,9 @@ void main() {
           null,
         );
 
-        final VerificationResult logVerificationResult =
-            verify(mockLogger.log(LogLevel.info, captureAnyInstanceOf<String>()))..called(1);
+        final VerificationResult logVerificationResult = verify(
+          mockLogger.log(LogLevel.info, captureAnyInstanceOf<String>()),
+        )..called(1);
         final String? actualLogMessage = logVerificationResult.captured.singleOrNull as String?;
         expect(actualLogMessage, contains(expectedRoutePath));
       });
@@ -108,8 +112,9 @@ void main() {
 
         unit.didReplace(newRoute: null, oldRoute: null);
 
-        final VerificationResult logVerificationResult =
-            verify(mockLogger.log(LogLevel.info, captureAnyInstanceOf<String>()))..called(1);
+        final VerificationResult logVerificationResult = verify(
+          mockLogger.log(LogLevel.info, captureAnyInstanceOf<String>()),
+        )..called(1);
         final String? actualLogMessage = logVerificationResult.captured.singleOrNull as String?;
         expect(actualLogMessage, contains('REPLACED'));
       });
@@ -133,8 +138,9 @@ void main() {
           oldRoute: null,
         );
 
-        final VerificationResult logVerificationResult =
-            verify(mockLogger.log(LogLevel.info, captureAnyInstanceOf<String>()))..called(1);
+        final VerificationResult logVerificationResult = verify(
+          mockLogger.log(LogLevel.info, captureAnyInstanceOf<String>()),
+        )..called(1);
         final String? actualLogMessage = logVerificationResult.captured.singleOrNull as String?;
         expect(actualLogMessage, contains(expectedRoutePath));
       });

@@ -15,10 +15,10 @@ abstract class BaseDialogView<T extends BaseDialogViewModel> extends StatelessWi
     String? primaryText,
     String? secondaryText,
     super.key,
-  })  : _message = message,
-        _title = title,
-        _primaryText = primaryText,
-        _secondaryText = secondaryText;
+  }) : _message = message,
+       _title = title,
+       _primaryText = primaryText,
+       _secondaryText = secondaryText;
 
   @override
   Widget build(BuildContext context) {
@@ -40,11 +40,11 @@ abstract class BaseDialogView<T extends BaseDialogViewModel> extends StatelessWi
           actions: <Widget>[
             if (_secondaryText != null)
               TextButton(
-                onPressed: () async => viewModel.onSecondaryButtonPressed(),
+                onPressed: viewModel.onSecondaryButtonPressed,
                 child: Text(_secondaryText),
               ),
             TextButton(
-              onPressed: () async => viewModel.onPrimaryButtonPressed(),
+              onPressed: viewModel.onPrimaryButtonPressed,
               child: Text(_primaryText ?? context.il8n.generalOk),
             ),
           ],

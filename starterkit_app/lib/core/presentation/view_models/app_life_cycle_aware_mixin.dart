@@ -38,7 +38,7 @@ class _WidgetsBindingObserverImpl extends WidgetsBindingObserver {
       AppLifecycleState.resumed => _appLifeCycleAware.onAppResumed(),
       AppLifecycleState.inactive => _appLifeCycleAware.onAppInactive(),
       AppLifecycleState.detached => _appLifeCycleAware.onAppDetached(),
-      AppLifecycleState.hidden => _appLifeCycleAware.onAppHidden()
+      AppLifecycleState.hidden => _appLifeCycleAware.onAppHidden(),
     });
   }
 }

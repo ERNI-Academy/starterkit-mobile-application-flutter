@@ -46,14 +46,16 @@ void main() {
         const String expectedPrimaryText = 'primaryText';
         const String expectedSecondaryText = 'secondaryText';
 
-        await tester.pumpWidget(App(
-          initialRoute: AlertDialogViewRoute(
-            message: expectedMessage,
-            title: expectedTitle,
-            primaryText: expectedPrimaryText,
-            secondaryText: expectedSecondaryText,
+        await tester.pumpWidget(
+          App(
+            initialRoute: AlertDialogViewRoute(
+              message: expectedMessage,
+              title: expectedTitle,
+              primaryText: expectedPrimaryText,
+              secondaryText: expectedSecondaryText,
+            ),
           ),
-        ));
+        );
         await tester.pumpAndSettle();
 
         await tester.matchGolden('alert_dialog_view_title_message_and_primary_and_secondary_action_buttons');

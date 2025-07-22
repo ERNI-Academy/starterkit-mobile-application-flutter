@@ -1,6 +1,9 @@
 # Inspired by https://gist.github.com/rydmike/fdb53ddd933c37d20e6f3188a936cd4c
 # Read more about linter packages here https://rydmike.com/blog_flutter_linting
 include: all_lint_rules.yaml
+formatter:
+  page_width: 120
+  trailing_commas: preserve
 analyzer:
   exclude:
     - lib/generated_plugin_registrant.dart
@@ -14,7 +17,6 @@ analyzer:
     - lib/**/*.auto_mappr.dart
     - test/**/*.config.dart
     - test/**/*.mocks.dart
-    - test/full_coverage.dart
     - test/**/*.gr.dart
     - test/**/*.g.dart
   errors:
@@ -28,6 +30,15 @@ analyzer:
 
     # Treat missing returns as an error, not as a hint or a warning.
     missing_return: error
+
+    # A record literal with exactly one positional field requires a trailing comma.
+    record_literal_one_positional_no_trailing_comma: error
+
+    # Invocation collection methods with arguments of unrelated types.
+    collection_methods_unrelated_type: warning
+
+    # Invocation of equality operator == with references of unrelated types.
+    unrelated_type_equality_checks: warning
 
     # Allow self-reference to deprecated members. This is done because otherwise we have
     # to annotate every member in every test, assert, etc., when we deprecate something.
@@ -64,6 +75,9 @@ linter:
     # Promotes immutability.
     avoid_final_parameters: false
 
+    # Not always true. Methods with one parameter should explicitly tell the parameter's purpose.
+    avoid_positional_boolean_parameters: false
+
     # Improves readability of parameter values, rather than implicitly using the default value.
     avoid_redundant_argument_values: false
 
@@ -72,6 +86,9 @@ linter:
 
     # Needed for view navigation parameters.
     avoid_unused_constructor_parameters: false
+
+    # Prefer using async to avoid blocking
+    avoid_slow_async_io: false
 
     # We recommend keeping it off as you probably won't be making diagnostic properties for all your
     # classes, unless you are using a data class lib that does it for you via code generation.
@@ -82,7 +99,7 @@ linter:
 
     # Useful if you are coding in a larger team, if not, you may also consider turning
     # off the rule by removing its comment below.
-    flutter_style_todos: false
+    flutter_style_todos: true
 
     # We use 120 chars line length to utilize more the horizontal space of modern monitors.
     lines_longer_than_80_chars: false
@@ -127,3 +144,15 @@ linter:
 
     # Not generally true when you intend to seperate the your code using a line break.
     cascade_invocations: false
+
+    # False positive for mutator methods for ValueNotifier/ValueListenable
+    use_setters_to_change_properties: false
+
+    # Conflicts with 'always_specify_types' that is used, so then we can't have this rule either,
+    # besides we like being verbose and specific. Why and when would omitting the type for local
+    # variables be a good thing anyway, be specific, is our take on this.
+    omit_obvious_property_types: false
+    omit_obvious_local_variable_types: false
+    
+    # Ignored since we don't need to always use variance on type parameters.
+    unsafe_variance: false

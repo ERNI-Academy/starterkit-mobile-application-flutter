@@ -70,8 +70,9 @@ void main() {
       test('should add previous posts to new posts when called', () async {
         const List<PostEntity> expectedPostEntities = <PostEntity>[PostEntity.empty, PostEntity.empty];
         const PostsListLoadedState expectedPostState = PostsListLoadedState(expectedPostEntities);
-        when(mockPostService.getPosts())
-            .thenAnswer((_) async => const Success<List<PostEntity>>(<PostEntity>[PostEntity.empty]));
+        when(
+          mockPostService.getPosts(),
+        ).thenAnswer((_) async => const Success<List<PostEntity>>(<PostEntity>[PostEntity.empty]));
 
         final PostsViewModel unit = createUnitToTest();
         await unit.onInitialize(null);
