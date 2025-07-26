@@ -29,6 +29,8 @@ class PostService {
 
   Future<Result<Iterable<PostEntity>>> getPosts() async {
     try {
+      _logger.log(LogLevel.info, 'Getting posts');
+
       final bool isConnected = await _connectivityService.isConnected();
 
       if (isConnected) {
@@ -46,6 +48,8 @@ class PostService {
       final Iterable<PostDataObject> dataObjects = await _postRepository.getAll();
       final Iterable<PostEntity> entities = dataObjects.map((PostDataObject d) => d.toEntity());
 
+      _logger.log(LogLevel.info, '${entities.length} posts loaded');
+
       return Success<Iterable<PostEntity>>(entities);
     } catch (e, st) {
       _logger.log(LogLevel.error, 'Error getting posts', e, st);
@@ -55,6 +59,8 @@ class PostService {
 
   Future<Result<PostEntity>> getPost(int postId) async {
     try {
+      _logger.log(LogLevel.info, 'Getting post with ID: $postId');
+
       final bool isConnected = await _connectivityService.isConnected();
 
       if (isConnected) {
@@ -71,6 +77,8 @@ class PostService {
       }
 
       final PostEntity entity = dataObject.toEntity();
+
+      _logger.log(LogLevel.info, 'Post with ID: $postId loaded successfully');
 
       return Success<PostEntity>(entity);
     } catch (e, st) {

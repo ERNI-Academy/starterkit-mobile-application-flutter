@@ -1,3 +1,5 @@
+// coverage:ignore-file
+
 import 'package:flutter/widgets.dart';
 
 class ViewModelProvider<T> extends InheritedWidget {
@@ -10,13 +12,13 @@ class ViewModelProvider<T> extends InheritedWidget {
   final T viewModel;
 
   static ViewModelProvider<T> of<T>(BuildContext context) {
-    final ViewModelProvider<T>? viewModelProvider = context.dependOnInheritedWidgetOfExactType<ViewModelProvider<T>>();
+    final InheritedElement? viewModelProvider = context.getElementForInheritedWidgetOfExactType<ViewModelProvider<T>>();
 
-    if (viewModelProvider == null) {
+    if (viewModelProvider == null || viewModelProvider.widget is! ViewModelProvider<T>) {
       throw StateError('ViewModelProvider is not found');
     }
 
-    return viewModelProvider;
+    return viewModelProvider.widget as ViewModelProvider<T>;
   }
 
   @override

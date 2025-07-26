@@ -225,6 +225,46 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.0.1"
+  context_plus:
+    dependency: "direct main"
+    description:
+      name: context_plus
+      sha256: "1f4d6f5d92178de0399c73863d7d22db23f8722b13f2e877a9de79fafa39ef95"
+      url: "https://pub.dev"
+    source: hosted
+    version: "6.0.5"
+  context_plus_core:
+    dependency: transitive
+    description:
+      name: context_plus_core
+      sha256: "0879d9e205bcc65d2ef667d8241782cad1b3535fe27b86b53b4062a97244903e"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.1"
+  context_ref:
+    dependency: transitive
+    description:
+      name: context_ref
+      sha256: "89c447b1e335ab4cc03313ae8b3070dfbb401867dd321371d0b060ca3806b832"
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.2.2"
+  context_watch:
+    dependency: transitive
+    description:
+      name: context_watch
+      sha256: "077594a7973c893f22fbeca606999ace7cc550136ce2ea4abebe0ca274c212be"
+      url: "https://pub.dev"
+    source: hosted
+    version: "7.0.2"
+  context_watch_base:
+    dependency: transitive
+    description:
+      name: context_watch_base
+      sha256: "121704697246cc29dae661936e432a07ed935432cb26b13f5b743d3189eb5dd4"
+      url: "https://pub.dev"
+    source: hosted
+    version: "8.0.2"
   convert:
     dependency: transitive
     description:
